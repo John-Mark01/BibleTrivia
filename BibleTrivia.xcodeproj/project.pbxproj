@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		36AC72192CB58066002FF37C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36AC720D2CB58066002FF37C /* Info.plist */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		36AC71E02CB57C7B002FF37C /* BibleTrivia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BibleTrivia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		36AC720D2CB58066002FF37C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -34,6 +39,7 @@
 			children = (
 				36AC71E22CB57C7B002FF37C /* BibleTrivia */,
 				36AC71E12CB57C7B002FF37C /* Products */,
+				36AC720D2CB58066002FF37C /* Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36AC72192CB58066002FF37C /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
