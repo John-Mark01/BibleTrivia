@@ -1,6 +1,7 @@
 {
-  "colors" : [
+  "images" : [
     {
+      "filename" : "Logo_Splash.svg",
       "idiom" : "universal"
     }
   ],
