@@ -37,7 +37,7 @@ struct HomeView: View {
                                         .font(Font.custom("Rubik", size: 24))
                                         .foregroundStyle(Color.white)
                                         .bold()
-                                    Text("326")
+                                    Text("328")
                                         .font(Font.custom("Rubik", size: 24))
                                         .foregroundStyle(Color.white)
                                 }
