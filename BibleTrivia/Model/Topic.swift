@@ -16,7 +16,7 @@ struct Topic {
     }
     
     var totalPoints: Int {
-        return quizes.reduce(0) { $0 + $1.points }
+        return quizes.reduce(0) { $0 + $1.totalPoints }
     }
     
     var completenesLevel: Double {

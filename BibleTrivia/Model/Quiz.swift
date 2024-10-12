@@ -20,10 +20,11 @@ struct Quiz {
     var numberOfQuestions: Int {
         return questions.count
     }
-    var chosenAnswer: Question {
+    var chosenAnswer: Question? {
         if let selectedAnswer = questions.first(where: { $0.isSelected }) {
             return selectedAnswer
         }
+        return nil
     }
 }
 
