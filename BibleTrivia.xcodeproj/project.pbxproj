@@ -15,9 +15,22 @@
 		36AC722E2CB59358002FF37C /* BibleTriviaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleTriviaApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		36E879022CB9A435002FD172 /* Exceptions for "BibleTrivia" folder in "BibleTrivia" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 36AC71DF2CB57C7B002FF37C /* BibleTrivia */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		36AC71E22CB57C7B002FF37C /* BibleTrivia */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				36E879022CB9A435002FD172 /* Exceptions for "BibleTrivia" folder in "BibleTrivia" target */,
+			);
 			path = BibleTrivia;
 			sourceTree = "<group>";
 		};
@@ -262,6 +275,7 @@
 				DEVELOPMENT_TEAM = S6ZFW3NA3K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BibleTrivia/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -291,6 +305,7 @@
 				DEVELOPMENT_TEAM = S6ZFW3NA3K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BibleTrivia/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

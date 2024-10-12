@@ -18,12 +18,13 @@ struct HomeView: View {
                         .modifier(CustomText(size: 24, font: .title))
                     Spacer()
                 }
+                //MARK: Top Buttons
                 HStack {
                     Button(action: {
-                        
+                        //TODO: Modal showing the scorring
                     }) {
                         Rectangle()
-                            .frame(width: 210, height: 70)
+                            .frame(width: 212, height: 70)
                             .cornerRadius(16)
                             .foregroundStyle(Color.BTPrimary)
                             .overlay(
@@ -34,7 +35,7 @@ struct HomeView: View {
                                         .foregroundStyle(Color.yellow)
                                         .padding(.trailing, 4)
                                     Text("Score:")
-                                        .font(Font.custom("Rubik", size: 24))
+                                        .modifier(CustomText(size: 24, font: .questionTitle))
                                         .foregroundStyle(Color.white)
                                         .bold()
                                     Text("328")
@@ -44,9 +45,45 @@ struct HomeView: View {
                                 
                             )
                     }
+                    
+                    Spacer()
+                    Button(action: {
+                        //TODO: Modal showing the streak
+                    }) {
+                        Rectangle()
+                            .frame(width: 123, height: 70)
+                            .cornerRadius(16)
+                            .foregroundStyle(Color.BTPrimary).overlay(
+                                VStack {
+                                    Spacer()
+//                                    Text("Streak")
+//                                        .modifier(CustomText(size: 18, font: .label))
+//                                        .foregroundStyle(Color.white)
+                                    HStack {
+                                        Image(systemName: "bolt.fill")
+                                            .resizable()
+                                            .frame(width: 24, height: 34)
+                                            .foregroundStyle(Color.BTDarkGray)
+                                        
+                                        Text("3")
+                                            .modifier(CustomText(size: 34, font: .questionTitle))
+                                            .foregroundStyle(Color.white)
+                                            .bold()
+                                    }
+                                    Spacer()
+                                }
+                                   
+                                
+                            )
+                        
+                    }
                 }
                 
                 Spacer()
+                
+                //MARK: Unfinished Quizes
+                
+                UnfinishedQuizesViewRow()
             }
             .padding(.horizontal, Constants.hPadding)
             .padding(.vertical, Constants.vPadding)
