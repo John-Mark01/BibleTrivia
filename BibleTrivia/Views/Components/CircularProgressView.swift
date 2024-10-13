@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CircularProgressView: View {
-    let progress: Double
+    var progress: Double = 0.0
     
     var body: some View {
         ZStack {
@@ -29,14 +29,6 @@ struct CircularProgressView: View {
                 .rotationEffect(.degrees(-90))
                 // 1
                 .animation(.easeOut, value: progress)
-
-            Text("12%")
-                .modifier(CustomText(size: 10, font: .label))
-                .foregroundStyle(Color.BTPrimary)
         }
     }
-}
-#Preview {
-    @Previewable var progress = 0.5
-    CircularProgressView(progress: progress)
 }

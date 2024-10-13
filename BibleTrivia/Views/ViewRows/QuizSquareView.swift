@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct QuizSquareView: View {
-    @State var progress: Double = 0.6
+    @Binding var quiz: Quiz
     var body: some View {
         VStack(alignment: .leading) {
             Image("Book")
@@ -16,17 +16,23 @@ struct QuizSquareView: View {
                 .padding()
             HStack {
                 VStack {
-                    Text("Gospel of John")
+                    Text(quiz.name)
                         .modifier(CustomText(size: 16, font: .button))
-                    Text("20 questions")
+                    Text("\(quiz.numberOfQuestions) questions")
                         .modifier(CustomText(size: 10, font: .label))
                         .foregroundStyle(Color.BTLightGray)
 
                 }
                 Spacer()
                 
-                CircularProgressView(progress: progress)
-                    .frame(width: 40, height: 40)
+                ZStack {
+                    CircularProgressView(progress: quiz.progressValue)
+                        .frame(width: 40, height: 40)
+                    
+                    Text(quiz.progressString)
+                        .modifier(CustomText(size: 10, font: .label))
+                        .foregroundStyle(Color.BTPrimary)
+                }
             }
             .padding(8)
         }
@@ -39,6 +45,6 @@ struct QuizSquareView: View {
     }
 }
 
-#Preview {
-    QuizSquareView()
-}
+//#Preview {
+//    QuizSquareView()
+//}

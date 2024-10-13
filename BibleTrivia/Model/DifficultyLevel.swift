@@ -14,8 +14,8 @@ enum DifficultyLevel: Int, CaseIterable {
     case deacon
     case seniorPastor
     
-    func getAsString(_ level: DifficultyLevel) -> String {
-        switch level {
+    func getAsString() -> String {
+        switch self {
         case .newBorn:
             return "New Born"
         case .churchVolunteer:

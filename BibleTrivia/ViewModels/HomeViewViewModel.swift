@@ -8,5 +8,5 @@
 import Foundation
 
 @Observable class HomeViewViewModel {
-    
+    let topics = DummySVM.shared.topics
 }

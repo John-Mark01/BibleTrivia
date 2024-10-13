@@ -82,7 +82,6 @@ struct HomeView: View {
                 Spacer()
                 
                 //MARK: Unfinished Quizes
-                
                 UnfinishedQuizesViewRow()
             }
             .padding(.horizontal, Constants.hPadding)

@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct UnfinishedQuizesViewRow: View {
-    @State var quizes = []
+    @State var quizes = DummySVM.shared.quizes
+    @State var openModal: Bool = false
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("Unfinished Quizes")
@@ -16,14 +18,27 @@ struct UnfinishedQuizesViewRow: View {
             
             ScrollView(.horizontal) {
                 HStack(spacing: 20) {
-                    ForEach(1..<5) { _ in
-                        QuizSquareView()
+                    ForEach($quizes, id: \.id) { quiz in
+                        Button(action: {
+                            print("I click on starting: \(quiz.name) quiz")
+
+                            DummySVM.shared.chosenQuiz = quiz.wrappedValue
+                            openModal = true
+                        }) {
+                            QuizSquareView(quiz: quiz)
+                        }
                     }
                 }
             }
             .padding()
         }
-        .padding(.vertical, Constants.vPadding)
+        .sheet(isPresented: $openModal) {
+            if let quiz = DummySVM.shared.chosenQuiz {
+                ChooseQuizModal(quiz: quiz)
+                    .presentationDetents([.fraction(0.5)])
+                    .presentationDragIndicator(.visible)
+            }
+        }
     }
 }
 

@@ -9,4 +9,5 @@ import Foundation
 
 @Observable class TopicsViewViewModel {
     
+    let topics = DummySVM.shared.topics
 }

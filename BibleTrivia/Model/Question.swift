@@ -8,7 +8,31 @@
 import Foundation
 
 struct Question {
-    let isCorrect: Bool
-    let isSelected: Bool
-    let answer: String
+    let question: String
+    let explanation: String
+    let answers: [Answer]
+    
+    var isChosenAnswer: Bool {
+        if answers.contains(where: { answer in
+            answer.isSelected
+        }) {
+            return true
+        } else {
+            return false
+        }
+    }
+    var chosenAnswer: Answer? {
+        if let selectedAnswer = answers.first(where: { $0.isSelected }) {
+            return selectedAnswer
+        }
+        return nil
+    }
+    
+    var isSelectedCorrect: Bool {
+        if let answerIsCorret = answers.first(where: {$0.isSelected && $0.isSelected}) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
