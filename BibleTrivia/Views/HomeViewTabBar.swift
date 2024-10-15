@@ -32,6 +32,7 @@ struct HomeViewTabBar: View {
                 }
             }
         }
+        .tabViewStyle(.tabBarOnly)
         .tint(Color.BTPrimary)
     }
 }

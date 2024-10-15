@@ -12,7 +12,7 @@ struct HomeView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 16) {
                 HStack {
                     Text("Welcome, Chris!")
                         .modifier(CustomText(size: 24, font: .title))
@@ -20,69 +20,69 @@ struct HomeView: View {
                 }
                 //MARK: Top Buttons
                 HStack {
+                    
                     Button(action: {
                         //TODO: Modal showing the scorring
                     }) {
-                        Rectangle()
-                            .frame(width: 212, height: 70)
-                            .cornerRadius(16)
-                            .foregroundStyle(Color.BTPrimary)
-                            .overlay(
-                                HStack {
-                                    Image(systemName: "star.fill")
-                                        .resizable()
-                                        .frame(width: 34, height: 34)
-                                        .foregroundStyle(Color.yellow)
-                                        .padding(.trailing, 4)
-                                    Text("Score:")
-                                        .modifier(CustomText(size: 24, font: .questionTitle))
-                                        .foregroundStyle(Color.white)
-                                        .bold()
-                                    Text("328")
-                                        .font(Font.custom("Rubik", size: 24))
-                                        .foregroundStyle(Color.white)
-                                }
-                                
-                            )
+                        HStack {
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .frame(width: 34, height: 34)
+                                .foregroundStyle(Color.yellow)
+                                .padding(.trailing, 4)
+                            Text("Score:")
+                                .modifier(CustomText(size: 24, font: .questionTitle))
+                                .foregroundStyle(Color.white)
+                            Text("328")
+                                .modifier(CustomText(size: 24, font: .body))
+                                .foregroundStyle(Color.white)
+                        }
+                        
                     }
+                    .frame(width: 212, height: 70)
+                    .buttonStyle(ThreeDButton())
                     
                     Spacer()
                     Button(action: {
                         //TODO: Modal showing the streak
+                        print("Streak pressed")
                     }) {
-                        Rectangle()
-                            .frame(width: 123, height: 70)
-                            .cornerRadius(16)
-                            .foregroundStyle(Color.BTPrimary).overlay(
-                                VStack {
-                                    Spacer()
-//                                    Text("Streak")
-//                                        .modifier(CustomText(size: 18, font: .label))
-//                                        .foregroundStyle(Color.white)
-                                    HStack {
-                                        Image(systemName: "bolt.fill")
-                                            .resizable()
-                                            .frame(width: 24, height: 34)
-                                            .foregroundStyle(Color.BTDarkGray)
-                                        
-                                        Text("3")
-                                            .modifier(CustomText(size: 34, font: .questionTitle))
-                                            .foregroundStyle(Color.white)
-                                            .bold()
-                                    }
-                                    Spacer()
-                                }
-                                   
-                                
-                            )
-                        
+                        HStack {
+                            Image(systemName: "bolt.fill")
+                                .resizable()
+                                .frame(width: 24, height: 34)
+                                .foregroundStyle(Color.BTDarkGray)
+                            
+                            Text("3")
+                                .modifier(CustomText(size: 34, font: .questionTitle))
+                                .foregroundStyle(Color.white)
+                                .bold()
+                        }
                     }
+                    
+                    .buttonStyle(ThreeDButton())
                 }
                 
                 Spacer()
                 
                 //MARK: Unfinished Quizes
-                UnfinishedQuizesViewRow()
+                VStack(alignment: .leading) {
+                    Text("Unfinished Quizzes")
+                        .modifier(CustomText(size: 20, font: .heading))
+                    
+                    UnfinishedQuizesViewRow()
+                }
+                
+                //MARK: Find New Quizzes
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Find New Quizzes")
+                        .modifier(CustomText(size: 20, font: .heading))
+                    ForEach(viewModel.quizzes, id: \.id) { quiz in
+                        FindQuizViewRow(quiz: quiz)
+                    }
+                    
+                }
+                .padding(.top, 10)
             }
             .padding(.horizontal, Constants.hPadding)
             .padding(.vertical, Constants.vPadding)
@@ -113,11 +113,12 @@ struct HomeView: View {
                 }
             }
         }
+        .background(Color.BTBackground)
     }
 }
 
 #Preview {
     NavigationStack {
         HomeView()
-    }
+    }.tint(Color.BTPrimary)
 }

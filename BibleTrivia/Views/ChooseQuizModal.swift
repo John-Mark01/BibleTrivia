@@ -9,13 +9,14 @@ import SwiftUI
 
 struct ChooseQuizModal: View {
     @EnvironmentObject var router: Router
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     var quiz: Quiz
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 10) {
             Text(quiz.name)
                 .foregroundStyle(Color.BTPrimary)
                 .modifier(CustomText(size: 20, font: .heading))
+                .padding(.top, 8)
             //MARK: Middle Info
             VStack(spacing: 22) {
                 // Level
@@ -68,18 +69,20 @@ struct ChooseQuizModal: View {
             }
             .padding()
             
+            Spacer()
+            
             //MARK: Buttons
             VStack {
                 ActionButtons(title: "Start Quiz", isPrimary: true, action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    self.dismiss()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         router.navigate(to: .play)
                     }
                 })
-                ActionButtons(title: "Cancel", isPrimary: false ,action: { self.presentationMode.wrappedValue.dismiss() })
+                ActionButtons(title: "Cancel", isPrimary: false ,action: { self.dismiss() })
             }
-            .padding()
         }
+        .padding()
     }
 }
 

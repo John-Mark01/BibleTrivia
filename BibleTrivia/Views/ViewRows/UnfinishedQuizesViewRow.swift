@@ -13,9 +13,6 @@ struct UnfinishedQuizesViewRow: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Unfinished Quizes")
-                .modifier(CustomText(size: 16, font: .heading))
-            
             ScrollView(.horizontal) {
                 HStack(spacing: 20) {
                     ForEach($quizes, id: \.id) { quiz in
@@ -30,7 +27,8 @@ struct UnfinishedQuizesViewRow: View {
                     }
                 }
             }
-            .padding()
+            .scrollDismissesKeyboard(.interactively)
+            .scrollIndicators(.hidden)
         }
         .sheet(isPresented: $openModal) {
             if let quiz = DummySVM.shared.chosenQuiz {

@@ -53,11 +53,11 @@ import Foundation
     private func generateRandomQuestions() -> [Question] {
         var questions: [Question] = []
         var answers: [Answer] = []
-        for answer in 0..<4 {
+        for _ in 0..<4 {
             let answer = Answer(isCorrect: self.generateRandomCorrect(), isSelected: false, answer: self.generateRandomAnswerNames())
             answers.append(answer)
         }
-        for question in 0..<4 {
+        for _ in 0..<4 {
             let newQuestion = Question(question: self.generateRandomQuestionNames(), explanation: "Nothing", answers: answers)
             
             questions.append(newQuestion)
@@ -68,7 +68,7 @@ import Foundation
     
     private func populateRandomQuiz() {
         
-        for quizes in 0..<10 {
+        for _ in 0..<10 {
             let quiz = Quiz(name: self.generateRandomQuizName(), questions: self.generateRandomQuestions(), time: 1234543, status: .new, difficulty: self.generateRandomDificulty(), totalPoints: 150)
             
             self.quizes.append(quiz)
@@ -77,7 +77,7 @@ import Foundation
     }
     private func populateRandomTopic() {
         
-        for quizes in 0..<5 {
+        for _ in 0..<5 {
             let topic = Topic(name: self.generateRandomTopicName(), quizes: self.quizes)
             self.topics.append(topic)
         }

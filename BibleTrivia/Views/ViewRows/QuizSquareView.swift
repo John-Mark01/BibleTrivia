@@ -37,14 +37,11 @@ struct QuizSquareView: View {
             .padding(8)
         }
         .background(Color.BTBackground)
+        .cornerRadius(16)
         .overlay(
-            Rectangle()
-                .stroke(Color.BTStroke, lineWidth: 1)
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .stroke(Color.BTStroke, lineWidth: 2)
         )
     
     }
 }
-
-//#Preview {
-//    QuizSquareView()
-//}
