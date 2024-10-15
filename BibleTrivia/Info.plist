@@ -4,9 +4,9 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Rubik-Medium</string>
-		<string>Rubik-Regular</string>
-		<string>Rubik-Semi-Bold</string>
+		<string>Rubik-Medium.ttf</string>
+		<string>Rubik-Regular.ttf</string>
+		<string>Rubik-SemiBold.ttf</string>
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>

@@ -72,7 +72,7 @@ struct ChooseQuizModal: View {
             VStack {
                 ActionButtons(title: "Start Quiz", isPrimary: true, action: {
                     self.presentationMode.wrappedValue.dismiss()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         router.navigate(to: .play)
                     }
                 })
@@ -83,14 +83,8 @@ struct ChooseQuizModal: View {
     }
 }
 
-//#Preview {
-//    struct PreviewWrapper: View {
-//        @State private var quiz = Quiz(name: "NewTestement", questions: [], time: 3, status: .new, difficulty: .deacon, totalPoints: 10)
-//        
-//        var body: some View {
-//            ChooseQuizModal(quiz: $quiz)
-//        }
-//    }
-//    
-//    return PreviewWrapper()
-//}
+#Preview {
+    @Previewable @State var quiz = Quiz(name: "NewTestement", questions: [], time: 3, status: .new, difficulty: .deacon, totalPoints: 10)
+            ChooseQuizModal(quiz: quiz)
+
+}
