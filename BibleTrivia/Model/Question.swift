@@ -7,32 +7,43 @@
 
 import Foundation
 
-struct Question {
-    let question: String
-    let explanation: String
-    let answers: [Answer]
+struct Question: Equatable {
     
-    var isChosenAnswer: Bool {
-        if answers.contains(where: { answer in
-            answer.isSelected
-        }) {
-            return true
-        } else {
-            return false
-        }
+    var id = UUID()
+    var question: String = ""
+    var explanation: String = ""
+    var answers: [Answer] = []
+    
+    
+    init(text: String, answers: [Answer], explanation: String) {
+        self.id = UUID()
+        self.question = text
+        self.explanation = explanation
+        self.answers = answers
     }
+    
+    private var selectedAnswerIndex: Int?
+    
+    var isAnswerSelected: Bool {
+        return selectedAnswerIndex != nil
+    }
+    
     var chosenAnswer: Answer? {
-        if let selectedAnswer = answers.first(where: { $0.isSelected }) {
-            return selectedAnswer
-        }
-        return nil
+        guard let index = selectedAnswerIndex else { return nil }
+        return answers[index]
     }
     
     var isSelectedCorrect: Bool {
-        if let answerIsCorret = answers.first(where: {$0.isSelected && $0.isSelected}) {
-            return true
-        } else {
-            return false
-        }
+        return chosenAnswer?.isCorrect ?? false
+    }
+    
+    mutating func selectAnswer(at index: Int) {
+        guard index >= 0 && index < answers.count else { return }
+        selectedAnswerIndex = index
+        answers[index].isSelected = true
+    }
+    
+    static func == (lhs: Question, rhs: Question) -> Bool {
+        return lhs.id == rhs.id
     }
 }

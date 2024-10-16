@@ -8,7 +8,8 @@
 import Foundation
 
 struct Answer {
-    let isCorrect: Bool
-    let isSelected: Bool
-    let answer: String
+    let id = UUID()
+    var isCorrect: Bool
+    var isSelected: Bool
+    let text: String
 }

@@ -19,6 +19,20 @@ import Foundation
     var topics: [Topic] = []
     var quizes: [Quiz] = []
     var chosenQuiz: Quiz?
+    var tempQuiz: Quiz = Quiz(name: "Temporary test quiz", questions: [
+        Question(text: "This is question 1", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "This is answer  1"),
+            Answer(isCorrect: false, isSelected: false, text: "This is answer  2"),
+            Answer(isCorrect: true, isSelected: false, text: "This is answer  3"),
+            Answer(isCorrect: false, isSelected: false, text: "This is answer  4"),
+        ], explanation: "How can this be so complicated bruh..."),
+        Question(text: "This is question 2", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "This is answer  1"),
+            Answer(isCorrect: false, isSelected: false, text: "This is answer  2"),
+            Answer(isCorrect: true, isSelected: false, text: "This is answer  3"),
+            Answer(isCorrect: false, isSelected: false, text: "This is answer  4"),
+        ], explanation: "How can this be so complicated bruh...")
+    ], time: 2, status: .new, difficulty: .newBorn, totalPoints: 20)
     
     
     private func generateRandomTopicName() -> String {
@@ -54,11 +68,11 @@ import Foundation
         var questions: [Question] = []
         var answers: [Answer] = []
         for _ in 0..<4 {
-            let answer = Answer(isCorrect: self.generateRandomCorrect(), isSelected: false, answer: self.generateRandomAnswerNames())
+            let answer = Answer(isCorrect: self.generateRandomCorrect(), isSelected: false, text: self.generateRandomAnswerNames())
             answers.append(answer)
         }
         for _ in 0..<4 {
-            let newQuestion = Question(question: self.generateRandomQuestionNames(), explanation: "Nothing", answers: answers)
+            let newQuestion = Question(text: self.generateRandomQuestionNames(), answers: answers, explanation: "Nothing")
             
             questions.append(newQuestion)
         }

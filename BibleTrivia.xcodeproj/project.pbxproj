@@ -16,7 +16,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		36E879022CB9A435002FD172 /* Exceptions for "BibleTrivia" folder in "BibleTrivia" target */ = {
+		366092842CC0407E0080683B /* Exceptions for "BibleTrivia" folder in "BibleTrivia" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -29,7 +29,7 @@
 		36AC71E22CB57C7B002FF37C /* BibleTrivia */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				36E879022CB9A435002FD172 /* Exceptions for "BibleTrivia" folder in "BibleTrivia" target */,
+				366092842CC0407E0080683B /* Exceptions for "BibleTrivia" folder in "BibleTrivia" target */,
 			);
 			path = BibleTrivia;
 			sourceTree = "<group>";

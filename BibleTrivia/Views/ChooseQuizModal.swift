@@ -10,7 +10,12 @@ import SwiftUI
 struct ChooseQuizModal: View {
     @EnvironmentObject var router: Router
     @Environment(\.dismiss) var dismiss
-    var quiz: Quiz
+    @State var quiz: Quiz
+    @Binding var goToQuiz: Bool
+    
+    @State private var quizManager = QuizManager()
+    
+    
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             Text(quiz.name)
@@ -76,7 +81,8 @@ struct ChooseQuizModal: View {
                 ActionButtons(title: "Start Quiz", isPrimary: true, action: {
                     self.dismiss()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        router.navigate(to: .play)
+                        quiz.startQuiz()
+                        self.goToQuiz = true
                     }
                 })
                 ActionButtons(title: "Cancel", isPrimary: false ,action: { self.dismiss() })
@@ -86,8 +92,8 @@ struct ChooseQuizModal: View {
     }
 }
 
-#Preview {
-    @Previewable @State var quiz = Quiz(name: "NewTestement", questions: [], time: 3, status: .new, difficulty: .deacon, totalPoints: 10)
-            ChooseQuizModal(quiz: quiz)
-
-}
+//#Preview {
+//    @Previewable @State var quiz = Quiz(name: "NewTestement", questions: [], time: 3, status: .new, difficulty: .deacon, totalPoints: 10)
+//            ChooseQuizModal(quiz: quiz)
+//
+//}

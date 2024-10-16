@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FindQuizViewRow: View {
     @State private var openModal: Bool = false
+    @State private var goToQuiz: Bool = false
     var quiz: Quiz
     var body: some View {
         Button(action: {
@@ -50,9 +51,12 @@ struct FindQuizViewRow: View {
             )
         }
         .sheet(isPresented: $openModal) {
-            ChooseQuizModal(quiz: quiz)
+            ChooseQuizModal(quiz: quiz, goToQuiz: $goToQuiz)
                 .presentationDetents([.fraction(0.55)])
                 .presentationDragIndicator(.visible)
+        }
+        .navigationDestination(isPresented: $goToQuiz) {
+            QuizView(quiz: quiz)
         }
     }
 }

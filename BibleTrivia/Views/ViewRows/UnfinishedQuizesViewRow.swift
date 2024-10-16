@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct UnfinishedQuizesViewRow: View {
-    @State var quizes = DummySVM.shared.quizes
+    @State var quizes: [Quiz]
     @State var openModal: Bool = false
+    @State private var goToQuiz: Bool = false
+    @State private var chosenQuiz: Quiz = Quiz(name: "Test", questions: [], time: 1, status: .new, difficulty: .newBorn, totalPoints: 0)
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -18,7 +20,7 @@ struct UnfinishedQuizesViewRow: View {
                     ForEach($quizes, id: \.id) { quiz in
                         Button(action: {
                             print("I click on starting: \(quiz.name) quiz")
-
+                            self.chosenQuiz = quiz.wrappedValue
                             DummySVM.shared.chosenQuiz = quiz.wrappedValue
                             openModal = true
                         }) {
@@ -32,14 +34,17 @@ struct UnfinishedQuizesViewRow: View {
         }
         .sheet(isPresented: $openModal) {
             if let quiz = DummySVM.shared.chosenQuiz {
-                ChooseQuizModal(quiz: quiz)
+                ChooseQuizModal(quiz: quiz, goToQuiz: $goToQuiz)
                     .presentationDetents([.fraction(0.5)])
                     .presentationDragIndicator(.visible)
             }
         }
+        .navigationDestination(isPresented: $goToQuiz) {
+            QuizView(quiz: chosenQuiz)
+        }
     }
 }
 
-#Preview {
-    UnfinishedQuizesViewRow()
-}
+//#Preview {
+//    UnfinishedQuizesViewRow()
+//}
