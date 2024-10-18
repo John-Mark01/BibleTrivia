@@ -17,6 +17,7 @@ struct BibleTriviaApp: App {
                     SplashScreen()
                 }
             }
+            .environment(QuizStore())
             .environmentObject(router)
             .tint(Color.BTBlack)
         }

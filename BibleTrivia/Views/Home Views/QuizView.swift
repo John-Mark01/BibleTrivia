@@ -9,13 +9,14 @@ import SwiftUI
 
 struct QuizView: View {
     @Environment(\.dismiss) var dismiss
-    @State var quiz: Quiz
-    @State private var indexOfAnswer: Int = 0
+    @Environment(QuizStore.self) var quizStore
+
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             // Progress View //TODO: Change to a custom one
             HStack {
-                ProgressView(value: quiz.progressValue)
+                ProgressView(value: quizStore.chosenQuiz?.progressValue)
                     .progressViewStyle(.linear)
                     .tint(Color.BTPrimary)
                     .scaleEffect(x: 1, y: 3, anchor: .center)
@@ -34,17 +35,20 @@ struct QuizView: View {
            
                 VStack(alignment: .leading, spacing: 10) {
                     
-                    Text("Question" + " \(quiz.currentQuestionIndex + 1)")
+                    Text("Question" + " \((quizStore.chosenQuiz?.currentQuestionIndex ?? 0) + 1)")
                     
-                    Text(quiz.questions[0].question + "?")
+                    Text((quizStore.chosenQuiz?.questions[quizStore.chosenQuiz?.currentQuestionIndex ?? 0].text ?? "") + "?")
                         .modifier(CustomText(size: 20, font: .questionTitle))
                     ScrollView {
                         
-                        ForEach(0..<quiz.currentQuestion.answers.count, id: \.self) { index in
+                        ForEach(0..<quizStore.chosenQuiz!.currentQuestion.answers.count, id: \.self) { index in
                             
-                            AnswerViewRow(answer: quiz.currentQuestion.answers[index], questionNumber: index)
-                                .frame(idealWidth: 343, idealHeight: 50)
-                                .padding(.top, 16)
+                                AnswerViewRow(answer: quizStore.chosenQuiz!.currentQuestion.answers[index], questionNumber: index)
+                                    .frame(idealWidth: 343, idealHeight: 50)
+                                    .padding(.top, 16)
+                                    .onTapGesture {
+                                        quizStore.selectAnswer(index: index)
+                                    }
                         }
                     }
                         Spacer()
@@ -57,7 +61,12 @@ struct QuizView: View {
                                 .foregroundStyle(Color.BTPrimary)
                             
                             Button(action: {
-                                quiz.moveToNextQuestion()
+                                //TODO: Next question
+                                quizStore.answerQuestion() {
+                                    withAnimation {
+                                        quizStore.toNextQuestion()
+                                    }
+                                }
                             }) {
                                 Image("Arrow")
                                     .tint(Color.white)
@@ -78,8 +87,8 @@ struct QuizView: View {
 }
 
 #Preview {
-    @Previewable @State var quiz = DummySVM.shared.tempQuiz
     NavigationStack {
-        QuizView(quiz: quiz)
+        QuizView()
+            .environment(QuizStore())
     }
 }

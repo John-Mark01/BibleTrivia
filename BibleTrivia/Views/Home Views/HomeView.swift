@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var viewModel = HomeViewViewModel()
-    @State private var quizManager = QuizManager()
     
     var body: some View {
         ScrollView {
@@ -71,7 +70,7 @@ struct HomeView: View {
                     Text("Unfinished Quizzes")
                         .modifier(CustomText(size: 20, font: .heading))
                     
-                    UnfinishedQuizesViewRow(quizes: DummySVM.shared.quizes)
+                    UnfinishedQuizesViewRow(quizes: [DummySVM.shared.tempQuiz])
                 }
                 
                 //MARK: Find New Quizzes

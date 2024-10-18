@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct UnfinishedQuizesViewRow: View {
+    @Environment(QuizStore.self) var quizStore
     @State var quizes: [Quiz]
     @State var openModal: Bool = false
     @State private var goToQuiz: Bool = false
-    @State private var chosenQuiz: Quiz = Quiz(name: "Test", questions: [], time: 1, status: .new, difficulty: .newBorn, totalPoints: 0)
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -19,9 +19,8 @@ struct UnfinishedQuizesViewRow: View {
                 HStack(spacing: 20) {
                     ForEach($quizes, id: \.id) { quiz in
                         Button(action: {
-                            print("I click on starting: \(quiz.name) quiz")
-                            self.chosenQuiz = quiz.wrappedValue
-                            DummySVM.shared.chosenQuiz = quiz.wrappedValue
+                            print("I click on starting: \(quiz.name.wrappedValue) quiz")
+                            quizStore.chooseQuiz(quiz: quiz.wrappedValue)
                             openModal = true
                         }) {
                             QuizSquareView(quiz: quiz)
@@ -29,18 +28,15 @@ struct UnfinishedQuizesViewRow: View {
                     }
                 }
             }
-            .scrollDismissesKeyboard(.interactively)
             .scrollIndicators(.hidden)
         }
         .sheet(isPresented: $openModal) {
-            if let quiz = DummySVM.shared.chosenQuiz {
-                ChooseQuizModal(quiz: quiz, goToQuiz: $goToQuiz)
+            if let quiz = quizStore.chosenQuiz {
+                ChooseQuizModal()
                     .presentationDetents([.fraction(0.5)])
                     .presentationDragIndicator(.visible)
+
             }
-        }
-        .navigationDestination(isPresented: $goToQuiz) {
-            QuizView(quiz: chosenQuiz)
         }
     }
 }

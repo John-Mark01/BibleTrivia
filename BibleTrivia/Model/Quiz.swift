@@ -23,7 +23,13 @@ struct Quiz {
     }
     
     var currentQuestion: Question {
-        return questions[currentQuestionIndex]
+        
+        get {
+            return questions[currentQuestionIndex]
+        }
+        set {
+            return questions[currentQuestionIndex] = newValue
+        }
     }
     
     var questionNumber: Int {
@@ -41,31 +47,6 @@ struct Quiz {
         return Double(questionNumber) / Double(numberOfQuestions)
     }
     
-    var isCompleted: Bool {
-        return status == .completed || currentQuestionIndex == questions.count - 1
-    }
-    
-    mutating func startQuiz() {
-        status = .started
-        currentQuestionIndex = 0
-        totalPoints = 0
-    }
-    
-    mutating func selectAnswer(_ answerIndex: Int) {
-        questions[currentQuestionIndex].selectAnswer(at: answerIndex)
-        if questions[currentQuestionIndex].isSelectedCorrect {
-            totalPoints += 1
-        }
-    }
-    
-    mutating func moveToNextQuestion() -> Bool {
-        guard currentQuestionIndex < questions.count - 1 else {
-            status = .completed
-            return false
-        }
-        currentQuestionIndex += 1
-        return true
-    }
 }
 
 enum QuizStatus: Int {

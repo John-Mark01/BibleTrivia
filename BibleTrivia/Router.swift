@@ -24,6 +24,7 @@ class Router: ObservableObject {
         //MARK: TabView
         case home
         case play
+        case quizView
         case topics
         //MARK: Other Views
         // Onboarding
@@ -44,6 +45,8 @@ class Router: ObservableObject {
             PlayView()
         case .topics:
             TopicsView()
+        case .quizView:
+            QuizView()
         }
     }
     

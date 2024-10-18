@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct AnswerViewRow: View {
+    @Environment(QuizStore.self) var quizStore
     @State var answer: Answer
     var questionNumber: Int
-    
     private var answerLabel: String {
         switch questionNumber {
         case 0:
@@ -27,36 +27,31 @@ struct AnswerViewRow: View {
         
     }
     var body: some View {
-        
-        Button(action: {
-            answer.isSelected.toggle()
-        }) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .foregroundStyle(answer.isSelected ? Color.clear : Color.BTBackground)
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .foregroundStyle(answer.isSelected ? Color.clear : Color.BTBackground)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(Color.clear)
+                        .stroke(answer.isSelected ? Color.BTPrimary : Color.BTStroke, lineWidth: 2)
+                )
+            
+            HStack(alignment: .center, spacing: 16) {
+                
+                Circle()
+                    .foregroundStyle(answer.isSelected ? Color.BTPrimary : Color.BTAnswer)
+                    .frame(width: 28, height: 28)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .fill(Color.clear)
-                            .stroke(answer.isSelected ? Color.BTPrimary : Color.BTStroke, lineWidth: 2)
+                        Text(answerLabel)
+                            .foregroundStyle(answer.isSelected ? Color.white : Color.black)
                     )
                 
-                HStack(alignment: .center, spacing: 16) {
-                    
-                    Circle()
-                        .foregroundStyle(answer.isSelected ? Color.BTPrimary : Color.BTAnswer)
-                        .frame(width: 28, height: 28)
-                        .overlay(
-                            Text(answerLabel)
-                                .foregroundStyle(answer.isSelected ? Color.white : Color.black)
-                        )
-                    
-                    Text(answer.text)
-                        .foregroundStyle(answer.isSelected ? Color.BTPrimary : Color.BTBlack)
-                        .modifier(CustomText(size: 16, font: .body))
-                    Spacer()
-                }
-                .padding(.horizontal, Constants.hPadding)
+                Text(answer.text)
+                    .foregroundStyle(answer.isSelected ? Color.BTPrimary : Color.BTBlack)
+                    .modifier(CustomText(size: 16, font: .body))
+                Spacer()
             }
+            .padding(.horizontal, Constants.hPadding)
         }
     }
 }

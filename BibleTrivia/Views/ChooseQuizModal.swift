@@ -9,16 +9,12 @@ import SwiftUI
 
 struct ChooseQuizModal: View {
     @EnvironmentObject var router: Router
+    @Environment(QuizStore.self) var quizStore
     @Environment(\.dismiss) var dismiss
-    @State var quiz: Quiz
-    @Binding var goToQuiz: Bool
-    
-    @State private var quizManager = QuizManager()
-    
     
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
-            Text(quiz.name)
+            Text(quizStore.chosenQuiz?.name ?? "")
                 .foregroundStyle(Color.BTPrimary)
                 .modifier(CustomText(size: 20, font: .heading))
                 .padding(.top, 8)
@@ -32,7 +28,7 @@ struct ChooseQuizModal: View {
                     
                     Spacer()
                     
-                    Text(quiz.difficulty.getAsString())
+                    Text(quizStore.chosenQuiz?.difficulty.getAsString() ?? "")
                         .modifier(CustomText(size: 18, font: .label))
                 }
                 
@@ -44,7 +40,7 @@ struct ChooseQuizModal: View {
                     
                     Spacer()
                     
-                    Text("\(quiz.numberOfQuestions)")
+                    Text("\(quizStore.chosenQuiz?.numberOfQuestions)")
                         .modifier(CustomText(size: 18, font: .label))
                 }
                 
@@ -56,7 +52,7 @@ struct ChooseQuizModal: View {
                     
                     Spacer()
                     
-                    Text("\(quiz.totalPoints)")
+                    Text("\(quizStore.chosenQuiz?.totalPoints)")
                         .modifier(CustomText(size: 18, font: .label))
                 }
                 
@@ -68,7 +64,7 @@ struct ChooseQuizModal: View {
                     
                     Spacer()
                     
-                    Text("\(Int(quiz.time.rounded())) minutes")
+                    Text("\(Int(quizStore.chosenQuiz?.time.rounded() ?? 0)) minutes")
                         .modifier(CustomText(size: 18, font: .label))
                 }
             }
@@ -79,13 +75,22 @@ struct ChooseQuizModal: View {
             //MARK: Buttons
             VStack {
                 ActionButtons(title: "Start Quiz", isPrimary: true, action: {
-                    self.dismiss()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        quiz.startQuiz()
-                        self.goToQuiz = true
+                    quizStore.startQuiz() { startQuiz in
+                        self.dismiss()
+                        if startQuiz {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                router.navigate(to: .quizView)
+                            }
+                        } else {
+                            //TODO: Create custom alert with - "Unexpected Error, no quiz selected!"
+                        }
                     }
                 })
-                ActionButtons(title: "Cancel", isPrimary: false ,action: { self.dismiss() })
+                ActionButtons(title: "Cancel", isPrimary: false ,action: {
+                    quizStore.cancelChoosingQuiz() {
+                        self.dismiss()
+                    }
+                })
             }
         }
         .padding()

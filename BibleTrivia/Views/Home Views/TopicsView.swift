@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TopicsView: View {
-    @State private var viewModel = TopicsViewViewModel()
     
     var body: some View {
         ScrollView {

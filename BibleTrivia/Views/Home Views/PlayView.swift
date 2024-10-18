@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlayView: View {
-    @State private var viewModel = PlayViewViewModel()
+
     var body: some View {
         ScrollView {
             VStack {

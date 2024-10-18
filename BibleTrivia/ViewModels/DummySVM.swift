@@ -20,18 +20,18 @@ import Foundation
     var quizes: [Quiz] = []
     var chosenQuiz: Quiz?
     var tempQuiz: Quiz = Quiz(name: "Temporary test quiz", questions: [
-        Question(text: "This is question 1", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "This is answer  1"),
-            Answer(isCorrect: false, isSelected: false, text: "This is answer  2"),
-            Answer(isCorrect: true, isSelected: false, text: "This is answer  3"),
-            Answer(isCorrect: false, isSelected: false, text: "This is answer  4"),
-        ], explanation: "How can this be so complicated bruh..."),
-        Question(text: "This is question 2", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "This is answer  1"),
-            Answer(isCorrect: false, isSelected: false, text: "This is answer  2"),
-            Answer(isCorrect: true, isSelected: false, text: "This is answer  3"),
-            Answer(isCorrect: false, isSelected: false, text: "This is answer  4"),
-        ], explanation: "How can this be so complicated bruh...")
+        Question(text: "This is question 1", explanation: "How can this be so complicated bruh...", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "How are you"),
+            Answer(isCorrect: false, isSelected: false, text: "I'm good"),
+            Answer(isCorrect: true, isSelected: false, text: "Thanks"),
+            Answer(isCorrect: false, isSelected: false, text: "And you?"),
+        ], userAnswer: nil),
+        Question(text: "This is question 2", explanation: "How can this be so complicated bruh...", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "I'm glad you asked"),
+            Answer(isCorrect: false, isSelected: false, text: "I'm good as well"),
+            Answer(isCorrect: true, isSelected: false, text: "Wife is gorgeous"),
+            Answer(isCorrect: false, isSelected: false, text: "I love her so much"),
+        ], userAnswer: nil)
     ], time: 2, status: .new, difficulty: .newBorn, totalPoints: 20)
     
     
@@ -72,7 +72,7 @@ import Foundation
             answers.append(answer)
         }
         for _ in 0..<4 {
-            let newQuestion = Question(text: self.generateRandomQuestionNames(), answers: answers, explanation: "Nothing")
+            let newQuestion = Question(text: self.generateRandomQuestionNames(), explanation: "Nothing", answers: answers)
             
             questions.append(newQuestion)
         }

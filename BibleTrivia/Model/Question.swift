@@ -10,38 +10,25 @@ import Foundation
 struct Question: Equatable {
     
     var id = UUID()
-    var question: String = ""
+    var text: String = ""
     var explanation: String = ""
     var answers: [Answer] = []
+    var userAnswer: Answer?
     
-    
-    init(text: String, answers: [Answer], explanation: String) {
-        self.id = UUID()
-        self.question = text
-        self.explanation = explanation
-        self.answers = answers
+    var hasSelectedAnswer: Bool {
+        if answers.contains(where: {$0.isSelected}) {
+            return true
+        }
+        return false
     }
     
-    private var selectedAnswerIndex: Int?
     
-    var isAnswerSelected: Bool {
-        return selectedAnswerIndex != nil
-    }
-    
-    var chosenAnswer: Answer? {
-        guard let index = selectedAnswerIndex else { return nil }
-        return answers[index]
-    }
-    
-    var isSelectedCorrect: Bool {
-        return chosenAnswer?.isCorrect ?? false
-    }
-    
-    mutating func selectAnswer(at index: Int) {
-        guard index >= 0 && index < answers.count else { return }
-        selectedAnswerIndex = index
-        answers[index].isSelected = true
-    }
+//    init(text: String, answers: [Answer], explanation: String) {
+//        self.id = UUID()
+//        self.text = text
+//        self.explanation = explanation
+//        self.answers = answers
+//    }
     
     static func == (lhs: Question, rhs: Question) -> Bool {
         return lhs.id == rhs.id
