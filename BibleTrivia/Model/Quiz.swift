@@ -36,6 +36,13 @@ struct Quiz {
         return currentQuestionIndex + 1
     }
     
+    var isLastQuestion: Bool {
+        if currentQuestion == questions.last {
+            return true
+        }
+        return false
+    }
+    
     var progressString: String {
         let progress = Double(questionNumber) / Double(numberOfQuestions)
             let percentageFormatter = NumberFormatter()

@@ -50,7 +50,7 @@ import Foundation
     }
     
     // When clicked on Next
-    func answerQuestion(finished: @escaping () -> Void) {
+    func answerQuestion(finished: @escaping (Bool) -> Void) {
         if let selectedAnswer = chosenQuiz?.currentQuestion.answers.first(where: { $0.isSelected }) {
             chosenQuiz?.currentQuestion.userAnswer = selectedAnswer
         } else {
@@ -65,7 +65,11 @@ import Foundation
             answerIsWrong()
         }
         
-        finished()
+        if self.chosenQuiz!.currentQuestionIndex + 1 < self.chosenQuiz!.numberOfQuestions {
+            finished(false)
+        } else {
+            finished(true)
+        }
     }
     // This function Evaluates the answer of the user
     func evaluateAnswer() -> Bool {
@@ -81,6 +85,7 @@ import Foundation
     // Helper functions on user answer submition
     func answerIsCorrect() {
         print("Answer Is Correct - \(chosenQuiz?.currentQuestion.userAnswer?.text ?? "")")
+        self.chosenQuiz?.totalPoints += 10
         self.playCorrectSound()
         self.initCorrectHaptic()
     }
@@ -94,7 +99,13 @@ import Foundation
     
     // Goes to the next question in the Quiz.questions Array
     func toNextQuestion() {
-        self.chosenQuiz?.currentQuestionIndex += 1
+        if self.chosenQuiz!.currentQuestionIndex <=  self.chosenQuiz!.numberOfQuestions {
+            self.chosenQuiz?.currentQuestionIndex += 1
+        }
+    }
+    
+    func finishQuiz() {
+        
     }
 }
 

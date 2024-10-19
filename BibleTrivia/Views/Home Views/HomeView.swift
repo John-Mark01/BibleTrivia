@@ -40,7 +40,7 @@ struct HomeView: View {
                         
                     }
                     .frame(width: 212, height: 70)
-                    .buttonStyle(ThreeDButton())
+                    .buttonStyle(ScoreButton())
                     
                     Spacer()
                     Button(action: {
@@ -60,7 +60,7 @@ struct HomeView: View {
                         }
                     }
                     
-                    .buttonStyle(ThreeDButton())
+                    .buttonStyle(StreakButton())
                 }
                 
                 Spacer()

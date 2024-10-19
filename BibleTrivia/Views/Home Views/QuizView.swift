@@ -11,23 +11,21 @@ struct QuizView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(QuizStore.self) var quizStore
 
+    @State private var finishQuizModal: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            // Progress View //TODO: Change to a custom one
-            HStack {
-                ProgressView(value: quizStore.chosenQuiz?.progressValue)
-                    .progressViewStyle(.linear)
-                    .tint(Color.BTPrimary)
-                    .scaleEffect(x: 1, y: 3, anchor: .center)
-                
-                
+            //MARK: ProgressView + Close
+            HStack(spacing: 16) {
+                LinearProgressView(progress: quizStore.chosenQuiz?.currentQuestionIndex ?? 0, goal: quizStore.chosenQuiz?.numberOfQuestions ?? 0)
+
                 Spacer()
                 
                 Button(action: {
                     self.dismiss()
                     // close quiz
                     // custom alert -> "Do you want to quit \(Quiz.name)?"
+                   
                 }) {
                     Image("close")
                 }
@@ -36,21 +34,15 @@ struct QuizView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     
                     Text("Question" + " \((quizStore.chosenQuiz?.currentQuestionIndex ?? 0) + 1)")
+                        .modifier(CustomText(size: 14, font: .questionTitle))
                     
                     Text((quizStore.chosenQuiz?.questions[quizStore.chosenQuiz?.currentQuestionIndex ?? 0].text ?? "") + "?")
                         .modifier(CustomText(size: 20, font: .questionTitle))
-                    ScrollView {
-                        
-                        ForEach(0..<quizStore.chosenQuiz!.currentQuestion.answers.count, id: \.self) { index in
-                            
-                                AnswerViewRow(answer: quizStore.chosenQuiz!.currentQuestion.answers[index], questionNumber: index)
-                                    .frame(idealWidth: 343, idealHeight: 50)
-                                    .padding(.top, 16)
-                                    .onTapGesture {
-                                        quizStore.selectAnswer(index: index)
-                                    }
-                        }
-                    }
+                    
+                    
+                        AnswerViewRow()
+                        .padding(.top, 16)
+
                         Spacer()
                         
                     HStack(alignment: .center, spacing: 20) {
@@ -62,9 +54,13 @@ struct QuizView: View {
                             
                             Button(action: {
                                 //TODO: Next question
-                                quizStore.answerQuestion() {
+                                quizStore.answerQuestion() { quizFinished in
                                     withAnimation {
-                                        quizStore.toNextQuestion()
+                                        if !quizFinished {
+                                            quizStore.toNextQuestion()
+                                        } else {
+                                            self.finishQuizModal = true
+                                        }
                                     }
                                 }
                             }) {
@@ -72,7 +68,7 @@ struct QuizView: View {
                                     .tint(Color.white)
                             }
                             .frame(width: 67, height: 60)
-                            .buttonStyle(ThreeDButton())
+                            .buttonStyle(NextButton())
                         }
                 
             }
@@ -82,6 +78,10 @@ struct QuizView: View {
         .padding(.horizontal, Constants.hPadding)
         .padding(.vertical, Constants.vPadding)
         .background(Color.BTBackground)
+        
+        .sheet(isPresented: $finishQuizModal) {
+            FinishedQuizModal(quiz: quizStore.chosenQuiz!)
+        }
     }
     
 }

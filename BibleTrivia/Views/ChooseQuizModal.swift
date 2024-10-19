@@ -40,7 +40,7 @@ struct ChooseQuizModal: View {
                     
                     Spacer()
                     
-                    Text("\(quizStore.chosenQuiz?.numberOfQuestions)")
+                    Text("\(quizStore.chosenQuiz!.numberOfQuestions)")
                         .modifier(CustomText(size: 18, font: .label))
                 }
                 
@@ -52,7 +52,7 @@ struct ChooseQuizModal: View {
                     
                     Spacer()
                     
-                    Text("\(quizStore.chosenQuiz?.totalPoints)")
+                    Text("\(quizStore.chosenQuiz!.totalPoints)")
                         .modifier(CustomText(size: 18, font: .label))
                 }
                 

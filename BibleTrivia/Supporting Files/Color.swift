@@ -17,4 +17,5 @@ extension Color {
     static let BTBlack: Color = Color("Black")
     static let BTStroke: Color = Color("Stroke")
     static let BTAnswer: Color = Color("AnswerLabel")
+    static let BTIncorrect: Color = Color("Incorrect")
 }
