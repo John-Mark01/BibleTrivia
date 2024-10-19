@@ -44,8 +44,17 @@ import Foundation
     
     // When clicked on any answer
     func selectAnswer(index: Int) {
-        print("Selected answer - \(chosenQuiz!.currentQuestion.answers[index].text)\nAnswer is selected - \(chosenQuiz!.currentQuestion.answers[index].isSelected)")
+        print("Answer - \(chosenQuiz!.currentQuestion.answers[index].text)")
         chosenQuiz?.currentQuestion.answers[index].isSelected = true
+        print("Selected - \(chosenQuiz!.currentQuestion.answers[index].isSelected)")
+        chosenQuiz?.questionNumber += 1
+        selectAnswerHaptic()
+    }
+    func unSelectAnswer(index: Int) {
+        print("Answer - \(chosenQuiz!.currentQuestion.answers[index].text)")
+        chosenQuiz?.currentQuestion.answers[index].isSelected = false
+        print("Unselected - \(chosenQuiz!.currentQuestion.answers[index].isSelected)")
+        chosenQuiz?.questionNumber -= 1
         selectAnswerHaptic()
     }
     

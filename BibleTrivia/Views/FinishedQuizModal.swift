@@ -23,7 +23,7 @@ struct FinishedQuizModal: View {
                         ZStack {
                             Circle()
                                 .fill(Color.BTPrimary)
-                                .frame(width: 24, height: 23)
+                                .frame(width: 24, height: 24)
                             
                             Image("Tic")
                             
@@ -32,34 +32,52 @@ struct FinishedQuizModal: View {
                         ZStack {
                             Circle()
                                 .fill(Color.BTIncorrect)
-                                .frame(width: 24, height: 23)
+                                .frame(width: 24, height: 24)
                             
-                            Image("close")
+                            Image("close_white")
+                                
                             
                         }
                     }
                 }
             }
             .padding(.top, 40)
-            
-            Text(quiz.userPassedTheQuiz ? "You almost passed\n\(quiz.name)" : "You passed\n\(quiz.name)!")
-                .modifier(CustomText(size: 20, font: .title))
-            
-            Text("Keep up the good work :)")
-                .modifier(CustomText(size: 14, font: .body))
-                .foregroundStyle(Color.BTLightGray)
-            
-            
-            ActionButtons(title: "Continue", isPrimary: true) {
-                router.navigate(to: .home)
+            if quiz.userPassedTheQuiz {
+                Text("You passed:\n\(quiz.name)!")
+                    .multilineTextAlignment(.center)
+                    .modifier(CustomText(size: 20, font: .title))
+            } else {
+                Text("You almost passed:\n\(quiz.name)!")
+                    .multilineTextAlignment(.center)
+                    .modifier(CustomText(size: 20, font: .title))
             }
             
-            ActionButtons(title: "Back To Quiz") {
+           
+               
+            if quiz.userPassedTheQuiz {
+                Text("Keep up the good work :)")
+                    .modifier(CustomText(size: 14, font: .body))
+                    .foregroundStyle(Color.BTLightGray)
+            } else {
+                Text("Click on 'Back To Quiz to review your answers")
+                    .modifier(CustomText(size: 14, font: .body))
+                    .foregroundStyle(Color.BTLightGray)
+            }
+            
+            Spacer()
+            
+            ActionButtons(title: "Continue", isPrimary: true) {
+                self.dismiss()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    router.navigateToRoot()
+                }
+            }
+            
+            ActionButtons(title: "Back To Quiz", isPrimary: false) {
                 self.dismiss()
             }
         }
         .navigationBarBackButtonHidden()
-        .background(Color.BTBackground)
         .padding()
     }
 }

@@ -51,7 +51,7 @@ struct FindQuizViewRow: View {
             )
         }
         .sheet(isPresented: $openModal) {
-            ChooseQuizModal()
+            ChooseQuizModal(isPresented: $openModal)
                 .presentationDetents([.fraction(0.55)])
                 .presentationDragIndicator(.visible)
         }

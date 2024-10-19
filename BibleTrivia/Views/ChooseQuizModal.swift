@@ -11,7 +11,7 @@ struct ChooseQuizModal: View {
     @EnvironmentObject var router: Router
     @Environment(QuizStore.self) var quizStore
     @Environment(\.dismiss) var dismiss
-    
+    @Binding var isPresented: Bool
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             Text(quizStore.chosenQuiz?.name ?? "")
@@ -21,51 +21,55 @@ struct ChooseQuizModal: View {
             //MARK: Middle Info
             VStack(spacing: 22) {
                 // Level
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    Image(systemName: "star.fill")
+                HStack {
+                    Image("medal-star")
                     Text("Level:")
-                        .modifier(CustomText(size: 18, font: .label))
+                        .modifier(CustomText(size: 18, font: .h1))
                     
                     Spacer()
-                    
-                    Text(quizStore.chosenQuiz?.difficulty.getAsString() ?? "")
-                        .modifier(CustomText(size: 18, font: .label))
+                    VStack(alignment: .leading) {
+                        Text(quizStore.chosenQuiz?.difficulty.getAsString() ?? "")
+                            .modifier(CustomText(size: 18, font: .label))
+                    }
                 }
                 
                 // Questions
                 HStack {
-                    Image(systemName: "list.bullet.clipboard.fill")
+                    Image("task-square")
                     Text("Questions:")
-                        .modifier(CustomText(size: 18, font: .label))
+                        .modifier(CustomText(size: 18, font: .h1))
                     
                     Spacer()
-                    
-                    Text("\(quizStore.chosenQuiz!.numberOfQuestions)")
-                        .modifier(CustomText(size: 18, font: .label))
+                    VStack(alignment: .leading) {
+                        Text("\(quizStore.chosenQuiz?.numberOfQuestions ?? 0)")
+                            .modifier(CustomText(size: 18, font: .label))
+                    }
                 }
                 
                 // Points
                 HStack {
-                    Image(systemName: "trophy.fill")
+                    Image("cup")
                     Text("Points:")
-                        .modifier(CustomText(size: 18, font: .label))
+                        .modifier(CustomText(size: 18, font: .h1))
                     
                     Spacer()
-                    
-                    Text("\(quizStore.chosenQuiz!.totalPoints)")
-                        .modifier(CustomText(size: 18, font: .label))
+                    VStack(alignment: .leading) {
+                        Text("\(quizStore.chosenQuiz?.totalPoints ?? 0)")
+                            .modifier(CustomText(size: 18, font: .label))
+                    }
                 }
                 
                 // Time
                 HStack {
-                    Image(systemName: "clock.fill")
+                    Image("timer")
                     Text("Time:")
-                        .modifier(CustomText(size: 18, font: .label))
+                        .modifier(CustomText(size: 18, font: .h1))
                     
                     Spacer()
-                    
-                    Text("\(Int(quizStore.chosenQuiz?.time.rounded() ?? 0)) minutes")
-                        .modifier(CustomText(size: 18, font: .label))
+                    VStack(alignment: .leading) {
+                        Text("\(Int(quizStore.chosenQuiz?.time.rounded() ?? 0)) minutes")
+                            .modifier(CustomText(size: 18, font: .label))
+                    }
                 }
             }
             .padding()
@@ -94,6 +98,10 @@ struct ChooseQuizModal: View {
             }
         }
         .padding()
+        .cornerRadius(20)
+        .shadow(radius: 10)
+        .background(Color.BTBackground)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }
 

@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    @Environment(QuizStore.self) var quizStore
     @State private var viewModel = HomeViewViewModel()
+    @State private var openModal: Bool = false
     
     var body: some View {
         ScrollView {
@@ -70,7 +72,7 @@ struct HomeView: View {
                     Text("Unfinished Quizzes")
                         .modifier(CustomText(size: 20, font: .heading))
                     
-                    UnfinishedQuizesViewRow(quizes: viewModel.quizzes)
+                    UnfinishedQuizesViewRow(quizes: viewModel.quizzes, isPresented: $openModal)
                 }
                 
                 //MARK: Find New Quizzes
@@ -89,6 +91,14 @@ struct HomeView: View {
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.inline)
             .background(Color.BTBackground)
+            .blur(radius: openModal ? 3 : 0)
+            .sheet(isPresented: $openModal) {
+                ChooseQuizModal(isPresented: $openModal)
+                    .presentationDetents([.fraction(0.5)])
+                    .presentationBackground(.clear)
+                    .presentationCornerRadius(20)
+                    .presentationDragIndicator(.visible)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {

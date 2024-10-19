@@ -17,7 +17,7 @@ struct QuizView: View {
         VStack(alignment: .leading, spacing: 10) {
             //MARK: ProgressView + Close
             HStack(spacing: 16) {
-                LinearProgressView(progress: quizStore.chosenQuiz?.currentQuestionIndex ?? 0, goal: quizStore.chosenQuiz?.numberOfQuestions ?? 0)
+                LinearProgressView(progress: quizStore.chosenQuiz?.questionNumber ?? 0, goal: quizStore.chosenQuiz?.numberOfQuestions ?? 0)
 
                 Spacer()
                 
@@ -81,8 +81,9 @@ struct QuizView: View {
         
         .sheet(isPresented: $finishQuizModal) {
             FinishedQuizModal(quiz: quizStore.chosenQuiz!)
-                .presentationDetents([.fraction(0.6)])
+                .presentationDetents([.fraction(0.5)])
                 .presentationDragIndicator(.visible)
+                .presentationCornerRadius(20)
         }
     }
     

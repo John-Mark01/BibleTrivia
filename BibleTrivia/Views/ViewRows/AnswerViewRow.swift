@@ -17,7 +17,11 @@ struct AnswerViewRow: View {
             ForEach(0..<quizStore.chosenQuiz!.currentQuestion.answers.count, id: \.self) { index in
                 
                 Button(action: {
-                    quizStore.selectAnswer(index: index)
+                    if !quizStore.chosenQuiz!.currentQuestion.answers[index].isSelected {
+                        quizStore.selectAnswer(index: index)
+                    } else {
+                        quizStore.unSelectAnswer(index: index)
+                    }
                 }) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)

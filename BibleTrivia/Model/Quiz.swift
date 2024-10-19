@@ -33,7 +33,12 @@ struct Quiz {
     }
     
     var questionNumber: Int {
-        return currentQuestionIndex + 1
+        get {
+            return currentQuestionIndex
+        }
+        set {
+           
+        }
     }
     
     var isLastQuestion: Bool {

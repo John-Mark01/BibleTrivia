@@ -23,8 +23,10 @@ struct Question: Equatable {
     }
     
     var userAnswerIsCorrect: Bool {
-        if userAnswer!.isCorrect {
-            return true
+        if let answer = userAnswer {
+            if answer.isCorrect {
+                return true
+            }
         }
         
         return false

@@ -10,7 +10,7 @@ import SwiftUI
 struct UnfinishedQuizesViewRow: View {
     @Environment(QuizStore.self) var quizStore
     @State var quizes: [Quiz]
-    @State var openModal: Bool = false
+    @Binding var isPresented: Bool
     @State private var goToQuiz: Bool = false
     
     var body: some View {
@@ -21,7 +21,7 @@ struct UnfinishedQuizesViewRow: View {
                         Button(action: {
                             print("I click on starting: \(quiz.name.wrappedValue) quiz")
                             quizStore.chooseQuiz(quiz: quiz.wrappedValue)
-                            openModal = true
+                            isPresented = true
                         }) {
                             QuizSquareView(quiz: quiz)
                         }
@@ -29,14 +29,6 @@ struct UnfinishedQuizesViewRow: View {
                 }
             }
             .scrollIndicators(.hidden)
-        }
-        .sheet(isPresented: $openModal) {
-            if let quiz = quizStore.chosenQuiz {
-                ChooseQuizModal()
-                    .presentationDetents([.fraction(0.5)])
-                    .presentationDragIndicator(.visible)
-
-            }
         }
     }
 }
