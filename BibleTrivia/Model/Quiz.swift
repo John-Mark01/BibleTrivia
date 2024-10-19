@@ -43,6 +43,13 @@ struct Quiz {
         return false
     }
     
+    var userPassedTheQuiz: Bool {
+        return questions.allSatisfy { question in
+            question.userAnswer?.isCorrect == true
+        }
+    }
+    
+    
     var progressString: String {
         let progress = Double(questionNumber) / Double(numberOfQuestions)
             let percentageFormatter = NumberFormatter()

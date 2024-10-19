@@ -81,6 +81,8 @@ struct QuizView: View {
         
         .sheet(isPresented: $finishQuizModal) {
             FinishedQuizModal(quiz: quizStore.chosenQuiz!)
+                .presentationDetents([.fraction(0.6)])
+                .presentationDragIndicator(.visible)
         }
     }
     

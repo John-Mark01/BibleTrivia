@@ -70,7 +70,7 @@ struct HomeView: View {
                     Text("Unfinished Quizzes")
                         .modifier(CustomText(size: 20, font: .heading))
                     
-                    UnfinishedQuizesViewRow(quizes: [DummySVM.shared.tempQuiz])
+                    UnfinishedQuizesViewRow(quizes: viewModel.quizzes)
                 }
                 
                 //MARK: Find New Quizzes
