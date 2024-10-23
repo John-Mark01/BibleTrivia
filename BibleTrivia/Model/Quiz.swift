@@ -70,4 +70,15 @@ struct Quiz {
 
 enum QuizStatus: Int {
     case new, started, completed
+    
+    var stringValue: String {
+        switch self {
+        case .new:
+            return "New"
+        case .started:
+            return "Started"
+        case .completed:
+            return "Completed"
+        }
+    }
 }

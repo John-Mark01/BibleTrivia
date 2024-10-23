@@ -19,20 +19,66 @@ import Foundation
     var topics: [Topic] = []
     var quizes: [Quiz] = []
     var chosenQuiz: Quiz?
-    var tempQuiz: Quiz = Quiz(name: "Temporary test quiz", questions: [
-        Question(text: "This is question 1", explanation: "How can this be so complicated bruh...", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "How are you"),
-            Answer(isCorrect: false, isSelected: false, text: "I'm good"),
-            Answer(isCorrect: true, isSelected: false, text: "Thanks"),
-            Answer(isCorrect: false, isSelected: false, text: "And you?"),
+    var tempQuiz: Quiz = Quiz(name: "Apostle Paul", questions: [
+        Question(text: "How many books did the apostle wrote", explanation: "14", answers: [
+            Answer(isCorrect: true, isSelected: false, text: "14"),
+            Answer(isCorrect: false, isSelected: false, text: "12"),
+            Answer(isCorrect: false, isSelected: false, text: "11"),
+            Answer(isCorrect: false, isSelected: false, text: "7"),
         ], userAnswer: nil),
-        Question(text: "This is question 2", explanation: "How can this be so complicated bruh...", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "I'm glad you asked"),
-            Answer(isCorrect: false, isSelected: false, text: "I'm good as well"),
-            Answer(isCorrect: true, isSelected: false, text: "Wife is gorgeous"),
-            Answer(isCorrect: false, isSelected: false, text: "I love her so much"),
+        Question(text: "How much time did the apostle was blind", explanation: "3", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "4 days"),
+            Answer(isCorrect: false, isSelected: false, text: "He wa blind forever"),
+            Answer(isCorrect: true, isSelected: false, text: "3 days"),
+            Answer(isCorrect: false, isSelected: false, text: "2 days"),
+        ], userAnswer: nil),
+        Question(text: "After how many years did the apostle met the other apostles", explanation: "12", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "10 years"),
+            Answer(isCorrect: false, isSelected: false, text: "7 years"),
+            Answer(isCorrect: false, isSelected: false, text: "3 days"),
+            Answer(isCorrect: true, isSelected: false, text: "12 years"),
+        ], userAnswer: nil),
+        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "Yes"),
+            Answer(isCorrect: true, isSelected: false, text: "No"),
+            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+        ], userAnswer: nil),
+        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "Yes"),
+            Answer(isCorrect: true, isSelected: false, text: "No"),
+            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+        ], userAnswer: nil),
+        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "Yes"),
+            Answer(isCorrect: true, isSelected: false, text: "No"),
+            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+        ], userAnswer: nil),
+        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "Yes"),
+            Answer(isCorrect: true, isSelected: false, text: "No"),
+            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+        ], userAnswer: nil),
+        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "Yes"),
+            Answer(isCorrect: true, isSelected: false, text: "No"),
+            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+        ], userAnswer: nil),
+        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "Yes"),
+            Answer(isCorrect: true, isSelected: false, text: "No"),
+            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+        ], userAnswer: nil),
+        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "Yes"),
+            Answer(isCorrect: true, isSelected: false, text: "No"),
+            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+        ], userAnswer: nil),
+        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "Yes"),
+            Answer(isCorrect: true, isSelected: false, text: "No"),
+            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
         ], userAnswer: nil)
-    ], time: 2, status: .new, difficulty: .newBorn, totalPoints: 20)
+    ], time: 2, status: .new, difficulty: .youthPastor, totalPoints: 20)
     
     
     private func generateRandomTopicName() -> String {
@@ -80,6 +126,10 @@ import Foundation
         return questions
     }
     
+    private func generateRandomTopicStatus() -> TopicStatus {
+        return TopicStatus.allCases.randomElement() ?? .new
+    }
+    
     private func populateRandomQuiz() {
         
         for _ in 0..<10 {
@@ -92,7 +142,7 @@ import Foundation
     private func populateRandomTopic() {
         
         for _ in 0..<5 {
-            let topic = Topic(name: self.generateRandomTopicName(), quizes: self.quizes)
+            let topic = Topic(name: self.generateRandomTopicName(), quizes: self.quizes, status: self.generateRandomTopicStatus())
             self.topics.append(topic)
         }
         

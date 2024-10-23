@@ -8,60 +8,34 @@
 import SwiftUI
 
 struct FindQuizViewRow: View {
-    @State private var openModal: Bool = false
+    @Environment(QuizStore.self) var quizStore
+    @State var quizes: [Quiz]
+    @Binding var isPresented: Bool
     @State private var goToQuiz: Bool = false
-    var quiz: Quiz
     var body: some View {
-        Button(action: {
-            openModal = true
-        }) {
-            VStack {
-                HStack(spacing: 18) {
-                    Circle()
-                        .frame(width: 48, height: 48)
-                        .foregroundStyle(Color.BTPrimary)
-                        .overlay(
-                            Image("Quiz_Pic")
-                        )
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(quiz.name)
-                                .modifier(CustomText(size: 14, font: .body))
-                                .foregroundStyle(Color.BTBlack)
-                            
-                            Text("\(quiz.numberOfQuestions) " + "Questions")
-                                .modifier(CustomText(size: 10, font: .body))
-                                .foregroundStyle(Color.BTLightGray)
-                            
+        
+        VStack(alignment: .leading) {
+            ScrollView {
+                VStack(spacing: 12) {
+                    ForEach($quizes, id: \.id) { quiz in
+                        Button(action: {
+                            print("I click on starting: \(quiz.name.wrappedValue) quiz")
+                            quizStore.chooseQuiz(quiz: quiz.wrappedValue)
+                            withAnimation(.snappy) {
+                                isPresented = true
+                            }
+                        }) {
+                            QuizRectangleView(quiz: quiz)
                         }
                     }
-                    Spacer()
-                    
-                    Image("Go_Arrow")
-                        .padding()
                 }
             }
-            .padding()
-            .cornerRadius(16)
-            
-            .overlay(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(Color.clear)
-                    .stroke(Color.BTStroke, lineWidth: 2)
-            )
-        }
-        .sheet(isPresented: $openModal) {
-            ChooseQuizModal(isPresented: $openModal)
-                .presentationDetents([.fraction(0.55)])
-                .presentationDragIndicator(.visible)
-        }
-        .navigationDestination(isPresented: $goToQuiz) {
-            QuizView()
+            .scrollIndicators(.hidden)
         }
     }
 }
 
-#Preview {
-    var quiz: Quiz = Quiz(name: "Christian History", questions: [], time: 1, status: .new, difficulty: .deacon, totalPoints: 14)
-    FindQuizViewRow(quiz: quiz)
-}
+//#Preview {
+//    var quiz: Quiz = Quiz(name: "Christian History", questions: [], time: 1, status: .new, difficulty: .deacon, totalPoints: 14)
+//    FindQuizViewRow()
+//}

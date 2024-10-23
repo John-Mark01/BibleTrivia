@@ -82,8 +82,54 @@ struct LinearProgressView: View {
         }
     }
 }
+struct SimpleLinearProgressView: View {
+    @State private var containerWidth: CGFloat = 0
+    
+    var progress: Int = 0
+    var goal: Int = 0
+    var progressString: String = ""
+    
+    var maxWidth: Double {
+        return min((containerWidth / CGFloat(goal) * CGFloat(progress)), containerWidth)
+    }
+    
+     var body: some View {
+     
+        VStack {
+            HStack {
+                Spacer()
+
+                Text(progressString)
+                    .modifier(CustomText(size: 10, font: .body))
+                    .tint(Color.BTBlack)
+            }
+            ZStack(alignment: .leading) {
+                GeometryReader { geo in
+                    
+                    RoundedRectangle(cornerRadius: 60)
+                        .foregroundStyle(Color.BTProgressBG)
+                        .onAppear {
+                            containerWidth = geo.size.width
+                        }
+                        
+                }
+                ZStack(alignment: .trailing) {
+                        
+                    RoundedRectangle(cornerRadius: 60)
+                        .fill(Color.BTPrimary)
+                    
+                }
+                .padding(2)
+                .frame(minWidth: maxWidth)
+                .fixedSize()
+            }
+            .fixedSize(horizontal: false, vertical: true)
+
+        }
+    }
+}
 
 #Preview {
-    LinearProgressView(progress: 14, goal: 15)
+    SimpleLinearProgressView(progress: 2, goal: 15)
         .frame(height: 2)
 }

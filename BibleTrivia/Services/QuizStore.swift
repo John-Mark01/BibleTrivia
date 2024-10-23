@@ -17,6 +17,10 @@ import Foundation
     var startedQuizez: [Quiz] = []
     
     var chosenQuiz: Quiz?
+    var showAlert: Bool = false
+    var alertTitle: String = ""
+    var alertMessage: String = ""
+    var alertButtonTitle: String = ""
     
     // When clicked on a certain quiz
     func chooseQuiz(quiz: Quiz) {
@@ -37,8 +41,12 @@ import Foundation
             startedQuizez.append(unwrappedQuiz)
             onStart(true)
         } else {
+            showAlert = true
+            alertTitle = "Error"
+            alertMessage = "Unexpected Error, no quiz selected!"
+            alertButtonTitle = "Go Back"
             onStart(false)
-            //TODO: Create custom alert with - "Unexpected Error, no quiz selected!"
+            showAlert = false
         }
     }
     
@@ -59,12 +67,15 @@ import Foundation
     }
     
     // When clicked on Next
-    func answerQuestion(finished: @escaping (Bool) -> Void) {
+    func answerQuestion(finished: @escaping (Bool) -> Void, error: @escaping (Bool) -> Void) {
         if let selectedAnswer = chosenQuiz?.currentQuestion.answers.first(where: { $0.isSelected }) {
             chosenQuiz?.currentQuestion.userAnswer = selectedAnswer
         } else {
             print("Unexpected Error, No answer is selected!")
-            //TODO: Create custom alert with - "Unexpected Error, No answer is selected!",                                                      "Please select an answer!"
+            alertTitle = "Warning"
+            alertMessage = "No answer selected!\nPlease select an answer"
+            alertButtonTitle = "Okay"
+            error(true)
             return
         }
         
@@ -114,7 +125,13 @@ import Foundation
     }
     
     func finishQuiz() {
-        
+        self.chosenQuiz = nil
+    }
+    
+    // When clicked on Cancel, when modal shows up
+    func quitQuiz(onQuit: @escaping () -> Void) {
+        self.chosenQuiz = nil
+        onQuit()
     }
 }
 

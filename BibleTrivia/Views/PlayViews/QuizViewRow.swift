@@ -1,33 +1,31 @@
 //
-//  UnfinishedQuizesViewRow.swift
+//  QuizViewRow.swift
 //  BibleTrivia
 //
-//  Created by John-Mark Iliev on 11.10.24.
+//  Created by John-Mark Iliev on 23.10.24.
 //
 
 import SwiftUI
 
-struct UnfinishedQuizesViewRow: View {
-    
-    
-    @Environment(QuizStore.self) var quizStore
-    @State var quizes: [Quiz]
+struct QuizViewRow: View {
+//    @Environment(QuizStore.self) var quizStore
+    @State var quizez: [Quiz]
     @Binding var isPresented: Bool
-    @State private var goToQuiz: Bool = false
+    @State private var goToTopic: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
             ScrollView(.horizontal) {
-                HStack(spacing: 20) {
-                    ForEach($quizes, id: \.id) { quiz in
+                HStack(spacing: 12) {
+                    ForEach($quizez, id: \.id) { quiz in
                         Button(action: {
                             print("I click on starting: \(quiz.name.wrappedValue) quiz")
-                            quizStore.chooseQuiz(quiz: quiz.wrappedValue)
                             withAnimation(.snappy) {
                                 isPresented = true
                             }
                         }) {
-                            QuizSquareView(quiz: quiz)
+                            QuizCard(quiz: quiz)
+                                .frame(width: 180, height: 130)
                         }
                     }
                 }
@@ -37,6 +35,6 @@ struct UnfinishedQuizesViewRow: View {
     }
 }
 
-//#Preview {
-//    UnfinishedQuizesViewRow()
-//}
+#Preview("QuizViewRow") {
+    QuizViewRow(quizez: DummySVM.shared.quizes, isPresented: .constant(false))
+}

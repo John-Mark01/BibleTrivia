@@ -1,0 +1,60 @@
+//
+//  QuizCard.swift
+//  BibleTrivia
+//
+//  Created by John-Mark Iliev on 23.10.24.
+//
+
+
+import SwiftUI
+
+struct QuizCard: View {
+    @Binding var quiz: Quiz
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .top) {
+                Text(quiz.name)
+                    .foregroundStyle(Color.BTBlack)
+                    .modifier(CustomText(size: 16, font: .questionTitle))
+                    .multilineTextAlignment(.leading)
+                
+                Spacer()
+                
+                Text(quiz.status.stringValue)
+                    .foregroundStyle(Color.BTPrimary)
+                    .modifier(CustomText(size: 14, font: .h1))
+            }
+            HStack {
+                Text("\(quiz.numberOfQuestions) questions")
+                    .modifier(CustomText(size: 14, font: .label))
+                    .foregroundStyle(Color.BTLightGray)
+            }
+            HStack {
+                Text("\(quiz.totalPoints) points")
+                    .foregroundStyle(Color.BTPrimary)
+                    .modifier(CustomText(size: 16, font: .body))
+                    .padding(.top, 8)
+                
+                Spacer()
+                
+            }
+            
+           
+        }
+        .padding()
+        .background(Color.BTBackground)
+        .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .stroke(Color.BTStroke, lineWidth: 2)
+                .frame(height: 130)
+        )
+    }
+}
+
+#Preview("Quiz Card") {
+    @Previewable @State var quiz = DummySVM.shared.quizes[0]
+    QuizCard(quiz: $quiz)
+        .frame(width: 200)
+}

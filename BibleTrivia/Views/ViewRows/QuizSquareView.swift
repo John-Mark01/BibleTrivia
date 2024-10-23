@@ -15,7 +15,7 @@ struct QuizSquareView: View {
                 .padding(.leading, 20)
                 .padding()
             HStack {
-                VStack {
+                VStack(alignment: .leading) {
                     Text(quiz.name)
                         .modifier(CustomText(size: 16, font: .button))
                     Text("\(quiz.numberOfQuestions) questions")
@@ -23,6 +23,7 @@ struct QuizSquareView: View {
                         .foregroundStyle(Color.BTLightGray)
 
                 }
+                .padding(1)
                 Spacer()
                 
                 ZStack {
