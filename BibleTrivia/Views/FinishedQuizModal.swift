@@ -24,7 +24,7 @@ struct FinishedQuizModal: View {
             VStack(alignment: .center, spacing: 10) {
                 Image("Quiz")
                 
-                HStack(spacing: 10) {
+                FlowLayout(spacing: 12) {
                     ForEach(quiz.questions, id:\.id) { question in
                         
                         if question.userAnswerIsCorrect {
@@ -49,26 +49,26 @@ struct FinishedQuizModal: View {
                         }
                     }
                 }
-                .padding(.top, 40)
+                .padding(EdgeInsets(top: 20, leading: 0, bottom: 5, trailing: 0))
                 if quiz.userPassedTheQuiz {
                     Text("You passed:\n\(quiz.name)!")
                         .multilineTextAlignment(.center)
-                        .modifier(CustomText(size: 20, font: .title))
+                        .modifier(CustomText(size: 20, font: .semiBold))
                 } else {
                     Text("You almost passed:\n\(quiz.name)!")
                         .multilineTextAlignment(.center)
-                        .modifier(CustomText(size: 20, font: .title))
+                        .modifier(CustomText(size: 20, font: .semiBold))
                 }
                 
                 
                 
                 if quiz.userPassedTheQuiz {
                     Text("Keep up the good work :)")
-                        .modifier(CustomText(size: 14, font: .body))
+                        .modifier(CustomText(size: 14, font: .regular))
                         .foregroundStyle(Color.BTLightGray)
                 } else {
                     Text("Click on 'Back To Quiz to review your answers")
-                        .modifier(CustomText(size: 14, font: .body))
+                        .modifier(CustomText(size: 14, font: .regular))
                         .foregroundStyle(Color.BTLightGray)
                 }
                 

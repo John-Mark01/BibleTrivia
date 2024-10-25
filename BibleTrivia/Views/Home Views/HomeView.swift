@@ -20,7 +20,7 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         Text("Welcome, Chris!")
-                            .modifier(CustomText(size: 24, font: .title))
+                            .modifier(CustomText(size: 24, font: .semiBold))
                         Spacer()
                     }
                     //MARK: Top Buttons
@@ -36,10 +36,10 @@ struct HomeView: View {
                                     .foregroundStyle(Color.yellow)
                                     .padding(.trailing, 4)
                                 Text("Score:")
-                                    .modifier(CustomText(size: 24, font: .questionTitle))
+                                    .modifier(CustomText(size: 24, font: .semiBold))
                                     .foregroundStyle(Color.white)
                                 Text("328")
-                                    .modifier(CustomText(size: 24, font: .body))
+                                    .modifier(CustomText(size: 24, font: .regular))
                                     .foregroundStyle(Color.white)
                             }
                             
@@ -59,7 +59,7 @@ struct HomeView: View {
                                     .foregroundStyle(Color.BTDarkGray)
                                 
                                 Text("3")
-                                    .modifier(CustomText(size: 34, font: .questionTitle))
+                                    .modifier(CustomText(size: 34, font: .semiBold))
                                     .foregroundStyle(Color.white)
                                     .bold()
                             }
@@ -73,7 +73,7 @@ struct HomeView: View {
                     //MARK: Unfinished Quizes
                     VStack(alignment: .leading) {
                         Text("Unfinished Quizzes")
-                            .modifier(CustomText(size: 20, font: .heading))
+                            .modifier(CustomText(size: 20, font: .medium))
                         
                         UnfinishedQuizesViewRow(quizes: [DummySVM.shared.tempQuiz], isPresented: $openModal)
                     }
@@ -81,7 +81,7 @@ struct HomeView: View {
                     //MARK: Find New Quizzes
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Find New Quizzes")
-                            .modifier(CustomText(size: 20, font: .heading))
+                            .modifier(CustomText(size: 20, font: .medium))
                         
                         FindQuizViewRow(quizes: DummySVM.shared.quizes, isPresented: $openModal)
                         

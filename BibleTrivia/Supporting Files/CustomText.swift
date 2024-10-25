@@ -13,31 +13,19 @@ struct CustomText: ViewModifier {
     var font: FontStyle
     
     enum FontStyle {
-        case title
-        case h1
-        case heading
-        case questionTitle
-        case body
-        case label
-        case button
+        case semiBold
+        case medium
+        case regular
     }
     
     func getFont(from style: FontStyle) -> Font {
         switch style {
-        case .title:
-            Font.custom("Rubik-Medium", size: size)
-        case .h1:
-            Font.custom("Rubik-Medium", size: size)
-        case .heading:
+        case .semiBold:
             Font.custom("Rubik-SemiBold", size: size)
-        case .questionTitle:
-            Font.custom("Rubik-SemiBold", size: size)
-        case .body:
-            Font.custom("Rubik-Regular", size: size)
-        case .label:
-            Font.custom("Rubik-Regular", size: size)
-        case .button:
+        case .medium:
             Font.custom("Rubik-Medium", size: size)
+        case .regular:
+            Font.custom("Rubik-Regular", size: size)
         }
     }
     func body(content: Content) -> some View {

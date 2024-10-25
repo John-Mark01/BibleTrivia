@@ -16,24 +16,24 @@ struct QuizCard: View {
             HStack(alignment: .top) {
                 Text(quiz.name)
                     .foregroundStyle(Color.BTBlack)
-                    .modifier(CustomText(size: 16, font: .questionTitle))
+                    .modifier(CustomText(size: 16, font: .semiBold))
                     .multilineTextAlignment(.leading)
                 
                 Spacer()
                 
                 Text(quiz.status.stringValue)
                     .foregroundStyle(Color.BTPrimary)
-                    .modifier(CustomText(size: 14, font: .h1))
+                    .modifier(CustomText(size: 14, font: .medium))
             }
             HStack {
                 Text("\(quiz.numberOfQuestions) questions")
-                    .modifier(CustomText(size: 14, font: .label))
+                    .modifier(CustomText(size: 14, font: .regular))
                     .foregroundStyle(Color.BTLightGray)
             }
             HStack {
                 Text("\(quiz.totalPoints) points")
                     .foregroundStyle(Color.BTPrimary)
-                    .modifier(CustomText(size: 16, font: .body))
+                    .modifier(CustomText(size: 16, font: .regular))
                     .padding(.top, 8)
                 
                 Spacer()

@@ -15,14 +15,14 @@ struct QuizUpdateView: View {
                     Image("bible_mini")
                     
                     Text("Quiz Update")
-                        .modifier(CustomText(size: 18, font: .questionTitle))
+                        .modifier(CustomText(size: 18, font: .semiBold))
                         .foregroundStyle(Color.white)
                 }
                 
                 
                 Text("Currently you don’t have any active Quiz")
                     .multilineTextAlignment(.leading)
-                    .modifier(CustomText(size: 15, font: .body))
+                    .modifier(CustomText(size: 15, font: .regular))
                     .foregroundStyle(Color.white)
                 
                 Spacer()
@@ -31,7 +31,7 @@ struct QuizUpdateView: View {
                     
                 }) {
                     Text("Start Quiz")
-                        .modifier(CustomText(size: 14, font: .button))
+                        .modifier(CustomText(size: 14, font: .medium))
                         .foregroundStyle(Color.BTPrimary)
                         .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                         .background {

@@ -14,11 +14,11 @@ struct TopicCard: View {
             HStack {
                 Text(topic.name)
                     .foregroundStyle(Color.BTBlack)
-                    .modifier(CustomText(size: 15, font: .questionTitle))
+                    .modifier(CustomText(size: 15, font: .semiBold))
             }
             HStack {
                 Text("\(topic.numberOfQuizes) quizzez")
-                    .modifier(CustomText(size: 14, font: .label))
+                    .modifier(CustomText(size: 14, font: .regular))
                     .foregroundStyle(Color.BTLightGray)
             }
             

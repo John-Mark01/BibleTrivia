@@ -24,7 +24,7 @@ struct PlayView: View {
                 //MARK: Choose a topic
                 HStack {
                     Text("Choose a Topic")
-                        .modifier(CustomText(size: 20, font: .heading))
+                        .modifier(CustomText(size: 20, font: .medium))
                     
                     Spacer()
                     
@@ -38,7 +38,7 @@ struct PlayView: View {
                 //MARK: Quick Quiz
                 HStack {
                     Text("Quick Quiz")
-                        .modifier(CustomText(size: 20, font: .heading))
+                        .modifier(CustomText(size: 20, font: .medium))
                     
                     Spacer()
                     
@@ -83,7 +83,7 @@ struct PlayView: View {
                             Image("star")
                             
                             Text("\(326)")
-                                .modifier(CustomText(size: 18, font: .body))
+                                .modifier(CustomText(size: 18, font: .regular))
                                 .foregroundStyle(Color.BTBlack)
                         }
                     }

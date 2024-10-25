@@ -66,7 +66,7 @@ struct LinearProgressView: View {
                     Text("\(Int(Double(progress) / Double(goal) * 100)) %")
                         .foregroundStyle(Color.white)
                         .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
-                        .modifier(CustomText(size: 15, font: .heading))
+                        .modifier(CustomText(size: 15, font: .medium))
                         .background(
                             RoundedRectangle(cornerRadius: 60)
                                 .stroke(Color.BTBlack, lineWidth: 1)
@@ -100,7 +100,7 @@ struct SimpleLinearProgressView: View {
                 Spacer()
 
                 Text(progressString)
-                    .modifier(CustomText(size: 10, font: .body))
+                    .modifier(CustomText(size: 10, font: .regular))
                     .tint(Color.BTBlack)
             }
             ZStack(alignment: .leading) {

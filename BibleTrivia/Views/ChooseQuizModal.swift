@@ -27,7 +27,7 @@ struct ChooseQuizModal: View {
             VStack(alignment: .center, spacing: 10) {
                 Text(quiz.name)
                     .foregroundStyle(Color.BTPrimary)
-                    .modifier(CustomText(size: 20, font: .heading))
+                    .modifier(CustomText(size: 20, font: .medium))
                     .padding(.top, 8)
                 //MARK: Middle Info
                 VStack(spacing: 22) {
@@ -35,12 +35,12 @@ struct ChooseQuizModal: View {
                     HStack {
                         Image("medal-star")
                         Text("Level:")
-                            .modifier(CustomText(size: 18, font: .h1))
+                            .modifier(CustomText(size: 18, font: .medium))
                         
                         Spacer()
                         VStack(alignment: .leading) {
                             Text(quiz.difficulty.getAsString())
-                                .modifier(CustomText(size: 18, font: .label))
+                                .modifier(CustomText(size: 18, font: .regular))
                         }
                     }
                     
@@ -48,12 +48,12 @@ struct ChooseQuizModal: View {
                     HStack {
                         Image("task-square")
                         Text("Questions:")
-                            .modifier(CustomText(size: 18, font: .h1))
+                            .modifier(CustomText(size: 18, font: .medium))
                         
                         Spacer()
                         VStack(alignment: .leading) {
                             Text("\(quiz.numberOfQuestions)")
-                                .modifier(CustomText(size: 18, font: .label))
+                                .modifier(CustomText(size: 18, font: .regular))
                         }
                     }
                     
@@ -61,12 +61,12 @@ struct ChooseQuizModal: View {
                     HStack {
                         Image("cup")
                         Text("Points:")
-                            .modifier(CustomText(size: 18, font: .h1))
+                            .modifier(CustomText(size: 18, font: .medium))
                         
                         Spacer()
                         VStack(alignment: .leading) {
                             Text("\(quiz.totalPoints)")
-                                .modifier(CustomText(size: 18, font: .label))
+                                .modifier(CustomText(size: 18, font: .regular))
                         }
                     }
                     
@@ -74,12 +74,12 @@ struct ChooseQuizModal: View {
                     HStack {
                         Image("timer")
                         Text("Time:")
-                            .modifier(CustomText(size: 18, font: .h1))
+                            .modifier(CustomText(size: 18, font: .medium))
                         
                         Spacer()
                         VStack(alignment: .leading) {
                             Text("\(Int(quiz.time.rounded())) minutes")
-                                .modifier(CustomText(size: 18, font: .label))
+                                .modifier(CustomText(size: 18, font: .regular))
                         }
                     }
                 }

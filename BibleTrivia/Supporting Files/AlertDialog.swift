@@ -28,13 +28,13 @@ struct AlertDialog: View {
                 Text(title)
                     .foregroundStyle(Color.BTBlack)
                     .multilineTextAlignment(.center)
-                    .modifier(CustomText(size: 23, font: .questionTitle))
+                    .modifier(CustomText(size: 23, font: .semiBold))
                     .padding()
                 
                 Text(message)
                     .foregroundStyle(Color.BTBlack)
                     .multilineTextAlignment(.center)
-                    .modifier(CustomText(size: 17, font: .body))
+                    .modifier(CustomText(size: 17, font: .regular))
                 
                 
                 ZStack {
@@ -50,7 +50,7 @@ struct AlertDialog: View {
                     
                     Text(buttonTitle)
                         .foregroundStyle(Color.white)
-                        .modifier(CustomText(size: 20, font: .heading))
+                        .modifier(CustomText(size: 20, font: .medium))
                         .padding()
                 }
                 .padding()

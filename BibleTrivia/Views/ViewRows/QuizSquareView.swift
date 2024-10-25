@@ -17,9 +17,9 @@ struct QuizSquareView: View {
             HStack {
                 VStack(alignment: .leading) {
                     Text(quiz.name)
-                        .modifier(CustomText(size: 16, font: .button))
+                        .modifier(CustomText(size: 16, font: .regular))
                     Text("\(quiz.numberOfQuestions) questions")
-                        .modifier(CustomText(size: 10, font: .label))
+                        .modifier(CustomText(size: 10, font: .regular))
                         .foregroundStyle(Color.BTLightGray)
 
                 }
@@ -31,7 +31,7 @@ struct QuizSquareView: View {
                         .frame(width: 40, height: 40)
                     
                     Text(quiz.progressString)
-                        .modifier(CustomText(size: 10, font: .label))
+                        .modifier(CustomText(size: 10, font: .regular))
                         .foregroundStyle(Color.BTPrimary)
                 }
             }

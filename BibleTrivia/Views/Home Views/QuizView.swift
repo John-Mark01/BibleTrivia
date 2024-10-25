@@ -39,10 +39,10 @@ struct QuizView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     
                     Text("Question" + " \((quizStore.chosenQuiz?.currentQuestionIndex ?? 0) + 1)")
-                        .modifier(CustomText(size: 14, font: .questionTitle))
+                        .modifier(CustomText(size: 14, font: .semiBold))
                     
                     Text((quizStore.chosenQuiz?.questions[quizStore.chosenQuiz?.currentQuestionIndex ?? 0].text ?? "") + "?")
-                        .modifier(CustomText(size: 20, font: .questionTitle))
+                        .modifier(CustomText(size: 20, font: .semiBold))
                     
                     
                     AnswerViewRow()
@@ -54,7 +54,7 @@ struct QuizView: View {
                         Spacer()
                         
                         Text("NEXT")
-                            .modifier(CustomText(size: 14, font: .body))
+                            .modifier(CustomText(size: 14, font: .regular))
                             .foregroundStyle(Color.BTPrimary)
                         
                         Button(action: {

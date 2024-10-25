@@ -44,7 +44,7 @@ struct AnswerViewRow: View {
                             
                             Text(quizStore.chosenQuiz!.currentQuestion.answers[index].text)
                                 .foregroundStyle(quizStore.chosenQuiz!.currentQuestion.answers[index].isSelected ? Color.BTPrimary : Color.BTBlack)
-                                .modifier(CustomText(size: 16, font: .body))
+                                .modifier(CustomText(size: 16, font: .regular))
                             Spacer()
                         }
                         .padding(.horizontal, Constants.hPadding)
