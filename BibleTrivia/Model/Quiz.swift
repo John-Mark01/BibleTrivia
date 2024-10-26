@@ -66,6 +66,7 @@ struct Quiz {
         return Double(questionNumber) / Double(numberOfQuestions)
     }
     
+    var isInReview = false
 }
 
 enum QuizStatus: Int {

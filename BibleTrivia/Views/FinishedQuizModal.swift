@@ -13,6 +13,7 @@ struct FinishedQuizModal: View {
     @Binding var isPresented: Bool
     var quiz: Quiz
     var onFinishQuiz: () -> ()
+    var onReviewQuiz: () -> ()
     var body: some View {
         ZStack {
             Color.black
@@ -67,7 +68,7 @@ struct FinishedQuizModal: View {
                         .modifier(CustomText(size: 14, font: .regular))
                         .foregroundStyle(Color.BTLightGray)
                 } else {
-                    Text("Click on 'Back To Quiz to review your answers")
+                    Text("Click on 'Back To Quiz' to review your answers")
                         .modifier(CustomText(size: 14, font: .regular))
                         .foregroundStyle(Color.BTLightGray)
                 }
@@ -80,7 +81,8 @@ struct FinishedQuizModal: View {
                 }
                 
                 ActionButtons(title: "Back To Quiz", isPrimary: false) {
-                    self.dismiss()
+                    onReviewQuiz()
+                    isPresented = false
                 }
             }
             .padding(25)
@@ -95,5 +97,5 @@ struct FinishedQuizModal: View {
 
 #Preview {
     @Previewable @State var quiz = DummySVM.shared.tempQuiz
-    FinishedQuizModal(isPresented: .constant(true), quiz: quiz, onFinishQuiz: {dump(quiz)})
+    FinishedQuizModal(isPresented: .constant(true), quiz: quiz, onFinishQuiz: {dump(quiz)}, onReviewQuiz: {})
 }

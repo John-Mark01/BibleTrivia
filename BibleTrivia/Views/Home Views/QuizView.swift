@@ -48,37 +48,64 @@ struct QuizView: View {
                     AnswerViewRow()
                         .padding(.top, 16)
                     
-                    Spacer()
                     
-                    HStack(alignment: .center, spacing: 20) {
-                        Spacer()
+                    if quizStore.chosenQuiz!.isInReview {
+                        HStack {
+                            Spacer()
+                            Text(quizStore.chosenQuiz!.currentQuestion.userAnswerIsCorrect ? "Correct!" : "Incorrect...")
+                                .modifier(CustomText(size: 20, font: .medium))
+                                .foregroundStyle(Color.BTBlack)
+                            Spacer()
+                        }
+                        .padding()
+                    }
+                    
+                    Spacer()
+                    if quizStore.chosenQuiz!.isInReview {
+                        HStack(alignment: .center, spacing: 20) {
+                            
+                            Text("PREVIOUS QUESTION")
+                                .modifier(CustomText(size: 14, font: .regular))
+                                .foregroundStyle(Color.BTPrimary)
+                            Spacer()
+                            
+                            Text("NEXT QUESTION")
+                                .modifier(CustomText(size: 14, font: .regular))
+                                .foregroundStyle(Color.BTPrimary)
+                            
+                        }
                         
-                        Text("NEXT")
-                            .modifier(CustomText(size: 14, font: .regular))
-                            .foregroundStyle(Color.BTPrimary)
-                        
-                        Button(action: {
-                            //TODO: Next question
-                            quizStore.answerQuestion() { quizFinished in
-                                withAnimation {
-                                    if !quizFinished {
-                                        quizStore.toNextQuestion()
-                                    } else {
-                                        self.finishQuizModal = true
+                    } else {
+                        HStack(alignment: .center, spacing: 20) {
+                            Spacer()
+                            
+                            Text("NEXT")
+                                .modifier(CustomText(size: 14, font: .regular))
+                                .foregroundStyle(Color.BTPrimary)
+                            
+                            Button(action: {
+                                //TODO: Next question
+                                quizStore.answerQuestion() { quizFinished in
+                                    withAnimation {
+                                        if !quizFinished {
+                                            quizStore.toNextQuestion()
+                                        } else {
+                                            self.finishQuizModal = true
+                                        }
+                                    }
+                                } error: { error in
+                                    withAnimation {
+                                        isActionFromQuizStore = true
+                                        alertIsPresented = error
                                     }
                                 }
-                            } error: { error in
-                                withAnimation {
-                                    isActionFromQuizStore = true
-                                    alertIsPresented = error
-                                }
+                            }) {
+                                Image("Arrow")
+                                    .tint(Color.white)
                             }
-                        }) {
-                            Image("Arrow")
-                                .tint(Color.white)
+                            .frame(width: 67, height: 60)
+                            .buttonStyle(NextButton())
                         }
-                        .frame(width: 67, height: 60)
-                        .buttonStyle(NextButton())
                     }
                     
                 }
@@ -92,17 +119,57 @@ struct QuizView: View {
             .disabled(alertIsPresented || finishQuizModal)
             
             if finishQuizModal {
-                FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.chosenQuiz!) {
+                FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.chosenQuiz!, onFinishQuiz: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         router.navigateToRoot()
                     }
-                }
+                }, onReviewQuiz: {
+                    quizStore.enterQuizReviewMode()
+                })
             }
             // Normal Alert
             if alertIsPresented {
                 AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.navigateToRoot() }, isAnotherAction: isActionFromQuizStore)
             }
         }
+        .gesture(
+                DragGesture()
+                    .onEnded { gesture in
+                        let startX = gesture.startLocation.x
+                        let width = UIScreen.main.bounds.width
+                        
+                        // Left edge detection (e.g., first 50 pixels)
+                        if startX < 50 {
+                            print("Left edge swipe detected")
+                            withAnimation {
+                                if quizStore.chosenQuiz!.isInReview {
+                                    quizStore.checkAnswerToTheLeft { error in
+                                        withAnimation {
+                                            isActionFromQuizStore = true
+                                            alertIsPresented = error
+                                        }
+                                    }
+                                }
+                                // Handle left edge swipe
+                            }
+                        }
+                        
+                        // Right edge detection (e.g., last 50 pixels)
+                        if startX > width - 50 {
+                            print("Right edge swipe detected")
+                            if quizStore.chosenQuiz!.isInReview {
+                                withAnimation {
+                                    quizStore.checkAnswerToTheRight {
+                                        withAnimation {
+                                            finishQuizModal = true
+                                        }
+                                    }
+                                }
+                                // Handle right edge swipe
+                            }
+                        }
+                    }
+        )
     }
     
 }

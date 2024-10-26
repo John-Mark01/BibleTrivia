@@ -22,6 +22,8 @@ import Foundation
     var alertMessage: String = ""
     var alertButtonTitle: String = ""
     
+    var reviewQuestions: [Question] = []
+    
     // When clicked on a certain quiz
     func chooseQuiz(quiz: Quiz) {
         self.chosenQuiz = quiz
@@ -127,11 +129,46 @@ import Foundation
     func finishQuiz() {
         self.chosenQuiz = nil
     }
+    //MARK: Quiz Review after finishing the quiz
+    func checkAnswerToTheLeft(error: @escaping (Bool) -> Void) {
+        guard let chosenQuiz else {return}
+        
+        let currentQuestionIndex = chosenQuiz.currentQuestionIndex
+        if currentQuestionIndex-1 <= 0 {
+            self.showAlert(alertTtitle: "Error", message: "This is the last question.", buttonTitle: "Close")
+            error(true)
+        } else {
+            self.chosenQuiz?.currentQuestionIndex -= 1
+        }
+    }
+    func checkAnswerToTheRight(error: @escaping () -> Void) {
+        guard let chosenQuiz else {return}
+        
+        let currentQuestionIndex = chosenQuiz.currentQuestionIndex
+        if currentQuestionIndex+1 >= chosenQuiz.numberOfQuestions {
+            self.showAlert(alertTtitle: "Error", message: "This is the last question.", buttonTitle: "Close")
+            error()
+        } else {
+            self.chosenQuiz?.currentQuestionIndex += 1
+        }
+    }
+    
+    func enterQuizReviewMode() {
+        self.chosenQuiz?.isInReview = true
+    }
     
     // When clicked on Cancel, when modal shows up
     func quitQuiz(onQuit: @escaping () -> Void) {
         self.chosenQuiz = nil
         onQuit()
+    }
+    
+    //MARK: Helpers
+    
+    func showAlert(alertTtitle: String, message: String, buttonTitle: String) {
+        self.alertTitle = alertTtitle
+        self.alertMessage = message
+        self.alertButtonTitle = buttonTitle
     }
 }
 
