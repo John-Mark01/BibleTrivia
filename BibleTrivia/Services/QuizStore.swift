@@ -134,7 +134,7 @@ import Foundation
         guard let chosenQuiz else {return}
         
         let currentQuestionIndex = chosenQuiz.currentQuestionIndex
-        if currentQuestionIndex-1 <= 0 {
+        if currentQuestionIndex <= 0 {
             self.showAlert(alertTtitle: "Error", message: "This is the last question.", buttonTitle: "Close")
             error(true)
         } else {

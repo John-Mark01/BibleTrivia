@@ -24,7 +24,7 @@ struct TopicsViewRow: View {
                                 isPresented = true
                             }
                         }) {
-                            TopicCard(topic: topic)
+                            TopicCard(topic: topic, topicType: .play)
                                 .frame(width: 180)
                         }
                     }

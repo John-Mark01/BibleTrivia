@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CircularProgressView: View {
-    var progress: Double = 0.0
+    @State var progress: Double = 0.0
     
     var body: some View {
         ZStack {
@@ -88,6 +88,7 @@ struct SimpleLinearProgressView: View {
     var progress: Int = 0
     var goal: Int = 0
     var progressString: String = ""
+    var color: Color = Color.BTPrimary
     
     var maxWidth: Double {
         return min((containerWidth / CGFloat(goal) * CGFloat(progress)), containerWidth)
@@ -116,7 +117,7 @@ struct SimpleLinearProgressView: View {
                 ZStack(alignment: .trailing) {
                         
                     RoundedRectangle(cornerRadius: 60)
-                        .fill(Color.BTPrimary)
+                        .fill(color)
                     
                 }
                 .padding(2)

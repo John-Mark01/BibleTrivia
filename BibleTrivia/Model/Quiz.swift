@@ -56,14 +56,20 @@ struct Quiz {
     
     
     var progressString: String {
-        let progress = Double(questionNumber) / Double(numberOfQuestions)
+        let questionsAnswered = questions.filter({$0.userAnswer != nil})
+        let progress = Double(questionsAnswered.count) / Double(numberOfQuestions)
             let percentageFormatter = NumberFormatter()
             percentageFormatter.numberStyle = .percent
             percentageFormatter.maximumFractionDigits = 0
             return percentageFormatter.string(from: NSNumber(value: progress)) ?? "0%"
     }
     var progressValue: Double {
-        return Double(questionNumber) / Double(numberOfQuestions)
+        get {
+            return Double(questionNumber) / Double(numberOfQuestions)
+        }
+        set {
+            
+        }
     }
     
     var isInReview = false
