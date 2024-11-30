@@ -14,6 +14,8 @@ struct HomeView: View {
     @State private var openModal: Bool = false
     @State private var alertDialog: Bool = false
     
+    @State private var tempQuiz = [DummySVM.shared.tempQuiz]
+    
     var body: some View {
         ZStack {
             ScrollView {
@@ -75,7 +77,7 @@ struct HomeView: View {
                         Text("Unfinished Quizzes")
                             .modifier(CustomText(size: 20, font: .medium))
                         
-                        UnfinishedQuizesViewRow(quizes: [DummySVM.shared.tempQuiz], isPresented: $openModal)
+                        UnfinishedQuizesViewRow(quizes: $tempQuiz, isPresented: $openModal)
                     }
                     
                     //MARK: Find New Quizzes
@@ -107,7 +109,7 @@ struct HomeView: View {
                     
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(action: {
-                            
+                            router.navigate(to: .account)
                         }) {
                             Image("Avatars/jacob")
                                 .resizable()
@@ -145,5 +147,7 @@ struct HomeView: View {
 #Preview {
     NavigationStack {
         HomeView()
-    }.tint(Color.BTPrimary)
+    }
+    .tint(Color.BTPrimary)
+    .environment(QuizStore())
 }

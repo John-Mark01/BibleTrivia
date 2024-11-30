@@ -26,6 +26,7 @@ class Router: ObservableObject {
         case play
         case quizView
         case topics
+        case account
         //MARK: Other Views
         // Onboarding
         
@@ -39,14 +40,21 @@ class Router: ObservableObject {
     @ViewBuilder
     func view(for destination: Destination) -> some View {
         switch destination {
+            //MARK: Main Screens
         case .home:
             HomeView()
         case .play:
             PlayView()
         case .topics:
             TopicsView()
+            
+            //MARK: Quiz Screens
         case .quizView:
             QuizView()
+            
+            //MARK: Account
+        case .account:
+            AccountView()
         }
     }
     

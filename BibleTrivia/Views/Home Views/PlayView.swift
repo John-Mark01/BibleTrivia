@@ -12,7 +12,8 @@ struct PlayView: View {
     @Environment(QuizStore.self) var quizStore
     @State private var dummyTopics = DummySVM.shared.topics
     @State private var dummyQuizzez = DummySVM.shared.quizes
-    @State private var openModal: Bool = false
+    @State private var openQuizModal: Bool = false
+    @State private var openTopicModal: Bool = false
     @State private var showAllTopics: Bool = false
     
     var body: some View {
@@ -36,7 +37,7 @@ struct PlayView: View {
                         }.tint(Color.BTBlack)
                     }
                     
-                    TopicsViewRow(topics: dummyTopics, isPresented: $openModal)
+                    TopicsViewRow(topics: dummyTopics, isPresented: $openTopicModal)
                     
                     //MARK: Quick Quiz
                     HStack {
@@ -50,19 +51,19 @@ struct PlayView: View {
                         }.tint(Color.BTBlack)
                     }
                     
-                    QuizViewRow(quizez: dummyQuizzez, isPresented: $openModal)
+                    QuizViewRow(quizez: dummyQuizzez, isPresented: $openQuizModal)
                 }
                 .padding(.horizontal, Constants.hPadding)
                 .padding(.vertical, 20)
                 .background(Color.BTBackground)
                 .navigationTitle("Play")
                 .navigationBarTitleDisplayMode(.inline)
-                .blur(radius: openModal ? 3 : 0)
-                .disabled(openModal)
+                .blur(radius: (openQuizModal || openTopicModal) ? 3 : 0)
+                .disabled(openQuizModal || openTopicModal)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button(action: {
-                            
+                            router.navigate(to: .account)
                         }) {
                             Image("Avatars/jacob")
                                 .resizable()
@@ -97,12 +98,21 @@ struct PlayView: View {
             }
             .background(Color.BTBackground)
             
-            if openModal {
+            if openQuizModal {
                 if let quiz = quizStore.chosenQuiz {
-                    ChooseQuizModal(isPresented: $openModal, quiz: quiz, startQuiz: {
+                    ChooseQuizModal(isPresented: $openQuizModal, quiz: quiz, startQuiz: {
                         router.navigate(to: .quizView)
                     }, cancel: {
-                        openModal = false
+                        openQuizModal = false
+                    })
+                }
+            }
+            if openTopicModal {
+                if let topic = quizStore.chosenTopic {
+                    ChooseTopicModal(isPresented: $openTopicModal, topic: topic, goToQuizez: {
+                        showAllTopics = true
+                    }, close: {
+                        openTopicModal = false
                     })
                 }
             }
@@ -116,5 +126,5 @@ struct PlayView: View {
         PlayView()
             .tint(Color.BTPrimary)
     }
-//        .environment(QuizStore())
+        .environment(QuizStore())
 }

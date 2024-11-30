@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D952A92A-73CC-443D-9AA7-3833389C0F62"
+            uuid = "0EFAFDBB-DCBA-4198-BBD7-E3048750F5F5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BibleTrivia/Model/Quiz.swift"
+            filePath = "BibleTrivia/Views/ViewRows/QuizSquareView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "progressString"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>

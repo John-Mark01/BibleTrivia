@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TopicsViewRow: View {
-//    @Environment(QuizStore.self) var quizStore
+    @Environment(QuizStore.self) var quizStore
     @State var topics: [Topic]
     @Binding var isPresented: Bool
     @State private var goToTopic: Bool = false
@@ -20,6 +20,7 @@ struct TopicsViewRow: View {
                     ForEach($topics, id: \.id) { topic in
                         Button(action: {
                             print("I click on starting: \(topic.name.wrappedValue) quiz")
+                            quizStore.chosenTopic = topic.wrappedValue
                             withAnimation(.snappy) {
                                 isPresented = true
                             }

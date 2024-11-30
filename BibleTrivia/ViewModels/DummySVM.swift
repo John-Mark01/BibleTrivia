@@ -28,55 +28,51 @@ import Foundation
         ], userAnswer: nil),
         Question(text: "How much time did the apostle was blind", explanation: "3", answers: [
             Answer(isCorrect: false, isSelected: false, text: "4 days"),
-            Answer(isCorrect: false, isSelected: false, text: "He wa blind forever"),
+            Answer(isCorrect: false, isSelected: false, text: "He was blind forever"),
             Answer(isCorrect: true, isSelected: false, text: "3 days"),
             Answer(isCorrect: false, isSelected: false, text: "2 days"),
         ], userAnswer: nil),
-        Question(text: "After how many years did the apostle met the other apostles", explanation: "12", answers: [
+        Question(text: "After how many years did the apostle met the other apostles", explanation: "14", answers: [
             Answer(isCorrect: false, isSelected: false, text: "10 years"),
             Answer(isCorrect: false, isSelected: false, text: "7 years"),
             Answer(isCorrect: false, isSelected: false, text: "3 days"),
-            Answer(isCorrect: true, isSelected: false, text: "12 years"),
+            Answer(isCorrect: true, isSelected: false, text: "14 years"),
         ], userAnswer: nil),
         Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
             Answer(isCorrect: false, isSelected: false, text: "Yes"),
             Answer(isCorrect: true, isSelected: false, text: "No"),
             Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
         ], userAnswer: nil),
-        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "Yes"),
-            Answer(isCorrect: true, isSelected: false, text: "No"),
-            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+        Question(text: "On which Island did the apostle Paul shipwrecked?", explanation: "Malta", answers: [
+            Answer(isCorrect: true, isSelected: false, text: "Malta"),
+            Answer(isCorrect: false, isSelected: false, text: "Rome"),
+            Answer(isCorrect: false, isSelected: false, text: "Greek Island"),
+            Answer(isCorrect: false, isSelected: false, text: "He never had a shipwreck")
         ], userAnswer: nil),
-        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "Yes"),
-            Answer(isCorrect: true, isSelected: false, text: "No"),
+        Question(text: "Is ap.Paul a Jew?", explanation: "Yes", answers: [
             Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+            Answer(isCorrect: true, isSelected: false, text: "Yes"),
+            Answer(isCorrect: false, isSelected: false, text: "No"),
+            Answer(isCorrect: false, isSelected: false, text: "He is actually a Gentile")
         ], userAnswer: nil),
-        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "Yes"),
-            Answer(isCorrect: true, isSelected: false, text: "No"),
-            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+        Question(text: "How many times did ap.Paul go on a missionary journey?", explanation: "4", answers: [
+            Answer(isCorrect: false, isSelected: false, text: "1"),
+            Answer(isCorrect: false, isSelected: false, text: "2"),
+            Answer(isCorrect: false, isSelected: false, text: "3"),
+            Answer(isCorrect: true, isSelected: false, text: "4"),
         ], userAnswer: nil),
-        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
+        Question(text: "The apostole died on a cross?", explanation: "No", answers: [
             Answer(isCorrect: false, isSelected: false, text: "Yes"),
-            Answer(isCorrect: true, isSelected: false, text: "No"),
-            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+            Answer(isCorrect: true, isSelected: false, text: "No")
         ], userAnswer: nil),
-        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "Yes"),
+        Question(text: "Did ap.Paul had family?", explanation: "No", answers: [
             Answer(isCorrect: true, isSelected: false, text: "No"),
-            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say")
         ], userAnswer: nil),
-        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "Yes"),
-            Answer(isCorrect: true, isSelected: false, text: "No"),
+        Question(text: "Did ap.Paul ever sinned?", explanation: "Yes", answers: [
             Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
-        ], userAnswer: nil),
-        Question(text: "Did ap.Paul met Jesus in person?", explanation: "No", answers: [
-            Answer(isCorrect: false, isSelected: false, text: "Yes"),
-            Answer(isCorrect: true, isSelected: false, text: "No"),
-            Answer(isCorrect: false, isSelected: false, text: "The Bible doesn't say"),
+            Answer(isCorrect: true, isSelected: false, text: "Yes"),
+            Answer(isCorrect: false, isSelected: false, text: "No")
         ], userAnswer: nil)
     ], time: 2, status: .new, difficulty: .youthPastor, totalPoints: 20)
     

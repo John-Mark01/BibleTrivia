@@ -17,6 +17,7 @@ import Foundation
     var startedQuizez: [Quiz] = []
     
     var chosenQuiz: Quiz?
+    var chosenTopic: Topic?
     var showAlert: Bool = false
     var alertTitle: String = ""
     var alertMessage: String = ""

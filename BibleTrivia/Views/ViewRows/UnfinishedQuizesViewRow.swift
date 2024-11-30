@@ -11,7 +11,7 @@ struct UnfinishedQuizesViewRow: View {
     
     
     @Environment(QuizStore.self) var quizStore
-    @State var quizes: [Quiz]
+    @Binding var quizes: [Quiz]
     @Binding var isPresented: Bool
     @State private var goToQuiz: Bool = false
     @State var value = 0.0

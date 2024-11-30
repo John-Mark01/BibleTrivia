@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct Quiz {
+class Quiz {
     let id = UUID()
     var name: String
     var questions: [Question]
     let time: TimeInterval
-    var status: QuizStatus
-    let difficulty: DifficultyLevel
+    var status: QuizStatus = .new
+    var difficulty: DifficultyLevel = .newBorn
     
     var currentQuestionIndex: Int = 0
     var totalPoints: Int
@@ -73,6 +73,15 @@ struct Quiz {
     }
     
     var isInReview = false
+    
+    init(name: String, questions: [Question], time: TimeInterval, status: QuizStatus, difficulty: DifficultyLevel, totalPoints: Int) {
+        self.name = name
+        self.questions = questions
+        self.time = time
+        self.status = status
+        self.difficulty = difficulty
+        self.totalPoints = totalPoints
+    }
 }
 
 enum QuizStatus: Int {
