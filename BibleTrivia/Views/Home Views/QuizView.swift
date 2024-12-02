@@ -16,6 +16,9 @@ struct QuizView: View {
     @State private var alertIsPresented: Bool = false
     @State private var isActionFromQuizStore: Bool = false
     
+    // Sensor Feedback Variables
+    @State private var nextButtonTapped: Bool = false
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 10) {
@@ -34,6 +37,7 @@ struct QuizView: View {
                     }) {
                         Image("close")
                     }
+                    .sensoryFeedback(.error, trigger: alertIsPresented)
                 }
                 
                 VStack(alignment: .leading, spacing: 10) {
@@ -85,6 +89,7 @@ struct QuizView: View {
                             
                             Button(action: {
                                 //TODO: Next question
+                                nextButtonTapped.toggle()
                                 quizStore.answerQuestion() { quizFinished in
                                     withAnimation {
                                         if !quizFinished {
@@ -105,6 +110,7 @@ struct QuizView: View {
                             }
                             .frame(width: 67, height: 60)
                             .buttonStyle(NextButton())
+                            .sensoryFeedback(.levelChange, trigger: nextButtonTapped)
                         }
                     }
                     

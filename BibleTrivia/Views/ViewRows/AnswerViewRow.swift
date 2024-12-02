@@ -10,6 +10,8 @@ import SwiftUI
 struct AnswerViewRow: View {
     @Environment(QuizStore.self) var quizStore
     
+    @State private var selectionTapped: Bool = false
+    
     var body: some View {
         
         VStack(alignment: .center, spacing: 16) {
@@ -17,6 +19,8 @@ struct AnswerViewRow: View {
             ForEach(0..<quizStore.chosenQuiz!.currentQuestion.answers.count, id: \.self) { index in
                 
                 Button(action: {
+                    selectionTapped.toggle()
+                    
                     if !quizStore.chosenQuiz!.currentQuestion.answers[index].isSelected {
                         quizStore.selectAnswer(index: index)
                     } else {
@@ -53,6 +57,7 @@ struct AnswerViewRow: View {
                     
                 }
                 .disabled(quizStore.chosenQuiz!.isInReview)
+                .sensoryFeedback(.selection, trigger: selectionTapped)
             }
             
         }
