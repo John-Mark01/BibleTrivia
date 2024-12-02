@@ -27,7 +27,7 @@ struct QuizSquareView: View {
                 Spacer()
                 
                 ZStack {
-                    CircularProgressView(progress: quiz.progressValue)
+                    CircularProgressView(progress: $quiz.progressValue)
                         .frame(width: 40, height: 40)
                     
                     Text(quiz.progressString)

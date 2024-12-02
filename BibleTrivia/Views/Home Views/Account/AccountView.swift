@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AccountView: View {
+    
+    let user = UserModel(name: "John-Mark Iliev", age: 23, avatarString: "Avatars/jacob", userLevel: .youthPastor, completedQuizzes: [], points: 328, streek: 34, userPlan: .free)
+    
     @State private var generalSection: [SectionModel] = [
         SectionModel(name: "My Progress", image: "progress"),
         SectionModel(name: "Friends", image: "friends")
@@ -21,13 +24,11 @@ struct AccountView: View {
     ]
     var body: some View {
         
-        VStack(alignment: .leading, spacing: 32) {
+        ScrollView {
+            UserAccountCard(user: user)
+                .padding(.bottom, 20)
             
-            RoundedRectangle(cornerRadius: 20)
-                .frame(width: .infinity, height: 180)
-                .foregroundStyle(Color.BTPrimary)
-            
-            ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
                 BTForm(section: generalSection, sectionName: "General")
                 BTForm(section: moreSection, sectionName: "More")
             }
@@ -35,11 +36,14 @@ struct AccountView: View {
         .background(Color.BTBackground)
         .padding(.horizontal, Constants.hPadding)
         .padding(.vertical, Constants.vPadding)
+        .navigationTitle("Account")
     }
 }
 
 #Preview {
-    AccountView()
+    NavigationView {
+        AccountView()
+    }
 }
 
 struct BTForm: View {

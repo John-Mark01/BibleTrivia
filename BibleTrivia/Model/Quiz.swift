@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Quiz {
+@Observable class Quiz {
     let id = UUID()
     var name: String
     var questions: [Question]

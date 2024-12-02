@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CircularProgressView: View {
-    @State var progress: Double = 0.0
+    @Binding var progress: Double 
     
     var body: some View {
         ZStack {

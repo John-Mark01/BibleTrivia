@@ -132,6 +132,7 @@ struct HomeView: View {
                 if let quiz = quizStore.chosenQuiz {
                     ChooseQuizModal(isPresented: $openModal, quiz: quiz, startQuiz: {
                         router.navigate(to: .quizView)
+                        openModal = false
                     }, cancel: {
                         openModal = false
                     })
