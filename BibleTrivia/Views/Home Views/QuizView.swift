@@ -110,7 +110,7 @@ struct QuizView: View {
                             }
                             .frame(width: 67, height: 60)
                             .buttonStyle(NextButton())
-                            .sensoryFeedback(.levelChange, trigger: nextButtonTapped)
+                            .sensoryFeedback(.impact, trigger: nextButtonTapped)
                         }
                     }
                     
