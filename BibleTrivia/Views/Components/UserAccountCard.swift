@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct UserAccountCard: View {
-    var user: UserModel
-    
+    @Binding var user: UserModel
+    var viewUse: UseCase = .account
     var body: some View {
         
         ZStack {
@@ -35,17 +35,34 @@ struct UserAccountCard: View {
                             .modifier(CustomText(size: 14, font: .medium))
                             .foregroundStyle(Color.white)
                         
+                        if viewUse == .myProgress {
+                            HStack(alignment: .top, spacing: 10) {
+                                LinearProgressView(progress: user.totalPoints, goal: user.nextLevel.rawValue, showPercentage: false, fillColor: .white, backgroundOpacity: 0.4)
+                                
+                                Text((UserLevel(rawValue: user.userLevel.rawValue + 1)?.stringValue ?? ""))
+                                    .modifier(CustomText(size: 13, font: .semiBold))
+                                    .foregroundStyle(Color.white)
+                                    .offset(y: -1)
+                            }
+                        }
+                        
                     }
-                    
                     Spacer()
                 }
                 
-                UserScoreCard(user: user)
+                if viewUse == .account {
+                    UserScoreCard(user: user)
+                }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
     
         }
+    }
+    
+    enum UseCase {
+        case account
+        case myProgress
     }
 }
 
@@ -116,7 +133,8 @@ struct UserScoreCard: View {
     UserScoreCard(user: user)
         .padding(30)
 }
-#Preview {
-    let user = UserModel(name: "John-Mark Iliev", age: 23, avatarString: "Avatars/jacob", userLevel: .youthPastor, completedQuizzes: [], points: 328, streek: 34, userPlan: .free)
-    UserAccountCard(user: user)
-}
+//#Preview {
+//    let user = UserModel(name: "John-Mark Iliev", age: 23, avatarString: "Avatars/jacob", userLevel: .youthPastor, completedQuizzes: [], points: 328, streek: 34, userPlan: .free)
+//    UserAccountCard(user: user, viewUse: .myProgress)
+//        .frame(height: 50)
+//}

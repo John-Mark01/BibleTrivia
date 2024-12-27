@@ -121,10 +121,10 @@ struct PlayView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        PlayView()
-            .tint(Color.BTPrimary)
-    }
-        .environment(QuizStore())
-}
+//#Preview {
+//    NavigationStack {
+//        PlayView()
+//            .tint(Color.BTPrimary)
+//    }
+//        .environment(QuizStore())
+//}

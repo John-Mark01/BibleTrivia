@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AccountView: View {
     
-    let user = UserModel(name: "John-Mark Iliev", age: 23, avatarString: "Avatars/jacob", userLevel: .youthPastor, completedQuizzes: [], points: 328, streek: 34, userPlan: .free)
+    @State private var user = UserModel.shared
     
     @State private var generalSection: [SectionModel] = [
         SectionModel(name: "My Progress", image: "progress"),
@@ -25,7 +25,7 @@ struct AccountView: View {
     var body: some View {
         
         ScrollView {
-            UserAccountCard(user: user)
+            UserAccountCard(user: $user)
                 .padding(.bottom, 20)
             
             VStack(alignment: .leading, spacing: 16) {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(QuizStore.self) var quizStore
+    @Environment(\.userName) private var userName
     @EnvironmentObject var router: Router
     @State private var viewModel = HomeViewViewModel()
     @State private var openModal: Bool = false
@@ -21,7 +22,7 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
-                        Text("Welcome, Chris!")
+                        Text("Welcome, \(userName)!")
                             .modifier(CustomText(size: 24, font: .semiBold))
                         Spacer()
                     }
@@ -30,6 +31,7 @@ struct HomeView: View {
                         
                         Button(action: {
                             //TODO: Modal showing the scorring
+                            LoadingManager.shared.show()
                         }) {
                             HStack {
                                 Image("star")
@@ -145,10 +147,10 @@ struct HomeView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        HomeView()
-    }
-    .tint(Color.BTPrimary)
-    .environment(QuizStore())
-}
+//#Preview {
+//    NavigationStack {
+//        HomeView()
+//    }
+//    .tint(Color.BTPrimary)
+//    .environment(QuizStore())
+//}

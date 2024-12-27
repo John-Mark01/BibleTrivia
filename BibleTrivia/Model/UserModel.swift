@@ -9,14 +9,26 @@ import Foundation
 
 @Observable class UserModel {
     
-    var name: String = ""
+    static var shared = UserModel()
+    
+    var name: String = "John-Mark Iliev"
     var age: Int = 0
-    var avatarString: String = "" //TODO: Create a enum with assotiated values (AvatarName / StringForImage)
+    var avatarString: String = "Avatars/jacob" //TODO: Create a enum with assotiated values (AvatarName / StringForImage)
     var userLevel: UserLevel = .newBorn
     var completedQuizzes: [Quiz] = []
-    var totalPoints: Int = 0
-    var streek: Int = 0
+    var totalPoints: Int = 300
+    var streek: Int = 12
     var userPlan: UserPlan = .free
+    
+    var nextLevel: UserLevel {
+        switch userLevel {
+        case .newBorn: return .churchVolunteer
+        case .churchVolunteer: return .youthPastor
+        case .youthPastor: return .deacon
+        case .deacon: return .seniorPastor
+        case .seniorPastor: return .seniorPastor
+        }
+    }
     
     
     init(name: String, userLevel: UserLevel) {
@@ -33,15 +45,16 @@ import Foundation
         self.totalPoints = points
         self.streek = streek
     }
+    init() {}
 }
 
 
 enum UserLevel: Int {
     case newBorn         = 0
-    case churchVolunteer = 1
-    case youthPastor     = 2
-    case deacon          = 3
-    case seniorPastor    = 4
+    case churchVolunteer = 500
+    case youthPastor     = 1200
+    case deacon          = 2000
+    case seniorPastor    = 3500
     
     var stringValue : String {
         switch self {

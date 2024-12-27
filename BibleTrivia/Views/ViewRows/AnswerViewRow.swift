@@ -129,16 +129,16 @@ struct AnswerViewRow: View {
     }
 }
 
-#Preview {
-    
-    @Previewable @State var isSelected: Bool = false
-    @Previewable @State var answer: Answer = Answer(isCorrect: false, isSelected: true, text: "The first man")
-    ZStack {
-        Color.BTBackground.ignoresSafeArea(.all)
-        AnswerViewRow()
-            .environment(QuizStore())
-            .frame(width: 300, height: 50)
-    }
-  
-}
+//#Preview {
+//    
+//    @Previewable @State var isSelected: Bool = false
+//    @Previewable @State var answer: Answer = Answer(isCorrect: false, isSelected: true, text: "The first man")
+//    ZStack {
+//        Color.BTBackground.ignoresSafeArea(.all)
+//        AnswerViewRow()
+//            .environment(QuizStore())
+//            .frame(width: 300, height: 50)
+//    }
+//  
+//}
 

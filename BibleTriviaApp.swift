@@ -17,9 +17,15 @@ struct BibleTriviaApp: App {
                     SplashScreen()
                 }
             }
-            .environment(QuizStore())
+            .environment(QuizStore(supabase: Supabase()))
+            .environment(\.userName, "John-Mark")
             .environmentObject(router)
             .tint(Color.BTBlack)
+            .overlay {
+                if LoadingManager.shared.isShowing {
+                    LoadingView()
+                }
+            }
         }
     }
 }

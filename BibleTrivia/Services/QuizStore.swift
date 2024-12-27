@@ -9,6 +9,12 @@ import Foundation
 
 @Observable class QuizStore {
     
+    var supabase: Supabase
+    
+    init(supabase: Supabase) {
+        self.supabase = supabase
+    }
+    
     // inject the Database here to get and store everything about each quiz
     
     // Both of theese will be populated from the DataBase
@@ -37,7 +43,7 @@ import Foundation
     
     // When clicked on Start, when modal shows up
     func startQuiz(onStart: @escaping (Bool) -> Void) {
-        if var unwrappedQuiz = chosenQuiz {
+        if let unwrappedQuiz = chosenQuiz {
             unwrappedQuiz.status = .started
             unwrappedQuiz.currentQuestionIndex = 0
             
@@ -128,7 +134,15 @@ import Foundation
     }
     
     func finishQuiz() {
-        self.chosenQuiz = nil
+        if let quiz = self.chosenQuiz {
+            quiz.isFinished = true
+            // Adds the finished Quiz to the User's Quizzez
+            if !UserModel.shared.completedQuizzes.contains(where: { $0.id == quiz.id }) {
+                UserModel.shared.completedQuizzes.append(quiz)
+            }
+        }
+        
+        print("Total Completed Quizzes: \(UserModel.shared.completedQuizzes.count)")
     }
     //MARK: Quiz Review after finishing the quiz
     func checkAnswerToTheLeft(error: @escaping (Bool) -> Void) {
@@ -165,7 +179,6 @@ import Foundation
     }
     
     //MARK: Helpers
-    
     func showAlert(alertTtitle: String, message: String, buttonTitle: String) {
         self.alertTitle = alertTtitle
         self.alertMessage = message

@@ -7,7 +7,10 @@
 
 import SwiftUI
 
+@MainActor
 class Router: ObservableObject {
+    
+    static var shared = Router()
     
     @Published var path = NavigationPath() {
         didSet {
@@ -73,6 +76,21 @@ class Router: ObservableObject {
     public func navigateToRoot() {
         Router.stack.removeAll()
         path.removeLast(path.count)
+    }
+    
+    func navigateAndCalearBackStack(to destination: Destination) {
+        if let index = Router.stack.lastIndex(of: destination) {
+            while Router.stack.count != index + 1 {
+                Router.stack.removeLast()
+                path.removeLast()
+            }
+            Router.stack.append(destination)
+            path.append(destination)
+        } else {
+            Router.stack.append(destination)
+            path.append(destination)
+            print("Navigated to \(destination) and cleared back stack. Routes stack: \(Router.stack.count)")
+        }
     }
     private func handleBackNavigation(from oldPath: NavigationPath, to newPath: NavigationPath) {
         let removedCount = oldPath.count - path.count

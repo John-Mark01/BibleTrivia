@@ -38,6 +38,9 @@ struct LinearProgressView: View {
     
     var progress: Int = 0
     var goal: Int = 0
+    var showPercentage: Bool = true
+    var fillColor: Color = Color.BTPrimary
+    var backgroundOpacity: Double = 1.0
     
     var maxWidth: Double {
         return min((containerWidth / CGFloat(goal) * CGFloat(progress)), containerWidth)
@@ -50,7 +53,7 @@ struct LinearProgressView: View {
                 GeometryReader { geo in
                     
                     RoundedRectangle(cornerRadius: 60)
-                        .foregroundStyle(Color.BTLightGray)
+                        .foregroundStyle(Color.BTLightGray.opacity(backgroundOpacity))
                         .onAppear {
                             containerWidth = geo.size.width
                         }
@@ -61,17 +64,19 @@ struct LinearProgressView: View {
                         .stroke(Color.BTBlack, lineWidth: 1.5)
                         
                     RoundedRectangle(cornerRadius: 60)
-                        .fill(Color.BTPrimary)
+                        .fill(fillColor)
                     
-                    Text("\(Int(Double(progress) / Double(goal) * 100)) %")
-                        .foregroundStyle(Color.white)
-                        .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
-                        .modifier(CustomText(size: 15, font: .medium))
-                        .background(
-                            RoundedRectangle(cornerRadius: 60)
-                                .stroke(Color.BTBlack, lineWidth: 1)
-                                .fill(Color.BTDarkGray)
-                        )
+                    if showPercentage {
+                        Text("\(Int(Double(progress) / Double(goal) * 100)) %")
+                            .foregroundStyle(Color.white)
+                            .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
+                            .modifier(CustomText(size: 15, font: .medium))
+                            .background(
+                                RoundedRectangle(cornerRadius: 60)
+                                    .stroke(Color.BTBlack, lineWidth: 1)
+                                    .fill(Color.BTDarkGray)
+                            )
+                    }
                 }
                 .padding(2)
                 .frame(minWidth: maxWidth)

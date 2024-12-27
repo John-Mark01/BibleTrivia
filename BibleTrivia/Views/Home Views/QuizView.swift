@@ -127,6 +127,7 @@ struct QuizView: View {
             if finishQuizModal {
                 FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.chosenQuiz!, onFinishQuiz: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        quizStore.finishQuiz()
                         router.navigateToRoot()
                     }
                 }, onReviewQuiz: {
@@ -180,9 +181,9 @@ struct QuizView: View {
     
 }
 
-#Preview {
-    NavigationStack {
-        QuizView()
-            .environment(QuizStore())
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        QuizView()
+//            .environment(QuizStore())
+//    }
+//}

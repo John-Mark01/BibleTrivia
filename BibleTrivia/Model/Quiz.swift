@@ -73,6 +73,7 @@ import Foundation
     }
     
     var isInReview = false
+    var isFinished = false
     
     init(name: String, questions: [Question], time: TimeInterval, status: QuizStatus, difficulty: DifficultyLevel, totalPoints: Int) {
         self.name = name
