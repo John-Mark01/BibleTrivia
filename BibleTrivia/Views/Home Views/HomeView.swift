@@ -137,13 +137,6 @@ struct HomeView: View {
                 }
             }
         }
-        .task {
-            do {
-               try await quizStore.loadQuizData()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
     }
 }
 
@@ -157,29 +150,27 @@ struct HomeView: View {
 
 struct EmptyQuizView: View {
     var body: some View {
-        HStack {
-            Spacer()
-            VStack(alignment: .center, spacing: 5) {
-                Image(systemName: "clock")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .symbolEffect(.wiggle)
-                Text("No Started Quizzes Yet")
-                    .font(.headline)
-                    .foregroundColor(.gray)
-                Text("Choose one from down below.")
-                    .font(.subheadline)
-                    .foregroundColor(.black)
-            }
-            .frame(height: 80)
-            .padding()
-            .background(Color.BTPrimary.gradient)
-            .cornerRadius(10)
-            .shadow(radius: 2)
-            
-            Spacer()
+        
+        VStack(alignment: .center, spacing: 5) {
+            Image(systemName: "clock")
+                .resizable()
+                .frame(width: 30, height: 30)
+                .foregroundStyle(Color.white)
+                .symbolEffect(.rotate)
+                .padding(.bottom, 8)
+            Text("No Started Quizzes Yet")
+                .font(.headline)
+                .foregroundColor(.white)
+            Text("Choose one from down below.")
+                .font(.subheadline)
+                .foregroundColor(.white)
         }
-       
+        .frame(maxWidth: .infinity)
+        .frame(height: 120)
+        .padding()
+        .background(Color.BTDarkGray)
+        .cornerRadius(10)
+        .shadow(radius: 2)
     }
 }
 

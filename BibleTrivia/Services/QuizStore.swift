@@ -18,33 +18,18 @@ import SwiftUI
         print("\(self) is initialized")
     }
         
-        func loadQuizData(limit: Int? = nil, offset: Int = 0) async throws {
-            LoadingManager.shared.show()
+    // Fetching all of the Topics, Quizzez, Questions and Answers from the database
+        func loadInitialData(limit: Int? = nil, finished: @escaping () -> Void) async throws {
             // Start fetches concurrently with parameters
             do {
-                async let topicsTask = supabase.getTopics()
-                async let quizzesTask = supabase.getQuizzez(limit: limit, offset: offset)
-                async let questionsTask = supabase.getQuestions(for: 7)
-                async let answersTask = supabase.getAnswers()
+                async let topicsTask = supabase.getTopics(limit: limit)
+                async let quizzesTask = self.getQuizzez(limit: limit)
                 
-                let (topics, quizzes, questions, answers) = try await (topicsTask, quizzesTask, questionsTask, answersTask)
                 
-                let answersDict = Dictionary(grouping: answers) { $0.questionId }
-                let questionsDict = Dictionary(grouping: questions) { $0.quizId }
+                let (topics, quizzes) = try await (topicsTask, quizzesTask)
+                
                 let quizzesByTopic = Dictionary(grouping: quizzes) { $0.topicId }
                 
-                let updatedQuizzes = quizzes.map { quiz in
-                    let updatedQuiz = quiz
-                    if let quizQuestions = questionsDict[quiz.id] {
-                        let questionsWithAnswers = quizQuestions.map { question in
-                            var updatedQuestion = question
-                            updatedQuestion.answers = answersDict[question.id] ?? []
-                            return updatedQuestion
-                        }
-                        updatedQuiz.questions = questionsWithAnswers
-                    }
-                    return updatedQuiz
-                }
                 
                 // Then, update topics with their quizzes
                 let updatedTopics = topics.map { topic in
@@ -55,36 +40,96 @@ import SwiftUI
                 
                 // Update the UI
                 withAnimation {
-                    LoadingManager.shared.hide()
-                    // Append or replace based on offset
-                    if offset == 0 {
-                        self.allQuizez = updatedQuizzes
-                        self.allTopics = updatedTopics
-                    } else {
-                        self.allQuizez.append(contentsOf: updatedQuizzes)
-                        self.allTopics.append(contentsOf: updatedTopics)
-                    }
+                    self.allTopics = updatedTopics
+                    self.allQuizez = quizzes
                 }
+                
             } catch let error as Errors.SupabaseError {
-                LoadingManager.shared.hide()
-                print("Error in QuizStore.loadQuizData:\n\(error)")
+                print("Error in QuizStore.loadInitalData:\n\(error)")
                 self.showAlert(customError: error, buttonTitle: "Dismiss")
             } catch {
-                LoadingManager.shared.hide()
                 print(error.localizedDescription)
                 self.showAlert(alertTtitle: "Error", message: "Unexpected error...", buttonTitle: "Dismiss")
             }
+            finished()
+        }
+    func getQuizzezOnly(limit: Int? = nil, offset: Int = 0) async throws {
+        LoadingManager.shared.show()
+        do {
+            let quizzez = try await getQuizzez(limit: limit, offset: offset)
+            
+            // Update the UI
+            withAnimation {
+                LoadingManager.shared.hide()
+                // Append or replace based on offset
+                if offset == 0 {
+                    self.allQuizez = quizzez
+                } else {
+                    self.allQuizez.append(contentsOf: quizzez)
+                }
+            }
+            
+        } catch let error as Errors.SupabaseError {
+            LoadingManager.shared.hide()
+            self.showAlert(customError: error, buttonTitle: "Dismiss")
+        } catch {
+            LoadingManager.shared.hide()
+            print(error.localizedDescription)
+            self.showAlert(alertTtitle: "Error", message: "Unexpected error...", buttonTitle: "Dismiss")
         }
         
+    }
+    
+    private func getQuizzez(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
+        do {
+            // Get quizzes
+            let quizzes = try await supabase.getQuizzez(limit: limit, offset: offset)
+            
+            // Fill each quiz's questions directly
+            for index in 0..<quizzes.count {
+                let questions = try await fillQuizData(quizId: quizzes[index].id)
+                quizzes[index].questions = questions
+            }
+            
+            return quizzes
+            
+        } catch _ as Errors.SupabaseError {
+            throw Errors.SupabaseError.parseError("Couldn't get quizzes")
+        } catch {
+            throw Errors.SupabaseError.unknownError("Unknown error. Please contact us.")
+        }
+    }
+    private func fillQuizData(quizId: Int) async throws -> [Question] {
+        // Get questions
+        do {
+            let questions = try await supabase.getQuestions(for: quizId)
+            let questionIds = questions.map { $0.id }
+            let answers = try await supabase.getAnswers(for: questionIds)
+            
+            // Get answers for each question
+            let answersDict = Dictionary(grouping: answers) { $0.questionId }
+            
+            // Add answers to their questions
+            let questionsWithAnswers = questions.map { question in
+                var updatedQuestion = question
+                updatedQuestion.answers = answersDict[question.id] ?? []
+                return updatedQuestion
+            }
+            
+            return questionsWithAnswers
+        } catch {
+            throw Errors.SupabaseError.parseError("Couldn't fetch Quiz data. Please try again later.")
+        }
+    }
         // For pagination
         func loadMoreQuizzes(batchSize: Int = 10) async throws {
             let currentCount = allQuizez.count
-            try await loadQuizData(limit: batchSize, offset: currentCount)
+            try await getQuizzezOnly(limit: batchSize, offset: currentCount)
         }
         
         // For refreshing
         func refreshQuizzes(amount: Int = 10) async throws {
-            try await loadQuizData(limit: amount, offset: 0)
+            try await getQuizzezOnly(limit: amount, offset: 0)
         }
   
     // Both of theese will be populated from the DataBase

@@ -157,7 +157,7 @@ extension Supabase {
             try await supabase
                 .from(Table.questions)
                 .select()
-//                .filter("quiz_id", operator: "=", value: stringQuizID)
+                .eq("quiz_id", value: quizID) // filters all the questions for the array
                 .execute()
             
             let questions = try parseVoidResponse(response, for: .question) as? [Question]
@@ -197,11 +197,12 @@ extension Supabase {
     
     //MARK: Answers
     
-    func getAnswers() async throws -> [Answer] {
+    func getAnswers(for questionIds: [Int]) async throws -> [Answer] {
        let response =
             try await supabase
             .from(Table.answers)
             .select()
+            .in("question_id", values: questionIds) // Filter by array of question IDs
             .execute()
         
         let answers = try parseVoidResponse(response, for: .answer) as? [Answer]

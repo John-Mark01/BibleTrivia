@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SplashScreen: View {
+    @Environment(QuizStore.self) private var quizStore
     @State private var isActive: Bool = false
     @State private var size = 0.8
     @State private var opacity = 0.3
@@ -38,9 +39,17 @@ struct SplashScreen: View {
                 
             }
             .ignoresSafeArea(.all)
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                    self.isActive = true
+            .task {
+                do {
+                    try await quizStore.loadInitialData(limit: 30) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            withAnimation {
+                                isActive = true
+                            }
+                        }
+                    }
+                } catch {
+                    print(error.localizedDescription)
                 }
             }
         }

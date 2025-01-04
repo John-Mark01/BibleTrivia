@@ -99,7 +99,7 @@ struct PlayView: View {
             .refreshable {
                 Task {
                     do {
-                        try await quizStore.loadQuizData(limit: 10)
+                        try await quizStore.getQuizzezOnly(limit: 50)
                     } catch {
                         print(error.localizedDescription)
                     }
