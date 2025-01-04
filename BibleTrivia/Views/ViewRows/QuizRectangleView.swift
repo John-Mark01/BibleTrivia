@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct QuizRectangleView: View {
-    @Binding var quiz: Quiz
+    var quiz: Quiz
     
     var body: some View {
         VStack {

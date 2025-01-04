@@ -35,8 +35,3 @@ struct TopicsViewRow: View {
         }
     }
 }
-
-#Preview {
-    TopicsViewRow(topics: DummySVM.shared.topics, isPresented: .constant(false))
-}
-

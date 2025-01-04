@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct QuizCard: View {
-    @Binding var quiz: Quiz
+    
+    let quiz: Quiz
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -53,8 +54,3 @@ struct QuizCard: View {
     }
 }
 
-#Preview("Quiz Card") {
-    @Previewable @State var quiz = DummySVM.shared.quizes[0]
-    QuizCard(quiz: $quiz)
-        .frame(width: 200)
-}

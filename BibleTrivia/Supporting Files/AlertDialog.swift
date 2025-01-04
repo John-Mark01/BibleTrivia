@@ -13,7 +13,7 @@ struct AlertDialog: View {
     let message: String
     let buttonTitle: String
     let primaryAction: () -> ()
-    let isAnotherAction: Bool
+    var isAnotherAction: Bool = true
     @State private var offset: CGFloat = 1000
     
     var body: some View {

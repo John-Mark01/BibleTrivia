@@ -9,23 +9,22 @@ import SwiftUI
 
 struct FindQuizViewRow: View {
     @Environment(QuizStore.self) var quizStore
-    @State var quizes: [Quiz]
+    var quizes: [Quiz]
     @Binding var isPresented: Bool
-    @State private var goToQuiz: Bool = false
     var body: some View {
         
         VStack(alignment: .leading) {
             ScrollView {
-                VStack(spacing: 12) {
-                    ForEach($quizes, id: \.id) { quiz in
+                LazyVStack(spacing: 12) {
+                    ForEach(0..<quizes.count, id: \.self) { index in
                         Button(action: {
-                            print("I click on starting: \(quiz.name.wrappedValue) quiz")
-                            quizStore.chooseQuiz(quiz: quiz.wrappedValue)
+                            print("I click on starting: \(quizStore.allQuizez[index].name) quiz")
+                            quizStore.chooseQuiz(quiz: quizStore.allQuizez[index])
                             withAnimation(.snappy) {
                                 isPresented = true
                             }
                         }) {
-                            QuizRectangleView(quiz: quiz)
+                            QuizRectangleView(quiz: quizStore.allQuizez[index])
                         }
                     }
                 }

@@ -16,6 +16,7 @@
 		36A651332D184E220065AE7C /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 36A651322D184E220065AE7C /* Storage */; };
 		36A651352D184E220065AE7C /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 36A651342D184E220065AE7C /* Supabase */; };
 		36AC72372CB59358002FF37C /* BibleTriviaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AC722E2CB59358002FF37C /* BibleTriviaApp.swift */; };
+		36B5A74E2D2984F10021F21C /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A74D2D2984F10021F21C /* Errors.swift */; };
 		36E0A5E92D1C47C5006AEC4F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A52D1C47C5006AEC4F /* Answer.swift */; };
 		36E0A5EA2D1C47C5006AEC4F /* DifficultyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */; };
 		36E0A5EB2D1C47C5006AEC4F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A72D1C47C5006AEC4F /* Question.swift */; };
@@ -31,7 +32,6 @@
 		36E0A5F52D1C47C5006AEC4F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5B92D1C47C5006AEC4F /* Constants.swift */; };
 		36E0A5F62D1C47C5006AEC4F /* CustomText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5BA2D1C47C5006AEC4F /* CustomText.swift */; };
 		36E0A5F72D1C47C5006AEC4F /* DummySVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5BC2D1C47C5006AEC4F /* DummySVM.swift */; };
-		36E0A5F82D1C47C5006AEC4F /* HomeViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5BD2D1C47C5006AEC4F /* HomeViewViewModel.swift */; };
 		36E0A5F92D1C47C5006AEC4F /* ActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5BF2D1C47C5006AEC4F /* ActionButtons.swift */; };
 		36E0A5FA2D1C47C5006AEC4F /* ProgressViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */; };
 		36E0A5FB2D1C47C5006AEC4F /* QuizViewToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C12D1C47C5006AEC4F /* QuizViewToolbar.swift */; };
@@ -75,6 +75,7 @@
 		36A592022D1EC81E00972BA2 /* Loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Loading.json; sourceTree = "<group>"; };
 		36AC71E02CB57C7B002FF37C /* BibleTrivia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BibleTrivia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36AC722E2CB59358002FF37C /* BibleTriviaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleTriviaApp.swift; sourceTree = "<group>"; };
+		36B5A74D2D2984F10021F21C /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		36E0A5A52D1C47C5006AEC4F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyLevel.swift; sourceTree = "<group>"; };
 		36E0A5A72D1C47C5006AEC4F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
@@ -94,7 +95,6 @@
 		36E0A5B92D1C47C5006AEC4F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		36E0A5BA2D1C47C5006AEC4F /* CustomText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomText.swift; sourceTree = "<group>"; };
 		36E0A5BC2D1C47C5006AEC4F /* DummySVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySVM.swift; sourceTree = "<group>"; };
-		36E0A5BD2D1C47C5006AEC4F /* HomeViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewViewModel.swift; sourceTree = "<group>"; };
 		36E0A5BF2D1C47C5006AEC4F /* ActionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtons.swift; sourceTree = "<group>"; };
 		36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViews.swift; sourceTree = "<group>"; };
 		36E0A5C12D1C47C5006AEC4F /* QuizViewToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewToolbar.swift; sourceTree = "<group>"; };
@@ -183,6 +183,7 @@
 				36E0A5A72D1C47C5006AEC4F /* Question.swift */,
 				36E0A5A82D1C47C5006AEC4F /* Quiz.swift */,
 				36E0A5A92D1C47C5006AEC4F /* SectionModel.swift */,
+				36B5A74D2D2984F10021F21C /* Errors.swift */,
 				36E0A5AA2D1C47C5006AEC4F /* Topic.swift */,
 				36E0A5AB2D1C47C5006AEC4F /* UserModel.swift */,
 			);
@@ -203,7 +204,6 @@
 		36E0A5B12D1C47C5006AEC4F /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				36A591FE2D1EC51900972BA2 /* Lotties */,
 				36E0A5B02D1C47C5006AEC4F /* FlowLayout.swift */,
 			);
 			path = CustomViews;
@@ -224,6 +224,7 @@
 			children = (
 				36E0A5B12D1C47C5006AEC4F /* CustomViews */,
 				36E0A5B52D1C47C5006AEC4F /* Fonts */,
+				36A591FE2D1EC51900972BA2 /* Lotties */,
 				36E0A5B62D1C47C5006AEC4F /* AlertDialog.swift */,
 				36E0A5B72D1C47C5006AEC4F /* Assets.xcassets */,
 				36E0A5B82D1C47C5006AEC4F /* Color.swift */,
@@ -237,7 +238,6 @@
 			isa = PBXGroup;
 			children = (
 				36E0A5BC2D1C47C5006AEC4F /* DummySVM.swift */,
-				36E0A5BD2D1C47C5006AEC4F /* HomeViewViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -448,7 +448,6 @@
 				36E0A5F52D1C47C5006AEC4F /* Constants.swift in Sources */,
 				36E0A5F62D1C47C5006AEC4F /* CustomText.swift in Sources */,
 				36E0A5F72D1C47C5006AEC4F /* DummySVM.swift in Sources */,
-				36E0A5F82D1C47C5006AEC4F /* HomeViewViewModel.swift in Sources */,
 				36E0A5F92D1C47C5006AEC4F /* ActionButtons.swift in Sources */,
 				36E0A5FA2D1C47C5006AEC4F /* ProgressViews.swift in Sources */,
 				36E0A5FB2D1C47C5006AEC4F /* QuizViewToolbar.swift in Sources */,
@@ -471,6 +470,7 @@
 				36E0A60B2D1C47C5006AEC4F /* TopicCard.swift in Sources */,
 				36E0A60C2D1C47C5006AEC4F /* TopicsViewRow.swift in Sources */,
 				36E0A60D2D1C47C5006AEC4F /* AllTopicsView.swift in Sources */,
+				36B5A74E2D2984F10021F21C /* Errors.swift in Sources */,
 				36E0A60E2D1C47C5006AEC4F /* AnswerViewRow.swift in Sources */,
 				36E0A60F2D1C47C5006AEC4F /* FindQuizViewRow.swift in Sources */,
 				36E0A6102D1C47C5006AEC4F /* QuizRectangleView.swift in Sources */,

@@ -8,10 +8,10 @@
 import Foundation
 
 struct Topic {
-    let id = UUID()
+    var id: Int = 0
     var name: String
-    var quizes: [Quiz]
-    var status: TopicStatus
+    var quizes: [Quiz] = []
+    var status: TopicStatus = .new
     
     var numberOfQuizes: Int {
         return quizes.count
@@ -37,6 +37,10 @@ struct Topic {
         return percentageFormatter.string(from: NSNumber(value: progress)) ?? "0%"
     }
     
+    init(id: Int, name: String) {
+        self.id = id
+        self.name = name
+    }
 
 }
 
@@ -58,5 +62,16 @@ enum TopicStatus: Int, CaseIterable {
         case .mostPlayed:
             return "Most Played"
         }
+    }
+}
+
+//MARK: Server request parsing
+struct TopicPayload: Decodable {
+    let id: Int
+    let name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
     }
 }

@@ -10,8 +10,9 @@ import SwiftUI
 struct PlayView: View {
     @EnvironmentObject var router: Router
     @Environment(QuizStore.self) var quizStore
-    @State private var dummyTopics = DummySVM.shared.topics
-    @State private var dummyQuizzez = DummySVM.shared.quizes
+    
+//    @State private var dummyTopics = DummySVM.shared.topics
+//    @State private var dummyQuizzez = DummySVM.shared.quizes
     @State private var openQuizModal: Bool = false
     @State private var openTopicModal: Bool = false
     @State private var showAllTopics: Bool = false
@@ -23,7 +24,6 @@ struct PlayView: View {
                     
                     //MARK: Quiz Update
                     QuizUpdateView()
-                    
                     
                     //MARK: Choose a topic
                     HStack {
@@ -37,7 +37,7 @@ struct PlayView: View {
                         }.tint(Color.BTBlack)
                     }
                     
-                    TopicsViewRow(topics: dummyTopics, isPresented: $openTopicModal)
+                    TopicsViewRow(topics: quizStore.allTopics, isPresented: $openTopicModal)
                     
                     //MARK: Quick Quiz
                     HStack {
@@ -51,7 +51,7 @@ struct PlayView: View {
                         }.tint(Color.BTBlack)
                     }
                     
-                    QuizViewRow(quizez: dummyQuizzez, isPresented: $openQuizModal)
+                    QuizViewRow(quizez: quizStore.allQuizez, isPresented: $openQuizModal)
                 }
                 .padding(.horizontal, Constants.hPadding)
                 .padding(.vertical, 20)
@@ -93,7 +93,16 @@ struct PlayView: View {
                     }
                 }
                 .navigationDestination(isPresented: $showAllTopics) {
-                    AllTopicsView(topics: dummyTopics)
+                    AllTopicsView(topics: quizStore.allTopics)
+                }
+            }
+            .refreshable {
+                Task {
+                    do {
+                        try await quizStore.loadQuizData(limit: 10)
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                 }
             }
             .background(Color.BTBackground)

@@ -23,7 +23,6 @@ struct AllTopicsView: View {
                 }
             }
             .background(Color.BTBackground)
-            .frame(width: .infinity, height: .infinity)
         }
         .navigationTitle("Play")
         .navigationBarTitleDisplayMode(.inline)
@@ -49,8 +48,3 @@ struct AllTopicsView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        AllTopicsView(topics: DummySVM.shared.topics)
-    }
-}

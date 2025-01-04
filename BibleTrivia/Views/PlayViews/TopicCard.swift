@@ -58,8 +58,3 @@ struct TopicCard: View {
         case all  = 1
     }
 }
-
-#Preview {
-    @Previewable @State var topic = DummySVM.shared.topics[0]
-    TopicCard(topic: $topic, topicType: .all)
-}

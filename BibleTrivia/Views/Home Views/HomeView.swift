@@ -11,21 +11,22 @@ struct HomeView: View {
     @Environment(QuizStore.self) var quizStore
     @Environment(\.userName) private var userName
     @EnvironmentObject var router: Router
-    @State private var viewModel = HomeViewViewModel()
+    
     @State private var openModal: Bool = false
     @State private var alertDialog: Bool = false
     
-    @State private var tempQuiz = [DummySVM.shared.tempQuiz]
+    @State private var tempQuiz: [Quiz] = [/*DummySVM.shared.tempQuiz*/]
+//    @State private var dummyQuizzez = DummySVM.shared.quizes
     
     var body: some View {
         ZStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    HStack {
-                        Text("Welcome, \(userName)!")
-                            .modifier(CustomText(size: 24, font: .semiBold))
-                        Spacer()
-                    }
+//                    HStack {
+//                        Text("Welcome, \(userName)!")
+//                            .modifier(CustomText(size: 24, font: .semiBold))
+//                        Spacer()
+//                    }
                     //MARK: Top Buttons
                     HStack {
                         
@@ -87,29 +88,21 @@ struct HomeView: View {
                         Text("Find New Quizzes")
                             .modifier(CustomText(size: 20, font: .medium))
                         
-                        FindQuizViewRow(quizes: DummySVM.shared.quizes, isPresented: $openModal)
+                        FindQuizViewRow(quizes: quizStore.allQuizez, isPresented: $openModal)
                         
                     }
                     .padding(.top, 10)
                 }
                 .padding(.horizontal, Constants.hPadding)
                 .padding(.vertical, Constants.vPadding)
-                .navigationTitle("Home")
-                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("Welcome, \(userName)!")
+                .navigationBarTitleDisplayMode(.large)
                 .background(Color.BTBackground)
                 .blur(radius: openModal ? 3 : 0)
                 .disabled(openModal)
                 
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            
-                        }) {
-                            Image(systemName: "line.3.horizontal")
-                        }
-                    }
-                    
-                    ToolbarItem(placement: .topBarTrailing) {
                         Button(action: {
                             router.navigate(to: .account)
                         }) {
@@ -144,6 +137,13 @@ struct HomeView: View {
                 }
             }
         }
+        .task {
+            do {
+               try await quizStore.loadQuizData()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
@@ -154,3 +154,35 @@ struct HomeView: View {
 //    .tint(Color.BTPrimary)
 //    .environment(QuizStore())
 //}
+
+struct EmptyQuizView: View {
+    var body: some View {
+        HStack {
+            Spacer()
+            VStack(alignment: .center, spacing: 5) {
+                Image(systemName: "clock")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .symbolEffect(.wiggle)
+                Text("No Started Quizzes Yet")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+                Text("Choose one from down below.")
+                    .font(.subheadline)
+                    .foregroundColor(.black)
+            }
+            .frame(height: 80)
+            .padding()
+            .background(Color.BTPrimary.gradient)
+            .cornerRadius(10)
+            .shadow(radius: 2)
+            
+            Spacer()
+        }
+       
+    }
+}
+
+#Preview {
+    EmptyQuizView()
+}

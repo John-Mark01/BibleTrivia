@@ -106,8 +106,3 @@ struct ChooseTopicModal: View {
     }
 }
 
-#Preview {
-    @Previewable @State var topic = Topic(name: "NewTestement", quizes: [], status: .new)
-    ChooseTopicModal(isPresented: .constant(true), topic: topic, goToQuizez: {}, close: {})
-
-}

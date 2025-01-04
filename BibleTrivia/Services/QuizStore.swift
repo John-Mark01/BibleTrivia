@@ -6,20 +6,90 @@
 //
 
 import Foundation
+import SwiftUI
 
+@MainActor
 @Observable class QuizStore {
-    
+    // inject the Database here to get and store everything about each quiz
     var supabase: Supabase
     
     init(supabase: Supabase) {
         self.supabase = supabase
+        print("\(self) is initialized")
     }
-    
-    // inject the Database here to get and store everything about each quiz
-    
+        
+        func loadQuizData(limit: Int? = nil, offset: Int = 0) async throws {
+            LoadingManager.shared.show()
+            // Start fetches concurrently with parameters
+            do {
+                async let topicsTask = supabase.getTopics()
+                async let quizzesTask = supabase.getQuizzez(limit: limit, offset: offset)
+                async let questionsTask = supabase.getQuestions(for: 7)
+                async let answersTask = supabase.getAnswers()
+                
+                let (topics, quizzes, questions, answers) = try await (topicsTask, quizzesTask, questionsTask, answersTask)
+                
+                let answersDict = Dictionary(grouping: answers) { $0.questionId }
+                let questionsDict = Dictionary(grouping: questions) { $0.quizId }
+                let quizzesByTopic = Dictionary(grouping: quizzes) { $0.topicId }
+                
+                let updatedQuizzes = quizzes.map { quiz in
+                    let updatedQuiz = quiz
+                    if let quizQuestions = questionsDict[quiz.id] {
+                        let questionsWithAnswers = quizQuestions.map { question in
+                            var updatedQuestion = question
+                            updatedQuestion.answers = answersDict[question.id] ?? []
+                            return updatedQuestion
+                        }
+                        updatedQuiz.questions = questionsWithAnswers
+                    }
+                    return updatedQuiz
+                }
+                
+                // Then, update topics with their quizzes
+                let updatedTopics = topics.map { topic in
+                    var updatedTopic = topic
+                    updatedTopic.quizes = quizzesByTopic[topic.id] ?? []
+                    return updatedTopic
+                }
+                
+                // Update the UI
+                withAnimation {
+                    LoadingManager.shared.hide()
+                    // Append or replace based on offset
+                    if offset == 0 {
+                        self.allQuizez = updatedQuizzes
+                        self.allTopics = updatedTopics
+                    } else {
+                        self.allQuizez.append(contentsOf: updatedQuizzes)
+                        self.allTopics.append(contentsOf: updatedTopics)
+                    }
+                }
+            } catch let error as Errors.SupabaseError {
+                LoadingManager.shared.hide()
+                print("Error in QuizStore.loadQuizData:\n\(error)")
+                self.showAlert(customError: error, buttonTitle: "Dismiss")
+            } catch {
+                LoadingManager.shared.hide()
+                print(error.localizedDescription)
+                self.showAlert(alertTtitle: "Error", message: "Unexpected error...", buttonTitle: "Dismiss")
+            }
+        }
+        
+        // For pagination
+        func loadMoreQuizzes(batchSize: Int = 10) async throws {
+            let currentCount = allQuizez.count
+            try await loadQuizData(limit: batchSize, offset: currentCount)
+        }
+        
+        // For refreshing
+        func refreshQuizzes(amount: Int = 10) async throws {
+            try await loadQuizData(limit: amount, offset: 0)
+        }
+  
     // Both of theese will be populated from the DataBase
     var allTopics: [Topic] = []
-    var allQuizez: [Quiz] = []
+    var allQuizez: [Quiz] = [Quiz(id: 0, name: "When initialized", topicId: 3, time: 2, status: 2, difficulty: 2, totalPoints: 240)]
     var startedQuizez: [Quiz] = []
     
     var chosenQuiz: Quiz?
@@ -179,9 +249,37 @@ import Foundation
     }
     
     //MARK: Helpers
-    func showAlert(alertTtitle: String, message: String, buttonTitle: String) {
+    func showAlert(customError: Errors.SupabaseError? = nil,
+                   alertTtitle: String = "Error",
+                   message: String = "",
+                   buttonTitle: String) {
+        
+        if let customError {
+            var alertMessage: String = ""
+            
+            switch customError {
+            case .networkError(let string):
+                alertMessage = string
+            case .invalidResponse(let string):
+                alertMessage = string
+            case .parseError(let string):
+                alertMessage = string
+            case .signUpError(let string):
+                alertMessage = string
+            case .logInError(let string):
+                alertMessage = string
+            case .forgotPasswordError(let string):
+                alertMessage = string
+            case .unknownError(let string):
+                alertMessage = string
+            }
+            self.alertMessage = alertMessage
+        } else {
+            self.alertMessage = message
+        }
+        
+        self.showAlert = true
         self.alertTitle = alertTtitle
-        self.alertMessage = message
         self.alertButtonTitle = buttonTitle
     }
 }

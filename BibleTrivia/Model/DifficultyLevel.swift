@@ -8,7 +8,7 @@
 import Foundation
 
 enum DifficultyLevel: Int, CaseIterable {
-    case newBorn
+    case newBorn = 0
     case churchVolunteer
     case youthPastor
     case deacon

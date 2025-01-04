@@ -9,7 +9,7 @@ import SwiftUI
 
 struct QuizViewRow: View {
     @Environment(QuizStore.self) var quizStore
-    @State var quizez: [Quiz]
+    let quizez: [Quiz]
     @Binding var isPresented: Bool
     @State private var goToTopic: Bool = false
     
@@ -17,10 +17,10 @@ struct QuizViewRow: View {
         VStack(alignment: .leading) {
             ScrollView(.horizontal) {
                 HStack(spacing: 12) {
-                    ForEach($quizez, id: \.id) { quiz in
+                    ForEach(quizez, id: \.id) { quiz in
                         Button(action: {
-                            print("I click on starting: \(quiz.name.wrappedValue) quiz")
-                            quizStore.chooseQuiz(quiz: quiz.wrappedValue)
+                            print("I click on starting: \(quiz.name) quiz")
+                            quizStore.chooseQuiz(quiz: quiz)
                             withAnimation(.snappy) {
                                 isPresented = true
                             }
@@ -34,8 +34,4 @@ struct QuizViewRow: View {
             .scrollIndicators(.hidden)
         }
     }
-}
-
-#Preview("QuizViewRow") {
-    QuizViewRow(quizez: DummySVM.shared.quizes, isPresented: .constant(false))
 }

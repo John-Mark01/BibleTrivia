@@ -7,10 +7,11 @@
 
 import Foundation
 
-@Observable class Quiz {
-    let id = UUID()
+@Observable class Quiz: Identifiable {
+    var id: Int = 0
+    var topicId: Int = 0
     var name: String
-    var questions: [Question]
+    var questions: [Question] = []
     let time: TimeInterval
     var status: QuizStatus = .new
     var difficulty: DifficultyLevel = .newBorn
@@ -83,10 +84,22 @@ import Foundation
         self.difficulty = difficulty
         self.totalPoints = totalPoints
     }
+    
+    init(id: Int, name: String, topicId: Int, time: TimeInterval, status: Int, difficulty: Int, totalPoints: Int) {
+        self.id = id
+        self.name = name
+        self.topicId = topicId
+        self.time = time
+        self.status = QuizStatus(rawValue: status) ?? .new
+        self.difficulty = DifficultyLevel(rawValue: difficulty)!
+        self.totalPoints = totalPoints
+    }
 }
 
 enum QuizStatus: Int {
-    case new, started, completed
+    case new = 0
+    case started
+    case completed
     
     var stringValue: String {
         switch self {
@@ -97,5 +110,26 @@ enum QuizStatus: Int {
         case .completed:
             return "Completed"
         }
+    }
+}
+
+//MARK: Server request parsing
+struct QuizPayload: Decodable {
+    let id: Int
+    let name: String
+    let timeToComplete: TimeInterval?
+    let status: Int
+    let difficulty: Int
+    let totalPoints: Int?
+    let topicId: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case timeToComplete /*= "time_to_complete"*/
+        case status
+        case difficulty
+        case totalPoints    /*= "total_points"*/
+        case topicId    /*= "total_points"*/
     }
 }

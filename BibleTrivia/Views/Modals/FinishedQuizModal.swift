@@ -95,7 +95,7 @@ struct FinishedQuizModal: View {
     }
 }
 
-#Preview {
-    @Previewable @State var quiz = DummySVM.shared.tempQuiz
-    FinishedQuizModal(isPresented: .constant(true), quiz: quiz, onFinishQuiz: {dump(quiz)}, onReviewQuiz: {})
-}
+//#Preview {
+//    @Previewable @State var quiz = DummySVM.shared.tempQuiz
+//    FinishedQuizModal(isPresented: .constant(true), quiz: quiz, onFinishQuiz: {dump(quiz)}, onReviewQuiz: {})
+//}
