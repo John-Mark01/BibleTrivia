@@ -10,19 +10,56 @@ import SwiftUI
 struct SignUpScreen: View {
     @EnvironmentObject var router: Router
     @Environment(QuizStore.self) var quizStore
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @State private var welcomeText: String = "Welcome to BibleTrivia!"
+    @State private var firstName: String = "Alya"
+    @State private var lastName: String = "Bao Bao"
+    @State private var age: String = "22"
+    @State private var email: String = "alya@baobao.com"
+    @State private var password: String = "password"
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             
             HStack {
                 Spacer()
-                Text("Welcome to BibleTrivia!")
+                Text(welcomeText)
                     .modifier(CustomText(size: 22, font: .semiBold))
                 Spacer()
             }
 
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Enter our first name")
+                    .modifier(CustomText(size: 14, font: .medium))
+                
+                TextField("First Name", text: $firstName)
+                    .padding()
+                    .background(Color.BTLightGray)
+                    .cornerRadius(16)
+                    .overlay(content: { RoundedRectangle(cornerRadius: 14).stroke(Color.BTDarkGray, lineWidth: 2) })
+            }
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Enter our last name")
+                    .modifier(CustomText(size: 14, font: .medium))
+                
+                TextField("Last Name", text: $lastName)
+                    .padding()
+                    .background(Color.BTLightGray)
+                    .cornerRadius(16)
+                    .overlay(content: { RoundedRectangle(cornerRadius: 14).stroke(Color.BTDarkGray, lineWidth: 2) })
+            }
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Enter your age")
+                    .modifier(CustomText(size: 14, font: .medium))
+                
+                TextField("Age", text: $age)
+                    .padding()
+                    .background(Color.BTLightGray)
+                    .cornerRadius(16)
+                    .keyboardType(.numberPad)
+                    .overlay(content: { RoundedRectangle(cornerRadius: 14).stroke(Color.BTDarkGray, lineWidth: 2) })
+            }
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Enter your e-mail")
@@ -51,8 +88,11 @@ struct SignUpScreen: View {
             VStack(alignment: .center) {
                 ActionButtons(title: "Sign Up", action: {
                     Task {
-                        try await quizStore.supabase.signIn(email: email, password: password) { succsess in
-                            router.navigateToRoot()
+                        do {
+                            try await quizStore.supabase.signUp(email: email, password: password, firstName: firstName, lastName: lastName, age: age)
+                            welcomeText = "Signup successful!"
+                        } catch {
+                            welcomeText = "Error signing up - \(error.localizedDescription)"
                         }
                     }
                 })
@@ -70,7 +110,10 @@ struct SignUpScreen: View {
 }
 
 #Preview {
+    let quizStore = QuizStore(supabase: Supabase())
     NavigationStack {
         SignUpScreen()
     }
+    .environment(quizStore)
+    .environmentObject(Router())
 }

@@ -244,9 +244,19 @@ extension Supabase {
     
     
     // EMAIL && Password
-    func signUp(email: String, password: String) async throws {
-        
-        try await supabase.auth.signUp(email: email, password: password)
+    func signUp(email: String, password: String, firstName: String = "", lastName: String = "", age: String) async throws {
+        let userName = "\(firstName) \(lastName)".capitalized
+        let userAge = Int(age) ?? 0
+        try await supabase.auth.signUp(
+            email: email,
+            password: password,
+            data: [
+                "first_name": .string(firstName),
+                "last_name": .string(lastName),
+                "user_name": .string(userName),
+                "age": .integer(userAge),
+            ]
+        )
     }
     
     func signIn(email: String, password: String, callBack: @escaping (Bool) -> Void) async throws {
