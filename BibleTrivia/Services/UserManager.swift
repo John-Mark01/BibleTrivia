@@ -22,11 +22,11 @@ import Foundation
         
         
         //Check the user in to update his streak
-        do {
-            let userStreak = try await streakManager.checkIn(userId: user.id!)
-            user.streek = userStreak.currentStreak
-        } catch {
-            
-        }
+//        do {
+//            let userStreak = try await streakManager.checkIn(userId: user.id!)
+//            user.streek = userStreak.currentStreak
+//        } catch {
+//            
+//        }
     }
 }

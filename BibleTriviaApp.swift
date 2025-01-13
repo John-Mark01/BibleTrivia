@@ -68,7 +68,10 @@ struct BibleTriviaApp: App {
                 do {
                     let
                     _ = try await authManager.supabase.auth.session
+                    // streaks managing
                     await userManager.setupUser()
+                    // get initial data
+                    try await quizStore.loadInitialData()
                     signInStatus = .signedIn
                 } catch let error as AuthError {
                     print (error)

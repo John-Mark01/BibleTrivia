@@ -35,23 +35,16 @@ struct SplashScreen: View {
                         self.size = 1.2
                         self.opacity = 1.0
                     }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        withAnimation {
+                            isActive = true
+                        }
+                    }
                 }
                 
             }
             .ignoresSafeArea(.all)
-            .task {
-                do {
-                    try await quizStore.loadInitialData(limit: 30) {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            withAnimation {
-                                isActive = true
-                            }
-                        }
-                    }
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
         }
     }
 }

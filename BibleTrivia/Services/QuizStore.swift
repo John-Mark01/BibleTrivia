@@ -233,7 +233,7 @@ extension QuizStore {
 extension QuizStore {
     
     // Fetching all of the Topics, Quizzez, Questions and Answers from the database
-    func loadInitialData(limit: Int? = nil, finished: @escaping () -> Void) async throws {
+    func loadInitialData(limit: Int? = nil) async throws {
         // Start fetches concurrently with parameters
         do {
             async let topicsTask = supabase.getTopics(limit: limit)
@@ -265,7 +265,6 @@ extension QuizStore {
             print(error.localizedDescription)
             self.showAlert(alertTtitle: "Error", message: "Unexpected error...", buttonTitle: "Dismiss")
         }
-        finished()
     }
     
     func getQuizzezOnly(limit: Int? = nil, offset: Int = 0) async throws {
