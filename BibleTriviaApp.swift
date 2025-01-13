@@ -6,20 +6,41 @@
 //
 
 import SwiftUI
+import Auth
 
 @main
 struct BibleTriviaApp: App {
     @ObservedObject var router = Router()
     @State private var quizStore = QuizStore(supabase: Supabase())
+    @State private var signInStatus: SignInStatus = .idle
+    let userManager = UserManager()
+    let authManager = AuthManager()
+    let streakManager = StreakManager()
+    let userDefaults = UserDefaults.standard
+    
     var body: some Scene {
-        
         WindowGroup {
             NavigationStack(path: $router.path) {
                 RouterView {
-                    SplashScreen()
+                    Group {
+                        switch signInStatus {
+                        case .idle:
+                            ProgressView("Loading...")
+                        case .signedIn:
+                            HomeViewTabBar()
+                        case .notSignedIn:
+                            if userDefaults.bool(forKey: "activeUser") {
+                                SignInScreen()
+                            } else {
+                                SignUpScreen()
+                            }
+                        }
+                    }
                 }
             }
             .environment(quizStore)
+            .environment(userManager)
+            .environment(authManager)
             .environment(\.userName, "John-Mark")
             .environmentObject(router)
             .tint(Color.BTBlack)
@@ -31,6 +52,44 @@ struct BibleTriviaApp: App {
                     AlertDialog(isPresented: $quizStore.showAlert, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.navigateToRoot() })
                 }
             }
+            .task {
+                do {
+                    try await listenAuthEvents()
+                } catch {
+                    quizStore.showAlert(message: "Your session expired. Please sign in again", buttonTitle: "Okay")
+                }
+            }
         }
+    }
+    
+    private func listenAuthEvents() async throws {
+        for await (event, _) in authManager.supabase.auth.authStateChanges {
+            if case .initialSession = event {
+                do {
+                    let
+                    _ = try await authManager.supabase.auth.session
+                    await userManager.setupUser()
+                    signInStatus = .signedIn
+                } catch let error as AuthError {
+                    print (error)
+                    signInStatus = .notSignedIn
+                } catch {
+                    print(error.localizedDescription)
+                    signInStatus = .notSignedIn
+                }
+            } else if case .signedIn = event {
+                await userManager.setupUser()
+                signInStatus = .signedIn
+            }  else if case .signedOut = event {
+                signInStatus = .notSignedIn
+                router.navigateToRoot()
+            }
+        }
+    }
+    
+    private enum SignInStatus {
+        case idle
+        case signedIn
+        case notSignedIn
     }
 }

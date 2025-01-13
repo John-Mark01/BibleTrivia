@@ -71,16 +71,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "396DDFFA-AC35-4077-BBB8-6A1D91997F10"
+            uuid = "3558345B-AB1E-4904-A77B-4A58BE6125F6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BibleTrivia/Services/Supabase.swift"
+            filePath = "BibleTrivia/Services/StreakManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "parseTopics(_:)"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "checkIn(userId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "51D3CB1A-EE0D-4D17-99E0-3FC723F2AFA6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BibleTrivia/Services/StreakManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "checkIn(userId:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

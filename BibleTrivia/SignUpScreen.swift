@@ -10,6 +10,8 @@ import SwiftUI
 struct SignUpScreen: View {
     @EnvironmentObject var router: Router
     @Environment(QuizStore.self) var quizStore
+    @Environment(AuthManager.self) var authManager
+    
     @State private var welcomeText: String = "Welcome to BibleTrivia!"
     @State private var firstName: String = "Alya"
     @State private var lastName: String = "Bao Bao"
@@ -89,7 +91,7 @@ struct SignUpScreen: View {
                 ActionButtons(title: "Sign Up", action: {
                     Task {
                         do {
-                            try await quizStore.supabase.signUp(email: email, password: password, firstName: firstName, lastName: lastName, age: age)
+                            try await authManager.signUp(email: email, password: password, firstName: firstName, lastName: lastName, age: age)
                             welcomeText = "Signup successful!"
                         } catch {
                             welcomeText = "Error signing up - \(error.localizedDescription)"
@@ -111,9 +113,51 @@ struct SignUpScreen: View {
 
 #Preview {
     let quizStore = QuizStore(supabase: Supabase())
+    let auth = AuthManager()
     NavigationStack {
         SignUpScreen()
     }
     .environment(quizStore)
+    .environment(auth)
     .environmentObject(Router())
+}
+struct BTTextField: View {
+    @State var text: String = ""
+    
+    var isSecure: Bool = false
+    @State private var offset: CGFloat = 35
+    @State private var isTapped: Bool = false
+    
+    var body: some View {
+            
+            if isSecure {
+                SecureField("", text: $text)
+            } else {
+                VStack(alignment: .leading, spacing: 16) {
+                    
+                    Text("Password")
+                        .modifier(CustomText(size: 18, font: .regular))
+                        .padding()
+                        .offset(y: offset)
+                    
+                    TextField("", text: $text)
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .frame(height: 48)
+                                .foregroundStyle(Color.BTStroke)
+                        )
+                }
+                .onTapGesture {
+                    withAnimation {
+                        self.offset = -5
+                    }
+                }
+            }
+        }
+}
+
+#Preview("Text Field") {
+    BTTextField()
+        .padding()
 }

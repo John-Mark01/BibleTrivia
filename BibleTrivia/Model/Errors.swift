@@ -11,7 +11,7 @@ import Foundation
 @Observable
 class Errors {
     
-    enum SupabaseError: Error {
+    enum BTError: Error {
         // Fetching - C
         case networkError(String)
         case invalidResponse(String)
@@ -30,6 +30,5 @@ class Errors {
         
         //General
         case unknownError(String)
-        
     }
 }

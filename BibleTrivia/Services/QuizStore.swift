@@ -178,7 +178,7 @@ import SwiftUI
     }
     
     //MARK: Helpers
-    func showAlert(customError: Errors.SupabaseError? = nil,
+    func showAlert(customError: Errors.BTError? = nil,
                    alertTtitle: String = "Error",
                    message: String = "",
                    buttonTitle: String) {
@@ -258,7 +258,7 @@ extension QuizStore {
                 self.allQuizez = quizzes
             }
             
-        } catch let error as Errors.SupabaseError {
+        } catch let error as Errors.BTError {
             print("Error in QuizStore.loadInitalData:\n\(error)")
             self.showAlert(customError: error, buttonTitle: "Dismiss")
         } catch {
@@ -284,7 +284,7 @@ extension QuizStore {
                 }
             }
             
-        } catch let error as Errors.SupabaseError {
+        } catch let error as Errors.BTError {
             LoadingManager.shared.hide()
             self.showAlert(customError: error, buttonTitle: "Dismiss")
         } catch {
@@ -319,10 +319,10 @@ extension QuizStore {
             
             return quizzes
             
-        } catch _ as Errors.SupabaseError {
-            throw Errors.SupabaseError.parseError("Couldn't get quizzes")
+        } catch _ as Errors.BTError {
+            throw Errors.BTError.parseError("Couldn't get quizzes")
         } catch {
-            throw Errors.SupabaseError.unknownError("Unknown error. Please contact us.")
+            throw Errors.BTError.unknownError("Unknown error. Please contact us.")
         }
     }
     private func fillQuizData(quizId: Int) async throws -> [Question] {
@@ -344,7 +344,7 @@ extension QuizStore {
             
             return questionsWithAnswers
         } catch {
-            throw Errors.SupabaseError.parseError("Couldn't fetch Quiz data. Please try again later.")
+            throw Errors.BTError.parseError("Couldn't fetch Quiz data. Please try again later.")
         }
     }
     

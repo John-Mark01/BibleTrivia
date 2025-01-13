@@ -70,7 +70,7 @@ extension Supabase {
                 return []
             }
         default:
-            throw Errors.SupabaseError.networkError("Network Error. Please try again later.")
+            throw Errors.BTError.networkError("Network Error. Please try again later.")
         }
     }
     
@@ -87,7 +87,7 @@ extension Supabase {
             return topics
         } catch {
             print("Error decoding quizzes: \(error)")
-            throw Errors.SupabaseError.parseError("Error getting topics. Please try again later.")
+            throw Errors.BTError.parseError("Error getting topics. Please try again later.")
         }
     }
     
@@ -130,7 +130,7 @@ extension Supabase {
             return quizzes
         } catch {
             print("Error decoding quizzes: \(error)")
-            throw Errors.SupabaseError.parseError("Error getting quiz. Please try again later.")
+            throw Errors.BTError.parseError("Error getting quiz. Please try again later.")
         }
     }
     
@@ -163,7 +163,7 @@ extension Supabase {
             let questions = try parseVoidResponse(response, for: .question) as? [Question]
             return questions ?? []
         } catch {
-            throw Errors.SupabaseError.parseError("Error getting question for quiz. Please contact us.")
+            throw Errors.BTError.parseError("Error getting question for quiz. Please contact us.")
         }
     }
     
@@ -180,7 +180,7 @@ extension Supabase {
             return questions
         } catch {
             print("Error decoding quizzes: \(error)")
-            throw Errors.SupabaseError.parseError("Error getting questions for quiz. Please try again later.")
+            throw Errors.BTError.parseError("Error getting questions for quiz. Please try again later.")
         }
     }
     
@@ -222,7 +222,7 @@ extension Supabase {
             return answers
         } catch let error {
             print("Error decoding answers: \(error)")
-            throw Errors.SupabaseError.parseError("Coudn't get answers for Quiz. Please Try again later.")
+            throw Errors.BTError.parseError("Coudn't get answers for Quiz. Please Try again later.")
         }
     }
     
@@ -230,45 +230,6 @@ extension Supabase {
         return Answer(id: payload.id, text: payload.text, questionId: payload.questionId, isCorrect: payload.isCorrect)
     }
     
-}
-
-
-//MARK: Authentication
-
-extension Supabase {
-    
-    enum AuthAction: String, CaseIterable {
-        case signUp = "Sign Up"
-        case signIn = "Sign In"
-    }
-    
-    
-    // EMAIL && Password
-    func signUp(email: String, password: String, firstName: String = "", lastName: String = "", age: String) async throws {
-        let userName = "\(firstName) \(lastName)".capitalized
-        let userAge = Int(age) ?? 0
-        try await supabase.auth.signUp(
-            email: email,
-            password: password,
-            data: [
-                "first_name": .string(firstName),
-                "last_name": .string(lastName),
-                "user_name": .string(userName),
-                "age": .integer(userAge),
-            ]
-        )
-    }
-    
-    func signIn(email: String, password: String, callBack: @escaping (Bool) -> Void) async throws {
-        do {
-            try await supabase.auth.signIn(email: email, password: password)
-            print("Succsessfull sign in - \(email)")
-            callBack(true)
-        }
-        catch {
-            print("Coudnt sign in")
-        }
-    }
 }
 
 extension Supabase {
