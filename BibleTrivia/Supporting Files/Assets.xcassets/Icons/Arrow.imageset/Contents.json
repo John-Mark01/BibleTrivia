@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "Arrow_right.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "Arrow.svg",
       "idiom" : "universal"
     }
@@ -8,5 +18,8 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }

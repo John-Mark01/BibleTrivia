@@ -34,35 +34,34 @@ struct CircularProgressView: View {
 }
 
 struct LinearProgressView: View {
-    @State private var containerWidth: CGFloat = 0
-    
+    // Remove @State containerWidth as we'll use GeometryReader differently
+    var height: CGFloat = 20
     var progress: Int = 0
     var goal: Int = 0
     var showPercentage: Bool = true
     var fillColor: Color = Color.BTPrimary
+    var backgroundColor: Color = .BTLightGray
     var backgroundOpacity: Double = 1.0
+    var strokeColor: Color = .BTBlack
+    var strokeSize: CGFloat = 1
     
-    var maxWidth: Double {
-        return min((containerWidth / CGFloat(goal) * CGFloat(progress)), containerWidth)
+    private func calculateWidth(totalWidth: CGFloat) -> CGFloat {
+        return min((totalWidth / CGFloat(goal) * CGFloat(progress)), totalWidth)
     }
     
-     var body: some View {
-     
-        VStack {
+    var body: some View {
+        GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                GeometryReader { geo in
-                    
-                    RoundedRectangle(cornerRadius: 60)
-                        .foregroundStyle(Color.BTLightGray.opacity(backgroundOpacity))
-                        .onAppear {
-                            containerWidth = geo.size.width
-                        }
-                        
-                }
+                // Background
+                RoundedRectangle(cornerRadius: 60)
+                    .foregroundStyle(backgroundColor.opacity(backgroundOpacity))
+                    .frame(width: geometry.size.width, height: height)
+                
+                // Progress
                 ZStack(alignment: .trailing) {
                     RoundedRectangle(cornerRadius: 60)
-                        .stroke(Color.BTBlack, lineWidth: 1.5)
-                        
+                        .stroke(strokeColor, lineWidth: strokeSize)
+                    
                     RoundedRectangle(cornerRadius: 60)
                         .fill(fillColor)
                     
@@ -73,18 +72,15 @@ struct LinearProgressView: View {
                             .modifier(CustomText(size: 15, font: .medium))
                             .background(
                                 RoundedRectangle(cornerRadius: 60)
-                                    .stroke(Color.BTBlack, lineWidth: 1)
+                                    .stroke(Color.BTBlack, lineWidth: 2)
                                     .fill(Color.BTDarkGray)
                             )
                     }
                 }
-                .padding(2)
-                .frame(minWidth: maxWidth)
-                .fixedSize()
+                .frame(width: calculateWidth(totalWidth: geometry.size.width), height: height)
             }
-            .fixedSize(horizontal: false, vertical: true)
-
         }
+        .frame(height: height)
     }
 }
 struct SimpleLinearProgressView: View {

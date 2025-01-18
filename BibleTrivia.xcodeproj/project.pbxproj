@@ -22,6 +22,14 @@
 		36B5A75A2D2B16700021F21C /* StreakManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A7592D2B16700021F21C /* StreakManager.swift */; };
 		36B5A75C2D32EEF40021F21C /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A75B2D32EEF40021F21C /* UserManager.swift */; };
 		36B5A75E2D35B1270021F21C /* SignInScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A75D2D35B1270021F21C /* SignInScreen.swift */; };
+		36B5D5F22D3C0E6400D5E732 /* OnboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5F12D3C0E6400D5E732 /* OnboardButton.swift */; };
+		36B5D5F42D3C153C00D5E732 /* OnboardingComponentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5F32D3C153C00D5E732 /* OnboardingComponentsView.swift */; };
+		36B5D5F62D3C177200D5E732 /* ProviderLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5F52D3C177200D5E732 /* ProviderLoginButton.swift */; };
+		36B5D5F82D3C218400D5E732 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5F72D3C218400D5E732 /* Provider.swift */; };
+		36B5D5FC2D3C2E5F00D5E732 /* OnboardingProcessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5FB2D3C2E5F00D5E732 /* OnboardingProcessView.swift */; };
+		36B5D5FE2D3C2F4300D5E732 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5FD2D3C2F4300D5E732 /* AvatarView.swift */; };
+		36B5D6002D3C2FC700D5E732 /* BTTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5FF2D3C2FC700D5E732 /* BTTextField.swift */; };
+		36B5D6022D3C327000D5E732 /* ProgressTimerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D6012D3C327000D5E732 /* ProgressTimerButton.swift */; };
 		36E0A5E92D1C47C5006AEC4F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A52D1C47C5006AEC4F /* Answer.swift */; };
 		36E0A5EA2D1C47C5006AEC4F /* DifficultyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */; };
 		36E0A5EB2D1C47C5006AEC4F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A72D1C47C5006AEC4F /* Question.swift */; };
@@ -86,6 +94,14 @@
 		36B5A7592D2B16700021F21C /* StreakManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakManager.swift; sourceTree = "<group>"; };
 		36B5A75B2D32EEF40021F21C /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		36B5A75D2D35B1270021F21C /* SignInScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInScreen.swift; sourceTree = "<group>"; };
+		36B5D5F12D3C0E6400D5E732 /* OnboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardButton.swift; sourceTree = "<group>"; };
+		36B5D5F32D3C153C00D5E732 /* OnboardingComponentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingComponentsView.swift; sourceTree = "<group>"; };
+		36B5D5F52D3C177200D5E732 /* ProviderLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderLoginButton.swift; sourceTree = "<group>"; };
+		36B5D5F72D3C218400D5E732 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		36B5D5FB2D3C2E5F00D5E732 /* OnboardingProcessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProcessView.swift; sourceTree = "<group>"; };
+		36B5D5FD2D3C2F4300D5E732 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		36B5D5FF2D3C2FC700D5E732 /* BTTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTTextField.swift; sourceTree = "<group>"; };
+		36B5D6012D3C327000D5E732 /* ProgressTimerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTimerButton.swift; sourceTree = "<group>"; };
 		36E0A5A52D1C47C5006AEC4F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyLevel.swift; sourceTree = "<group>"; };
 		36E0A5A72D1C47C5006AEC4F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
@@ -194,6 +210,28 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		36B5D5EF2D3C0D7D00D5E732 /* Onboarding  */ = {
+			isa = PBXGroup;
+			children = (
+				36B5D5F02D3C0D8900D5E732 /* Componnents */,
+			);
+			path = "Onboarding ";
+			sourceTree = "<group>";
+		};
+		36B5D5F02D3C0D8900D5E732 /* Componnents */ = {
+			isa = PBXGroup;
+			children = (
+				36B5D5F12D3C0E6400D5E732 /* OnboardButton.swift */,
+				36B5D5F32D3C153C00D5E732 /* OnboardingComponentsView.swift */,
+				36B5D5F52D3C177200D5E732 /* ProviderLoginButton.swift */,
+				36B5D5FB2D3C2E5F00D5E732 /* OnboardingProcessView.swift */,
+				36B5D5FD2D3C2F4300D5E732 /* AvatarView.swift */,
+				36B5D5FF2D3C2FC700D5E732 /* BTTextField.swift */,
+				36B5D6012D3C327000D5E732 /* ProgressTimerButton.swift */,
+			);
+			path = Componnents;
+			sourceTree = "<group>";
+		};
 		36E0A5AC2D1C47C5006AEC4F /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +242,7 @@
 				36E0A5A92D1C47C5006AEC4F /* SectionModel.swift */,
 				36B5A74D2D2984F10021F21C /* Errors.swift */,
 				36E0A5AA2D1C47C5006AEC4F /* Topic.swift */,
+				36B5D5F72D3C218400D5E732 /* Provider.swift */,
 				36B5A7582D2B14B00021F21C /* User */,
 			);
 			path = Model;
@@ -365,6 +404,7 @@
 				36E0A5E62D1C47C5006AEC4F /* SignUpScreen.swift */,
 				36B5A75D2D35B1270021F21C /* SignInScreen.swift */,
 				36E0A5E72D1C47C5006AEC4F /* SplashScreen.swift */,
+				36B5D5EF2D3C0D7D00D5E732 /* Onboarding  */,
 			);
 			path = BibleTrivia;
 			sourceTree = "<group>";
@@ -472,6 +512,7 @@
 				36E0A5F42D1C47C5006AEC4F /* Color.swift in Sources */,
 				36E0A5F52D1C47C5006AEC4F /* Constants.swift in Sources */,
 				36E0A5F62D1C47C5006AEC4F /* CustomText.swift in Sources */,
+				36B5D5F42D3C153C00D5E732 /* OnboardingComponentsView.swift in Sources */,
 				36E0A5F72D1C47C5006AEC4F /* DummySVM.swift in Sources */,
 				36E0A5F92D1C47C5006AEC4F /* ActionButtons.swift in Sources */,
 				36B5A75C2D32EEF40021F21C /* UserManager.swift in Sources */,
@@ -482,6 +523,7 @@
 				36E0A5FD2D1C47C5006AEC4F /* UserAccountCard.swift in Sources */,
 				36E0A5FE2D1C47C5006AEC4F /* AccountView.swift in Sources */,
 				36E0A5FF2D1C47C5006AEC4F /* MyProgressView.swift in Sources */,
+				36B5D5F62D3C177200D5E732 /* ProviderLoginButton.swift in Sources */,
 				36E0A6002D1C47C5006AEC4F /* HomeView.swift in Sources */,
 				36E0A6012D1C47C5006AEC4F /* HomeViewTabBar.swift in Sources */,
 				36E0A6022D1C47C5006AEC4F /* PlayView.swift in Sources */,
@@ -490,6 +532,7 @@
 				36E0A6052D1C47C5006AEC4F /* ChooseQuizModal.swift in Sources */,
 				36A591FB2D1EBE5900972BA2 /* LoadingManager.swift in Sources */,
 				36E0A6062D1C47C5006AEC4F /* ChooseTopicModal.swift in Sources */,
+				36B5D5F22D3C0E6400D5E732 /* OnboardButton.swift in Sources */,
 				36E0A6072D1C47C5006AEC4F /* FinishedQuizModal.swift in Sources */,
 				36E0A6082D1C47C5006AEC4F /* QuizCard.swift in Sources */,
 				36E0A6092D1C47C5006AEC4F /* QuizUpdateView.swift in Sources */,
@@ -497,15 +540,20 @@
 				36E0A60B2D1C47C5006AEC4F /* TopicCard.swift in Sources */,
 				36E0A60C2D1C47C5006AEC4F /* TopicsViewRow.swift in Sources */,
 				36E0A60D2D1C47C5006AEC4F /* AllTopicsView.swift in Sources */,
+				36B5D5F82D3C218400D5E732 /* Provider.swift in Sources */,
 				36B5A74E2D2984F10021F21C /* Errors.swift in Sources */,
 				36E0A60E2D1C47C5006AEC4F /* AnswerViewRow.swift in Sources */,
 				36B5A75A2D2B16700021F21C /* StreakManager.swift in Sources */,
+				36B5D6022D3C327000D5E732 /* ProgressTimerButton.swift in Sources */,
+				36B5D5FE2D3C2F4300D5E732 /* AvatarView.swift in Sources */,
 				36E0A60F2D1C47C5006AEC4F /* FindQuizViewRow.swift in Sources */,
 				36E0A6102D1C47C5006AEC4F /* QuizRectangleView.swift in Sources */,
 				36E0A6112D1C47C5006AEC4F /* QuizSquareView.swift in Sources */,
 				36E0A6122D1C47C5006AEC4F /* UnfinishedQuizesViewRow.swift in Sources */,
 				36E0A6132D1C47C5006AEC4F /* EnvironmentValues.swift in Sources */,
 				36E0A6142D1C47C5006AEC4F /* Router.swift in Sources */,
+				36B5D5FC2D3C2E5F00D5E732 /* OnboardingProcessView.swift in Sources */,
+				36B5D6002D3C2FC700D5E732 /* BTTextField.swift in Sources */,
 				36E0A6152D1C47C5006AEC4F /* RouterView.swift in Sources */,
 				36E0A6162D1C47C5006AEC4F /* Secrets.swift in Sources */,
 				36E0A6172D1C47C5006AEC4F /* SignUpScreen.swift in Sources */,

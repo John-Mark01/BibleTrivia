@@ -20,22 +20,23 @@ struct BibleTriviaApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $router.path) {
-                RouterView {
-                    Group {
-                        switch signInStatus {
-                        case .idle:
-                            ProgressView("Loading...")
-                        case .signedIn:
-                            HomeViewTabBar()
-                        case .notSignedIn:
-                            if userDefaults.bool(forKey: "activeUser") {
-                                SignInScreen()
-                            } else {
-                                SignUpScreen()
-                            }
-                        }
-                    }
-                }
+                OnboardingComponentsView()
+//                RouterView {
+//                    Group {
+//                        switch signInStatus {
+//                        case .idle:
+//                            ProgressView("Loading...")
+//                        case .signedIn:
+//                            HomeViewTabBar()
+//                        case .notSignedIn:
+//                            if userDefaults.bool(forKey: "activeUser") {
+//                                SignInScreen()
+//                            } else {
+//                                SignUpScreen()
+//                            }
+//                        }
+//                    }
+//                }
             }
             .environment(quizStore)
             .environment(userManager)
