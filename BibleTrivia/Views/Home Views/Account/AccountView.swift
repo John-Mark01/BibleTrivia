@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct AccountView: View {
-    
-    @State private var user = UserModel.shared
+    @Environment(UserManager.self) var userManager
     
     @State private var generalSection: [SectionModel] = [
         SectionModel(name: "My Progress", image: "progress"),
@@ -25,12 +24,16 @@ struct AccountView: View {
     var body: some View {
         
         ScrollView {
-            UserAccountCard(user: $user)
+            UserAccountCard(user: userManager.user)
                 .padding(.bottom, 20)
             
             VStack(alignment: .leading, spacing: 16) {
-                BTForm(section: generalSection, sectionName: "General")
-                BTForm(section: moreSection, sectionName: "More")
+                BTForm(section: generalSection, sectionName: "General", action: {})
+                BTForm(section: moreSection, sectionName: "More", action: {
+                    Task {
+                        await userManager.signOut()
+                    }
+                })
             }
         }
         .background(Color.BTBackground)
@@ -49,6 +52,7 @@ struct AccountView: View {
 struct BTForm: View {
     var section: [SectionModel]
     var sectionName: String
+    var action: () -> Void
     var body: some View {
         
         VStack(alignment: .leading) {
@@ -58,7 +62,7 @@ struct BTForm: View {
             VStack {
                 VStack(spacing: 20) {
                     ForEach(section.indices, id: \.self) { index in
-                        BTFormButton(buttonName: section[index].name, imageName: section[index].image, action: {})
+                        BTFormButton(buttonName: section[index].name, imageName: section[index].image, action: action)
                         if index < section.count - 1 {
                             Divider()
                         }

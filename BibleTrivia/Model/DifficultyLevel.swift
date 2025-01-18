@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DifficultyLevel: Int, CaseIterable {
+enum DifficultyLevel: Int, CaseIterable, Codable {
     case newBorn = 0
     case churchVolunteer
     case youthPastor

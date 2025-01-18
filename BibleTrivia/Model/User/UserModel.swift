@@ -7,18 +7,27 @@
 
 import Foundation
 
-@Observable class UserModel {
+struct UserModel: Decodable {
     
-    static var shared = UserModel()
+    var name: String
+    var age: Int
+    var avatarString: String //TODO: Create a enum with assotiated values (AvatarName / StringForImage)
+    var userLevel: UserLevel
+    var completedQuizzes: [Quiz]
+    var totalPoints: Int
+    var streek: Int
+    var userPlan: UserPlan
     
-    var name: String = "John-Mark Iliev"
-    var age: Int = 0
-    var avatarString: String = "Avatars/jacob" //TODO: Create a enum with assotiated values (AvatarName / StringForImage)
-    var userLevel: UserLevel = .newBorn
-    var completedQuizzes: [Quiz] = []
-    var totalPoints: Int = 300
-    var streek: Int = 12
-    var userPlan: UserPlan = .free
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case age
+        case userLevel = "user_level"
+        case avatarString = "avatar_string"
+        case completedQuizzes = "completed_quizzes"
+        case totalPoints = "total_points"
+        case streek
+        case userPlan = "user_plan"
+    }
     
     var nextLevel: UserLevel {
         switch userLevel {
@@ -29,12 +38,7 @@ import Foundation
         case .seniorPastor: return .seniorPastor
         }
     }
-    
-    
-    init(name: String, userLevel: UserLevel) {
-        self.name = name
-        self.userLevel = userLevel
-    }
+
     
     init(name: String, age: Int, avatarString: String, userLevel: UserLevel, completedQuizzes: [Quiz], points: Int, streek: Int, userPlan: UserPlan) {
         self.name = name
@@ -44,12 +48,13 @@ import Foundation
         self.completedQuizzes = completedQuizzes
         self.totalPoints = points
         self.streek = streek
+        self.userPlan = userPlan
     }
-    init() {}
+    
 }
 
 
-enum UserLevel: Int {
+enum UserLevel: Int, Codable {
     case newBorn         = 0
     case churchVolunteer = 500
     case youthPastor     = 1200
@@ -72,7 +77,7 @@ enum UserLevel: Int {
     }
 }
 
-enum UserPlan: Int {
+enum UserPlan: Int, Codable {
     case free
     case standard
     case premium

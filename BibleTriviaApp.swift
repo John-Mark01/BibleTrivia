@@ -14,7 +14,6 @@ struct BibleTriviaApp: App {
     @State private var quizStore = QuizStore(supabase: Supabase())
     @State private var signInStatus: SignInStatus = .idle
     let userManager = UserManager()
-    let authManager = AuthManager()
     let streakManager = StreakManager()
     let userDefaults = UserDefaults.standard
     
@@ -40,7 +39,6 @@ struct BibleTriviaApp: App {
             }
             .environment(quizStore)
             .environment(userManager)
-            .environment(authManager)
             .environment(\.userName, "John-Mark")
             .environmentObject(router)
             .tint(Color.BTBlack)
@@ -63,13 +61,14 @@ struct BibleTriviaApp: App {
     }
     
     private func listenAuthEvents() async throws {
-        for await (event, _) in authManager.supabase.auth.authStateChanges {
+        
+        for await (event, _) in userManager.supabase.auth.authStateChanges {
             if case .initialSession = event {
                 do {
                     let
-                    _ = try await authManager.supabase.auth.session
+                    _ = try await userManager.supabase.auth.session
                     // streaks managing
-                    await userManager.setupUser()
+                    await userManager.downloadUserData()
                     // get initial data
                     try await quizStore.loadInitialData()
                     signInStatus = .signedIn
@@ -81,7 +80,7 @@ struct BibleTriviaApp: App {
                     signInStatus = .notSignedIn
                 }
             } else if case .signedIn = event {
-                await userManager.setupUser()
+                await userManager.downloadUserData()
                 signInStatus = .signedIn
             }  else if case .signedOut = event {
                 signInStatus = .notSignedIn

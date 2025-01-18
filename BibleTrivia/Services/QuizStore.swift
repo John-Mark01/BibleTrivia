@@ -131,18 +131,18 @@ import SwiftUI
             self.chosenQuiz?.currentQuestionIndex += 1
         }
     }
-    
-    func finishQuiz() {
-        if let quiz = self.chosenQuiz {
-            quiz.isFinished = true
-            // Adds the finished Quiz to the User's Quizzez
-            if !UserModel.shared.completedQuizzes.contains(where: { $0.id == quiz.id }) {
-                UserModel.shared.completedQuizzes.append(quiz)
-            }
-        }
-        
-        print("Total Completed Quizzes: \(UserModel.shared.completedQuizzes.count)")
-    }
+    //TODO: NEed another way to finish quiz
+//    func finishQuiz() {
+//        if let quiz = self.chosenQuiz {
+//            quiz.isFinished = true
+//            // Adds the finished Quiz to the User's Quizzez
+//            if !UserModel.shared.completedQuizzes.contains(where: { $0.id == quiz.id }) {
+//                UserModel.shared.completedQuizzes.append(quiz)
+//            }
+//        }
+//        
+//        print("Total Completed Quizzes: \(UserModel.shared.completedQuizzes.count)")
+//    }
     //MARK: Quiz Review after finishing the quiz
     func checkAnswerToTheLeft(error: @escaping (Bool) -> Void) {
         guard let chosenQuiz else {return}

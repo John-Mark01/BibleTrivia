@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct MyProgressView: View {
-    @State private var user = UserModel.shared
+    @Environment(UserManager.self) var userManager
     var body: some View {
         ScrollView {
             
             VStack {
-                UserAccountCard(user: $user, viewUse: .myProgress)
+                UserAccountCard(user: userManager.user, viewUse: .myProgress)
                     .frame(height: 50)
                 
             }

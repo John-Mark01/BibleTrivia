@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Question: Equatable {
+struct Question: Equatable, Codable {
     
     var id: Int = 0
     var text: String = ""

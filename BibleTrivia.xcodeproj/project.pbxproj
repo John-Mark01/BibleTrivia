@@ -19,6 +19,7 @@
 		36B5A74E2D2984F10021F21C /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A74D2D2984F10021F21C /* Errors.swift */; };
 		36B5A7552D2B01DE0021F21C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A7542D2B01DE0021F21C /* AuthManager.swift */; };
 		36B5A7572D2B14290021F21C /* UserStreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A7562D2B14290021F21C /* UserStreak.swift */; };
+		36B5A75A2D2B16700021F21C /* StreakManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A7592D2B16700021F21C /* StreakManager.swift */; };
 		36B5A75C2D32EEF40021F21C /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A75B2D32EEF40021F21C /* UserManager.swift */; };
 		36B5A75E2D35B1270021F21C /* SignInScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A75D2D35B1270021F21C /* SignInScreen.swift */; };
 		36E0A5E92D1C47C5006AEC4F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A52D1C47C5006AEC4F /* Answer.swift */; };
@@ -82,6 +83,7 @@
 		36B5A74D2D2984F10021F21C /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		36B5A7542D2B01DE0021F21C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		36B5A7562D2B14290021F21C /* UserStreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStreak.swift; sourceTree = "<group>"; };
+		36B5A7592D2B16700021F21C /* StreakManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakManager.swift; sourceTree = "<group>"; };
 		36B5A75B2D32EEF40021F21C /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		36B5A75D2D35B1270021F21C /* SignInScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInScreen.swift; sourceTree = "<group>"; };
 		36E0A5A52D1C47C5006AEC4F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };

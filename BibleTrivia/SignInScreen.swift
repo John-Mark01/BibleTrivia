@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignInScreen: View {
     @EnvironmentObject var router: Router
-    @Environment(AuthManager.self) var authManager
+    @Environment(UserManager.self) var userManager
     
     @State private var email: String = "alya@baobao.com"
     @State private var password: String = "password"
@@ -52,8 +52,8 @@ struct SignInScreen: View {
                 ActionButtons(title: "Sign In", action: {
                     Task {
                         do {
-                            try await authManager.signIn(email: email, password: password) { succsess in
-                                if succsess { router.navigate(to: .home) }
+                            try await userManager.signIn(email: email, password: password) { succsess in
+                                if succsess {print("succsess") }
                             }
                             welcomeText = "SignIn successful!"
                         } catch {
@@ -79,6 +79,6 @@ struct SignInScreen: View {
     NavigationStack {
         SignInScreen()
     }
-    .environment(AuthManager())
+    .environment(UserManager())
     .environmentObject(Router())
 }

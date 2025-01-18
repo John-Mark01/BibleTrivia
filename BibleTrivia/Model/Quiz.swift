@@ -7,7 +7,7 @@
 
 import Foundation
 
-@Observable class Quiz: Identifiable {
+@Observable class Quiz: Identifiable, Codable {
     var id: Int = 0
     var topicId: Int = 0
     var name: String
@@ -96,7 +96,7 @@ import Foundation
     }
 }
 
-enum QuizStatus: Int {
+enum QuizStatus: Int, Codable {
     case new = 0
     case started
     case completed

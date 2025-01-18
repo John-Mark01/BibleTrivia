@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UserAccountCard: View {
-    @Binding var user: UserModel
+    var user: UserModel
     var viewUse: UseCase = .account
     var body: some View {
         
@@ -128,11 +128,12 @@ struct UserScoreCard: View {
         
     }
 }
-#Preview("Score Card") {
-    let user = UserModel(name: "John-Mark Iliev", age: 23, avatarString: "Avatars/jacob", userLevel: .youthPastor, completedQuizzes: [], points: 328, streek: 34, userPlan: .free)
-    UserScoreCard(user: user)
-        .padding(30)
-}
+//#Preview("Score Card") {
+//    let userStreak = UserStreak()
+//    let user = UserModel(name: "John-Mark Iliev", age: 23, avatarString: "Avatars/jacob", userLevel: .youthPastor, completedQuizzes: [], points: 328, streek: UserStreak().currentStreak, userPlan: .free)
+//    UserScoreCard(user: user)
+//        .padding(30)
+//}
 //#Preview {
 //    let user = UserModel(name: "John-Mark Iliev", age: 23, avatarString: "Avatars/jacob", userLevel: .youthPastor, completedQuizzes: [], points: 328, streek: 34, userPlan: .free)
 //    UserAccountCard(user: user, viewUse: .myProgress)

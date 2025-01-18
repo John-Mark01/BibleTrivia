@@ -10,7 +10,7 @@ import SwiftUI
 struct SignUpScreen: View {
     @EnvironmentObject var router: Router
     @Environment(QuizStore.self) var quizStore
-    @Environment(AuthManager.self) var authManager
+    @Environment(UserManager.self) var userManager
     
     @State private var welcomeText: String = "Welcome to BibleTrivia!"
     @State private var firstName: String = "Alya"
@@ -91,7 +91,7 @@ struct SignUpScreen: View {
                 ActionButtons(title: "Sign Up", action: {
                     Task {
                         do {
-                            try await authManager.signUp(email: email, password: password, firstName: firstName, lastName: lastName, age: age)
+                            try await userManager.signUp(email: email, password: password, firstName: firstName, lastName: lastName, age: age)
                             welcomeText = "Signup successful!"
                         } catch {
                             welcomeText = "Error signing up - \(error.localizedDescription)"
@@ -113,12 +113,12 @@ struct SignUpScreen: View {
 
 #Preview {
     let quizStore = QuizStore(supabase: Supabase())
-    let auth = AuthManager()
+    let userManager = UserManager()
     NavigationStack {
         SignUpScreen()
     }
     .environment(quizStore)
-    .environment(auth)
+    .environment(userManager)
     .environmentObject(Router())
 }
 struct BTTextField: View {
