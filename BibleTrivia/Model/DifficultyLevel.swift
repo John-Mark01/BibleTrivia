@@ -9,7 +9,7 @@ import Foundation
 
 enum DifficultyLevel: Int, CaseIterable, Codable {
     case newBorn = 0
-    case churchVolunteer
+    case sundaySchool
     case youthPastor
     case deacon
     case seniorPastor
@@ -18,8 +18,8 @@ enum DifficultyLevel: Int, CaseIterable, Codable {
         switch self {
         case .newBorn:
             return "New Born"
-        case .churchVolunteer:
-            return "Church Volunteer"
+        case .sundaySchool:
+            return "sundaySchool"
         case .youthPastor:
             return "Youth Pastor"
         case .deacon:

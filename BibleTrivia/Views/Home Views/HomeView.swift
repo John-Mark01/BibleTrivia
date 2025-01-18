@@ -97,6 +97,7 @@ struct HomeView: View {
                 .padding(.vertical, Constants.vPadding)
                 .navigationTitle("Welcome, \(userName)!")
                 .navigationBarTitleDisplayMode(.large)
+                .navigationBarBackButtonHidden()
                 .background(Color.BTBackground)
                 .blur(radius: openModal ? 3 : 0)
                 .disabled(openModal)

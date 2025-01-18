@@ -30,22 +30,27 @@ class Router: ObservableObject {
         case quizView
         case topics
         case account
+        
         //MARK: Other Views
         // Onboarding
-        
-        // Registration
-        
-        // Login
-        
+        case welcome
+        case login
     }
     
     // View builders for each destination
     @ViewBuilder
     func view(for destination: Destination) -> some View {
         switch destination {
-            //MARK: Main Screens
+            
+            //MARK: Onboarding - Registration & Login
+        case .welcome:
+            WelcomeView()
+        case .login:
+            LoginView()
+            
+            //MARK: TabView Screens
         case .home:
-            HomeView()
+            HomeViewTabBar()
         case .play:
             PlayView()
         case .topics:
@@ -68,6 +73,8 @@ class Router: ObservableObject {
     }
     
     public func navigateBack() {
+        guard path.count > 1 else { return }
+        
         Router.stack.removeLast()
         path.removeLast()
         print("Navigated back. Routes stack: \(Router.stack.count)")
@@ -80,7 +87,7 @@ class Router: ObservableObject {
     
     func navigateAndCalearBackStack(to destination: Destination) {
         if let index = Router.stack.lastIndex(of: destination) {
-            while Router.stack.count != index + 1 {
+            while Router.stack.count != index {
                 Router.stack.removeLast()
                 path.removeLast()
             }
@@ -89,9 +96,11 @@ class Router: ObservableObject {
         } else {
             Router.stack.append(destination)
             path.append(destination)
+            
             print("Navigated to \(destination) and cleared back stack. Routes stack: \(Router.stack.count)")
         }
     }
+    
     private func handleBackNavigation(from oldPath: NavigationPath, to newPath: NavigationPath) {
         let removedCount = oldPath.count - path.count
         Router.stack.removeLast(removedCount)

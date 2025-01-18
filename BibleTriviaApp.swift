@@ -20,23 +20,18 @@ struct BibleTriviaApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $router.path) {
-                OnboardingComponentsView()
-//                RouterView {
-//                    Group {
-//                        switch signInStatus {
-//                        case .idle:
-//                            ProgressView("Loading...")
-//                        case .signedIn:
-//                            HomeViewTabBar()
-//                        case .notSignedIn:
-//                            if userDefaults.bool(forKey: "activeUser") {
-//                                SignInScreen()
-//                            } else {
-//                                SignUpScreen()
-//                            }
-//                        }
-//                    }
-//                }
+                RouterView {
+                    Group {
+                        switch signInStatus {
+                        case .idle:
+                            ProgressView("Loading...")
+                        case .signedIn:
+                            HomeViewTabBar()
+                        case .notSignedIn:
+                            WelcomeView()
+                        }
+                    }
+                }
             }
             .environment(quizStore)
             .environment(userManager)
@@ -94,5 +89,11 @@ struct BibleTriviaApp: App {
         case idle
         case signedIn
         case notSignedIn
+    }
+}
+
+extension View {
+    func dismissKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

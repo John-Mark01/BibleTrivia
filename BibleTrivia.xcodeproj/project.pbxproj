@@ -30,6 +30,9 @@
 		36B5D5FE2D3C2F4300D5E732 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5FD2D3C2F4300D5E732 /* AvatarView.swift */; };
 		36B5D6002D3C2FC700D5E732 /* BTTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5FF2D3C2FC700D5E732 /* BTTextField.swift */; };
 		36B5D6022D3C327000D5E732 /* ProgressTimerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D6012D3C327000D5E732 /* ProgressTimerButton.swift */; };
+		36B5D6042D3C3E5B00D5E732 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D6032D3C3E5B00D5E732 /* WelcomeView.swift */; };
+		36B5D6062D3C410700D5E732 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D6052D3C410700D5E732 /* LoginView.swift */; };
+		36B5D6082D3C472700D5E732 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D6072D3C472700D5E732 /* CustomNavigationBar.swift */; };
 		36E0A5E92D1C47C5006AEC4F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A52D1C47C5006AEC4F /* Answer.swift */; };
 		36E0A5EA2D1C47C5006AEC4F /* DifficultyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */; };
 		36E0A5EB2D1C47C5006AEC4F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A72D1C47C5006AEC4F /* Question.swift */; };
@@ -102,6 +105,9 @@
 		36B5D5FD2D3C2F4300D5E732 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		36B5D5FF2D3C2FC700D5E732 /* BTTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTTextField.swift; sourceTree = "<group>"; };
 		36B5D6012D3C327000D5E732 /* ProgressTimerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTimerButton.swift; sourceTree = "<group>"; };
+		36B5D6032D3C3E5B00D5E732 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		36B5D6052D3C410700D5E732 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		36B5D6072D3C472700D5E732 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		36E0A5A52D1C47C5006AEC4F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyLevel.swift; sourceTree = "<group>"; };
 		36E0A5A72D1C47C5006AEC4F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
@@ -188,6 +194,7 @@
 				36E0A5E32D1C47C5006AEC4F /* Router.swift */,
 				36E0A5E42D1C47C5006AEC4F /* RouterView.swift */,
 				36E0A5E12D1C47C5006AEC4F /* EnvironmentValues.swift */,
+				36B5D6072D3C472700D5E732 /* CustomNavigationBar.swift */,
 				36E0A5E82D1C47C5006AEC4F /* BibleTrivia */,
 				36AC71E12CB57C7B002FF37C /* Products */,
 			);
@@ -214,6 +221,8 @@
 			isa = PBXGroup;
 			children = (
 				36B5D5F02D3C0D8900D5E732 /* Componnents */,
+				36B5D6032D3C3E5B00D5E732 /* WelcomeView.swift */,
+				36B5D6052D3C410700D5E732 /* LoginView.swift */,
 			);
 			path = "Onboarding ";
 			sourceTree = "<group>";
@@ -495,6 +504,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36B5D6082D3C472700D5E732 /* CustomNavigationBar.swift in Sources */,
 				36AC72372CB59358002FF37C /* BibleTriviaApp.swift in Sources */,
 				36E0A5E92D1C47C5006AEC4F /* Answer.swift in Sources */,
 				36E0A5EA2D1C47C5006AEC4F /* DifficultyLevel.swift in Sources */,
@@ -514,9 +524,11 @@
 				36E0A5F62D1C47C5006AEC4F /* CustomText.swift in Sources */,
 				36B5D5F42D3C153C00D5E732 /* OnboardingComponentsView.swift in Sources */,
 				36E0A5F72D1C47C5006AEC4F /* DummySVM.swift in Sources */,
+				36B5D6042D3C3E5B00D5E732 /* WelcomeView.swift in Sources */,
 				36E0A5F92D1C47C5006AEC4F /* ActionButtons.swift in Sources */,
 				36B5A75C2D32EEF40021F21C /* UserManager.swift in Sources */,
 				36E0A5FA2D1C47C5006AEC4F /* ProgressViews.swift in Sources */,
+				36B5D6062D3C410700D5E732 /* LoginView.swift in Sources */,
 				36E0A5FB2D1C47C5006AEC4F /* QuizViewToolbar.swift in Sources */,
 				36B5A7572D2B14290021F21C /* UserStreak.swift in Sources */,
 				36E0A5FC2D1C47C5006AEC4F /* ScoreButton.swift in Sources */,
