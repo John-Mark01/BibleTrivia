@@ -24,7 +24,9 @@ struct LoginView: View {
         Task {
             try? await userManager.signIn(email: email, password: password) { success in
                 if success {
-                    router.navigateToRoot()
+                    DispatchQueue.main.async {
+                        router.navigateBack()
+                    }
                 }
             }
         }

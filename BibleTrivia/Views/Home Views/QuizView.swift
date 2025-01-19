@@ -35,7 +35,7 @@ struct QuizView: View {
                         quizStore.alertMessage = "Do want to quit \(quizStore.chosenQuiz?.name ?? "")?\nYou can still finish your quiz later."
                         quizStore.alertButtonTitle = "Close Quiz"
                     }) {
-                        Image("close")
+                        Image("Close")
                     }
                     .sensoryFeedback(.error, trigger: alertIsPresented)
                 }

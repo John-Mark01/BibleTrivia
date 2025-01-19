@@ -55,5 +55,5 @@ struct WelcomeView: View {
     NavigationStack {
         WelcomeView()
     }
-    .environmentObject(Router.shared)
+    .environmentObject(Router())
 }

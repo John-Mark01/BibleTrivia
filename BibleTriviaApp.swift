@@ -13,6 +13,7 @@ struct BibleTriviaApp: App {
     @ObservedObject var router = Router()
     @State private var quizStore = QuizStore(supabase: Supabase())
     @State private var signInStatus: SignInStatus = .idle
+    @State private var alertManager = AlertManager.shared
     let userManager = UserManager()
     let streakManager = StreakManager()
     let userDefaults = UserDefaults.standard
@@ -35,6 +36,7 @@ struct BibleTriviaApp: App {
             }
             .environment(quizStore)
             .environment(userManager)
+            .environment(alertManager)
             .environment(\.userName, "John-Mark")
             .environmentObject(router)
             .tint(Color.BTBlack)
@@ -42,8 +44,13 @@ struct BibleTriviaApp: App {
                 if LoadingManager.shared.isShowing {
                     LoadingView()
                 }
+                //TODO: Move quizStore error handling into AlertManager
                 if quizStore.showAlert {
                     AlertDialog(isPresented: $quizStore.showAlert, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.navigateToRoot() })
+                }
+                
+                if alertManager.show {
+                    AlertDialog(isPresented: $alertManager.show, title: alertManager.alertTitle, message: alertManager.alertMessage, buttonTitle: alertManager.buttonText, primaryAction: alertManager.primaryAction ?? {})
                 }
             }
             .task {
