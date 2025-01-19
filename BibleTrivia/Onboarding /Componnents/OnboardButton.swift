@@ -14,10 +14,11 @@ struct OnboardButton: View {
     let backgroundColor: Color
     let strokeColor: Color
     let strokeSize: CGFloat
+    var disabled: Bool
     let action: () -> Void
     @State private var isTapped = false
     
-    init(text: String, textColor: Color = .white, textSize: CGFloat = 20, backgroundColor: Color = .BTPrimary, strokeColor: Color = .BTPrimary, strokeSize: CGFloat = 1, action: @escaping () -> Void) {
+    init(text: String, textColor: Color = .white, textSize: CGFloat = 20, backgroundColor: Color = .BTPrimary, strokeColor: Color = .BTPrimary, strokeSize: CGFloat = 1, disabled: Bool = false, action: @escaping () -> Void) {
         self.text = text
         self.textColor = textColor
         self.textSize = textSize
@@ -25,7 +26,7 @@ struct OnboardButton: View {
         self.strokeColor = strokeColor
         self.strokeSize = strokeSize
         self.action = action
-        self.isTapped = isTapped
+        self.disabled = disabled
     }
     
     var body: some View {
@@ -42,7 +43,7 @@ struct OnboardButton: View {
                 .padding(.horizontal, 12)
                 .background(
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(backgroundColor)
+                        .fill(backgroundColor.opacity(disabled ? 0.5 : 1))
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 30)
@@ -50,6 +51,7 @@ struct OnboardButton: View {
                 )
         }
         .sensoryFeedback(.impact(flexibility: .solid, intensity: 100), trigger: isTapped)
+        .disabled(disabled)
     }
 }
 
@@ -59,6 +61,7 @@ struct OnboardButton: View {
                   backgroundColor: .white,
                   strokeColor: .black,
                   strokeSize: 0.7,
+                  disabled: true,
                   action: {print("Onboard button clicked")})
         .padding(.all, 20)
 }

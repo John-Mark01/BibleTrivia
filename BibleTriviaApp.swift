@@ -14,6 +14,7 @@ struct BibleTriviaApp: App {
     @State private var quizStore = QuizStore(supabase: Supabase())
     @State private var signInStatus: SignInStatus = .idle
     @State private var alertManager = AlertManager.shared
+    let onboardingManager = OnboardingManager()
     let userManager = UserManager()
     let streakManager = StreakManager()
     let userDefaults = UserDefaults.standard
@@ -37,6 +38,7 @@ struct BibleTriviaApp: App {
             .environment(quizStore)
             .environment(userManager)
             .environment(alertManager)
+            .environment(onboardingManager)
             .environment(\.userName, "John-Mark")
             .environmentObject(router)
             .tint(Color.BTBlack)

@@ -39,7 +39,7 @@ struct CustomNavigationBar: View {
             // Title
             Text(title)
                 .modifier(CustomText(size: 20, font: .medium))
-                .foregroundColor(.black)
+                .foregroundColor(.BTBlack)
                 .multilineTextAlignment(.leading)
             
             Spacer()

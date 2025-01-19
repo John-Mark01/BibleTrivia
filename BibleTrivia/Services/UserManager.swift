@@ -88,3 +88,7 @@ extension UserManager {
         LoadingManager.shared.hide()
     }
 }
+
+//MARK: Onboarding + Registration Information
+extension UserManager {
+}

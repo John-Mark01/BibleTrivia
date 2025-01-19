@@ -60,6 +60,12 @@ import SwiftUI
     
     // When clicked on any answer
     func selectAnswer(index: Int) {
+        let questionIndex = chosenQuiz?.currentQuestionIndex ?? 0
+        
+        if (chosenQuiz?.questions[questionIndex].answers.filter({$0.isSelected}).count)! > 0 {
+            return
+        }
+        
         print("Answer - \(chosenQuiz!.currentQuestion.answers[index].text)")
         chosenQuiz?.currentQuestion.answers[index].isSelected = true
         print("Selected - \(chosenQuiz!.currentQuestion.answers[index].isSelected)")

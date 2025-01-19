@@ -27,6 +27,9 @@ class Router: ObservableObject {
         // Onboarding
         case welcome
         case login
+        //Register
+        case getEmail
+        case surveyView
     }
     
     // View builders for each destination
@@ -39,6 +42,11 @@ class Router: ObservableObject {
             WelcomeView()
         case .login:
             LoginView()
+            //MARK: Register
+        case .getEmail:
+            GetEmailView()
+        case .surveyView:
+            SurveyView()
             
             //MARK: TabView Screens
         case .home:

@@ -19,7 +19,7 @@ enum DifficultyLevel: Int, CaseIterable, Codable {
         case .newBorn:
             return "New Born"
         case .sundaySchool:
-            return "sundaySchool"
+            return "Sunday Schooler"
         case .youthPastor:
             return "Youth Pastor"
         case .deacon:

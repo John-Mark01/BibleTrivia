@@ -8,64 +8,65 @@
 import SwiftUI
 
 struct AnswerViewRow: View {
-    @Environment(QuizStore.self) var quizStore
     
     @State private var selectionTapped: Bool = false
+    var answer: Answer
+    var abcLetter: String
+    var selectAnswer: () -> Void
+    var unselectAnswer: () -> Void
+    var isInReview: Bool
     
     var body: some View {
         
         VStack(alignment: .center, spacing: 16) {
             
-            ForEach(0..<quizStore.chosenQuiz!.currentQuestion.answers.count, id: \.self) { index in
+            
+            Button(action: {
+                selectionTapped.toggle()
                 
-                Button(action: {
-                    selectionTapped.toggle()
+                if !answer.isSelected {
+                    selectAnswer()
+                } else {
+                    unselectAnswer()
+                }
+            }) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(getBackgroundColor())
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .fill(Color.clear)
+                                .stroke(getStrokeColor(), lineWidth: 2)
+                        )
                     
-                    if !quizStore.chosenQuiz!.currentQuestion.answers[index].isSelected {
-                        quizStore.selectAnswer(index: index)
-                    } else {
-                        quizStore.unSelectAnswer(index: index)
-                    }
-                }) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(getBackgroundColor(for: index))
+                    HStack(alignment: .center, spacing: 16) {
+                        
+                        Circle()
+                            .foregroundStyle(getCircleColor())
+                            .frame(width: 28, height: 28)
                             .overlay(
-                                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                    .fill(Color.clear)
-                                    .stroke(getStrokeColor(for: index), lineWidth: 2)
+                                Text(abcLetter)
+                                    .foregroundStyle(getLetterColor())
                             )
                         
-                        HStack(alignment: .center, spacing: 16) {
-                            
-                            Circle()
-                                .foregroundStyle(getCircleColor(for: index))
-                                .frame(width: 28, height: 28)
-                                .overlay(
-                                    Text(quizStore.chosenQuiz!.currentQuestion.getAnswerABC(index: index))
-                                        .foregroundStyle(getLetterColor(for: index))
-                                )
-                            
-                            Text(quizStore.chosenQuiz!.currentQuestion.answers[index].text)
-                                .foregroundStyle(getTextColor(for: index))
-                                .modifier(CustomText(size: 16, font: .regular))
-                            Spacer()
-                        }
-                        .padding(.horizontal, Constants.hPadding)
+                        Text(answer.text)
+                            .foregroundStyle(getTextColor())
+                            .modifier(CustomText(size: 16, font: .regular))
+                        Spacer()
                     }
-                    .frame(height: 50)
-                    
+                    .padding(.horizontal, Constants.hPadding)
                 }
-                .disabled(quizStore.chosenQuiz!.isInReview)
-                .sensoryFeedback(.selection, trigger: selectionTapped)
+                .frame(height: 50)
+                
             }
-            
+            .disabled(isInReview)
+            .sensoryFeedback(.selection, trigger: selectionTapped)
         }
     }
     // Helper functions to determine colors based on state
-    private func getBackgroundColor(for index: Int) -> Color {
-        let answer = quizStore.chosenQuiz!.currentQuestion.answers[index]
-        if quizStore.chosenQuiz!.isInReview {
+    private func getBackgroundColor() -> Color {
+       
+        if isInReview {
             if answer.isCorrect {
                 return .BTPrimary
             }
@@ -74,9 +75,9 @@ struct AnswerViewRow: View {
         return answer.isSelected ? .clear : .BTBackground
     }
     
-    private func getStrokeColor(for index: Int) -> Color {
-        let answer = quizStore.chosenQuiz!.currentQuestion.answers[index]
-        if quizStore.chosenQuiz!.isInReview {
+    private func getStrokeColor() -> Color {
+
+        if isInReview {
             if answer.isCorrect && answer.isSelected {
                 return .BTBlack
             } else if answer.isSelected {
@@ -87,9 +88,9 @@ struct AnswerViewRow: View {
         return answer.isSelected ? .BTPrimary : .BTStroke
     }
     
-    private func getCircleColor(for index: Int) -> Color {
-        let answer = quizStore.chosenQuiz!.currentQuestion.answers[index]
-        if quizStore.chosenQuiz!.isInReview {
+    private func getCircleColor() -> Color {
+     
+        if isInReview {
             if answer.isCorrect {
                 return .white
             } else if answer.isSelected {
@@ -100,9 +101,9 @@ struct AnswerViewRow: View {
         return answer.isSelected ? .BTPrimary : .BTAnswer
     }
     
-    private func getLetterColor(for index: Int) -> Color {
-        let answer = quizStore.chosenQuiz!.currentQuestion.answers[index]
-        if quizStore.chosenQuiz!.isInReview {
+    private func getLetterColor() -> Color {
+        
+        if isInReview {
             if answer.isCorrect && answer.isSelected {
                 return .BTPrimary
             } else if answer.isCorrect {
@@ -115,9 +116,8 @@ struct AnswerViewRow: View {
         return answer.isSelected ? .white : .black
     }
     
-    private func getTextColor(for index: Int) -> Color {
-        let answer = quizStore.chosenQuiz!.currentQuestion.answers[index]
-        if quizStore.chosenQuiz!.isInReview {
+    private func getTextColor() -> Color {
+        if isInReview {
             if answer.isCorrect {
                 return .white
             } else if answer.isSelected {
@@ -142,3 +142,27 @@ struct AnswerViewRow: View {
 //  
 //}
 
+struct QuizViewAnswerList: View {
+    @Environment(QuizStore.self) var quizStore
+    @Environment(AlertManager.self) var alertManager
+    
+    var quiz: Quiz {
+        if let currentQuiz = quizStore.chosenQuiz {
+            return currentQuiz
+        }
+        return Quiz(name: "Error", questions: [], time: 1, status: .new, difficulty: .newBorn, totalPoints: 0)
+    }
+    
+    var body: some View {
+        ForEach(0..<quiz.currentQuestion.answers.count, id: \.self) { index in
+            
+            AnswerViewRow(
+                answer: quiz.currentQuestion.answers[index],
+                abcLetter: quiz.currentQuestion.getAnswerABC(index: index),
+                selectAnswer: {quizStore.selectAnswer(index: index)},
+                unselectAnswer: {quizStore.unSelectAnswer(index: index)},
+                isInReview: quiz.isInReview
+            )
+        }
+    }
+}

@@ -11,7 +11,7 @@ struct WelcomeView: View {
     @EnvironmentObject var router: Router
     
     func onRegistration() {
-        //TODO: 
+        router.navigate(to: .getEmail)
     }
     func onLogin() {
         router.navigate(to: .login)

@@ -34,6 +34,9 @@
 		36B5D6062D3C410700D5E732 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D6052D3C410700D5E732 /* LoginView.swift */; };
 		36B5D6082D3C472700D5E732 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D6072D3C472700D5E732 /* CustomNavigationBar.swift */; };
 		36CA40A22D3D3582003B1164 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CA40A12D3D3582003B1164 /* AlertManager.swift */; };
+		36CA40A42D3D4D80003B1164 /* GetEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CA40A32D3D4D80003B1164 /* GetEmailView.swift */; };
+		36CA40A62D3D4EF2003B1164 /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CA40A52D3D4EF2003B1164 /* OnboardingManager.swift */; };
+		36CA40A82D3D5839003B1164 /* SurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CA40A72D3D5839003B1164 /* SurveyView.swift */; };
 		36E0A5E92D1C47C5006AEC4F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A52D1C47C5006AEC4F /* Answer.swift */; };
 		36E0A5EA2D1C47C5006AEC4F /* DifficultyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */; };
 		36E0A5EB2D1C47C5006AEC4F /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A72D1C47C5006AEC4F /* Question.swift */; };
@@ -110,6 +113,9 @@
 		36B5D6052D3C410700D5E732 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		36B5D6072D3C472700D5E732 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		36CA40A12D3D3582003B1164 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		36CA40A32D3D4D80003B1164 /* GetEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetEmailView.swift; sourceTree = "<group>"; };
+		36CA40A52D3D4EF2003B1164 /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
+		36CA40A72D3D5839003B1164 /* SurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyView.swift; sourceTree = "<group>"; };
 		36E0A5A52D1C47C5006AEC4F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyLevel.swift; sourceTree = "<group>"; };
 		36E0A5A72D1C47C5006AEC4F /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
@@ -222,9 +228,11 @@
 		36B5D5EF2D3C0D7D00D5E732 /* Onboarding  */ = {
 			isa = PBXGroup;
 			children = (
-				36B5D5F02D3C0D8900D5E732 /* Componnents */,
 				36B5D6032D3C3E5B00D5E732 /* WelcomeView.swift */,
 				36B5D6052D3C410700D5E732 /* LoginView.swift */,
+				36CA40A32D3D4D80003B1164 /* GetEmailView.swift */,
+				36CA40A72D3D5839003B1164 /* SurveyView.swift */,
+				36B5D5F02D3C0D8900D5E732 /* Componnents */,
 			);
 			path = "Onboarding ";
 			sourceTree = "<group>";
@@ -270,6 +278,7 @@
 				36A591FA2D1EBE5900972BA2 /* LoadingManager.swift */,
 				36B5A75B2D32EEF40021F21C /* UserManager.swift */,
 				36CA40A12D3D3582003B1164 /* AlertManager.swift */,
+				36CA40A52D3D4EF2003B1164 /* OnboardingManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -535,6 +544,7 @@
 				36E0A5FB2D1C47C5006AEC4F /* QuizViewToolbar.swift in Sources */,
 				36B5A7572D2B14290021F21C /* UserStreak.swift in Sources */,
 				36E0A5FC2D1C47C5006AEC4F /* ScoreButton.swift in Sources */,
+				36CA40A82D3D5839003B1164 /* SurveyView.swift in Sources */,
 				36E0A5FD2D1C47C5006AEC4F /* UserAccountCard.swift in Sources */,
 				36E0A5FE2D1C47C5006AEC4F /* AccountView.swift in Sources */,
 				36E0A5FF2D1C47C5006AEC4F /* MyProgressView.swift in Sources */,
@@ -543,6 +553,7 @@
 				36E0A6012D1C47C5006AEC4F /* HomeViewTabBar.swift in Sources */,
 				36CA40A22D3D3582003B1164 /* AlertManager.swift in Sources */,
 				36E0A6022D1C47C5006AEC4F /* PlayView.swift in Sources */,
+				36CA40A42D3D4D80003B1164 /* GetEmailView.swift in Sources */,
 				36E0A6032D1C47C5006AEC4F /* QuizView.swift in Sources */,
 				36E0A6042D1C47C5006AEC4F /* TopicsView.swift in Sources */,
 				36E0A6052D1C47C5006AEC4F /* ChooseQuizModal.swift in Sources */,
@@ -572,6 +583,7 @@
 				36B5D6002D3C2FC700D5E732 /* BTTextField.swift in Sources */,
 				36E0A6152D1C47C5006AEC4F /* RouterView.swift in Sources */,
 				36E0A6162D1C47C5006AEC4F /* Secrets.swift in Sources */,
+				36CA40A62D3D4EF2003B1164 /* OnboardingManager.swift in Sources */,
 				36E0A6172D1C47C5006AEC4F /* SignUpScreen.swift in Sources */,
 				36E0A6182D1C47C5006AEC4F /* SplashScreen.swift in Sources */,
 			);

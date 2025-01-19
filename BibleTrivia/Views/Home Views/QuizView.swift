@@ -49,7 +49,7 @@ struct QuizView: View {
                         .modifier(CustomText(size: 20, font: .semiBold))
                     
                     
-                    AnswerViewRow()
+                    QuizViewAnswerList()
                         .padding(.top, 16)
                     
                     
