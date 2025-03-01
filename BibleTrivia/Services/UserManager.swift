@@ -29,14 +29,14 @@ import Supabase
         LoadingManager.shared.show()
         
         do {
-            let response: UserModel = try await supabase
+            let user: UserModel = try await supabase
                 .from("users")
                 .select()
                 .eq("id", value: supabase.auth.session.user.id)
                 .execute()
                 .value
 
-            print("User - \(response.name)")
+            print("User - \(user.name)")
             LoadingManager.shared.hide()
         } catch {
             LoadingManager.shared.hide()
@@ -92,3 +92,18 @@ extension UserManager {
 //MARK: Onboarding + Registration Information
 extension UserManager {
 }
+
+//MARK: Streak
+extension UserManager {
+    
+    func checkInUser() async {
+        do {
+            try await supabase
+                .rpc("check_and_update_streak", params: ["user_uuid" : supabase.auth.session.user.id])
+                .execute()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
+

@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct CustomNavigationBar: View {
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     
     let title: String
     var leftButtonAction: (() -> Void)?

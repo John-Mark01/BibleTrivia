@@ -33,14 +33,7 @@ import Foundation
         }
     }
     
-    var questionNumber: Int {
-        get {
-            return currentQuestionIndex
-        }
-        set {
-           
-        }
-    }
+    var questionNumber: Int = 0
     
     var isLastQuestion: Bool {
         if currentQuestion == questions.last {

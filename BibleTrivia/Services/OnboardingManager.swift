@@ -17,6 +17,12 @@ import Foundation
     var newUserPasswordConfirmation: String = ""
     
     
+    var didYouKnowScreenCount: Int = 1
+    var didYouKnowIsShown: Bool = false
+    
+    init() {
+        loadSurvey()
+    }
     var survey = Quiz(name: "survey", questions: [], time: 1, status: .new, difficulty: .newBorn, totalPoints: 0)
 
     func getAnswerABC(index: Int) -> String {

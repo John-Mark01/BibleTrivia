@@ -68,5 +68,21 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6F375B55-8E67-4087-BFDD-4134F3DE5A5D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../var/folders/xw/mwg7ch857nz0k3gtx0md8zz80000gp/T/swift-generated-sources/@__swiftmacro_11BibleTrivia0023SurveyButtonswift_elFCffMX68_0_33_986E49FFCB4A7C629F11D81DF92B69D1Ll7PreviewfMf_.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1"
+            endingLineNumber = "1"
+            landmarkName = "$s11BibleTrivia0023SurveyButtonswift_elFCffMX68_0_33_986E49FFCB4A7C629F11D81DF92B69D1Ll7PreviewfMf_15PreviewRegistryfMu_"
+            landmarkType = "37">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

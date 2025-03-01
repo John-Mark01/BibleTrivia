@@ -66,26 +66,20 @@ import SwiftUI
             return
         }
         
-        print("Answer - \(chosenQuiz!.currentQuestion.answers[index].text)")
         chosenQuiz?.currentQuestion.answers[index].isSelected = true
-        print("Selected - \(chosenQuiz!.currentQuestion.answers[index].isSelected)")
-        chosenQuiz?.questionNumber += 1
         selectAnswerHaptic()
     }
     func unSelectAnswer(index: Int) {
-        print("Answer - \(chosenQuiz!.currentQuestion.answers[index].text)")
         chosenQuiz?.currentQuestion.answers[index].isSelected = false
-        print("Unselected - \(chosenQuiz!.currentQuestion.answers[index].isSelected)")
-        chosenQuiz?.questionNumber -= 1
         selectAnswerHaptic()
     }
     
     // When clicked on Next
     func answerQuestion(finished: @escaping (Bool) -> Void, error: @escaping (Bool) -> Void) {
+        
         if let selectedAnswer = chosenQuiz?.currentQuestion.answers.first(where: { $0.isSelected }) {
             chosenQuiz?.currentQuestion.userAnswer = selectedAnswer
         } else {
-            print("Unexpected Error, No answer is selected!")
             alertTitle = "Warning"
             alertMessage = "No answer selected!\nPlease select an answer"
             alertButtonTitle = "Okay"
@@ -93,11 +87,11 @@ import SwiftUI
             return
         }
         
-        if evaluateAnswer() {
-            answerIsCorrect()
-        } else {
-            answerIsWrong()
-        }
+//        if evaluateAnswer() {
+//            answerIsCorrect()
+//        } else {
+//            answerIsWrong()
+//        }
         
         if self.chosenQuiz!.currentQuestionIndex + 1 < self.chosenQuiz!.numberOfQuestions {
             finished(false)
@@ -166,7 +160,6 @@ import SwiftUI
         
         let currentQuestionIndex = chosenQuiz.currentQuestionIndex
         if currentQuestionIndex+1 >= chosenQuiz.numberOfQuestions {
-            self.showAlert(alertTtitle: "Error", message: "This is the last question.", buttonTitle: "Close")
             error()
         } else {
             self.chosenQuiz?.currentQuestionIndex += 1

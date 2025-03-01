@@ -7,16 +7,16 @@
 
 import SwiftUI
 
+enum FontStyle {
+    case semiBold
+    case medium
+    case regular
+}
+
 struct CustomText: ViewModifier {
 
     var size: CGFloat
     var font: FontStyle
-    
-    enum FontStyle {
-        case semiBold
-        case medium
-        case regular
-    }
     
     func getFont(from style: FontStyle) -> Font {
         switch style {
@@ -34,3 +34,8 @@ struct CustomText: ViewModifier {
     }
 }
 
+extension Text {
+    func applyFont(style: FontStyle, size: CGFloat) -> some View {
+        self.modifier(CustomText(size: size, font: style))
+    }
+}

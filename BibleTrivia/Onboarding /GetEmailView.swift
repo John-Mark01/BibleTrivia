@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GetEmailView: View {
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     @Environment(OnboardingManager.self) var onboardingManager
     
     @State private var email: String = ""
@@ -17,7 +17,7 @@ struct GetEmailView: View {
     
     func onContinue() {
         onboardingManager.loadSurvey()
-        router.navigate(to: .surveyView)
+        router.navigateTo(.surveyView)
     }
     func getCountries() {
         
@@ -33,7 +33,7 @@ struct GetEmailView: View {
             CustomNavigationBar(title: "Enter your details",
                                 leftButtonAction: {
                 print("Navigate back")
-                router.navigateBack()
+                router.popBackStack()
             })
             
             
@@ -74,7 +74,7 @@ struct GetEmailView: View {
     NavigationStack {
         GetEmailView()
             .environment(OnboardingManager())
-            .environmentObject(Router())
+            .environment(Router.shared)
     }
 }
 

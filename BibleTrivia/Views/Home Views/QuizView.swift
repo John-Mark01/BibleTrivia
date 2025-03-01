@@ -10,7 +10,7 @@ import SwiftUI
 struct QuizView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(QuizStore.self) var quizStore
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     
     @State private var finishQuizModal: Bool = false
     @State private var alertIsPresented: Bool = false
@@ -65,19 +65,34 @@ struct QuizView: View {
                     }
                     
                     Spacer()
+                    
                     if quizStore.chosenQuiz!.isInReview {
-                        HStack(alignment: .center, spacing: 20) {
+                        HStack(alignment: .center) {
                             
-                            Text("PREVIOUS QUESTION")
-                                .modifier(CustomText(size: 14, font: .regular))
-                                .foregroundStyle(Color.BTPrimary)
+                            Button(action: {
+                                goLeftCheckingQuesiton()
+                            }) {
+                                Text("PREVIOUS QUESTION")
+                                    .modifier(CustomText(size: 14, font: .regular))
+                                    .foregroundStyle(Color.BTPrimary)
+                            }
+                            .buttonBorderShape(.roundedRectangle)
+                            .buttonStyle(.borderedProminent)
+                            
                             Spacer()
                             
-                            Text("NEXT QUESTION")
-                                .modifier(CustomText(size: 14, font: .regular))
-                                .foregroundStyle(Color.BTPrimary)
+                            Button(action: {
+                                goRightCheckingQuesiton()
+                            }) {
+                                Text("NEXT QUESTION")
+                                    .modifier(CustomText(size: 14, font: .regular))
+                                    .foregroundStyle(Color.BTPrimary)
+                            }
+                            .buttonBorderShape(.roundedRectangle)
+                            .buttonStyle(.borderedProminent)
                             
                         }
+                        .padding()
                         
                     } else {
                         HStack(alignment: .center, spacing: 20) {
@@ -92,6 +107,8 @@ struct QuizView: View {
                                 nextButtonTapped.toggle()
                                 quizStore.answerQuestion() { quizFinished in
                                     withAnimation {
+                                        quizStore.chosenQuiz?.questionNumber += 1
+                                        
                                         if !quizFinished {
                                             quizStore.toNextQuestion()
                                         } else {
@@ -127,8 +144,8 @@ struct QuizView: View {
             if finishQuizModal {
                 FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.chosenQuiz!, onFinishQuiz: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                        quizStore.finishQuiz()
-                        router.navigateToRoot()
+                        //                        quizStore.finishQuiz()
+                        router.popToRoot()
                     }
                 }, onReviewQuiz: {
                     quizStore.enterQuizReviewMode()
@@ -136,47 +153,50 @@ struct QuizView: View {
             }
             // Normal Alert
             if alertIsPresented {
-                AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.navigateToRoot() }, isAnotherAction: isActionFromQuizStore)
+                AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() }, isAnotherAction: isActionFromQuizStore)
             }
         }
         .gesture(
-                DragGesture()
-                    .onEnded { gesture in
-                        let startX = gesture.startLocation.x
-                        let width = UIScreen.main.bounds.width
-                        
-                        // Left edge detection (e.g., first 50 pixels)
-                        if startX < 50 {
-                            print("Left edge swipe detected")
-                            withAnimation {
-                                if quizStore.chosenQuiz!.isInReview {
-                                    quizStore.checkAnswerToTheLeft { error in
-                                        withAnimation {
-                                            isActionFromQuizStore = true
-                                            alertIsPresented = error
-                                        }
-                                    }
-                                }
-                                // Handle left edge swipe
-                            }
-                        }
-                        
-                        // Right edge detection (e.g., last 50 pixels)
-                        if startX > width - 50 {
-                            print("Right edge swipe detected")
-                            if quizStore.chosenQuiz!.isInReview {
-                                withAnimation {
-                                    quizStore.checkAnswerToTheRight {
-                                        withAnimation {
-                                            finishQuizModal = true
-                                        }
-                                    }
-                                }
-                                // Handle right edge swipe
-                            }
-                        }
+            DragGesture()
+                .onEnded { gesture in
+                    let startX = gesture.startLocation.x
+                    let width = UIScreen.main.bounds.width
+                    
+                    if startX < 50 {
+                        goLeftCheckingQuesiton()
                     }
+                    
+                    if startX > width - 50 {
+                        goRightCheckingQuesiton()
+                    }
+                }
         )
+    }
+    
+    func goLeftCheckingQuesiton() {
+        withAnimation {
+            if quizStore.chosenQuiz!.isInReview {
+                quizStore.checkAnswerToTheLeft { error in
+                    withAnimation {
+                        isActionFromQuizStore = true
+                        alertIsPresented = error
+                    }
+                }
+            }
+            // Handle left edge swipe
+        }
+    }
+    func goRightCheckingQuesiton() {
+        if quizStore.chosenQuiz!.isInReview {
+            withAnimation {
+                quizStore.checkAnswerToTheRight {
+                    withAnimation {
+                        finishQuizModal = true
+                    }
+                }
+            }
+            // Handle right edge swipe
+        }
     }
     
 }

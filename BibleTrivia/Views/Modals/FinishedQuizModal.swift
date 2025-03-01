@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FinishedQuizModal: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     @Binding var isPresented: Bool
     var quiz: Quiz
     var onFinishQuiz: () -> ()

@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(QuizStore.self) var quizStore
     @Environment(\.userName) private var userName
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     
     @State private var openModal: Bool = false
     @State private var alertDialog: Bool = false
@@ -105,7 +105,7 @@ struct HomeView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button(action: {
-                            router.navigate(to: .account)
+                            router.navigateTo(.account)
                         }) {
                             Image("Avatars/jacob")
                                 .resizable()
@@ -127,7 +127,7 @@ struct HomeView: View {
             if openModal {
                 if let quiz = quizStore.chosenQuiz {
                     ChooseQuizModal(isPresented: $openModal, quiz: quiz, startQuiz: {
-                        router.navigate(to: .quizView)
+                        router.navigateTo(.quizView)
                         openModal = false
                     }, cancel: {
                         openModal = false

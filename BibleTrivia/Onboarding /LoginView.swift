@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     @Environment(UserManager.self) var userManager
     
     @State private var email: String = ""
@@ -25,7 +25,7 @@ struct LoginView: View {
             try? await userManager.signIn(email: email, password: password) { success in
                 if success {
                     DispatchQueue.main.async {
-                        router.navigateBack()
+                        router.popBackStack()
                     }
                 }
             }
@@ -45,7 +45,7 @@ struct LoginView: View {
             CustomNavigationBar(title: "Enter your details",
                                 leftButtonAction: {
                 print("Navigate back")
-                    router.navigateBack()
+                router.popBackStack()
             })
             
             

@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     
     func onRegistration() {
-        router.navigate(to: .getEmail)
+        router.navigateTo(.getEmail)
     }
     func onLogin() {
-        router.navigate(to: .login)
+        router.navigateTo(.login)
     }
     
     var body: some View {
@@ -55,5 +55,5 @@ struct WelcomeView: View {
     NavigationStack {
         WelcomeView()
     }
-    .environmentObject(Router())
+    .environment(Router.shared)
 }

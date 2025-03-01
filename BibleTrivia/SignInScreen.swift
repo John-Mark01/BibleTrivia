@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignInScreen: View {
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     @Environment(UserManager.self) var userManager
     
     @State private var email: String = "alya@baobao.com"
@@ -80,5 +80,5 @@ struct SignInScreen: View {
         SignInScreen()
     }
     .environment(UserManager())
-    .environmentObject(Router())
+    .environment(Router.shared)
 }

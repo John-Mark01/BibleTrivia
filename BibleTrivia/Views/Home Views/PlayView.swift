@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlayView: View {
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     @Environment(QuizStore.self) var quizStore
     
 //    @State private var dummyTopics = DummySVM.shared.topics
@@ -28,7 +28,7 @@ struct PlayView: View {
                     //MARK: Choose a topic
                     HStack {
                         Text("Choose a Topic")
-                            .modifier(CustomText(size: 20, font: .medium))
+                            .applyFont(style: .medium, size: 20)
                         
                         Spacer()
                         
@@ -63,7 +63,7 @@ struct PlayView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button(action: {
-                            router.navigate(to: .account)
+                            router.navigateTo(.account)
                         }) {
                             Image("Avatars/jacob")
                                 .resizable()
@@ -110,7 +110,7 @@ struct PlayView: View {
             if openQuizModal {
                 if let quiz = quizStore.chosenQuiz {
                     ChooseQuizModal(isPresented: $openQuizModal, quiz: quiz, startQuiz: {
-                        router.navigate(to: .quizView)
+                        router.navigateTo(.quizView)
                     }, cancel: {
                         openQuizModal = false
                     })

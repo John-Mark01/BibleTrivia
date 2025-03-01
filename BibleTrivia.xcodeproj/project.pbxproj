@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		367BF5CE2D722F8600F97BA1 /* TestingThings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF5CD2D722F8600F97BA1 /* TestingThings.swift */; };
+		3680A4092D53D12C008040F7 /* SurveyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A4082D53D12C008040F7 /* SurveyButton.swift */; };
+		3680A40B2D53DD47008040F7 /* DidYouKnowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */; };
 		36A591FB2D1EBE5900972BA2 /* LoadingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A591FA2D1EBE5900972BA2 /* LoadingManager.swift */; };
 		36A592012D1EC62C00972BA2 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 36A592002D1EC62C00972BA2 /* Lottie */; };
 		36A592032D1EC81E00972BA2 /* Loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 36A592022D1EC81E00972BA2 /* Loading.json */; };
@@ -91,6 +94,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		367BF5CD2D722F8600F97BA1 /* TestingThings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingThings.swift; sourceTree = "<group>"; };
+		3680A4082D53D12C008040F7 /* SurveyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyButton.swift; sourceTree = "<group>"; };
+		3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidYouKnowScreen.swift; sourceTree = "<group>"; };
 		36A591FA2D1EBE5900972BA2 /* LoadingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingManager.swift; sourceTree = "<group>"; };
 		36A592022D1EC81E00972BA2 /* Loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Loading.json; sourceTree = "<group>"; };
 		36AC71E02CB57C7B002FF37C /* BibleTrivia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BibleTrivia.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,6 +238,7 @@
 				36B5D6052D3C410700D5E732 /* LoginView.swift */,
 				36CA40A32D3D4D80003B1164 /* GetEmailView.swift */,
 				36CA40A72D3D5839003B1164 /* SurveyView.swift */,
+				3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */,
 				36B5D5F02D3C0D8900D5E732 /* Componnents */,
 			);
 			path = "Onboarding ";
@@ -247,6 +254,7 @@
 				36B5D5FD2D3C2F4300D5E732 /* AvatarView.swift */,
 				36B5D5FF2D3C2FC700D5E732 /* BTTextField.swift */,
 				36B5D6012D3C327000D5E732 /* ProgressTimerButton.swift */,
+				3680A4082D53D12C008040F7 /* SurveyButton.swift */,
 			);
 			path = Componnents;
 			sourceTree = "<group>";
@@ -312,6 +320,7 @@
 				36E0A5B82D1C47C5006AEC4F /* Color.swift */,
 				36E0A5B92D1C47C5006AEC4F /* Constants.swift */,
 				36E0A5BA2D1C47C5006AEC4F /* CustomText.swift */,
+				367BF5CD2D722F8600F97BA1 /* TestingThings.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -533,6 +542,7 @@
 				36E0A5F32D1C47C5006AEC4F /* AlertDialog.swift in Sources */,
 				36E0A5F42D1C47C5006AEC4F /* Color.swift in Sources */,
 				36E0A5F52D1C47C5006AEC4F /* Constants.swift in Sources */,
+				367BF5CE2D722F8600F97BA1 /* TestingThings.swift in Sources */,
 				36E0A5F62D1C47C5006AEC4F /* CustomText.swift in Sources */,
 				36B5D5F42D3C153C00D5E732 /* OnboardingComponentsView.swift in Sources */,
 				36E0A5F72D1C47C5006AEC4F /* DummySVM.swift in Sources */,
@@ -555,6 +565,7 @@
 				36E0A6022D1C47C5006AEC4F /* PlayView.swift in Sources */,
 				36CA40A42D3D4D80003B1164 /* GetEmailView.swift in Sources */,
 				36E0A6032D1C47C5006AEC4F /* QuizView.swift in Sources */,
+				3680A4092D53D12C008040F7 /* SurveyButton.swift in Sources */,
 				36E0A6042D1C47C5006AEC4F /* TopicsView.swift in Sources */,
 				36E0A6052D1C47C5006AEC4F /* ChooseQuizModal.swift in Sources */,
 				36A591FB2D1EBE5900972BA2 /* LoadingManager.swift in Sources */,
@@ -569,6 +580,7 @@
 				36E0A60D2D1C47C5006AEC4F /* AllTopicsView.swift in Sources */,
 				36B5D5F82D3C218400D5E732 /* Provider.swift in Sources */,
 				36B5A74E2D2984F10021F21C /* Errors.swift in Sources */,
+				3680A40B2D53DD47008040F7 /* DidYouKnowScreen.swift in Sources */,
 				36E0A60E2D1C47C5006AEC4F /* AnswerViewRow.swift in Sources */,
 				36B5A75A2D2B16700021F21C /* StreakManager.swift in Sources */,
 				36B5D6022D3C327000D5E732 /* ProgressTimerButton.swift in Sources */,

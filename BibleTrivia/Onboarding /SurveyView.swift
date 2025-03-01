@@ -8,26 +8,51 @@
 import SwiftUI
 
 struct SurveyView: View {
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     @Environment(OnboardingManager.self) var onboardingManager
     
-    var disableButton: Bool {
+    @State private var resetSelection: Bool = false
+    @State private var showDidYouKnow: Bool = false
+    
+    var continueIsDisabled: Bool {
         let quesitonIndex = onboardingManager.survey.currentQuestionIndex
         return onboardingManager.survey.questions[quesitonIndex].answers.filter({$0.isSelected}).count <= 0
     }
+    var selectIsDisabled: Bool {
+        let quesitonIndex = onboardingManager.survey.currentQuestionIndex
+        return onboardingManager.survey.questions[quesitonIndex].answers.filter({$0.isSelected}).count == 1
+    }
+    
     func onContinue() {
         let quesitonIndex = onboardingManager.survey.currentQuestionIndex
-        if quesitonIndex == onboardingManager.survey.numberOfQuestions {
-            
-        } else {
-            if onboardingManager.survey.currentQuestionIndex <= onboardingManager.survey.numberOfQuestions {
-                withAnimation {
-                    onboardingManager.survey.currentQuestionIndex += 1
-                }
+        
+        if (quesitonIndex + 1) % 2 == 0 {
+            if !onboardingManager.didYouKnowIsShown {
+                showDidYouKnow = true
+                onboardingManager.didYouKnowIsShown = false
+                resetSelection.toggle()
+                return
             }
         }
+        
+        advanceToNextQuestion()
     }
+    
+    private func advanceToNextQuestion() {
+        let questionIndex = onboardingManager.survey.currentQuestionIndex
+        
+        if questionIndex == onboardingManager.survey.numberOfQuestions - 1 {
+            return
+        } else {
+            withAnimation {
+                onboardingManager.survey.currentQuestionIndex += 1
+            }
+        }
+//        resetSelection.toggle()
+    }
+    
     func onSelectAnswer(answer: Answer) {
+        print("Selecting a answer")
         let quesitonIndex = onboardingManager.survey.currentQuestionIndex
         
         if onboardingManager.survey.questions[quesitonIndex].answers.filter({$0.isSelected}).count > 0 {
@@ -39,6 +64,7 @@ struct SurveyView: View {
         }
     }
     func onUnselectAnswer(answer: Answer) {
+        print("Unselecting a answer")
         let quesitonIndex = onboardingManager.survey.currentQuestionIndex
         
         if let index = onboardingManager.survey.questions[quesitonIndex].answers.firstIndex(where: {$0.id == answer.id}) {
@@ -49,7 +75,7 @@ struct SurveyView: View {
     func onNavigateBack() {
         let quesitonIndex = onboardingManager.survey.currentQuestionIndex
         if quesitonIndex == 0 {
-            router.navigateBack()
+            router.popBackStack()
         } else {
             withAnimation {
                 onboardingManager.survey.currentQuestionIndex -= 1
@@ -81,13 +107,13 @@ struct SurveyView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     ForEach(onboardingManager.survey.questions[onboardingManager.survey.currentQuestionIndex].answers, id: \.id) { answer in
                         
-                        let index = onboardingManager.survey.questions[onboardingManager.survey.currentQuestionIndex].answers.firstIndex(where: {$0.id == answer.id}) ?? 0
+                        SurveyButton(
+                            text: answer.text,
+                            actionOnSelect: {onSelectAnswer(answer: answer)},
+                            actionOnUnSelect: {onUnselectAnswer(answer: answer)},
+                            disabled: selectIsDisabled,
+                            resetSelection: $resetSelection)
                         
-                        AnswerViewRow(answer: answer,
-                                      abcLetter: onboardingManager.getAnswerABC(index: index),
-                                      selectAnswer: {onSelectAnswer(answer: answer)},
-                                      unselectAnswer: {onUnselectAnswer(answer: answer)},
-                                      isInReview: false)
                     }
                 }
                 
@@ -97,7 +123,7 @@ struct SurveyView: View {
             Spacer()
             
             OnboardButton(text: "Continue",
-                          disabled: disableButton,
+                          disabled: continueIsDisabled,
                           action: onContinue)
             
             
@@ -108,6 +134,11 @@ struct SurveyView: View {
         .padding(.horizontal, Constants.hPadding)
         .padding(.vertical, 30)
         .background(Color.BTBackground)
+        
+        .sheet(isPresented: $showDidYouKnow, onDismiss: advanceToNextQuestion) {
+            DidYouKnowScreen()
+                .presentationDetents([.fraction(0.5)])
+        }
     }
 }
 
@@ -120,5 +151,7 @@ struct SurveyView: View {
             }
     }
     .environment(manager)
-    .environmentObject(Router())
+    .environment(Router.shared)
 }
+
+

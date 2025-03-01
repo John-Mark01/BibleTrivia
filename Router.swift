@@ -7,16 +7,15 @@
 
 import SwiftUI
 
-@MainActor
-class Router: ObservableObject {
+@Observable
+final class Router {
     
-    @Published var path = NavigationPath()
-    @Published var currentView: Destination = .home
+    // Singleton instance
+    static let shared = Router()
+    private init() {} // Prevents creating additional instances
     
-    private static var stack: [Destination] = [.home]
-    
-    enum Destination: Codable, Hashable {
-        //MARK: TabView
+    // Navigation destination views
+    enum Destination: Codable, Hashable, CaseIterable {
         case home
         case play
         case quizView
@@ -30,13 +29,24 @@ class Router: ObservableObject {
         //Register
         case getEmail
         case surveyView
+        // Add more destinations as needed
     }
     
-    // View builders for each destination
+    // State variables
+    var path = NavigationPath()
+    
+    // Internal navigation stack that mirrors the NavigationPath
+    private var stack: [Destination] = []
+    
+    // Current view accessor with safety check
+    var currentDestination: Destination? {
+        stack.last
+    }
+    
+    // MARK: - Navigation View Builder
     @ViewBuilder
     func view(for destination: Destination) -> some View {
         switch destination {
-            
             //MARK: Onboarding - Registration & Login
         case .welcome:
             WelcomeView()
@@ -66,64 +76,159 @@ class Router: ObservableObject {
         }
     }
     
-    public func navigate(to destination: Destination) {
-        Router.stack.append(destination)
-        path.append(destination)
-        print("Navigate to: \(destination)")
+    // MARK: - Navigation Path Change Handler
+    
+    /// Handle changes to the navigation path (such as from native back button)
+    /// This is critical for keeping our internal stack in sync
+    func handlePathChange() {
+        performOnMainThread {
+            // If the path is shorter than our stack, it means a back navigation occurred
+            if self.path.count < self.stack.count {
+                // Trim our stack to match the new path length
+                self.stack = Array(self.stack.prefix(self.path.count))
+                self.logNavigation("Native back navigation detected. Stack synced to path count: \(self.path.count)")
+            }
+        }
     }
     
-    public func navigateBack() {
-        guard path.count >= 1 else { return }
-        
-        Router.stack.removeLast()
-        path.removeLast()
-        print("Navigated back. Routes stack: \(Router.stack.count)")
+    // MARK: - Navigation Methods (Main Thread Safe)
+    
+    /// Navigate to a destination (main thread safe)
+    /// - Parameter destination: The destination to navigate to
+    func navigateTo(_ destination: Destination) {
+        performOnMainThread {
+            self.stack.append(destination)
+            self.path.append(destination)
+            self.logNavigation("Navigated to \(destination), path count: \(self.path.count)")
+        }
     }
     
-    public func navigateToRoot() {
-        Router.stack.removeAll()
-        path.removeLast(path.count)
-    }
-    
-    func navigateAndClearBackStack(to destination: Destination) {
-        if let index = Router.stack.firstIndex(of: destination) {
-            // Calculate how many items we need to remove
-            let itemsToRemove = Router.stack.count - index
+    /// Navigate back one level (main thread safe)
+    func popBackStack() {
+        performOnMainThread {
+            guard !self.stack.isEmpty, self.path.count > 0 else { return }
             
-            // Remove all items after the found destination
-            for _ in 0..<itemsToRemove {
-                Router.stack.removeLast()
-                path.removeLast()
+            self.stack.removeLast()
+            self.path.removeLast()
+            self.logNavigation("Went back, path count: \(self.path.count)")
+        }
+    }
+    
+    /// Navigate back multiple levels (main thread safe)
+    /// - Parameter count: Number of levels to go back
+    func goBack(count: Int) {
+        performOnMainThread {
+            guard count > 0 else { return }
+            
+            let safeCount = min(count, self.stack.count)
+            
+            for _ in 0..<safeCount {
+                self.stack.removeLast()
+                if self.path.count > 0 {
+                    self.path.removeLast()
+                }
             }
             
-            // Add the destination
-            Router.stack.append(destination)
-            path.append(destination)
+            self.logNavigation("Went back \(safeCount) levels, path count: \(self.path.count)")
+        }
+    }
+    
+    /// Navigate to root (main thread safe)
+    func popToRoot() {
+        performOnMainThread {
+            guard !self.stack.isEmpty else { return }
+            
+            self.stack.removeAll()
+            if self.path.count > 0 {
+                self.path.removeLast(self.path.count)
+            }
+            
+            self.logNavigation("Navigated to root, path count: \(self.path.count)")
+        }
+    }
+    
+    /// Navigate back to a specific destination (main thread safe)
+    /// - Parameter destination: The destination to navigate back to
+    func goBackTo(_ destination: Destination) {
+        performOnMainThread {
+            guard let index = self.stack.firstIndex(of: destination) else {
+                self.logNavigation("Cannot go back to \(destination): not in stack")
+                return
+            }
+            
+            // Calculate how many items to remove
+            let removeCount = self.stack.count - index - 1
+            
+            // Update both stack and path
+            self.stack = Array(self.stack.prefix(index + 1))
+            
+            if removeCount > 0 && self.path.count >= removeCount {
+                for _ in 0..<removeCount {
+                    self.path.removeLast()
+                }
+            }
+            
+            self.logNavigation("Went back to \(destination), path count: \(self.path.count)")
+        }
+    }
+    
+    /// Navigate to a destination and clear the backstack (main thread safe)
+    /// - Parameter destination: The destination to navigate to
+    func navigateToAndClearBackstack(to destination: Destination) {
+        performOnMainThread {
+            // If we're already at this destination, do nothing
+            guard self.currentDestination != destination else { return }
+            
+            // Check if the destination is already in the stack
+            if let index = self.stack.firstIndex(of: destination) {
+                // Keep only up to that destination
+                self.stack = Array(self.stack.prefix(index + 1))
+                
+                // Sync the path
+                let pathItemsToRemove = self.path.count - index - 1
+                if pathItemsToRemove > 0 {
+                    for _ in 0..<pathItemsToRemove {
+                        self.path.removeLast()
+                    }
+                }
+            } else {
+                // If not in stack, add it
+                self.stack.append(destination)
+                self.path.append(destination)
+            }
+            
+            self.logNavigation("Navigated to \(destination) and cleared backstack, path count: \(self.path.count)")
+        }
+    }
+    
+    /// Reset the navigation state (main thread safe)
+    func reset() {
+        performOnMainThread {
+            self.stack.removeAll()
+            self.path = NavigationPath()
+            self.logNavigation("Router reset")
+        }
+    }
+    
+    // MARK: - Thread Safety
+    
+    /// Ensures the given block runs on the main thread
+    /// - Parameter block: The code block to execute on the main thread
+    private func performOnMainThread(_ block: @escaping () -> Void) {
+        if Thread.isMainThread {
+            block()
         } else {
-            // If destination isn't in the stack, simply append it
-            Router.stack.append(destination)
-            path.append(destination)
+            DispatchQueue.main.async {
+                block()
+            }
         }
-        
-        print("Navigated to \(destination). Routes stack: \(Router.stack.count)")
     }
     
-    func createNewRoot(with destination: Destination) {
-        // First append the destination for immediate navigation
-        Router.stack.append(destination)
-        path.append(destination)
-        
-        // Calculate how many items we need to remove
-        let itemsToRemove = Router.stack.count - 1
-        
-        print("Router BEFORE new root:\n \(Router.stack)\n\(path)\n")
-        // Remove all items between the old instance and the new one
-        for _ in 0..<itemsToRemove {
-            Router.stack.removeLast()
-            path.removeLast()
-        }
-        print("Router AFTER new root:\n \(Router.stack)\n\(path)\n")
-//        print("New root ccreated: \(destination).\nRoutes stack: \(Router.stack.count)\n ")
-    }
+    // MARK: - Helper Methods
     
+    private func logNavigation(_ message: String) {
+        #if DEBUG
+        print("Router: \(message)")
+        #endif
+    }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpScreen: View {
-    @EnvironmentObject var router: Router
+    @Environment(Router.self) private var router
     @Environment(QuizStore.self) var quizStore
     @Environment(UserManager.self) var userManager
     
@@ -119,7 +119,7 @@ struct SignUpScreen: View {
     }
     .environment(quizStore)
     .environment(userManager)
-    .environmentObject(Router())
+    .environment(Router.shared)
 }
 struct BTTextField: View {
     @State var text: String = ""

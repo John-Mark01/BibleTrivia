@@ -10,7 +10,7 @@ import Auth
 
 @main
 struct BibleTriviaApp: App {
-    @ObservedObject var router = Router()
+    @State private var router = Router.shared
     @State private var quizStore = QuizStore(supabase: Supabase())
     @State private var signInStatus: SignInStatus = .idle
     @State private var alertManager = AlertManager.shared
@@ -21,17 +21,15 @@ struct BibleTriviaApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $router.path) {
-                RouterView {
-                    Group {
-                        switch signInStatus {
-                        case .idle:
-                            ProgressView("Loading...")
-                        case .signedIn:
-                            HomeViewTabBar()
-                        case .notSignedIn:
-                            WelcomeView()
-                        }
+            RouterView {
+                Group {
+                    switch signInStatus {
+                    case .idle:
+                        ProgressView("Loading...")
+                    case .signedIn:
+                        HomeViewTabBar()
+                    case .notSignedIn:
+                        WelcomeView()
                     }
                 }
             }
@@ -40,7 +38,7 @@ struct BibleTriviaApp: App {
             .environment(alertManager)
             .environment(onboardingManager)
             .environment(\.userName, "John-Mark")
-            .environmentObject(router)
+            .environment(router)
             .tint(Color.BTBlack)
             .overlay {
                 if LoadingManager.shared.isShowing {
@@ -48,7 +46,7 @@ struct BibleTriviaApp: App {
                 }
                 //TODO: Move quizStore error handling into AlertManager
                 if quizStore.showAlert {
-                    AlertDialog(isPresented: $quizStore.showAlert, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.navigateToRoot() })
+                    AlertDialog(isPresented: $quizStore.showAlert, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() })
                 }
                 
                 if alertManager.show {
@@ -74,6 +72,7 @@ struct BibleTriviaApp: App {
                     _ = try await userManager.supabase.auth.session
                     // streaks managing
                     await userManager.downloadUserData()
+                    await userManager.checkInUser()
                     // get initial data
                     try await quizStore.loadInitialData()
                     signInStatus = .signedIn
@@ -86,10 +85,11 @@ struct BibleTriviaApp: App {
                 }
             } else if case .signedIn = event {
                 await userManager.downloadUserData()
+                await userManager.checkInUser()
                 signInStatus = .signedIn
             }  else if case .signedOut = event {
                 signInStatus = .notSignedIn
-                router.navigateToRoot()
+                router.popToRoot()
             }
         }
     }
