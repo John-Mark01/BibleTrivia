@@ -35,7 +35,7 @@ struct CustomText: ViewModifier {
 }
 
 extension Text {
-    func applyFont(style: FontStyle, size: CGFloat) -> some View {
+    func addFont(style: FontStyle, size: CGFloat) -> some View {
         self.modifier(CustomText(size: size, font: style))
     }
 }

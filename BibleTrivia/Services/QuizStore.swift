@@ -12,28 +12,40 @@ import SwiftUI
 @Observable class QuizStore {
     
     var supabase: Supabase
+    var alertManager: AlertManager
     
     init(supabase: Supabase) {
         self.supabase = supabase
+        self.alertManager = AlertManager.shared
     }
     
     var allTopics: [Topic] = []
     var allQuizez: [Quiz] = [Quiz(id: 0, name: "When initialized", topicId: 3, time: 2, status: 2, difficulty: 2, totalPoints: 240)]
-    var startedQuizez: [Quiz] = []
     
+    var startedQuizez: [Quiz] = []
     var chosenQuiz: Quiz?
     var chosenTopic: Topic?
-    var showAlert: Bool = false
+    var isOnboardingQuiz: Bool = false
+    
+    
+    var showAlert: Bool = false  
     var alertTitle: String = ""
     var alertMessage: String = ""
     var alertButtonTitle: String = ""
     
-    var reviewQuestions: [Question] = []
+    // Computed property for safe quiz access
+    var currentQuiz: Quiz {
+        guard let quiz = chosenQuiz else {
+            return Quiz(id: 0, name: "Error", topicId: 0, time: 0, status: 0, difficulty: 0, totalPoints: 0)
+        }
+        return quiz
+    }
     
     // When clicked on a certain quiz
     func chooseQuiz(quiz: Quiz) {
         self.chosenQuiz = quiz
     }
+    
     // When clicked on Cancel, when modal shows up
     func cancelChoosingQuiz(onCancel: @escaping () -> Void) {
         self.chosenQuiz = nil
@@ -75,7 +87,8 @@ import SwiftUI
     }
     
     // When clicked on Next
-    func answerQuestion(finished: @escaping (Bool) -> Void, error: @escaping (Bool) -> Void) {
+    func answerQuestion(finished: @escaping (Bool) -> Void,
+                        error: @escaping (Bool) -> Void) {
         
         if let selectedAnswer = chosenQuiz?.currentQuestion.answers.first(where: { $0.isSelected }) {
             chosenQuiz?.currentQuestion.userAnswer = selectedAnswer
@@ -109,20 +122,6 @@ import SwiftUI
             }
         }
         return false
-    }
-    // Helper functions on user answer submition
-    func answerIsCorrect() {
-        print("Answer Is Correct - \(chosenQuiz?.currentQuestion.userAnswer?.text ?? "")")
-        self.chosenQuiz?.totalPoints += 10
-        self.playCorrectSound()
-        self.initCorrectHaptic()
-    }
-    
-    func answerIsWrong() {
-        print("Answer Is Wrong - \(chosenQuiz?.currentQuestion.userAnswer?.text ?? "")")
-        self.playCorrectSound()
-        self.initCorrectHaptic()
-        
     }
     
     // Goes to the next question in the Quiz.questions Array
@@ -228,7 +227,9 @@ extension QuizStore {
     }
 }
 
-//MARK: DataBase
+
+
+//MARK: Database
 extension QuizStore {
     
     // Fetching all of the Topics, Quizzez, Questions and Answers from the database
@@ -346,4 +347,22 @@ extension QuizStore {
         }
     }
     
+    
+//MARK: FirstQuiz uppon onboarding
+    func loadOnboardingFirstQuiz(topicID: Int) async throws {
+        do {
+            if let quiz = try await supabase.getQuizWithTopicID(topicID) {
+                
+                let questions = try await fillQuizData(quizId: quiz.id)
+                quiz.questions = questions
+                self.chosenQuiz = quiz
+                self.isOnboardingQuiz = true
+            } else {
+                throw Errors.BTError.parseError("Couldn't fetch Quiz data. Please try again later.")
+            }
+        } catch {
+            throw Errors.BTError.parseError("Couldn't fetch Quiz data. Please try again later.")
+        }
+    }
 }
+

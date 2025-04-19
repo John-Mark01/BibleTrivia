@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>top-level-items</key>
+	<array>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>31</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>30</string>
+					<key>Timestamp</key>
+					<string>766785952.738927</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>BibleTrivia/Services/QuizStore.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>    var showAlert: Bool = false  
+</string>
+				<key>leading</key>
+				<string>    
+    
+</string>
+				<key>trailing</key>
+				<string>    var alertTitle: String = ""
+    var alertMessage: String = ""
+    var alertButtonTitle: String = ""
+</string>
+			</dict>
+			<key>title</key>
+			<string>Replace with AlertManager</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>32</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>31</string>
+					<key>Timestamp</key>
+					<string>766785952.739235</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>BibleTrivia/Services/QuizStore.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>    var alertTitle: String = ""
+</string>
+				<key>leading</key>
+				<string>    
+    var showAlert: Bool = false  
+</string>
+				<key>trailing</key>
+				<string>    var alertMessage: String = ""
+    var alertButtonTitle: String = ""
+    
+</string>
+			</dict>
+			<key>title</key>
+			<string>Replace with AlertManager</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>33</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>32</string>
+					<key>Timestamp</key>
+					<string>766785952.739256</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>BibleTrivia/Services/QuizStore.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>    var alertMessage: String = ""
+</string>
+				<key>leading</key>
+				<string>    var showAlert: Bool = false  
+    var alertTitle: String = ""
+</string>
+				<key>trailing</key>
+				<string>    var alertButtonTitle: String = ""
+    
+    // Computed property for safe quiz access
+</string>
+			</dict>
+			<key>title</key>
+			<string>Replace with AlertManager</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>34</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>33</string>
+					<key>Timestamp</key>
+					<string>766785952.7392139</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>BibleTrivia/Services/QuizStore.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>    var alertButtonTitle: String = ""
+</string>
+				<key>leading</key>
+				<string>    var alertTitle: String = ""
+    var alertMessage: String = ""
+</string>
+				<key>trailing</key>
+				<string>    
+    // Computed property for safe quiz access
+    var currentQuiz: Quiz {
+</string>
+			</dict>
+			<key>title</key>
+			<string>Replace with AlertManager</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -42,7 +42,7 @@ import Foundation
         self.show = true
     }
     
-    func showDefaultAlert( message: String, buttonText: String = "Dismiss") {
+    func showDefaultAlert(message: String, buttonText: String = "Dismiss") {
        
         self.alertTitle = AlertType.warning.rawValue
         self.alertMessage = message

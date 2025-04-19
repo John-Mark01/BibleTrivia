@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct QuizView: View {
-    @Environment(\.dismiss) var dismiss
-    @Environment(QuizStore.self) var quizStore
+    @Environment(QuizStore.self) private var quizStore
     @Environment(Router.self) private var router
     
     @State private var finishQuizModal: Bool = false
@@ -24,7 +23,7 @@ struct QuizView: View {
             VStack(alignment: .leading, spacing: 10) {
                 //MARK: ProgressView + Close
                 HStack(spacing: 16) {
-                    LinearProgressView(progress: quizStore.chosenQuiz?.questionNumber ?? 0, goal: quizStore.chosenQuiz?.numberOfQuestions ?? 0)
+                    LinearProgressView(progress: quizStore.currentQuiz.questionNumber, goal: quizStore.currentQuiz.numberOfQuestions)
                     
                     Spacer()
                     
@@ -32,7 +31,7 @@ struct QuizView: View {
                         isActionFromQuizStore = false
                         alertIsPresented = true
                         quizStore.alertTitle = "Quit Quiz?"
-                        quizStore.alertMessage = "Do want to quit \(quizStore.chosenQuiz?.name ?? "")?\nYou can still finish your quiz later."
+                        quizStore.alertMessage = "Do want to quit \(quizStore.currentQuiz.name)?\nYou can still finish your quiz later."
                         quizStore.alertButtonTitle = "Close Quiz"
                     }) {
                         Image("Close")
@@ -42,10 +41,10 @@ struct QuizView: View {
                 
                 VStack(alignment: .leading, spacing: 10) {
                     
-                    Text("Question" + " \((quizStore.chosenQuiz?.currentQuestionIndex ?? 0) + 1)")
+                    Text("Question" + " \((quizStore.currentQuiz.currentQuestionIndex) + 1)")
                         .modifier(CustomText(size: 14, font: .semiBold))
                     
-                    Text((quizStore.chosenQuiz?.questions[quizStore.chosenQuiz?.currentQuestionIndex ?? 0].text ?? "") + "?")
+                    Text((quizStore.currentQuiz.questions[quizStore.currentQuiz.currentQuestionIndex].text) + "?")
                         .modifier(CustomText(size: 20, font: .semiBold))
                     
                     
@@ -53,10 +52,10 @@ struct QuizView: View {
                         .padding(.top, 16)
                     
                     
-                    if quizStore.chosenQuiz!.isInReview {
+                    if quizStore.currentQuiz.isInReview {
                         HStack {
                             Spacer()
-                            Text(quizStore.chosenQuiz!.currentQuestion.userAnswerIsCorrect ? "Correct!" : "Incorrect...")
+                            Text(quizStore.currentQuiz.currentQuestion.userAnswerIsCorrect ? "Correct!" : "Incorrect...")
                                 .modifier(CustomText(size: 20, font: .medium))
                                 .foregroundStyle(Color.BTBlack)
                             Spacer()
@@ -66,33 +65,12 @@ struct QuizView: View {
                     
                     Spacer()
                     
-                    if quizStore.chosenQuiz!.isInReview {
-                        HStack(alignment: .center) {
-                            
-                            Button(action: {
-                                goLeftCheckingQuesiton()
-                            }) {
-                                Text("PREVIOUS QUESTION")
-                                    .modifier(CustomText(size: 14, font: .regular))
-                                    .foregroundStyle(Color.BTPrimary)
-                            }
-                            .buttonBorderShape(.roundedRectangle)
-                            .buttonStyle(.borderedProminent)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                goRightCheckingQuesiton()
-                            }) {
-                                Text("NEXT QUESTION")
-                                    .modifier(CustomText(size: 14, font: .regular))
-                                    .foregroundStyle(Color.BTPrimary)
-                            }
-                            .buttonBorderShape(.roundedRectangle)
-                            .buttonStyle(.borderedProminent)
-                            
-                        }
-                        .padding()
+                    if quizStore.currentQuiz.isInReview {
+                        
+                        ReviewButtonControlls(
+                            onCheckQuestionLeft: goLeftCheckingQuesiton,
+                            onCheckQuestionRight: goRightCheckingQuesiton
+                        )
                         
                     } else {
                         HStack(alignment: .center, spacing: 20) {
@@ -103,11 +81,10 @@ struct QuizView: View {
                                 .foregroundStyle(Color.BTPrimary)
                             
                             Button(action: {
-                                //TODO: Next question
                                 nextButtonTapped.toggle()
                                 quizStore.answerQuestion() { quizFinished in
                                     withAnimation {
-                                        quizStore.chosenQuiz?.questionNumber += 1
+                                        quizStore.currentQuiz.questionNumber += 1
                                         
                                         if !quizFinished {
                                             quizStore.toNextQuestion()
@@ -142,10 +119,9 @@ struct QuizView: View {
             .disabled(alertIsPresented || finishQuizModal)
             
             if finishQuizModal {
-                FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.chosenQuiz!, onFinishQuiz: {
+                FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.currentQuiz, onFinishQuiz: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        //                        quizStore.finishQuiz()
-                        router.popToRoot()
+                        navigateAfterFinish()
                     }
                 }, onReviewQuiz: {
                     quizStore.enterQuizReviewMode()
@@ -173,9 +149,17 @@ struct QuizView: View {
         )
     }
     
-    func goLeftCheckingQuesiton() {
+   private func navigateAfterFinish() {
+        if quizStore.isOnboardingQuiz {
+            router.navigateTo(.streakView)
+        } else {
+            router.popToRoot()
+        }
+    }
+    
+   private func goLeftCheckingQuesiton() {
         withAnimation {
-            if quizStore.chosenQuiz!.isInReview {
+            if quizStore.currentQuiz.isInReview {
                 quizStore.checkAnswerToTheLeft { error in
                     withAnimation {
                         isActionFromQuizStore = true
@@ -183,11 +167,11 @@ struct QuizView: View {
                     }
                 }
             }
-            // Handle left edge swipe
         }
     }
-    func goRightCheckingQuesiton() {
-        if quizStore.chosenQuiz!.isInReview {
+    
+   private func goRightCheckingQuesiton() {
+        if quizStore.currentQuiz.isInReview {
             withAnimation {
                 quizStore.checkAnswerToTheRight {
                     withAnimation {
@@ -195,15 +179,43 @@ struct QuizView: View {
                     }
                 }
             }
-            // Handle right edge swipe
         }
     }
-    
 }
 
-//#Preview {
-//    NavigationStack {
-//        QuizView()
-//            .environment(QuizStore())
-//    }
-//}
+struct ReviewButtonControlls: View {
+    
+    var onCheckQuestionLeft: () -> Void
+    var onCheckQuestionRight: () -> Void
+    
+    var body: some View {
+        HStack(alignment: .center, spacing: 20) {
+            Button(action: {
+                onCheckQuestionLeft()
+            }) {
+                Image("Arrow")
+                    .tint(Color.white)
+                    .rotationEffect(.degrees(180))
+            }
+            .frame(width: 67, height: 60)
+            .buttonStyle(NextButton())
+            
+            Spacer()
+            
+            Text("PREVIOUS")
+                .modifier(CustomText(size: 14, font: .regular))
+                .foregroundStyle(Color.BTPrimary)
+            
+            Spacer()
+            
+            Button(action: {
+                onCheckQuestionRight()
+            }) {
+                Image("Arrow")
+                    .tint(Color.white)
+            }
+            .frame(width: 67, height: 60)
+            .buttonStyle(NextButton())
+        }
+    }
+}

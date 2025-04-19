@@ -61,7 +61,7 @@ struct OnboardButton: View {
                   backgroundColor: .white,
                   strokeColor: .black,
                   strokeSize: 0.7,
-                  disabled: true,
+                  disabled: false,
                   action: {print("Onboard button clicked")})
         .padding(.all, 20)
 }

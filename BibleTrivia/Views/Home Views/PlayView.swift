@@ -28,7 +28,7 @@ struct PlayView: View {
                     //MARK: Choose a topic
                     HStack {
                         Text("Choose a Topic")
-                            .applyFont(style: .medium, size: 20)
+                            .addFont(style: .medium, size: 20)
                         
                         Spacer()
                         

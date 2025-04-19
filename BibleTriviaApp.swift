@@ -14,7 +14,7 @@ struct BibleTriviaApp: App {
     @State private var quizStore = QuizStore(supabase: Supabase())
     @State private var signInStatus: SignInStatus = .idle
     @State private var alertManager = AlertManager.shared
-    let onboardingManager = OnboardingManager()
+    let onboardingManager = OnboardingManager(supabase: Supabase())
     let userManager = UserManager()
     let streakManager = StreakManager()
     let userDefaults = UserDefaults.standard
@@ -98,11 +98,5 @@ struct BibleTriviaApp: App {
         case idle
         case signedIn
         case notSignedIn
-    }
-}
-
-extension View {
-    func dismissKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

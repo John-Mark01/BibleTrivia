@@ -146,22 +146,14 @@ struct QuizViewAnswerList: View {
     @Environment(QuizStore.self) var quizStore
     @Environment(AlertManager.self) var alertManager
     
-    var quiz: Quiz {
-        if let currentQuiz = quizStore.chosenQuiz {
-            return currentQuiz
-        }
-        return Quiz(name: "Error", questions: [], time: 1, status: .new, difficulty: .newBorn, totalPoints: 0)
-    }
-    
     var body: some View {
-        ForEach(0..<quiz.currentQuestion.answers.count, id: \.self) { index in
-            
+        ForEach(0..<quizStore.currentQuiz.currentQuestion.answers.count, id: \.self) { index in
             AnswerViewRow(
-                answer: quiz.currentQuestion.answers[index],
-                abcLetter: quiz.currentQuestion.getAnswerABC(index: index),
+                answer: quizStore.currentQuiz.currentQuestion.answers[index],
+                abcLetter: quizStore.currentQuiz.currentQuestion.getAnswerABC(index: index),
                 selectAnswer: {quizStore.selectAnswer(index: index)},
                 unselectAnswer: {quizStore.unSelectAnswer(index: index)},
-                isInReview: quiz.isInReview
+                isInReview: quizStore.currentQuiz.isInReview
             )
         }
     }

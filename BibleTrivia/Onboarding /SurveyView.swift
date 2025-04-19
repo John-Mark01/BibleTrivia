@@ -34,41 +34,12 @@ struct SurveyView: View {
                 return
             }
         }
-        
-        advanceToNextQuestion()
+        advance()
     }
     
-    private func advanceToNextQuestion() {
-        let questionIndex = onboardingManager.survey.currentQuestionIndex
-        
-        if questionIndex == onboardingManager.survey.numberOfQuestions - 1 {
-            return
-        } else {
-            withAnimation {
-                onboardingManager.survey.currentQuestionIndex += 1
-            }
-        }
-//        resetSelection.toggle()
-    }
-    
-    func onSelectAnswer(answer: Answer) {
-        print("Selecting a answer")
-        let quesitonIndex = onboardingManager.survey.currentQuestionIndex
-        
-        if onboardingManager.survey.questions[quesitonIndex].answers.filter({$0.isSelected}).count > 0 {
-            return
-        }
-        
-        if let index = onboardingManager.survey.questions[quesitonIndex].answers.firstIndex(where: {$0.id == answer.id}) {
-            onboardingManager.survey.questions[quesitonIndex].answers[index].isSelected = true
-        }
-    }
-    func onUnselectAnswer(answer: Answer) {
-        print("Unselecting a answer")
-        let quesitonIndex = onboardingManager.survey.currentQuestionIndex
-        
-        if let index = onboardingManager.survey.questions[quesitonIndex].answers.firstIndex(where: {$0.id == answer.id}) {
-            onboardingManager.survey.questions[quesitonIndex].answers[index].isSelected = false
+    private func advance() {
+        withAnimation {
+            onboardingManager.advanceToNextQuestion()
         }
     }
     
@@ -99,26 +70,30 @@ struct SurveyView: View {
                                    showPercentage: false)
             }
             
-            VStack(alignment: .leading, spacing: 40) {
-                
-                Text(onboardingManager.survey.questions[onboardingManager.survey.currentQuestionIndex].text)
-                    .modifier(CustomText(size: 30, font: .semiBold))
-                
-                VStack(alignment: .leading, spacing: 16) {
-                    ForEach(onboardingManager.survey.questions[onboardingManager.survey.currentQuestionIndex].answers, id: \.id) { answer in
-                        
-                        SurveyButton(
-                            text: answer.text,
-                            actionOnSelect: {onSelectAnswer(answer: answer)},
-                            actionOnUnSelect: {onUnselectAnswer(answer: answer)},
-                            disabled: selectIsDisabled,
-                            resetSelection: $resetSelection)
-                        
+            ScrollView {
+                VStack(alignment: .leading, spacing: 40) {
+                    
+                    Text(onboardingManager.survey.questions[onboardingManager.survey.currentQuestionIndex].text)
+                        .modifier(CustomText(size: 30, font: .semiBold))
+                    
+                    VStack(alignment: .leading, spacing: 16) {
+                        ForEach(onboardingManager.survey.currentQuestion.answers, id: \.id) { answer in
+                            SurveyButton(
+                                text: answer.text,
+                                isSelected: answer.isSelected,
+                                action: {
+                                    withAnimation {
+                                        onboardingManager.onSelectAnswer(answer: answer)
+                                    }
+                                },
+                                disabled: selectIsDisabled
+                            )
+                        }
                     }
+                    
                 }
-                
+                .padding(.top, 40)
             }
-            .padding(.top, 40)
             
             Spacer()
             
@@ -128,14 +103,10 @@ struct SurveyView: View {
             
             
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .addViewPaddings()
+        .addBackground()
         .navigationBarBackButtonHidden()
-        .ignoresSafeArea(.keyboard)
-        .padding(.horizontal, Constants.hPadding)
-        .padding(.vertical, 30)
-        .background(Color.BTBackground)
-        
-        .sheet(isPresented: $showDidYouKnow, onDismiss: advanceToNextQuestion) {
+        .sheet(isPresented: $showDidYouKnow, onDismiss: advance) {
             DidYouKnowScreen()
                 .presentationDetents([.fraction(0.5)])
         }
@@ -143,7 +114,7 @@ struct SurveyView: View {
 }
 
 #Preview {
-    let manager = OnboardingManager()
+    let manager = OnboardingManager(supabase: Supabase())
     NavigationStack {
         SurveyView()
             .onAppear {

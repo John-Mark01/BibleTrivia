@@ -52,28 +52,6 @@ extension Supabase {
         }
     }
     
-    func parseVoidResponse(_ response: PostgrestResponse<Void>, for parseType: ParseType) throws -> [Any] {
-        print("Get \(parseType.rawValue.capitalized)s with status code: \(response.response.statusCode)")
-        
-        switch response.status {
-        case 200:
-            switch parseType {
-            case .topic:
-                return try parseTopics(response.data)
-            case .quiz:
-                return try parseQuizzes(response.data)
-            case .question:
-                return try parseQuestions(response.data)
-            case .answer:
-                return try parseAnswers(response.data)
-            case .user:
-                return []
-            }
-        default:
-            throw Errors.BTError.networkError("Network Error. Please try again later.")
-        }
-    }
-    
     func parseTopics(_ data: Data) throws -> [Topic] {
         
         let decoder = JSONDecoder()
@@ -95,8 +73,7 @@ extension Supabase {
         return Topic(id: payload.id, name: payload.name)
     }
     
-    //MARK: Quizzez
-    
+//MARK: Quizzez
     func getQuizzez(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
         let query = supabase
             .from(Table.quizez)
@@ -114,6 +91,22 @@ extension Supabase {
             let response = try await query.execute()
             let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
             return quizzez ?? []
+        }
+    }
+    
+    func getQuizWithTopicID(_ id: Int) async throws -> Quiz? {
+        do {
+            let response = try await supabase
+                .from(Table.quizez)
+                .select()
+                .eq("topic_id", value: id)
+                .execute()
+            let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
+            
+            return quizzez?.first
+        } catch {
+            print("Error decoding quizzes: \(error)")
+            throw Errors.BTError.parseError("Error getting quiz. Please try again later.")
         }
     }
     
@@ -152,7 +145,6 @@ extension Supabase {
     
     func getQuestions(for quizID: Int) async throws -> [Question] {
         do {
-//            let stringQuizID = String(quizID)
             let response =
             try await supabase
                 .from(Table.questions)
@@ -228,6 +220,35 @@ extension Supabase {
     
     func convertPayloadToAnswer(_ payload: AnswerPayload) -> Answer {
         return Answer(id: payload.id, text: payload.text, questionId: payload.questionId, isCorrect: payload.isCorrect)
+    }
+    
+    
+    
+    //MARK: Users
+    
+    
+    
+    //MARK: Helpers
+    func parseVoidResponse(_ response: PostgrestResponse<Void>, for parseType: ParseType) throws -> [Any] {
+        print("Get \(parseType.rawValue.capitalized)s with status code: \(response.response.statusCode)")
+        
+        switch response.status {
+        case 200:
+            switch parseType {
+            case .topic:
+                return try parseTopics(response.data)
+            case .quiz:
+                return try parseQuizzes(response.data)
+            case .question:
+                return try parseQuestions(response.data)
+            case .answer:
+                return try parseAnswers(response.data)
+            case .user:
+                return []
+            }
+        default:
+            throw Errors.BTError.networkError("Network Error. Please try again later.")
+        }
     }
     
 }

@@ -12,6 +12,7 @@ final class Router {
     
     // Singleton instance
     static let shared = Router()
+    
     private init() {} // Prevents creating additional instances
     
     // Navigation destination views
@@ -29,6 +30,8 @@ final class Router {
         //Register
         case getEmail
         case surveyView
+        case onboardMessage
+        case streakView
         // Add more destinations as needed
     }
     
@@ -57,6 +60,10 @@ final class Router {
             GetEmailView()
         case .surveyView:
             SurveyView()
+        case .onboardMessage:
+            OnboardMessageScreen()
+        case .streakView:
+            StreakView()
             
             //MARK: TabView Screens
         case .home:
@@ -95,7 +102,7 @@ final class Router {
     
     /// Navigate to a destination (main thread safe)
     /// - Parameter destination: The destination to navigate to
-    func navigateTo(_ destination: Destination) {
+    func navigateTo(_ destination: Destination) -> Void {
         performOnMainThread {
             self.stack.append(destination)
             self.path.append(destination)
@@ -230,5 +237,17 @@ final class Router {
         #if DEBUG
         print("Router: \(message)")
         #endif
+    }
+}
+
+
+// MARK: - Router Access for NonViews
+protocol RouterAccessible {
+    var router: Router { get }
+}
+
+extension RouterAccessible {
+    var router: Router {
+        Router.shared
     }
 }

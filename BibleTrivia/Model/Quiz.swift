@@ -24,7 +24,6 @@ import Foundation
     }
     
     var currentQuestion: Question {
-        
         get {
             return questions[currentQuestionIndex]
         }

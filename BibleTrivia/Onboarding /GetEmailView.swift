@@ -73,7 +73,7 @@ struct GetEmailView: View {
 #Preview {
     NavigationStack {
         GetEmailView()
-            .environment(OnboardingManager())
+            .environment(OnboardingManager(supabase: Supabase()))
             .environment(Router.shared)
     }
 }

@@ -7,10 +7,14 @@
 
 import Foundation
 
-@Observable class OnboardingManager {
+@MainActor
+@Observable class OnboardingManager: RouterAccessible {
+    
+    var supabase: Supabase
     
     var newUserEmail: String = ""
     var newUserCountry: String = "" //TODO: Can be an object
+    var newUserChosenTopicID: Int = 1
     var newUserAge: String = ""
     var newUserName: String = ""
     var newUserPassword: String = ""
@@ -20,7 +24,8 @@ import Foundation
     var didYouKnowScreenCount: Int = 1
     var didYouKnowIsShown: Bool = false
     
-    init() {
+    init(supabase: Supabase) {
+        self.supabase = supabase
         loadSurvey()
     }
     var survey = Quiz(name: "survey", questions: [], time: 1, status: .new, difficulty: .newBorn, totalPoints: 0)
@@ -40,6 +45,49 @@ import Foundation
         }
     }
     
+    func advanceToNextQuestion() {
+        let questionIndex = survey.currentQuestionIndex
+        
+        if questionIndex == survey.numberOfQuestions - 1 {
+            router.navigateTo(.onboardMessage)
+        } else {
+            survey.currentQuestionIndex += 1
+        }
+    }
+    
+    func onSelectAnswer(answer: Answer) {
+        print("Selecting a answer: \(answer.text)")
+        let quesitonIndex = survey.currentQuestionIndex
+        
+        // If the answer is the selected one already, unselect it
+        if survey.questions[quesitonIndex].hasSelectedAnswer {
+            if survey.questions[quesitonIndex].userAnswer?.id == answer.id {
+                onUnselectAnswer(answer: answer)
+                return
+            }
+        } else {
+            // Otherwise select answer
+            if let index = survey.questions[quesitonIndex].answers.firstIndex(where: {$0.id == answer.id}) {
+                survey.questions[quesitonIndex].answers[index].isSelected = true
+                survey.questions[quesitonIndex].userAnswer = answer
+            }
+        }
+    }
+    
+    func onUnselectAnswer(answer: Answer) {
+        print("Uselecting a answer: \(answer.text)")
+        let quesitonIndex = survey.currentQuestionIndex
+        
+        if let index = survey.questions[quesitonIndex].answers.firstIndex(where: {$0.id == answer.id}) {
+            survey.questions[quesitonIndex].answers[index].isSelected = false
+            survey.questions[quesitonIndex].userAnswer = nil
+        }
+    }
+}
+
+
+//MARK: Survey
+extension OnboardingManager {
     func loadSurvey() {
         let answers1: [Answer] = [
             Answer(id: 1, text: "Not so much", questionId: 0, isCorrect: false),
@@ -68,11 +116,8 @@ import Foundation
         ]
         
         let question1 = Question(text: "How well do you know the Bible?", explanation: "", answers: answers1)
-        
         let question2 = Question(text: "How often do you read the Bible?", explanation: "", answers: answers2)
-        
         let question3 = Question(text: "What topics do you like the most?", explanation: "", answers: answers3)
-        
         let question4 = Question(text: "What would you say your level is?", explanation: "", answers: answers4)
         
         self.survey.questions = [question1, question2, question3, question4]

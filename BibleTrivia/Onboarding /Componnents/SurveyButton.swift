@@ -8,23 +8,27 @@
 import SwiftUI
 
 struct SurveyButton: View {
-    @State private var isSelected: Bool = false
     let text: String
-    var colorUnselected: Color
-    var colorSelected: Color
-    let actionOnSelect: (() -> Void)
-    let actionOnUnSelect: (() -> Void)
-    var disabled: Bool = false
-    @Binding var resetSelection: Bool
+    let isSelected: Bool
+    let colorUnselected: Color
+    let colorSelected: Color
+    let action: () -> Void
+    let disabled: Bool
     
-    init(text: String, colorUnselected: Color = .BTStroke, colorSelected: Color = .BTPrimary, actionOnSelect: @escaping () -> Void, actionOnUnSelect: @escaping () -> Void, disabled: Bool = false, resetSelection: Binding<Bool>) {
+    init(
+        text: String,
+        isSelected: Bool,
+        colorUnselected: Color = .gray,
+        colorSelected: Color = .green,
+        action: @escaping () -> Void,
+        disabled: Bool = false
+    ) {
         self.text = text
+        self.isSelected = isSelected
         self.colorUnselected = colorUnselected
         self.colorSelected = colorSelected
-        self.actionOnSelect = actionOnSelect
-        self.actionOnUnSelect = actionOnUnSelect
+        self.action = action
         self.disabled = disabled
-        self._resetSelection = resetSelection
     }
     
     var body: some View {
@@ -43,27 +47,12 @@ struct SurveyButton: View {
                 }
             }
             .onTapGesture {
-                withAnimation(.linear(duration: 0.25)) {
-                    if !disabled {
-                        isSelected.toggle()
-                        if isSelected {
-                            actionOnSelect()
-                        } else {
-                            actionOnUnSelect()
-                        }
-                    } else {
-                        if isSelected {
-                            isSelected.toggle()
-                            actionOnUnSelect()
-                        }
+//                if !disabled {
+                    withAnimation(.linear(duration: 0.25)) {
+                        action()
                     }
-                }
+//                }
             }
-            .onChange(of: resetSelection) { _, newValue in
-                if newValue {
-                    isSelected = false
-                }
-            }
-            
+            .opacity(disabled && !isSelected ? 0.6 : 1.0)
     }
 }
