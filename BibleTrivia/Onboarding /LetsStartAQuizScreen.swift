@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OnboardMessageScreen: View {
+struct LetsStartAQuizScreen: View {
     @Environment(OnboardingManager.self) private var onboardingManager
     @Environment(QuizStore.self) private var quizStore
     @Environment(Router.self) private var router
@@ -31,24 +31,23 @@ struct OnboardMessageScreen: View {
     func startFirstQuiz() {
         Task {
             do {
-                try await loadFirstQuiz()
-                router.navigateTo(.quizView)
+                try await quizStore.loadOnboardingFirstQuiz(topicID: onboardingManager.newUserChosenTopicID)
+                
+                router.navigateTo(.quizView, from: .onboarding)
             } catch let error as Errors.BTError {
                 print("Error in QuizStore.loadOnboardingFirstQuiz:\n\(error)")
             }
         }
-    }
-    
-    func loadFirstQuiz() async throws {
-        try await quizStore.loadOnboardingFirstQuiz(topicID: onboardingManager.newUserChosenTopicID)
     }
 }
 
 #Preview {
     let manager = OnboardingManager(supabase: Supabase())
     NavigationStack {
-        OnboardMessageScreen()
+        LetsStartAQuizScreen()
     }
     .environment(manager)
     .environment(Router.shared)
+    .environment(QuizStore(supabase: Supabase()))
+    .environment(OnboardingManager(supabase: Supabase()))
 }

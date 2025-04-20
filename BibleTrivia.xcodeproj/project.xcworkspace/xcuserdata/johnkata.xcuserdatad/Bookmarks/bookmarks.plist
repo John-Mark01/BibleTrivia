@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>31</string>
+					<string>30</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>30</string>
+					<string>29</string>
 					<key>Timestamp</key>
-					<string>766785952.738927</string>
+					<string>766872349.641045</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -59,13 +59,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>32</string>
+					<string>31</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>31</string>
+					<string>30</string>
 					<key>Timestamp</key>
-					<string>766785952.739235</string>
+					<string>766872349.641956</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -106,13 +106,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>33</string>
+					<string>32</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>32</string>
+					<string>31</string>
 					<key>Timestamp</key>
-					<string>766785952.739256</string>
+					<string>766872349.641965</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -153,13 +153,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>34</string>
+					<string>33</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>33</string>
+					<string>32</string>
 					<key>Timestamp</key>
-					<string>766785952.7392139</string>
+					<string>766872349.641947</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -189,6 +189,52 @@
 			</dict>
 			<key>title</key>
 			<string>Replace with AlertManager</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>36</string>
+					<key>EndingLineNumber</key>
+					<string>29</string>
+					<key>StartingColumnNumber</key>
+					<string>36</string>
+					<key>StartingLineNumber</key>
+					<string>29</string>
+					<key>Timestamp</key>
+					<string>766790874.75699</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>BibleTrivia/Views/Home Views/QuizView.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string></string>
+				<key>leading</key>
+				<string>                    Spacer()
+                    
+                    Button(action: {</string>
+				<key>trailing</key>
+				<string>
+                        isActionFromQuizStore = false
+                        alertIsPresented = true
+</string>
+			</dict>
+			<key>title</key>
+			<string>This close button needs to be removed or refactored for onboarding quiz</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

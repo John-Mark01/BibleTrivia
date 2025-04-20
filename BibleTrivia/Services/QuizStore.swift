@@ -25,7 +25,6 @@ import SwiftUI
     var startedQuizez: [Quiz] = []
     var chosenQuiz: Quiz?
     var chosenTopic: Topic?
-    var isOnboardingQuiz: Bool = false
     
     
     var showAlert: Bool = false  
@@ -356,7 +355,6 @@ extension QuizStore {
                 let questions = try await fillQuizData(quizId: quiz.id)
                 quiz.questions = questions
                 self.chosenQuiz = quiz
-                self.isOnboardingQuiz = true
             } else {
                 throw Errors.BTError.parseError("Couldn't fetch Quiz data. Please try again later.")
             }

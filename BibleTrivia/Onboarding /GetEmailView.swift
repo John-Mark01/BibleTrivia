@@ -17,7 +17,7 @@ struct GetEmailView: View {
     
     func onContinue() {
         onboardingManager.loadSurvey()
-        router.navigateTo(.surveyView)
+        router.navigateTo(.surveyView, from: .onboarding)
     }
     func getCountries() {
         

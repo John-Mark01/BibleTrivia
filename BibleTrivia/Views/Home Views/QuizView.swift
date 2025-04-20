@@ -150,8 +150,10 @@ struct QuizView: View {
     }
     
    private func navigateAfterFinish() {
-        if quizStore.isOnboardingQuiz {
-            router.navigateTo(.streakView)
+       let context = router.getCurrentContext()
+       
+       if context == .onboarding {
+            router.navigateTo(.streakView, from: .onboarding)
         } else {
             router.popToRoot()
         }

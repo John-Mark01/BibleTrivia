@@ -9,7 +9,6 @@ import SwiftUI
 
 struct StreakView: View {
     @Environment(Router.self) private var router
-    @State private var completedDays: [Bool] = [true, false, false, false, false, false, false]
     @State private var currentDayIndex: Int = 0
     
     @State private var weekdays: [(week: String, completed: Bool)] = [
@@ -21,7 +20,9 @@ struct StreakView: View {
         ("Sa", false),
         ("Su", false)
     ]
+    
     var body: some View {
+        
         VStack(spacing: 30) {
             
             Spacer()
@@ -94,9 +95,12 @@ struct StreakView: View {
             
             // Bottom buttons
             OnboardButton(text: "Continue",
-                          action: {router.navigateTo(.onboardMessage)})
+                          action: {
+                router.navigateTo(.createProfileView)
+            })
             
         }
+        .navigationBarBackButtonHidden()
         .addViewPaddings()
         .addBackground()
         .onAppear(perform: updateTodayStatus)

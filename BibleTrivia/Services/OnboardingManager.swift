@@ -49,7 +49,7 @@ import Foundation
         let questionIndex = survey.currentQuestionIndex
         
         if questionIndex == survey.numberOfQuestions - 1 {
-            router.navigateTo(.onboardMessage)
+            router.navigateTo(.tryAQuizView, from: .onboarding)
         } else {
             survey.currentQuestionIndex += 1
         }

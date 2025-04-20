@@ -24,11 +24,11 @@ struct RouterView<Content: View>: View {
                     router.view(for: destination)
                 }
         }
-        // This is the key - detect when the path changes due to native back gestures
-        .onChange(of: router.path) { oldPath, newPath in
-            if oldPath.count != newPath.count {
-                router.handlePathChange()
-            }
-        }
+//        // This is the key - detect when the path changes due to native back gestures
+//        .onChange(of: router.path) { oldPath, newPath in
+//            if oldPath.count != newPath.count {
+//                router.handlePathChange()
+//            }
+//        }
     }
 }

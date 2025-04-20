@@ -76,7 +76,7 @@ struct FinishedQuizModal: View {
                 Spacer()
                 
                 ActionButtons(title: "Continue", isPrimary: true) {
-                    self.dismiss()
+//                    self.dismiss()
                     onFinishQuiz()
                 }
                 

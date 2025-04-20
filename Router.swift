@@ -16,7 +16,7 @@ final class Router {
     private init() {} // Prevents creating additional instances
     
     // Navigation destination views
-    enum Destination: Codable, Hashable, CaseIterable {
+    enum Destination: Codable, Hashable {
         case home
         case play
         case quizView
@@ -30,9 +30,19 @@ final class Router {
         //Register
         case getEmail
         case surveyView
-        case onboardMessage
+        case tryAQuizView
+        case createProfileView
         case streakView
         // Add more destinations as needed
+    }
+    
+    // The conxtext of view usage
+    enum Context {
+        case onboarding
+        case login
+        case settings
+        case supabase
+        case normal
     }
     
     // State variables
@@ -40,6 +50,8 @@ final class Router {
     
     // Internal navigation stack that mirrors the NavigationPath
     private var stack: [Destination] = []
+    
+    private var destinationContext: [Destination: Context] = [:]
     
     // Current view accessor with safety check
     var currentDestination: Destination? {
@@ -60,8 +72,11 @@ final class Router {
             GetEmailView()
         case .surveyView:
             SurveyView()
-        case .onboardMessage:
-            OnboardMessageScreen()
+        case .tryAQuizView:
+            LetsStartAQuizScreen()
+        case .createProfileView:
+            LetsCreateYourProfileScreen()
+            
         case .streakView:
             StreakView()
             
@@ -83,27 +98,29 @@ final class Router {
         }
     }
     
-    // MARK: - Navigation Path Change Handler
-    
-    /// Handle changes to the navigation path (such as from native back button)
-    /// This is critical for keeping our internal stack in sync
-    func handlePathChange() {
-        performOnMainThread {
-            // If the path is shorter than our stack, it means a back navigation occurred
-            if self.path.count < self.stack.count {
-                // Trim our stack to match the new path length
-                self.stack = Array(self.stack.prefix(self.path.count))
-                self.logNavigation("Native back navigation detected. Stack synced to path count: \(self.path.count)")
-            }
-        }
-    }
+//    // MARK: - Navigation Path Change Handler
+//    
+//    /// Handle changes to the navigation path (such as from native back button)
+//    /// This is critical for keeping our internal stack in sync
+//    func handlePathChange() {
+//        performOnMainThread {
+//            // If the path is shorter than our stack, it means a back navigation occurred
+//            if self.path.count < self.stack.count {
+//                // Trim our stack to match the new path length
+//                self.stack = Array(self.stack.prefix(self.path.count))
+//                self.logNavigation("Native back navigation detected. Stack synced to path count: \(self.path.count)")
+//            }
+//        }
+//    }
     
     // MARK: - Navigation Methods (Main Thread Safe)
     
     /// Navigate to a destination (main thread safe)
     /// - Parameter destination: The destination to navigate to
-    func navigateTo(_ destination: Destination) -> Void {
+    /// - Parameter context: The context for that view. From where is the view opened from (what context)
+    func navigateTo(_ destination: Destination, from context: Context = .normal) -> Void {
         performOnMainThread {
+            self.destinationContext[destination] = context
             self.stack.append(destination)
             self.path.append(destination)
             self.logNavigation("Navigated to \(destination), path count: \(self.path.count)")
@@ -115,7 +132,8 @@ final class Router {
         performOnMainThread {
             guard !self.stack.isEmpty, self.path.count > 0 else { return }
             
-            self.stack.removeLast()
+            let removedDestination = self.stack.removeLast()
+            self.destinationContext.removeValue(forKey: removedDestination)
             self.path.removeLast()
             self.logNavigation("Went back, path count: \(self.path.count)")
         }
@@ -130,7 +148,10 @@ final class Router {
             let safeCount = min(count, self.stack.count)
             
             for _ in 0..<safeCount {
-                self.stack.removeLast()
+                
+                let removedDestination = self.stack.removeLast()
+                self.destinationContext.removeValue(forKey: removedDestination)
+                
                 if self.path.count > 0 {
                     self.path.removeLast()
                 }
@@ -146,6 +167,7 @@ final class Router {
             guard !self.stack.isEmpty else { return }
             
             self.stack.removeAll()
+            self.destinationContext.removeAll()
             if self.path.count > 0 {
                 self.path.removeLast(self.path.count)
             }
@@ -166,6 +188,15 @@ final class Router {
             // Calculate how many items to remove
             let removeCount = self.stack.count - index - 1
             
+            // Update the context
+            if removeCount > 0 {
+                let destinationsToRemove = Array(self.stack[(index + 1)...])
+                
+                for dest in destinationsToRemove {
+                    self.destinationContext.removeValue(forKey: dest)
+                }
+            }
+            
             // Update both stack and path
             self.stack = Array(self.stack.prefix(index + 1))
             
@@ -181,13 +212,23 @@ final class Router {
     
     /// Navigate to a destination and clear the backstack (main thread safe)
     /// - Parameter destination: The destination to navigate to
-    func navigateToAndClearBackstack(to destination: Destination) {
+    func navigateToAndClearBackstack(to destination: Destination, from context: Context = .normal) {
         performOnMainThread {
             // If we're already at this destination, do nothing
             guard self.currentDestination != destination else { return }
             
             // Check if the destination is already in the stack
             if let index = self.stack.firstIndex(of: destination) {
+                
+                // update the context
+                let destinationsToRemove = Array(self.stack[(index + 1)...])
+                for dest in destinationsToRemove {
+                    self.destinationContext.removeValue(forKey: dest)
+                }
+                self.destinationContext[destination] = context
+                
+                
+                
                 // Keep only up to that destination
                 self.stack = Array(self.stack.prefix(index + 1))
                 
@@ -200,6 +241,7 @@ final class Router {
                 }
             } else {
                 // If not in stack, add it
+                self.destinationContext[destination] = context
                 self.stack.append(destination)
                 self.path.append(destination)
             }
@@ -211,10 +253,24 @@ final class Router {
     /// Reset the navigation state (main thread safe)
     func reset() {
         performOnMainThread {
+            self.destinationContext.removeAll()
             self.stack.removeAll()
             self.path = NavigationPath()
             self.logNavigation("Router reset")
         }
+    }
+    
+    // Helpers for context
+    func getContext(for destination: Destination) -> Context {
+        return destinationContext[destination] ?? .normal
+    }
+    
+    // Get source of current view
+    func getCurrentContext() -> Context {
+        guard let currentDestination = stack.last else {
+            return .normal
+        }
+        return getContext(for: currentDestination)
     }
     
     // MARK: - Thread Safety
