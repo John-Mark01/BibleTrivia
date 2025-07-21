@@ -21,14 +21,26 @@ DerivedData
 .env.local
 .env.production
 .env.staging
-config.plist
-Configuration.plist
+
+# Configuration Files (Add your config file here)
+Config.plist
+Config.xcconfig
+
+# Other config formats
+config.json
+Config.json
+configuration.json
+Configuration.json
+app-settings.json
+app-config.json
 
 # API Keys and Tokens
 **/secrets/
 **/config/secrets.*
 apikey.txt
 token.txt
+keys.plist
+api-keys.plist
 
 # macOS
 .DS_Store

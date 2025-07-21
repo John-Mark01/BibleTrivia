@@ -10,7 +10,7 @@ import Foundation
 enum Secrets {
     
     static var supabaseURL: URL {
-        guard let urlString = ProcessInfo.processInfo.environment["SUPABASE_URL"],
+        guard let urlString = Bundle.main.infoDictionary?["SUPABASE_URL"] as? String,
               let url = URL(string: urlString) else {
             fatalError("SUPABASE_URL environment variable not set or invalid")
         }
@@ -18,7 +18,7 @@ enum Secrets {
     }
     
     static var supabaseAPIKey: String {
-        guard let apiKey = ProcessInfo.processInfo.environment["SUPABASE_API_KEY"] else {
+        guard let apiKey = Bundle.main.infoDictionary?["SUPABASE_API_KEY"] as? String else {
             fatalError("SUPABASE_API_KEY environment variable not set")
         }
         return apiKey

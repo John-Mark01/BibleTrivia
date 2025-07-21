@@ -9,24 +9,43 @@ A SwiftUI-based Bible trivia application with Supabase backend.
 - iOS 16.0+
 - Supabase account
 
-### Environment Variables
+### Configuration
 
-This app requires the following environment variables to be set:
+This app requires a configuration file with your Supabase credentials.
 
-1. **For Xcode Development:**
-   - Open your Xcode scheme editor (Product → Scheme → Edit Scheme)
-   - Go to Run → Environment Variables
-   - Add these variables:
-     ```
-     SUPABASE_URL = your_supabase_project_url
-     SUPABASE_API_KEY = your_supabase_anon_key
-     ```
+#### Method 1: Create a Config.plist file (Recommended)
 
-2. **For Command Line Testing:**
-   ```bash
-   export SUPABASE_URL="https://your-project.supabase.co"
-   export SUPABASE_API_KEY="your_supabase_anon_key"
+1. **Create the config file:**
+   - Right-click in Xcode on your project
+   - Choose "New File" → "Property List"
+   - Name it `Config.plist`
+   - Make sure it's added to your app target
+
+2. **Add your Supabase credentials:**
+   ```xml
+   <?xml version="1.0" encoding="UTF-8"?>
+   <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+   <plist version="1.0">
+   <dict>
+       <key>SUPABASE_URL</key>
+       <string>https://your-project-id.supabase.co</string>
+       <key>SUPABASE_API_KEY</key>
+       <string>your_supabase_anon_public_key</string>
+   </dict>
+   </plist>
    ```
+
+3. **The app will automatically read from this file**
+
+#### Method 2: Add to Info.plist (Alternative)
+
+Add these keys directly to your `Info.plist`:
+```xml
+<key>SUPABASE_URL</key>
+<string>https://your-project-id.supabase.co</string>
+<key>SUPABASE_API_KEY</key>
+<string>your_supabase_anon_public_key</string>
+```
 
 ### Getting Supabase Credentials
 
@@ -39,7 +58,7 @@ This app requires the following environment variables to be set:
 
 1. Clone the repository
 2. Open `BibleTrivia.xcodeproj` in Xcode
-3. Set up environment variables as described above
+3. Create your configuration file as described above
 4. Build and run
 
 ## Features
@@ -59,4 +78,9 @@ This app requires the following environment variables to be set:
 
 ## Security
 
-This app uses environment variables for sensitive configuration. Never commit API keys or secrets to version control. 
+⚠️ **Important:** Never commit your configuration files with real API keys to version control. The `.gitignore` is configured to prevent this, but always double-check before committing.
+
+For production apps, consider using:
+- Xcode build configurations
+- Environment-specific config files
+- Server-side configuration management 

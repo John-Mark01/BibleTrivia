@@ -11,6 +11,7 @@
 		3652A4122DB43743001FD2BA /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4112DB43743001FD2BA /* ViewModifiers.swift */; };
 		3652A4142DB43B35001FD2BA /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4132DB43B34001FD2BA /* StreakView.swift */; };
 		3652A4162DB43DFD001FD2BA /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */; };
+		3670FF8B2E2EC6000000F67A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3670FF8A2E2EC6000000F67A /* Config.xcconfig */; };
 		367BF5D02D73C0D700F97BA1 /* LetsStartAQuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */; };
 		3680A4092D53D12C008040F7 /* SurveyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A4082D53D12C008040F7 /* SurveyButton.swift */; };
 		3680A40B2D53DD47008040F7 /* DidYouKnowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */; };
@@ -103,6 +104,7 @@
 		3652A4112DB43743001FD2BA /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		3652A4132DB43B34001FD2BA /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
 		3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
+		3670FF8A2E2EC6000000F67A /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetsStartAQuizScreen.swift; sourceTree = "<group>"; };
 		3680A4082D53D12C008040F7 /* SurveyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyButton.swift; sourceTree = "<group>"; };
 		3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidYouKnowScreen.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 		36AC71D72CB57C7B002FF37C = {
 			isa = PBXGroup;
 			children = (
+				3670FF8A2E2EC6000000F67A /* Config.xcconfig */,
 				36AC722E2CB59358002FF37C /* BibleTriviaApp.swift */,
 				36E0A5E32D1C47C5006AEC4F /* Router.swift */,
 				36E0A5E42D1C47C5006AEC4F /* RouterView.swift */,
@@ -537,6 +540,7 @@
 				36E0A61A2D1C47C5006AEC4F /* Rubik-Regular.ttf in Resources */,
 				36A592032D1EC81E00972BA2 /* Loading.json in Resources */,
 				36E0A61B2D1C47C5006AEC4F /* Rubik-SemiBold.ttf in Resources */,
+				3670FF8B2E2EC6000000F67A /* Config.xcconfig in Resources */,
 				36E0A61C2D1C47C5006AEC4F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,6 +638,7 @@
 /* Begin XCBuildConfiguration section */
 		36AC71EC2CB57C7C002FF37C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3670FF8A2E2EC6000000F67A /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -697,6 +702,7 @@
 		};
 		36AC71ED2CB57C7C002FF37C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3670FF8A2E2EC6000000F67A /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
