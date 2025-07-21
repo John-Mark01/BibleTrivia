@@ -14,15 +14,9 @@ import Supabase
     let streakManager = StreakManager()
     let supabase = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
     
-//    init(user: UserModel) {
-//        self.user = user
-//    }
     
- 
     func setupUser() async {
         //Download initial user data
-        
-        
     }
     
     func downloadUserData() async {
@@ -45,7 +39,6 @@ import Supabase
 }
 
 //MARK: Authentication
-
 extension UserManager {
     
     // EMAIL && Password

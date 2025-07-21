@@ -87,7 +87,7 @@ struct BibleTriviaApp: App {
                 await userManager.downloadUserData()
                 await userManager.checkInUser()
                 signInStatus = .signedIn
-            }  else if case .signedOut = event {
+            } else if case .signedOut = event {
                 signInStatus = .notSignedIn
                 router.popToRoot()
             }

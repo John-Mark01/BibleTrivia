@@ -176,9 +176,7 @@ struct QuizView: View {
         if quizStore.currentQuiz.isInReview {
             withAnimation {
                 quizStore.checkAnswerToTheRight {
-                    withAnimation {
-                        finishQuizModal = true
-                    }
+                    finishQuizModal = true
                 }
             }
         }

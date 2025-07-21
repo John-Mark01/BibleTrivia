@@ -71,32 +71,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CB0974F0-7A53-4FED-82FE-2BA116A78531"
+            uuid = "522CE8FA-046D-43D7-8843-4DA1B7390C55"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BibleTrivia/Views/Home Views/QuizView.swift"
+            filePath = "BibleTrivia/Onboarding /LetsCreateYourProfileScreen.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
-            landmarkName = "navigateAfterFinish()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6D8B3B13-503D-4554-9E51-248ABE156E0D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Router.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
-            landmarkName = "getCurrentContext()"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "onContinue()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

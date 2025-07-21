@@ -260,8 +260,8 @@
 				36CA40A72D3D5839003B1164 /* SurveyView.swift */,
 				3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */,
 				367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */,
-				3689B6002DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift */,
 				3652A4132DB43B34001FD2BA /* StreakView.swift */,
+				3689B6002DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift */,
 				36B5D5F02D3C0D8900D5E732 /* Componnents */,
 			);
 			path = "Onboarding ";
@@ -440,6 +440,7 @@
 				36E0A5D72D1C47C5006AEC4F /* PlayViews */,
 				36E0A5D92D1C47C5006AEC4F /* TopicViews */,
 				36E0A5DF2D1C47C5006AEC4F /* ViewRows */,
+				36B5D5EF2D3C0D7D00D5E732 /* Onboarding  */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -456,7 +457,6 @@
 				36B5A75D2D35B1270021F21C /* SignInScreen.swift */,
 				36E0A5E72D1C47C5006AEC4F /* SplashScreen.swift */,
 				3652A40E2DB436EB001FD2BA /* Extensions */,
-				36B5D5EF2D3C0D7D00D5E732 /* Onboarding  */,
 				36E0A5BB2D1C47C5006AEC4F /* Supporting Files */,
 			);
 			path = BibleTrivia;
