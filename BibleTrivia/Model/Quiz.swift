@@ -34,37 +34,6 @@ import Foundation
     
     var questionNumber: Int = 0
     
-    var isLastQuestion: Bool {
-        if currentQuestion == questions.last {
-            return true
-        }
-        return false
-    }
-    
-    var userPassedTheQuiz: Bool {
-        return questions.allSatisfy { question in
-            question.userAnswer?.isCorrect == true
-        }
-    }
-    
-    
-    var progressString: String {
-        let questionsAnswered = questions.filter({$0.userAnswer != nil})
-        let progress = Double(questionsAnswered.count) / Double(numberOfQuestions)
-            let percentageFormatter = NumberFormatter()
-            percentageFormatter.numberStyle = .percent
-            percentageFormatter.maximumFractionDigits = 0
-            return percentageFormatter.string(from: NSNumber(value: progress)) ?? "0%"
-    }
-    var progressValue: Double {
-        get {
-            return Double(questionNumber) / Double(numberOfQuestions)
-        }
-        set {
-            
-        }
-    }
-    
     var isInReview = false
     var isFinished = false
     

@@ -1,5 +1,5 @@
 //
-//  QuizManager.swift
+//  QuizStore.swift
 //  BibleTrivia
 //
 //  Created by John-Mark Iliev on 16.10.24.
@@ -11,28 +11,42 @@ import SwiftUI
 @MainActor
 @Observable class QuizStore {
     
-    var supabase: Supabase
-    var alertManager: AlertManager
+    // MARK: - Dependencies
+    private let quizRepository: QuizRepositoryProtocol
+    private let quizManager: QuizManager
+    private let alertManager: AlertManager
     
-    init(supabase: Supabase) {
-        self.supabase = supabase
-        self.alertManager = AlertManager.shared
-    }
-    
+    // MARK: - State Properties
     var allTopics: [Topic] = []
-    var allQuizez: [Quiz] = [Quiz(id: 0, name: "When initialized", topicId: 3, time: 2, status: 2, difficulty: 2, totalPoints: 240)]
-    
+    var allQuizez: [Quiz] = []
     var startedQuizez: [Quiz] = []
     var chosenQuiz: Quiz?
     var chosenTopic: Topic?
     
-    
+    // Alert state
     var showAlert: Bool = false  
     var alertTitle: String = ""
     var alertMessage: String = ""
     var alertButtonTitle: String = ""
     
-    // Computed property for safe quiz access
+    // MARK: - Initialization
+    
+    init(supabase: Supabase) {
+        self.quizRepository = QuizRepository(supabase: supabase)
+        self.quizManager = QuizManager()
+        self.alertManager = AlertManager.shared
+    }
+    
+    // For testing with mock repository
+    init(repository: QuizRepositoryProtocol, manager: QuizManager) {
+        self.quizRepository = repository
+        self.quizManager = manager
+        self.alertManager = AlertManager.shared
+    }
+    
+    // MARK: - Computed Properties
+    
+    /// Safe access to current quiz
     var currentQuiz: Quiz {
         guard let quiz = chosenQuiz else {
             return Quiz(id: 0, name: "Error", topicId: 0, time: 0, status: 0, difficulty: 0, totalPoints: 0)
@@ -40,143 +54,161 @@ import SwiftUI
         return quiz
     }
     
-    // When clicked on a certain quiz
+    // MARK: - Quiz Selection & Management
+    
     func chooseQuiz(quiz: Quiz) {
         self.chosenQuiz = quiz
     }
     
-    // When clicked on Cancel, when modal shows up
     func cancelChoosingQuiz(onCancel: @escaping () -> Void) {
         self.chosenQuiz = nil
         onCancel()
     }
     
-    // When clicked on Start, when modal shows up
     func startQuiz(onStart: @escaping (Bool) -> Void) {
-        if let unwrappedQuiz = chosenQuiz {
-            unwrappedQuiz.status = .started
-            unwrappedQuiz.currentQuestionIndex = 0
-            
-            startedQuizez.append(unwrappedQuiz)
-            onStart(true)
-        } else {
-            showAlert = true
-            alertTitle = "Error"
-            alertMessage = "Unexpected Error, no quiz selected!"
-            alertButtonTitle = "Go Back"
+        guard let unwrappedQuiz = chosenQuiz else {
+            showAlert(alertTitle: "Error", 
+                     message: "Unexpected Error, no quiz selected!", 
+                     buttonTitle: "Go Back")
             onStart(false)
-            showAlert = false
-        }
-    }
-    
-    // When clicked on any answer
-    func selectAnswer(index: Int) {
-        let questionIndex = chosenQuiz?.currentQuestionIndex ?? 0
-        
-        if (chosenQuiz?.questions[questionIndex].answers.filter({$0.isSelected}).count)! > 0 {
             return
         }
         
-        chosenQuiz?.currentQuestion.answers[index].isSelected = true
-        selectAnswerHaptic()
-    }
-    func unSelectAnswer(index: Int) {
-        chosenQuiz?.currentQuestion.answers[index].isSelected = false
-        selectAnswerHaptic()
+        quizManager.startQuiz(unwrappedQuiz)
+        startedQuizez.append(unwrappedQuiz)
+        onStart(true)
     }
     
-    // When clicked on Next
-    func answerQuestion(finished: @escaping (Bool) -> Void,
-                        error: @escaping (Bool) -> Void) {
-        
-        if let selectedAnswer = chosenQuiz?.currentQuestion.answers.first(where: { $0.isSelected }) {
-            chosenQuiz?.currentQuestion.userAnswer = selectedAnswer
-        } else {
-            alertTitle = "Warning"
-            alertMessage = "No answer selected!\nPlease select an answer"
-            alertButtonTitle = "Okay"
-            error(true)
-            return
-        }
-        
-//        if evaluateAnswer() {
-//            answerIsCorrect()
-//        } else {
-//            answerIsWrong()
-//        }
-        
-        if self.chosenQuiz!.currentQuestionIndex + 1 < self.chosenQuiz!.numberOfQuestions {
-            finished(false)
-        } else {
-            finished(true)
-        }
-    }
-    // This function Evaluates the answer of the user
-    func evaluateAnswer() -> Bool {
-        if let answer = chosenQuiz?.currentQuestion.userAnswer {
-            if answer.isCorrect {
-                return true
-            } else {
-                return false
-            }
-        }
-        return false
-    }
-    
-    // Goes to the next question in the Quiz.questions Array
-    func toNextQuestion() {
-        if self.chosenQuiz!.currentQuestionIndex <=  self.chosenQuiz!.numberOfQuestions {
-            self.chosenQuiz?.currentQuestionIndex += 1
-        }
-    }
-    //TODO: NEed another way to finish quiz
-//    func finishQuiz() {
-//        if let quiz = self.chosenQuiz {
-//            quiz.isFinished = true
-//            // Adds the finished Quiz to the User's Quizzez
-//            if !UserModel.shared.completedQuizzes.contains(where: { $0.id == quiz.id }) {
-//                UserModel.shared.completedQuizzes.append(quiz)
-//            }
-//        }
-//        
-//        print("Total Completed Quizzes: \(UserModel.shared.completedQuizzes.count)")
-//    }
-    //MARK: Quiz Review after finishing the quiz
-    func checkAnswerToTheLeft(error: @escaping (Bool) -> Void) {
-        guard let chosenQuiz else {return}
-        
-        let currentQuestionIndex = chosenQuiz.currentQuestionIndex
-        if currentQuestionIndex <= 0 {
-            self.showAlert(alertTtitle: "Error", message: "This is the last question.", buttonTitle: "Close")
-            error(true)
-        } else {
-            self.chosenQuiz?.currentQuestionIndex -= 1
-        }
-    }
-    func checkAnswerToTheRight(error: @escaping () -> Void) {
-        guard let chosenQuiz else {return}
-        
-        let currentQuestionIndex = chosenQuiz.currentQuestionIndex
-        if currentQuestionIndex+1 >= chosenQuiz.numberOfQuestions {
-            error()
-        } else {
-            self.chosenQuiz?.currentQuestionIndex += 1
-        }
-    }
-    
-    func enterQuizReviewMode() {
-        self.chosenQuiz?.isInReview = true
-    }
-    
-    // When clicked on Cancel, when modal shows up
     func quitQuiz(onQuit: @escaping () -> Void) {
         self.chosenQuiz = nil
         onQuit()
     }
     
-    //MARK: Helpers
+    // MARK: - Answer Management
+    
+    func selectAnswer(index: Int) {
+        guard let quiz = chosenQuiz else { return }
+        
+        if quizManager.selectAnswer(at: index, in: quiz) {
+            selectAnswerHaptic()
+        }
+    }
+    
+    func unselectAnswer(index: Int) {
+        guard let quiz = chosenQuiz else { return }
+        
+        quizManager.unselectAnswer(at: index, in: quiz)
+        selectAnswerHaptic()
+    }
+    
+    // MARK: - Question Navigation
+    
+    func answerQuestion(finished: @escaping (Bool) -> Void,
+                        error: @escaping (Bool) -> Void) {
+        guard let quiz = chosenQuiz else {
+            error(true)
+            return
+        }
+        
+        let result = quizManager.submitCurrentQuestion(in: quiz)
+        
+        switch result {
+        case .success(let action):
+            switch action {
+            case .moveToNext:
+                finished(false)
+            case .quizCompleted:
+                finished(true)
+            }
+        case .failure(let submissionError):
+            switch submissionError {
+            case .noAnswerSelected:
+                showAlert(alertTitle: "Warning",
+                         message: "No answer selected!\nPlease select an answer",
+                         buttonTitle: "Okay")
+                error(true)
+            case .quizAlreadyCompleted:
+                showAlert(alertTitle: "Error",
+                         message: "Quiz is already completed",
+                         buttonTitle: "Okay")
+                error(true)
+            }
+        }
+    }
+    
+    func toNextQuestion() {
+        guard let quiz = chosenQuiz else { return }
+        _ = quizManager.moveToNextQuestion(in: quiz)
+    }
+    
+    // MARK: - Quiz Review
+    
+    func enterQuizReviewMode() {
+        guard let quiz = chosenQuiz else { return }
+        quizManager.enterReviewMode(for: quiz)
+    }
+    
+    func checkAnswerToTheLeft(error: @escaping (Bool) -> Void) {
+        guard let quiz = chosenQuiz else {
+            error(true)
+            return
+        }
+        
+        if !quizManager.moveToPreviousQuestion(in: quiz) {
+            showAlert(alertTitle: "Error", 
+                     message: "This is the first question.", 
+                     buttonTitle: "Close")
+            error(true)
+        }
+    }
+    
+    func checkAnswerToTheRight(error: @escaping () -> Void) {
+        guard let quiz = chosenQuiz else {
+            error()
+            return
+        }
+        
+        if !quizManager.moveToNextQuestionInReview(in: quiz) {
+            error()
+        }
+    }
+    
+    // MARK: - Progress & Evaluation
+    
+    func calculateProgress() -> Double {
+        guard let quiz = chosenQuiz else { return 0.0 }
+        return quizManager.calculateProgress(in: quiz)
+    }
+    
+    func calculateProgressString() -> String {
+        guard let quiz = chosenQuiz else { return "0%" }
+        return quizManager.calculateProgressString(in: quiz)
+    }
+    
+    func calculateCurrentQuestionProgress() -> Double {
+        guard let quiz = chosenQuiz else { return 0.0 }
+        return quizManager.calculateCurrentQuestionProgress(in: quiz)
+    }
+    
+    func evaluateAnswer() -> Bool {
+        guard let quiz = chosenQuiz else { return false }
+        return quizManager.isCurrentAnswerCorrect(in: quiz)
+    }
+    
+    func hasUserPassedQuiz() -> Bool {
+        guard let quiz = chosenQuiz else { return false }
+        return quizManager.hasUserPassedQuiz(quiz)
+    }
+    
+    func calculateScore() -> Int {
+        guard let quiz = chosenQuiz else { return 0 }
+        return quizManager.calculateScore(in: quiz)
+    }
+    
+    // MARK: - Alert Management
+    
     func showAlert(customError: Errors.BTError? = nil,
-                   alertTtitle: String = "Error",
+                   alertTitle: String = "Error",
                    message: String = "",
                    buttonTitle: String) {
         
@@ -205,162 +237,139 @@ import SwiftUI
         }
         
         self.showAlert = true
-        self.alertTitle = alertTtitle
+        self.alertTitle = alertTitle
         self.alertButtonTitle = buttonTitle
     }
 }
 
-//MARK: Sound and Haptics
+// MARK: - Sound and Haptics
 extension QuizStore {
     
     func selectAnswerHaptic() {
-        
+        // Implementation for haptic feedback
     }
     
     func playCorrectSound() {
-        
+        // Implementation for sound feedback
     }
     
     func initCorrectHaptic() {
-        
+        // Implementation for haptic feedback
     }
 }
 
-
-
-//MARK: Database
+// MARK: - Data Loading
 extension QuizStore {
     
-    // Fetching all of the Topics, Quizzez, Questions and Answers from the database
+    /// Loads initial data (topics and quizzes)
     func loadInitialData(limit: Int? = nil) async throws {
-        // Start fetches concurrently with parameters
         do {
-            async let topicsTask = supabase.getTopics(limit: limit)
-            async let quizzesTask = self.getQuizzez(limit: limit)
-            
+            async let topicsTask = quizRepository.getTopics(limit: limit)
+            async let quizzesTask = quizRepository.getQuizzes(limit: limit, offset: 0)
             
             let (topics, quizzes) = try await (topicsTask, quizzesTask)
             
+            // Group quizzes by topic
             let quizzesByTopic = Dictionary(grouping: quizzes) { $0.topicId }
             
-            
-            // Then, update topics with their quizzes
+            // Update topics with their quizzes
             let updatedTopics = topics.map { topic in
                 var updatedTopic = topic
                 updatedTopic.quizes = quizzesByTopic[topic.id] ?? []
                 return updatedTopic
             }
             
-            // Update the UI
-            withAnimation {
-                self.allTopics = updatedTopics
-                self.allQuizez = quizzes
-            }
-            
-        } catch let error as Errors.BTError {
-            print("Error in QuizStore.loadInitalData:\n\(error)")
-            self.showAlert(customError: error, buttonTitle: "Dismiss")
-        } catch {
-            print(error.localizedDescription)
-            self.showAlert(alertTtitle: "Error", message: "Unexpected error...", buttonTitle: "Dismiss")
-        }
-    }
-    
-    func getQuizzezOnly(limit: Int? = nil, offset: Int = 0) async throws {
-        LoadingManager.shared.show()
-        do {
-            let quizzez = try await getQuizzez(limit: limit, offset: offset)
-            
-            // Update the UI
-            withAnimation {
-                LoadingManager.shared.hide()
-                // Append or replace based on offset
-                if offset == 0 {
-                    self.allQuizez = quizzez
-                } else {
-                    self.allQuizez.append(contentsOf: quizzez)
+            // Update UI on main thread
+            await MainActor.run {
+                withAnimation {
+                    self.allTopics = updatedTopics
+                    self.allQuizez = quizzes
                 }
             }
             
-        } catch let error as Errors.BTError {
-            LoadingManager.shared.hide()
-            self.showAlert(customError: error, buttonTitle: "Dismiss")
+        } catch let error as QuizRepositoryError {
+            await MainActor.run {
+                self.showAlert(customError: error.toBTError(), buttonTitle: "Dismiss")
+            }
         } catch {
-            LoadingManager.shared.hide()
-            print(error.localizedDescription)
-            self.showAlert(alertTtitle: "Error", message: "Unexpected error...", buttonTitle: "Dismiss")
+            await MainActor.run {
+                self.showAlert(alertTitle: "Error", 
+                              message: "Unexpected error occurred", 
+                              buttonTitle: "Dismiss")
+            }
         }
-        
     }
     
-    // For pagination
+    /// Loads only quizzes with pagination support
+    func getQuizzezOnly(limit: Int? = nil, offset: Int = 0) async throws {
+        LoadingManager.shared.show()
+        
+        do {
+            let quizzes = try await quizRepository.getQuizzes(limit: limit, offset: offset)
+            
+            await MainActor.run {
+                withAnimation {
+                    LoadingManager.shared.hide()
+                    
+                    if offset == 0 {
+                        self.allQuizez = quizzes
+                    } else {
+                        self.allQuizez.append(contentsOf: quizzes)
+                    }
+                }
+            }
+            
+        } catch let error as QuizRepositoryError {
+            await MainActor.run {
+                LoadingManager.shared.hide()
+                self.showAlert(customError: error.toBTError(), buttonTitle: "Dismiss")
+            }
+        } catch {
+            await MainActor.run {
+                LoadingManager.shared.hide()
+                self.showAlert(alertTitle: "Error", 
+                              message: "Unexpected error occurred", 
+                              buttonTitle: "Dismiss")
+            }
+        }
+    }
+    
+    /// Loads more quizzes for pagination
     func loadMoreQuizzes(batchSize: Int = 10) async throws {
         let currentCount = allQuizez.count
         try await getQuizzezOnly(limit: batchSize, offset: currentCount)
     }
     
-    // For refreshing
+    /// Refreshes quizzes
     func refreshQuizzes(amount: Int = 10) async throws {
         try await getQuizzezOnly(limit: amount, offset: 0)
     }
     
-    private func getQuizzez(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
-        do {
-            // Get quizzes
-            let quizzes = try await supabase.getQuizzez(limit: limit, offset: offset)
-            
-            // Fill each quiz's questions directly
-            for index in 0..<quizzes.count {
-                let questions = try await fillQuizData(quizId: quizzes[index].id)
-                quizzes[index].questions = questions
-            }
-            
-            return quizzes
-            
-        } catch _ as Errors.BTError {
-            throw Errors.BTError.parseError("Couldn't get quizzes")
-        } catch {
-            throw Errors.BTError.unknownError("Unknown error. Please contact us.")
-        }
-    }
-    private func fillQuizData(quizId: Int) async throws -> [Question] {
-        // Get questions
-        do {
-            let questions = try await supabase.getQuestions(for: quizId)
-            let questionIds = questions.map { $0.id }
-            let answers = try await supabase.getAnswers(for: questionIds)
-            
-            // Get answers for each question
-            let answersDict = Dictionary(grouping: answers) { $0.questionId }
-            
-            // Add answers to their questions
-            let questionsWithAnswers = questions.map { question in
-                var updatedQuestion = question
-                updatedQuestion.answers = answersDict[question.id] ?? []
-                return updatedQuestion
-            }
-            
-            return questionsWithAnswers
-        } catch {
-            throw Errors.BTError.parseError("Couldn't fetch Quiz data. Please try again later.")
-        }
-    }
-    
-    
-//MARK: FirstQuiz uppon onboarding
+    /// Loads first quiz for onboarding
     func loadOnboardingFirstQuiz(topicID: Int) async throws {
         do {
-            if let quiz = try await supabase.getQuizWithTopicID(topicID) {
-                
-                let questions = try await fillQuizData(quizId: quiz.id)
-                quiz.questions = questions
-                self.chosenQuiz = quiz
-            } else {
-                throw Errors.BTError.parseError("Couldn't fetch Quiz data. Please try again later.")
+            guard let quiz = try await quizRepository.getQuizWithTopicID(topicID) else {
+                throw QuizRepositoryError.quizFetchFailed("No quiz found for topic \(topicID)")
             }
+            
+            await MainActor.run {
+                self.chosenQuiz = quiz
+            }
+            
+        } catch let error as QuizRepositoryError {
+            await MainActor.run {
+                self.showAlert(customError: error.toBTError(), buttonTitle: "Dismiss")
+            }
+            throw error
         } catch {
-            throw Errors.BTError.parseError("Couldn't fetch Quiz data. Please try again later.")
+            await MainActor.run {
+                self.showAlert(alertTitle: "Error", 
+                              message: "Failed to load quiz", 
+                              buttonTitle: "Dismiss")
+            }
+            throw error
         }
     }
 }
+
 

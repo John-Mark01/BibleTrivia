@@ -10,6 +10,7 @@ import SwiftUI
 struct FinishedQuizModal: View {
     @Environment(\.dismiss) var dismiss
     @Environment(Router.self) private var router
+    @Environment(QuizStore.self) private var quizStore
     @Binding var isPresented: Bool
     var quiz: Quiz
     var onFinishQuiz: () -> ()
@@ -51,7 +52,7 @@ struct FinishedQuizModal: View {
                     }
                 }
                 .padding(EdgeInsets(top: 20, leading: 0, bottom: 5, trailing: 0))
-                if quiz.userPassedTheQuiz {
+                if quizStore.hasUserPassedQuiz() {
                     Text("You passed:\n\(quiz.name)!")
                         .multilineTextAlignment(.center)
                         .modifier(CustomText(size: 20, font: .semiBold))
@@ -63,7 +64,7 @@ struct FinishedQuizModal: View {
                 
                 
                 
-                if quiz.userPassedTheQuiz {
+                if quizStore.hasUserPassedQuiz() {
                     Text("Keep up the good work :)")
                         .modifier(CustomText(size: 14, font: .regular))
                         .foregroundStyle(Color.BTLightGray)

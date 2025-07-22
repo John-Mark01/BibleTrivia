@@ -152,7 +152,7 @@ struct QuizViewAnswerList: View {
                 answer: quizStore.currentQuiz.currentQuestion.answers[index],
                 abcLetter: quizStore.currentQuiz.currentQuestion.getAnswerABC(index: index),
                 selectAnswer: {quizStore.selectAnswer(index: index)},
-                unselectAnswer: {quizStore.unSelectAnswer(index: index)},
+                unselectAnswer: {quizStore.unselectAnswer(index: index)},
                 isInReview: quizStore.currentQuiz.isInReview
             )
         }

@@ -25,15 +25,15 @@ struct QuizSquareView: View {
                 }
                 .padding(1)
                 Spacer()
-                
-                ZStack {
-                    CircularProgressView(progress: $quiz.progressValue)
-                        .frame(width: 40, height: 40)
-                    
-                    Text(quiz.progressString)
-                        .modifier(CustomText(size: 10, font: .regular))
-                        .foregroundStyle(Color.BTPrimary)
-                }
+                //TODO: Fix this after Cursor
+//                ZStack {
+//                    CircularProgressView(progress: $quiz.progressValue)
+//                        .frame(width: 40, height: 40)
+//                    
+//                    Text(quiz.progressString)
+//                        .modifier(CustomText(size: 10, font: .regular))
+//                        .foregroundStyle(Color.BTPrimary)
+//                }
             }
             .padding(8)
         }

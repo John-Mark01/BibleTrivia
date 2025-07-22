@@ -21,9 +21,10 @@ struct QuizView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 10) {
-                //MARK: ProgressView + Close
+                
+                // ProgressView + Close
                 HStack(spacing: 16) {
-                    LinearProgressView(progress: quizStore.currentQuiz.questionNumber, goal: quizStore.currentQuiz.numberOfQuestions)
+                    LinearProgressView(progress: Int(quizStore.calculateCurrentQuestionProgress()), goal: quizStore.currentQuiz.numberOfQuestions)
                     
                     Spacer()
                     
@@ -84,8 +85,6 @@ struct QuizView: View {
                                 nextButtonTapped.toggle()
                                 quizStore.answerQuestion() { quizFinished in
                                     withAnimation {
-                                        quizStore.currentQuiz.questionNumber += 1
-                                        
                                         if !quizFinished {
                                             quizStore.toNextQuestion()
                                         } else {
@@ -132,21 +131,6 @@ struct QuizView: View {
                 AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() }, isAnotherAction: isActionFromQuizStore)
             }
         }
-        .gesture(
-            DragGesture()
-                .onEnded { gesture in
-                    let startX = gesture.startLocation.x
-                    let width = UIScreen.main.bounds.width
-                    
-                    if startX < 50 {
-                        goLeftCheckingQuesiton()
-                    }
-                    
-                    if startX > width - 50 {
-                        goRightCheckingQuesiton()
-                    }
-                }
-        )
     }
     
    private func navigateAfterFinish() {
@@ -199,12 +183,6 @@ struct ReviewButtonControlls: View {
             }
             .frame(width: 67, height: 60)
             .buttonStyle(NextButton())
-            
-            Spacer()
-            
-            Text("PREVIOUS")
-                .modifier(CustomText(size: 14, font: .regular))
-                .foregroundStyle(Color.BTPrimary)
             
             Spacer()
             

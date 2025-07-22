@@ -34,16 +34,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    var showAlert: Bool = false  
+				<string>    var alertButtonTitle: String = ""
 </string>
 				<key>leading</key>
-				<string>    
-    
-</string>
-				<key>trailing</key>
 				<string>    var alertTitle: String = ""
     var alertMessage: String = ""
-    var alertButtonTitle: String = ""
+</string>
+				<key>trailing</key>
+				<string>    
+    // MARK: - Initialization
+    
 </string>
 			</dict>
 			<key>title</key>
@@ -81,16 +81,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    var alertTitle: String = ""
+				<string>    
 </string>
 				<key>leading</key>
-				<string>    
-    var showAlert: Bool = false  
-</string>
-				<key>trailing</key>
 				<string>    var alertMessage: String = ""
     var alertButtonTitle: String = ""
+</string>
+				<key>trailing</key>
+				<string>    // MARK: - Initialization
     
+    init(supabase: Supabase) {
 </string>
 			</dict>
 			<key>title</key>
@@ -128,16 +128,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    var alertMessage: String = ""
+				<string>    // MARK: - Initialization
 </string>
 				<key>leading</key>
-				<string>    var showAlert: Bool = false  
-    var alertTitle: String = ""
-</string>
-				<key>trailing</key>
 				<string>    var alertButtonTitle: String = ""
     
-    // Computed property for safe quiz access
+</string>
+				<key>trailing</key>
+				<string>    
+    init(supabase: Supabase) {
+        self.quizRepository = QuizRepository(supabase: supabase)
 </string>
 			</dict>
 			<key>title</key>
@@ -175,16 +175,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    var alertButtonTitle: String = ""
+				<string>    
 </string>
 				<key>leading</key>
-				<string>    var alertTitle: String = ""
-    var alertMessage: String = ""
+				<string>    
+    // MARK: - Initialization
 </string>
 				<key>trailing</key>
-				<string>    
-    // Computed property for safe quiz access
-    var currentQuiz: Quiz {
+				<string>    init(supabase: Supabase) {
+        self.quizRepository = QuizRepository(supabase: supabase)
+        self.quizManager = QuizManager()
 </string>
 			</dict>
 			<key>title</key>
@@ -198,15 +198,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>36</string>
+					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>29</string>
+					<string>31</string>
 					<key>StartingColumnNumber</key>
-					<string>36</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>29</string>
+					<string>30</string>
 					<key>Timestamp</key>
-					<string>766790874.75699</string>
+					<string>774902943.012288</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -222,15 +222,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string></string>
+				<string>                    Button(action: {
+</string>
 				<key>leading</key>
 				<string>                    Spacer()
                     
-                    Button(action: {</string>
+</string>
 				<key>trailing</key>
-				<string>
-                        isActionFromQuizStore = false
+				<string>                        isActionFromQuizStore = false
                         alertIsPresented = true
+                        quizStore.alertTitle = "Quit Quiz?"
 </string>
 			</dict>
 			<key>title</key>

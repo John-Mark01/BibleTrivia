@@ -68,8 +68,7 @@ struct BibleTriviaApp: App {
         for await (event, _) in userManager.supabase.auth.authStateChanges {
             if case .initialSession = event {
                 do {
-                    let
-                    _ = try await userManager.supabase.auth.session
+                    let _ = try await userManager.supabase.auth.session
                     // streaks managing
                     await userManager.downloadUserData()
                     await userManager.checkInUser()
@@ -86,6 +85,7 @@ struct BibleTriviaApp: App {
             } else if case .signedIn = event {
                 await userManager.downloadUserData()
                 await userManager.checkInUser()
+                try await quizStore.loadInitialData()
                 signInStatus = .signedIn
             } else if case .signedOut = event {
                 signInStatus = .notSignedIn
