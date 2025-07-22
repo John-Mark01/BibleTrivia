@@ -23,11 +23,6 @@ git filter-branch --force --index-filter "git rm --cached --ignore-unmatch 'path
 git filter-branch --force --tree-filter "rm -f path/to/sensitive/file.ext" --prune-empty HEAD
 ```
 
-**Example for our case:**
-```bash
-git filter-branch --force --index-filter "git rm --cached --ignore-unmatch 'BibleTrivia/Services/Secrets.swift'" --prune-empty --tag-name-filter cat -- --all
-```
-
 ### Step 2: Clean Up Git References
 
 Remove backup references created by filter-branch:
