@@ -25,11 +25,9 @@ struct AllTopicsView: View {
             }
             .background(Color.BTBackground)
         }
+        .applyViewPaddings()
         .navigationTitle("Play")
         .navigationBarTitleDisplayMode(.inline)
-        .padding(.horizontal, Constants.horizontalPadding)
-        .padding(.vertical, Constants.verticalPadding)
-        
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {

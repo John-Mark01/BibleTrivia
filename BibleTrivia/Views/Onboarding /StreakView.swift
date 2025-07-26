@@ -102,7 +102,7 @@ struct StreakView: View {
         }
         .navigationBarBackButtonHidden()
         .applyBackground()
-        .applyBackground()
+        .applyViewPaddings()
         .onAppear(perform: updateTodayStatus)
     }
     

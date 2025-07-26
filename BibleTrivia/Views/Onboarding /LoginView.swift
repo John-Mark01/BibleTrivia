@@ -89,12 +89,11 @@ struct LoginView: View {
                 .applyFont(.regular, size: 12)
                 .multilineTextAlignment(.center)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .applyBackground()
+        .applyViewPaddings(.horizontal)
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
-        .padding(.horizontal, Constants.horizontalPadding)
-        .padding(.vertical, 30)
-        .background(Color.BTBackground)
+        .padding(.top, 30)
         .onChange(of: email) {
             loginDisabled = email.isEmpty && password.isEmpty
         }
@@ -105,8 +104,10 @@ struct LoginView: View {
 }
 
 #Preview {
-    NavigationStack {
+    RouterView {
         LoginView()
     }
+    .environment(UserManager())
+    .environment(Router.shared)
 }
 

@@ -35,6 +35,10 @@ extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
+    func dismissKeyboardOnTap() -> some View {
+        self.modifier(BTKeyboardRemover())
+    }
+    
 //MARK: Text & Font
     func applyFont(_ style: CustomText.FontStyle, size: CGFloat, textColor: Color = .BTBlack) -> some View {
         self.modifier(CustomText(size: size, font: style, foregroundColor: textColor))
@@ -44,5 +48,9 @@ extension View {
 //MARK: Navigation & Toolbar
     func applyAccountButton(placement: ToolbarItemPlacement = .topBarLeading, avatar: Image, onTap: @escaping () -> Void) -> some View {
         self.modifier(BTAccountToolbarItem(placement: placement, image: avatar, onTap: onTap))
+    }
+    
+    func applyBackNavigationButton(onTap: @escaping () -> Void) -> some View {
+        self.modifier(BTBackNavigationToolbarItem(onTap: onTap))
     }
 }

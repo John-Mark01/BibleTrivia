@@ -23,9 +23,9 @@ struct LetsStartAQuizScreen: View {
             
             OnboardButton(text: "Continue", action: startFirstQuiz)
         }
-        .applyBackground()
-        .applyBackground()
         .navigationBarBackButtonHidden()
+        .applyBackground()
+        .applyViewPaddings()
     }
     
     func startFirstQuiz() {

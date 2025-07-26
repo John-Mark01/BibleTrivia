@@ -73,7 +73,6 @@ struct BTAccountToolbarItem: ViewModifier {
     @State private var isPressed = false
     
     func body(content: Content) -> some View {
-        
         content
             .toolbar {
                 ToolbarItem(placement: placement) {
@@ -90,9 +89,35 @@ struct BTAccountToolbarItem: ViewModifier {
                             .background(
                                 Circle()
                                     .frame(width: 36, height: 36)
+                                    .tint(.BTPrimary)
                             )
                     }
                     .sensoryFeedback(.impact, trigger: isPressed)
+                }
+            }
+    }
+}
+
+struct BTBackNavigationToolbarItem: ViewModifier {
+    
+    var onTap: () -> Void
+    
+    @State private var isPressed = false
+    
+    func body(content: Content) -> some View {
+        content
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        isPressed.toggle()
+                        onTap()
+                    }) {
+                        Image("Arrow")
+                            .foregroundColor(.black)
+                            .frame(width: 44, height: 44)
+                            .layoutDirectionBehavior(.mirrors(in: .leftToRight))
+                    }
+                    .sensoryFeedback(.impact(flexibility: .solid), trigger: isPressed)
                 }
             }
     }
@@ -126,5 +151,16 @@ struct CustomText: ViewModifier {
         case semiBold
         case medium
         case regular
+    }
+}
+
+//MARK: Keyboard
+
+struct BTKeyboardRemover: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
     }
 }

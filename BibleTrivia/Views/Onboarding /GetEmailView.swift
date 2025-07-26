@@ -53,29 +53,23 @@ struct GetEmailView: View {
                 .padding(.top, 20)
             
             
-            Spacer()
-            
             OnboardButton(text: "Continue", action: onContinue)
             
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden()
-        .ignoresSafeArea(.keyboard)
-        .padding(.horizontal, Constants.horizontalPadding)
-        .padding(.vertical, 30)
-        .background(Color.BTBackground)
-        .onTapGesture {
-            dismissKeyboard()
-        }
+        .padding(.top, 30)
+        .applyViewPaddings(.horizontal)
+        .dismissKeyboardOnTap()
+        .applyBackground()
     }
 }
 
 #Preview {
-    NavigationStack {
+    RouterView {
         GetEmailView()
-            .environment(OnboardingManager(supabase: Supabase()))
-            .environment(Router.shared)
     }
+    .environment(OnboardingManager(supabase: Supabase()))
+    .environment(Router.shared)
 }
 
 struct OnboardCountriesListView: View {

@@ -91,34 +91,15 @@ struct HomeView: View {
                     }
                     .padding(.top, 10)
                 }
-                .padding(.horizontal, Constants.horizontalPadding)
-                .padding(.vertical, Constants.verticalPadding)
                 .navigationTitle("Welcome, \(userName)!")
-                .navigationBarTitleDisplayMode(.large)
                 .navigationBarBackButtonHidden()
-                .background(Color.BTBackground)
                 .blur(radius: openModal ? 3 : 0)
                 .disabled(openModal)
-                
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            router.navigateTo(.account)
-                        }) {
-                            Image("Avatars/jacob")
-                                .resizable()
-                                .frame(width: 32, height: 32)
-                                .clipShape(
-                                    Circle()
-                                )
-                                .background(
-                                    Circle()
-                                        .frame(width: 36, height: 36)
-                                )
-                            
-                        }
-                    }
-                }
+                .applyViewPaddings()
+                .applyBackground()
+                .applyAccountButton(avatar: Image("Avatars/jacob"), onTap: {
+                    router.navigateTo(.account)
+                })
             }
             .background(Color.BTBackground)
             
@@ -139,13 +120,17 @@ struct HomeView: View {
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        HomeView()
-//    }
-//    .tint(Color.BTPrimary)
-//    .environment(QuizStore())
-//}
+#Preview {
+    NavigationStack {
+        HomeView()
+    }
+    .environment(QuizStore(supabase: Supabase()))
+    .environment(Router.shared)
+}
+
+
+import SwiftUI
+
 
 struct EmptyQuizView: View {
     var body: some View {
@@ -173,6 +158,6 @@ struct EmptyQuizView: View {
     }
 }
 
-#Preview {
+#Preview("EmptyQuizView") {
     EmptyQuizView()
 }

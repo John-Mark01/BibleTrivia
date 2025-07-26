@@ -44,10 +44,8 @@ struct WelcomeView: View {
                           action: onLogin)
             
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.horizontal, Constants.horizontalPadding)
-        .padding(.vertical, Constants.verticalPadding)
-        .background(Color.BTBackground)
+        .applyViewPaddings()
+        .applyBackground()
     }
 }
 

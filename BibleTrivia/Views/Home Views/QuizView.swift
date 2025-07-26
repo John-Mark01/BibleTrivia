@@ -20,8 +20,24 @@ struct QuizView: View {
     
     var body: some View {
         ZStack {
+            Group {
+                if finishQuizModal {
+                    FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.currentQuiz, onFinishQuiz: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            navigateAfterFinish()
+                        }
+                    }, onReviewQuiz: {
+                        quizStore.enterQuizReviewMode()
+                    })
+                }
+                // Normal Alert
+                if alertIsPresented {
+                    AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() }, isAnotherAction: isActionFromQuizStore)
+                }
+            }
+            .zIndex(999)
+            
             VStack(alignment: .leading, spacing: 10) {
-                
                 
                 // ProgressView + Close
                 HStack(spacing: 16) {
@@ -108,28 +124,12 @@ struct QuizView: View {
                     }
                     
                 }
-                .background(Color.BTBackground)
             }
             .navigationBarBackButtonHidden()
-            .padding(.horizontal, Constants.horizontalPadding)
-            .padding(.vertical, Constants.verticalPadding)
-            .background(Color.BTBackground)
             .blur(radius: alertIsPresented || finishQuizModal ? 3 : 0)
             .disabled(alertIsPresented || finishQuizModal)
-            
-            if finishQuizModal {
-                FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.currentQuiz, onFinishQuiz: {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        navigateAfterFinish()
-                    }
-                }, onReviewQuiz: {
-                    quizStore.enterQuizReviewMode()
-                })
-            }
-            // Normal Alert
-            if alertIsPresented {
-                AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() }, isAnotherAction: isActionFromQuizStore)
-            }
+            .applyViewPaddings()
+            .applyBackground()
         }
     }
     
@@ -165,6 +165,15 @@ struct QuizView: View {
             }
         }
     }
+}
+
+#Preview {
+    RouterView {
+        QuizView()
+    }
+    .environment(Router.shared)
+    .environment(QuizStore(repository: QuizRepository(supabase: Supabase()), manager: .init()))
+    .environment(AlertManager())
 }
 
 struct ReviewButtonControlls: View {

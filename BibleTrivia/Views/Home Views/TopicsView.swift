@@ -18,8 +18,9 @@ struct TopicsView: View {
                     .frame(width: 50, height: 50)
             }
         }
+        .applyViewPaddings()
+        .applyBackground()
         .navigationTitle("Topics")
-        .background(Color.BTBackground)
     }
 }
 

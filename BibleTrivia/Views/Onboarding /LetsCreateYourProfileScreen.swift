@@ -27,7 +27,7 @@ struct LetsCreateYourProfileScreen: View {
             OnboardButton(text: "Continue", action: onContinue)
         }
         .applyBackground()
-        .applyBackground()
+        .applyViewPaddings()
         .navigationBarBackButtonHidden()
     }
     

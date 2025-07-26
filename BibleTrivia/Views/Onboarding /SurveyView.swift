@@ -104,7 +104,7 @@ struct SurveyView: View {
             
         }
         .applyBackground()
-        .applyBackground()
+        .applyViewPaddings()
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $showDidYouKnow, onDismiss: advance) {
             DidYouKnowScreen()

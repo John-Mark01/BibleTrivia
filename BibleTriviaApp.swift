@@ -39,7 +39,6 @@ struct BibleTriviaApp: App {
             .environment(onboardingManager)
             .environment(\.userName, "John-Mark")
             .environment(router)
-            .tint(Color.BTBlack)
             .overlay {
                 if LoadingManager.shared.isShowing {
                     LoadingView()
