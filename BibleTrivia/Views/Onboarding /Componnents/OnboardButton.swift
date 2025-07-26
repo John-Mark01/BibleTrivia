@@ -35,8 +35,7 @@ struct OnboardButton: View {
             action()
         }) {
             Text(text)
-                .modifier(CustomText(size: textSize, font: .medium))
-                .foregroundColor(textColor)
+                .applyFont(.medium, size: textSize, textColor: textColor)
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
                 .padding(.vertical, 12)

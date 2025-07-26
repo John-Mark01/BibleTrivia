@@ -17,14 +17,14 @@ struct LetsStartAQuizScreen: View {
             Spacer()
             
             Text("Let's try a quiz!")
-                .addFont(style: .semiBold, size: 40)
+                .applyFont(.semiBold, size: 40)
             
             Spacer()
             
             OnboardButton(text: "Continue", action: startFirstQuiz)
         }
-        .addViewPaddings()
-        .addBackground()
+        .applyBackground()
+        .applyBackground()
         .navigationBarBackButtonHidden()
     }
     

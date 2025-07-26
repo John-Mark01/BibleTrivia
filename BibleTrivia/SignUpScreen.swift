@@ -25,13 +25,14 @@ struct SignUpScreen: View {
             HStack {
                 Spacer()
                 Text(welcomeText)
-                    .modifier(CustomText(size: 22, font: .semiBold))
+                    .applyFont(.semiBold, size: 22)
+
                 Spacer()
             }
 
             VStack(alignment: .leading, spacing: 4) {
                 Text("Enter our first name")
-                    .modifier(CustomText(size: 14, font: .medium))
+                    .applyFont(.medium, size: 14)
                 
                 TextField("First Name", text: $firstName)
                     .padding()
@@ -42,7 +43,7 @@ struct SignUpScreen: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Enter our last name")
-                    .modifier(CustomText(size: 14, font: .medium))
+                    .applyFont(.medium, size: 14)
                 
                 TextField("Last Name", text: $lastName)
                     .padding()
@@ -53,7 +54,7 @@ struct SignUpScreen: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Enter your age")
-                    .modifier(CustomText(size: 14, font: .medium))
+                    .applyFont(.medium, size: 14)
                 
                 TextField("Age", text: $age)
                     .padding()
@@ -65,7 +66,7 @@ struct SignUpScreen: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Enter your e-mail")
-                    .modifier(CustomText(size: 14, font: .medium))
+                    .applyFont(.medium, size: 14)
                 
                 TextField("Email", text: $email)
                     .padding()
@@ -76,7 +77,7 @@ struct SignUpScreen: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Enter your password")
-                    .modifier(CustomText(size: 14, font: .medium))
+                    .applyFont(.medium, size: 14)
                 
                 SecureField("Password", text: $password)
                     .padding()
@@ -105,7 +106,7 @@ struct SignUpScreen: View {
             Spacer()
         }
         .background(Color.BTBackground)
-        .padding(.horizontal, Constants.hPadding)
+        .padding(.horizontal, Constants.horizontalPadding)
         .padding(.vertical, 32)
         .navigationTitle("Sign Up")
     }
@@ -136,7 +137,7 @@ struct BTTextField: View {
                 VStack(alignment: .leading, spacing: 16) {
                     
                     Text("Password")
-                        .modifier(CustomText(size: 18, font: .regular))
+                        .applyFont(.regular, size: 18)
                         .padding()
                         .offset(y: offset)
                     

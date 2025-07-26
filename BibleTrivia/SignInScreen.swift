@@ -20,13 +20,14 @@ struct SignInScreen: View {
             HStack {
                 Spacer()
                 Text(welcomeText)
-                    .modifier(CustomText(size: 22, font: .semiBold))
+                    .applyFont(.semiBold, size: 22)
+
                 Spacer()
             }
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Enter your e-mail")
-                    .modifier(CustomText(size: 14, font: .medium))
+                    .applyFont(.medium, size: 14)
                 
                 TextField("Email", text: $email)
                     .padding()
@@ -37,7 +38,7 @@ struct SignInScreen: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Enter your password")
-                    .modifier(CustomText(size: 14, font: .medium))
+                    .applyFont(.medium, size: 14)
                 
                 SecureField("Password", text: $password)
                     .padding()
@@ -68,7 +69,7 @@ struct SignInScreen: View {
             Spacer()
         }
         .background(Color.BTBackground)
-        .padding(.horizontal, Constants.hPadding)
+        .padding(.horizontal, Constants.horizontalPadding)
         .padding(.vertical, 32)
         .navigationTitle("Sign In")
     }

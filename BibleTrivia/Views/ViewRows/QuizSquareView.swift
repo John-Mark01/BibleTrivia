@@ -17,13 +17,13 @@ struct QuizSquareView: View {
             HStack {
                 VStack(alignment: .leading) {
                     Text(quiz.name)
-                        .modifier(CustomText(size: 16, font: .regular))
-                    Text("\(quiz.numberOfQuestions) questions")
-                        .modifier(CustomText(size: 10, font: .regular))
-                        .foregroundStyle(Color.BTLightGray)
+                        .applyFont(.regular, size: 16)
 
+                    Text("\(quiz.numberOfQuestions) questions")
+                        .applyFont(.regular, size: 10, textColor: .BTLightGray)
                 }
                 .padding(1)
+                
                 Spacer()
                 //TODO: Fix this after Cursor
 //                ZStack {

@@ -38,8 +38,7 @@ struct CustomNavigationBar: View {
             
             // Title
             Text(title)
-                .modifier(CustomText(size: 20, font: .medium))
-                .foregroundColor(.BTBlack)
+                .applyFont(.medium, size: 20)
                 .multilineTextAlignment(.leading)
             
             Spacer()
@@ -56,6 +55,6 @@ struct CustomNavigationBar: View {
                 Spacer()
             }
         }
-        .padding(.horizontal, Constants.hPadding)
+        .padding(.horizontal, Constants.horizontalPadding)
     }
 }

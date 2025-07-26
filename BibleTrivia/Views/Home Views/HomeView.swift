@@ -41,11 +41,10 @@ struct HomeView: View {
                                     .foregroundStyle(Color.yellow)
                                     .padding(.trailing, 4)
                                 Text("Score:")
-                                    .modifier(CustomText(size: 24, font: .semiBold))
-                                    .foregroundStyle(Color.white)
+                                    .applyFont(.semiBold, size: 23, textColor: .white)
+
                                 Text("328")
-                                    .modifier(CustomText(size: 24, font: .regular))
-                                    .foregroundStyle(Color.white)
+                                    .applyFont(.regular, size: 24, textColor: .white)
                             }
                             
                         }
@@ -64,8 +63,7 @@ struct HomeView: View {
                                     .foregroundStyle(Color.BTDarkGray)
                                 
                                 Text("3")
-                                    .modifier(CustomText(size: 34, font: .semiBold))
-                                    .foregroundStyle(Color.white)
+                                    .applyFont(.semiBold, size: 34, textColor: .white)
                                     .bold()
                             }
                         }
@@ -78,7 +76,7 @@ struct HomeView: View {
                     //MARK: Unfinished Quizes
                     VStack(alignment: .leading) {
                         Text("Unfinished Quizzes")
-                            .modifier(CustomText(size: 20, font: .medium))
+                            .applyFont(.medium, size: 20)
                         
                         UnfinishedQuizesViewRow(quizes: $tempQuiz, isPresented: $openModal)
                     }
@@ -86,15 +84,15 @@ struct HomeView: View {
                     //MARK: Find New Quizzes
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Find New Quizzes")
-                            .modifier(CustomText(size: 20, font: .medium))
+                            .applyFont(.medium, size: 20)
                         
                         FindQuizViewRow(quizes: quizStore.allQuizez, isPresented: $openModal)
                         
                     }
                     .padding(.top, 10)
                 }
-                .padding(.horizontal, Constants.hPadding)
-                .padding(.vertical, Constants.vPadding)
+                .padding(.horizontal, Constants.horizontalPadding)
+                .padding(.vertical, Constants.verticalPadding)
                 .navigationTitle("Welcome, \(userName)!")
                 .navigationBarTitleDisplayMode(.large)
                 .navigationBarBackButtonHidden()

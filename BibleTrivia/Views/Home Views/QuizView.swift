@@ -22,6 +22,7 @@ struct QuizView: View {
         ZStack {
             VStack(alignment: .leading, spacing: 10) {
                 
+                
                 // ProgressView + Close
                 HStack(spacing: 16) {
                     LinearProgressView(progress: Int(quizStore.calculateCurrentQuestionProgress()), goal: quizStore.currentQuiz.numberOfQuestions)
@@ -43,10 +44,10 @@ struct QuizView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     
                     Text("Question" + " \((quizStore.currentQuiz.currentQuestionIndex) + 1)")
-                        .modifier(CustomText(size: 14, font: .semiBold))
+                        .applyFont(.semiBold, size: 14)
                     
                     Text((quizStore.currentQuiz.questions[quizStore.currentQuiz.currentQuestionIndex].text) + "?")
-                        .modifier(CustomText(size: 20, font: .semiBold))
+                        .applyFont(.semiBold, size: 20)
                     
                     
                     QuizViewAnswerList()
@@ -57,8 +58,8 @@ struct QuizView: View {
                         HStack {
                             Spacer()
                             Text(quizStore.currentQuiz.currentQuestion.userAnswerIsCorrect ? "Correct!" : "Incorrect...")
-                                .modifier(CustomText(size: 20, font: .medium))
-                                .foregroundStyle(Color.BTBlack)
+                                .applyFont(.medium, size: 20)
+                            
                             Spacer()
                         }
                         .padding()
@@ -78,8 +79,7 @@ struct QuizView: View {
                             Spacer()
                             
                             Text("NEXT")
-                                .modifier(CustomText(size: 14, font: .regular))
-                                .foregroundStyle(Color.BTPrimary)
+                                .applyFont(.regular, size: 14, textColor: .BTPrimary)
                             
                             Button(action: {
                                 nextButtonTapped.toggle()
@@ -111,8 +111,8 @@ struct QuizView: View {
                 .background(Color.BTBackground)
             }
             .navigationBarBackButtonHidden()
-            .padding(.horizontal, Constants.hPadding)
-            .padding(.vertical, Constants.vPadding)
+            .padding(.horizontal, Constants.horizontalPadding)
+            .padding(.vertical, Constants.verticalPadding)
             .background(Color.BTBackground)
             .blur(radius: alertIsPresented || finishQuizModal ? 3 : 0)
             .disabled(alertIsPresented || finishQuizModal)

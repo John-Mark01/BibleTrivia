@@ -28,20 +28,17 @@ struct UserAccountCard: View {
                     
                     VStack(alignment: .leading, spacing: 8) {
                         Text(user.name)
-                            .modifier(CustomText(size: 20, font: .semiBold))
-                            .foregroundStyle(Color.white)
+                            .applyFont(.semiBold, size: 20, textColor: .white)
                         
                         Text("\(user.totalPoints)pts | \(user.userLevel.stringValue)")
-                            .modifier(CustomText(size: 14, font: .medium))
-                            .foregroundStyle(Color.white)
+                            .applyFont(.medium, size: 14, textColor: .white)
                         
                         if viewUse == .myProgress {
                             HStack(alignment: .top, spacing: 10) {
                                 LinearProgressView(progress: user.totalPoints, goal: user.nextLevel.rawValue, showPercentage: false, fillColor: .white, backgroundOpacity: 0.4)
                                 
                                 Text((UserLevel(rawValue: user.userLevel.rawValue + 1)?.stringValue ?? ""))
-                                    .modifier(CustomText(size: 13, font: .semiBold))
-                                    .foregroundStyle(Color.white)
+                                    .applyFont(.semiBold, size: 13, textColor: .white)
                                     .offset(y: -1)
                             }
                         }
@@ -79,12 +76,10 @@ struct UserScoreCard: View {
                 // Points
                 VStack(alignment: .center, spacing: 4) {
                     Text("\(user.totalPoints)")
-                        .modifier(CustomText(size: 18, font: .medium))
-                        .foregroundStyle(Color.white)
+                        .applyFont(.medium, size: 18, textColor: .white)
                     
                     Text("Points")
-                        .modifier(CustomText(size: 14, font: .medium))
-                        .foregroundStyle(Color.white.opacity(0.7))
+                        .applyFont(.medium, size: 14, textColor: .white.opacity(0.7))
                 }
                 Spacer()
                 
@@ -96,12 +91,10 @@ struct UserScoreCard: View {
                 // Streak
                 VStack(alignment: .center, spacing: 4) {
                     Text("\(user.streek)")
-                        .modifier(CustomText(size: 18, font: .medium))
-                        .foregroundStyle(Color.white)
+                        .applyFont(.medium, size: 18, textColor: .white)
                     
                     Text("Days Steek")
-                        .modifier(CustomText(size: 14, font: .medium))
-                        .foregroundStyle(Color.white.opacity(0.7))
+                        .applyFont(.medium, size: 14, textColor: .white.opacity(0.7))
                 }
                 
                 Spacer()
@@ -112,12 +105,10 @@ struct UserScoreCard: View {
                 // Streak
                 VStack(alignment: .center, spacing: 4) {
                     Text("\(user.completedQuizzes.count)")
-                        .modifier(CustomText(size: 18, font: .medium))
-                        .foregroundStyle(Color.white)
+                        .applyFont(.medium, size: 18, textColor: .white)
                     
                     Text("Quizzez")
-                        .modifier(CustomText(size: 14, font: .medium))
-                        .foregroundStyle(Color.white.opacity(0.7))
+                        .applyFont(.medium, size: 14, textColor: .white.opacity(0.7))
                 }
                 
             }

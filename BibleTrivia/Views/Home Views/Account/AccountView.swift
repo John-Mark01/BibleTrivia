@@ -37,8 +37,8 @@ struct AccountView: View {
             }
         }
         .background(Color.BTBackground)
-        .padding(.horizontal, Constants.hPadding)
-        .padding(.vertical, Constants.vPadding)
+        .padding(.horizontal, Constants.horizontalPadding)
+        .padding(.vertical, Constants.verticalPadding)
         .navigationTitle("Account")
     }
 }
@@ -57,7 +57,7 @@ struct BTForm: View {
         
         VStack(alignment: .leading) {
             Text(sectionName)
-                .modifier(CustomText(size: 20, font: .semiBold))
+                .applyFont(.semiBold, size: 20)
             
             VStack {
                 VStack(spacing: 20) {
@@ -101,8 +101,9 @@ struct BTFormButton: View {
         }) {
             HStack(alignment: .center, spacing: 10) {
                 Image(imageName)
+                
                 Text(buttonName)
-                    .modifier(CustomText(size: 16, font: .regular))
+                    .applyFont(.regular, size: 16)
                 
                 Spacer()
                 

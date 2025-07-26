@@ -66,8 +66,7 @@ struct LoginView: View {
             Button("Forgot password".uppercased()) {
                 onForgotPasscode()
             }
-            .foregroundStyle(Color.blueGradient)
-            .modifier(CustomText(size: 20, font: .semiBold))
+            .applyFont(.semiBold, size: 20, textColor: .blueGradient)
             
             
             Spacer()
@@ -87,13 +86,13 @@ struct LoginView: View {
             }
             
             Text("By signing in to BibleTrivia, you agree to our Terms and Privacy Policy.")
-                .modifier(CustomText(size: 12, font: .regular))
+                .applyFont(.regular, size: 12)
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
-        .padding(.horizontal, Constants.hPadding)
+        .padding(.horizontal, Constants.horizontalPadding)
         .padding(.vertical, 30)
         .background(Color.BTBackground)
         .onChange(of: email) {

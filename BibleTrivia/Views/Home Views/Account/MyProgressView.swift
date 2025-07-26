@@ -18,7 +18,7 @@ struct MyProgressView: View {
                 
             }
             .navigationTitle("My Progress")
-            .padding(.horizontal, Constants.hPadding)
+            .padding(.horizontal, Constants.horizontalPadding)
             .padding(.top, Constants.topPadding)
         }
     }

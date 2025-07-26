@@ -28,13 +28,14 @@ struct PlayView: View {
                     //MARK: Choose a topic
                     HStack {
                         Text("Choose a Topic")
-                            .addFont(style: .medium, size: 20)
+                            .applyFont(.medium, size: 20)
                         
                         Spacer()
                         
                         Button("See all") {
                             self.showAllTopics = true
-                        }.tint(Color.BTBlack)
+                        }
+                        .tint(Color.BTBlack)
                     }
                     
                     TopicsViewRow(topics: quizStore.allTopics, isPresented: $openTopicModal)
@@ -42,7 +43,7 @@ struct PlayView: View {
                     //MARK: Quick Quiz
                     HStack {
                         Text("Quick Quiz")
-                            .modifier(CustomText(size: 20, font: .medium))
+                            .applyFont(.medium, size: 20)
                         
                         Spacer()
                         
@@ -53,7 +54,7 @@ struct PlayView: View {
                     
                     QuizViewRow(quizez: quizStore.allQuizez, isPresented: $openQuizModal)
                 }
-                .padding(.horizontal, Constants.hPadding)
+                .padding(.horizontal, Constants.horizontalPadding)
                 .padding(.vertical, 20)
                 .background(Color.BTBackground)
                 .navigationTitle("Play")
@@ -86,8 +87,7 @@ struct PlayView: View {
                                 Image("star")
                                 
                                 Text("\(326)")
-                                    .modifier(CustomText(size: 18, font: .regular))
-                                    .foregroundStyle(Color.BTBlack)
+                                    .applyFont(.regular, size: 18)
                             }
                         }
                     }

@@ -15,31 +15,25 @@ struct QuizUpdateView: View {
                     Image("bible_mini")
                     
                     Text("Quiz Update")
-                        .modifier(CustomText(size: 18, font: .semiBold))
-                        .foregroundStyle(Color.white)
+                        .applyFont(.semiBold, size: 18, textColor: .white)
                 }
                 
                 
                 Text("Currently you don’t have any active Quiz")
                     .multilineTextAlignment(.leading)
-                    .modifier(CustomText(size: 15, font: .regular))
-                    .foregroundStyle(Color.white)
+                    .applyFont(.regular, size: 15, textColor: .white)
                 
                 Spacer()
                 
-                Button(action: {
-                    
-                }) {
-                    Text("Start Quiz")
-                        .modifier(CustomText(size: 14, font: .medium))
-                        .foregroundStyle(Color.BTPrimary)
-                        .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                        .background {
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.white)
-                            
-                        }
-                }
+                Text("Start Quiz")
+                    .applyFont(.medium, size: 14, textColor: .BTPrimary)
+                    .foregroundStyle(Color.BTPrimary)
+                    .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                    .background {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.white)
+                    }
+                    .makeButton(action: {})
             }
             .padding()
             
