@@ -12,7 +12,6 @@
 		3652A4142DB43B35001FD2BA /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4132DB43B34001FD2BA /* StreakView.swift */; };
 		3652A4162DB43DFD001FD2BA /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */; };
 		3663E6532E35681E004CB9BC /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6522E35681E004CB9BC /* CustomNavigationBar.swift */; };
-		3670FF8B2E2EC6000000F67A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3670FF8A2E2EC6000000F67A /* Config.xcconfig */; };
 		3670FF8D2E300E100000F67A /* QuizManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8C2E300E100000F67A /* QuizManager.swift */; };
 		3670FF8F2E300E1A0000F67A /* QuizRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8E2E300E1A0000F67A /* QuizRepository.swift */; };
 		367BF5D02D73C0D700F97BA1 /* LetsStartAQuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */; };
@@ -490,7 +489,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					36AC71DF2CB57C7B002FF37C = {
 						CreatedOnToolsVersion = 16.0;
@@ -529,7 +528,6 @@
 				36E0A61A2D1C47C5006AEC4F /* Rubik-Regular.ttf in Resources */,
 				36A592032D1EC81E00972BA2 /* Loading.json in Resources */,
 				36E0A61B2D1C47C5006AEC4F /* Rubik-SemiBold.ttf in Resources */,
-				3670FF8B2E2EC6000000F67A /* Config.xcconfig in Resources */,
 				36E0A61C2D1C47C5006AEC4F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -660,6 +658,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = S6ZFW3NA3K;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -724,6 +723,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = S6ZFW3NA3K;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -753,7 +753,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = S6ZFW3NA3K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BibleTrivia/Info.plist;
@@ -783,7 +782,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = S6ZFW3NA3K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BibleTrivia/Info.plist;
