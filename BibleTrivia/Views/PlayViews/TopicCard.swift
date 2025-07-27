@@ -14,19 +14,16 @@ struct TopicCard: View {
         VStack(alignment: .leading, spacing: 8) {
             if topicType == .all {
                 Text(topic.status.stringValue)
-                    .foregroundStyle(Color.white)
-                    .modifier(CustomText(size: 10, font: .regular))
+                    .applyFont(.regular, size: 10, textColor: .white)
             }
             
             HStack {
                 Text(topic.name)
-                    .foregroundStyle(Color.BTBlack)
-                    .modifier(CustomText(size: 15, font: .semiBold))
+                    .applyFont(.semiBold, size: 15)
             }
             HStack {
                 Text("\(topic.numberOfQuizes) quizzez")
-                    .modifier(CustomText(size: 14, font: .regular))
-                    .foregroundStyle(Color.BTLightGray)
+                    .applyFont(.regular, size: 14, textColor: .BTLightGray)
             }
             
             SimpleLinearProgressView(progress: Int(topic.completenesLevel), goal: topic.numberOfQuizes, progressString: topic.progressString, color: setBackgroundColor())

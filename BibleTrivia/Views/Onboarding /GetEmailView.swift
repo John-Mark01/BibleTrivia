@@ -39,7 +39,7 @@ struct GetEmailView: View {
             
             VStack(alignment: .leading) {
                 Text("Enter your email")
-                    .modifier(CustomText(size: 20, font: .medium))
+                    .applyFont(.medium, size: 20)
                 
                 NewBTTextField(value: $email, placeholder: "Email")
             }
@@ -53,29 +53,23 @@ struct GetEmailView: View {
                 .padding(.top, 20)
             
             
-            Spacer()
-            
             OnboardButton(text: "Continue", action: onContinue)
             
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden()
-        .ignoresSafeArea(.keyboard)
-        .padding(.horizontal, Constants.hPadding)
-        .padding(.vertical, 30)
-        .background(Color.BTBackground)
-        .onTapGesture {
-            dismissKeyboard()
-        }
+        .padding(.top, 30)
+        .applyViewPaddings(.horizontal)
+        .dismissKeyboardOnTap()
+        .applyBackground()
     }
 }
 
 #Preview {
-    NavigationStack {
+    RouterView {
         GetEmailView()
-            .environment(OnboardingManager(supabase: Supabase()))
-            .environment(Router.shared)
     }
+    .environment(OnboardingManager(supabase: Supabase()))
+    .environment(Router.shared)
 }
 
 struct OnboardCountriesListView: View {
@@ -88,7 +82,8 @@ struct OnboardCountriesListView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Select your country")
-                .modifier(CustomText(size: 20, font: .medium))
+                .applyFont(.medium, size: 20)
+
             ScrollView {
                 VStack(spacing: 10) {
                     ForEach(0..<10) { index in
@@ -102,8 +97,7 @@ struct OnboardCountriesListView: View {
                                     .frame(width: 25, height: 25)
                                 
                                 Text("Bulgaria")
-                                    .modifier(CustomText(size: 17, font: .medium))
-                                    .foregroundColor(.BTBlack)
+                                    .applyFont(.medium, size: 17)
                                 
                                 Spacer()
                             }

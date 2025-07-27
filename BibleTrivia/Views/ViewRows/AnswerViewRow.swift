@@ -50,11 +50,11 @@ struct AnswerViewRow: View {
                             )
                         
                         Text(answer.text)
-                            .foregroundStyle(getTextColor())
-                            .modifier(CustomText(size: 16, font: .regular))
+                            .applyFont(.regular, size: 16, textColor: getTextColor())
+                            
                         Spacer()
                     }
-                    .padding(.horizontal, Constants.hPadding)
+                    .padding(.horizontal, Constants.horizontalPadding)
                 }
                 .frame(height: 50)
                 

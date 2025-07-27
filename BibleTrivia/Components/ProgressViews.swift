@@ -67,9 +67,8 @@ struct LinearProgressView: View {
                     
                     if showPercentage {
                         Text("\(Int(Double(progress) / Double(goal) * 100)) %")
-                            .foregroundStyle(Color.white)
+                            .applyFont(.medium, size: 15, textColor: .white)
                             .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
-                            .modifier(CustomText(size: 15, font: .medium))
                             .background(
                                 RoundedRectangle(cornerRadius: 60)
                                     .stroke(Color.BTBlack, lineWidth: 2)
@@ -102,8 +101,7 @@ struct SimpleLinearProgressView: View {
                 Spacer()
 
                 Text(progressString)
-                    .modifier(CustomText(size: 10, font: .regular))
-                    .tint(Color.BTBlack)
+                    .applyFont(.regular, size: 10)
             }
             ZStack(alignment: .leading) {
                 GeometryReader { geo in

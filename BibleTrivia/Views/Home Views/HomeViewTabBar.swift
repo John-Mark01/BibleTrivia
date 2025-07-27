@@ -41,4 +41,6 @@ struct HomeViewTabBar: View {
     NavigationStack {
         HomeViewTabBar()
     }
+    .environment(Router.shared)
+    .environment(QuizStore(supabase: Supabase()))
 }

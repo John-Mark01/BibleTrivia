@@ -22,7 +22,6 @@ struct AccountView: View {
         SectionModel(name: "Logout", image: "logout")
     ]
     var body: some View {
-        
         ScrollView {
             UserAccountCard(user: userManager.user)
                 .padding(.bottom, 20)
@@ -36,10 +35,9 @@ struct AccountView: View {
                 })
             }
         }
-        .background(Color.BTBackground)
-        .padding(.horizontal, Constants.hPadding)
-        .padding(.vertical, Constants.vPadding)
         .navigationTitle("Account")
+        .applyViewPaddings()
+        .applyBackground()
     }
 }
 
@@ -47,6 +45,7 @@ struct AccountView: View {
     NavigationView {
         AccountView()
     }
+    .environment(UserManager())
 }
 
 struct BTForm: View {
@@ -57,7 +56,7 @@ struct BTForm: View {
         
         VStack(alignment: .leading) {
             Text(sectionName)
-                .modifier(CustomText(size: 20, font: .semiBold))
+                .applyFont(.semiBold, size: 20)
             
             VStack {
                 VStack(spacing: 20) {
@@ -101,8 +100,9 @@ struct BTFormButton: View {
         }) {
             HStack(alignment: .center, spacing: 10) {
                 Image(imageName)
+                
                 Text(buttonName)
-                    .modifier(CustomText(size: 16, font: .regular))
+                    .applyFont(.regular, size: 16)
                 
                 Spacer()
                 

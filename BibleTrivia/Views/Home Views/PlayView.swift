@@ -19,6 +19,28 @@ struct PlayView: View {
     
     var body: some View {
         ZStack {
+            Group {
+                if openQuizModal {
+                    if let quiz = quizStore.chosenQuiz {
+                        ChooseQuizModal(isPresented: $openQuizModal, quiz: quiz, startQuiz: {
+                            router.navigateTo(.quizView)
+                        }, cancel: {
+                            openQuizModal = false
+                        })
+                    }
+                }
+                if openTopicModal {
+                    if let topic = quizStore.chosenTopic {
+                        ChooseTopicModal(isPresented: $openTopicModal, topic: topic, goToQuizez: {
+                            showAllTopics = true
+                        }, close: {
+                            openTopicModal = false
+                        })
+                    }
+                }
+            }
+            .zIndex(999)
+            
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     
@@ -28,13 +50,14 @@ struct PlayView: View {
                     //MARK: Choose a topic
                     HStack {
                         Text("Choose a Topic")
-                            .addFont(style: .medium, size: 20)
+                            .applyFont(.medium, size: 20)
                         
                         Spacer()
                         
                         Button("See all") {
                             self.showAllTopics = true
-                        }.tint(Color.BTBlack)
+                        }
+                        .tint(Color.BTBlack)
                     }
                     
                     TopicsViewRow(topics: quizStore.allTopics, isPresented: $openTopicModal)
@@ -42,7 +65,7 @@ struct PlayView: View {
                     //MARK: Quick Quiz
                     HStack {
                         Text("Quick Quiz")
-                            .modifier(CustomText(size: 20, font: .medium))
+                            .applyFont(.medium, size: 20)
                         
                         Spacer()
                         
@@ -53,87 +76,53 @@ struct PlayView: View {
                     
                     QuizViewRow(quizez: quizStore.allQuizez, isPresented: $openQuizModal)
                 }
-                .padding(.horizontal, Constants.hPadding)
-                .padding(.vertical, 20)
-                .background(Color.BTBackground)
-                .navigationTitle("Play")
-                .navigationBarTitleDisplayMode(.inline)
-                .blur(radius: (openQuizModal || openTopicModal) ? 3 : 0)
-                .disabled(openQuizModal || openTopicModal)
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            router.navigateTo(.account)
-                        }) {
-                            Image("Avatars/jacob")
-                                .resizable()
-                                .frame(width: 32, height: 32)
-                                .clipShape(
-                                    Circle()
-                                )
-                                .background(
-                                    Circle()
-                                        .frame(width: 36, height: 36)
-                                )
+            }
+            .refreshable { onRefresh()}
+            .navigationTitle("Play")
+            .navigationBarTitleDisplayMode(.inline)
+            .blur(radius: (openQuizModal || openTopicModal) ? 3 : 0)
+            .disabled(openQuizModal || openTopicModal)
+            .applyViewPaddings()
+            .applyBackground()
+            .applyAccountButton(avatar: Image("Avatars/jacob"), onTap: {
+                router.navigateTo(.account)
+            })
+            .toolbar { //TODO: Add this in a Generic View
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        
+                    }) {
+                        HStack(spacing: 4) {
+                            Image("star")
                             
-                        }
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button(action: {
-                            
-                        }) {
-                            HStack(spacing: 4) {
-                                Image("star")
-                                
-                                Text("\(326)")
-                                    .modifier(CustomText(size: 18, font: .regular))
-                                    .foregroundStyle(Color.BTBlack)
-                            }
+                            Text("\(326)")
+                                .applyFont(.regular, size: 18)
                         }
                     }
                 }
-                .navigationDestination(isPresented: $showAllTopics) {
-                    AllTopicsView(topics: quizStore.allTopics)
-                }
             }
-            .refreshable {
-                Task {
-                    do {
-                        try await quizStore.getQuizzezOnly(limit: 50)
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
-            }
-            .background(Color.BTBackground)
-            
-            if openQuizModal {
-                if let quiz = quizStore.chosenQuiz {
-                    ChooseQuizModal(isPresented: $openQuizModal, quiz: quiz, startQuiz: {
-                        router.navigateTo(.quizView)
-                    }, cancel: {
-                        openQuizModal = false
-                    })
-                }
-            }
-            if openTopicModal {
-                if let topic = quizStore.chosenTopic {
-                    ChooseTopicModal(isPresented: $openTopicModal, topic: topic, goToQuizez: {
-                        showAllTopics = true
-                    }, close: {
-                        openTopicModal = false
-                    })
-                }
+            .navigationDestination(isPresented: $showAllTopics) {
+                AllTopicsView(topics: quizStore.allTopics)
             }
         }
-        
+    }
+    
+    private func onRefresh() {
+        Task {
+            do {
+                try await quizStore.getQuizzezOnly(limit: 50)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        PlayView()
-//            .tint(Color.BTPrimary)
-//    }
-//        .environment(QuizStore())
-//}
+#Preview {
+    RouterView {
+        PlayView()
+            .tint(Color.BTPrimary)
+    }
+    .environment(QuizStore(supabase: Supabase()))
+    .environment(Router.shared)
+}

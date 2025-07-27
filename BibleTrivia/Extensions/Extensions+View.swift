@@ -9,22 +9,52 @@ import SwiftUI
 
 extension View {
     
-//MARK: Background + Padding
-    
-    func addBackground() -> some View {
+//MARK: Background
+    func applyBackground() -> some View {
         self.modifier(BTBackground())
     }
     
-    func addViewPaddings() -> some View {
-        self.modifier(BTViewPadding())
+//MARK: Paddings
+    func applyViewPaddings(_ choise: BTViewPadding.PaddingChoise = .all) -> some View {
+        self.modifier(BTViewPadding(choise: choise))
     }
     
-    func addInsideaddings() -> some View {
+    func applyInsideViewPaddings() -> some View {
         self.modifier(BTEdgesPadding())
+    }
+    
+//MARK: Buttons
+    func makeButton(action: @escaping () -> Void,
+                    addHapticFeedback: Bool = false,
+                    feedbackStyle: SensoryFeedback = .impact) -> some View {
+        self.modifier(BTButtonRenderer(action: action, hapticsEnabled: addHapticFeedback, hapticFeedbackStyle: feedbackStyle))
+    }
+    
+    func buttonDisabled(_ isDisabled: Bool) -> some View {
+        self.modifier(DisabledButtonStyleModifier(isDisabled: isDisabled))
     }
     
 //MARK: Keyboard dismissal
     func dismissKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
+    func dismissKeyboardOnTap() -> some View {
+        self.modifier(BTKeyboardRemover())
+    }
+    
+//MARK: Text & Font
+    func applyFont(_ style: CustomText.FontStyle, size: CGFloat, textColor: Color = .BTBlack) -> some View {
+        self.modifier(CustomText(size: size, font: style, foregroundColor: textColor))
+    }
+    
+    
+//MARK: Navigation & Toolbar
+    func applyAccountButton(placement: ToolbarItemPlacement = .topBarLeading, avatar: Image, onTap: @escaping () -> Void) -> some View {
+        self.modifier(BTAccountToolbarItem(placement: placement, image: avatar, onTap: onTap))
+    }
+    
+    func applyBackNavigationButton(onTap: @escaping () -> Void) -> some View {
+        self.modifier(BTBackNavigationToolbarItem(onTap: onTap))
     }
 }

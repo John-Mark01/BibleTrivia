@@ -15,11 +15,25 @@ struct QuizView: View {
     @State private var alertIsPresented: Bool = false
     @State private var isActionFromQuizStore: Bool = false
     
-    // Sensor Feedback Variables
-    @State private var nextButtonTapped: Bool = false
-    
     var body: some View {
         ZStack {
+            Group {
+                if finishQuizModal {
+                    FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.currentQuiz, onFinishQuiz: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            navigateAfterFinish()
+                        }
+                    }, onReviewQuiz: {
+                        quizStore.enterQuizReviewMode()
+                    })
+                }
+                // Normal Alert
+                if alertIsPresented {
+                    AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() }, isAnotherAction: isActionFromQuizStore)
+                }
+            }
+            .zIndex(999)
+            
             VStack(alignment: .leading, spacing: 10) {
                 
                 // ProgressView + Close
@@ -43,10 +57,10 @@ struct QuizView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     
                     Text("Question" + " \((quizStore.currentQuiz.currentQuestionIndex) + 1)")
-                        .modifier(CustomText(size: 14, font: .semiBold))
+                        .applyFont(.semiBold, size: 14)
                     
                     Text((quizStore.currentQuiz.questions[quizStore.currentQuiz.currentQuestionIndex].text) + "?")
-                        .modifier(CustomText(size: 20, font: .semiBold))
+                        .applyFont(.semiBold, size: 20)
                     
                     
                     QuizViewAnswerList()
@@ -57,8 +71,8 @@ struct QuizView: View {
                         HStack {
                             Spacer()
                             Text(quizStore.currentQuiz.currentQuestion.userAnswerIsCorrect ? "Correct!" : "Incorrect...")
-                                .modifier(CustomText(size: 20, font: .medium))
-                                .foregroundStyle(Color.BTBlack)
+                                .applyFont(.medium, size: 20)
+                            
                             Spacer()
                         }
                         .padding()
@@ -78,11 +92,9 @@ struct QuizView: View {
                             Spacer()
                             
                             Text("NEXT")
-                                .modifier(CustomText(size: 14, font: .regular))
-                                .foregroundStyle(Color.BTPrimary)
+                                .applyFont(.regular, size: 14, textColor: .BTPrimary)
                             
-                            Button(action: {
-                                nextButtonTapped.toggle()
+                            Button("") {
                                 quizStore.answerQuestion() { quizFinished in
                                     withAnimation {
                                         if !quizFinished {
@@ -97,39 +109,18 @@ struct QuizView: View {
                                         alertIsPresented = error
                                     }
                                 }
-                            }) {
-                                Image("Arrow")
-                                    .tint(Color.white)
                             }
-                            .frame(width: 67, height: 60)
-                            .buttonStyle(NextButton())
-                            .sensoryFeedback(.impact, trigger: nextButtonTapped)
+                            .buttonStyle(.next(width: 67, direction: .right))
                         }
                     }
                     
                 }
-                .background(Color.BTBackground)
             }
             .navigationBarBackButtonHidden()
-            .padding(.horizontal, Constants.hPadding)
-            .padding(.vertical, Constants.vPadding)
-            .background(Color.BTBackground)
             .blur(radius: alertIsPresented || finishQuizModal ? 3 : 0)
             .disabled(alertIsPresented || finishQuizModal)
-            
-            if finishQuizModal {
-                FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.currentQuiz, onFinishQuiz: {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        navigateAfterFinish()
-                    }
-                }, onReviewQuiz: {
-                    quizStore.enterQuizReviewMode()
-                })
-            }
-            // Normal Alert
-            if alertIsPresented {
-                AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() }, isAnotherAction: isActionFromQuizStore)
-            }
+            .applyViewPaddings()
+            .applyBackground()
         }
     }
     
@@ -167,6 +158,15 @@ struct QuizView: View {
     }
 }
 
+#Preview {
+    RouterView {
+        QuizView()
+    }
+    .environment(Router.shared)
+    .environment(QuizStore(repository: QuizRepository(supabase: Supabase()), manager: .init()))
+    .environment(AlertManager())
+}
+
 struct ReviewButtonControlls: View {
     
     var onCheckQuestionLeft: () -> Void
@@ -174,26 +174,17 @@ struct ReviewButtonControlls: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 20) {
-            Button(action: {
+            Button("") {
                 onCheckQuestionLeft()
-            }) {
-                Image("Arrow")
-                    .tint(Color.white)
-                    .rotationEffect(.degrees(180))
             }
-            .frame(width: 67, height: 60)
-            .buttonStyle(NextButton())
+            .buttonStyle(.next(width: 67, direction: .left))
             
             Spacer()
             
-            Button(action: {
+            Button("") {
                 onCheckQuestionRight()
-            }) {
-                Image("Arrow")
-                    .tint(Color.white)
             }
-            .frame(width: 67, height: 60)
-            .buttonStyle(NextButton())
+            .buttonStyle(.next(width: 67, direction: .right))
         }
     }
 }

@@ -21,12 +21,12 @@ struct WelcomeView: View {
         VStack(alignment: .center, spacing: 16) {
             
             Text("Welcome to\nBibleTrivia")
-                .modifier(CustomText(size: 45, font: .semiBold))
+                .applyFont(.semiBold, size: 45)
                 .multilineTextAlignment(.center)
             
             
             Text("Learn the Bible the fun way!")
-                .modifier(CustomText(size: 20, font: .medium))
+                .applyFont(.medium, size: 20)
                 .padding()
             
             //TODO: Need to add something in the middle
@@ -44,10 +44,8 @@ struct WelcomeView: View {
                           action: onLogin)
             
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.horizontal, Constants.hPadding)
-        .padding(.vertical, Constants.vPadding)
-        .background(Color.BTBackground)
+        .applyViewPaddings()
+        .applyBackground()
     }
 }
 

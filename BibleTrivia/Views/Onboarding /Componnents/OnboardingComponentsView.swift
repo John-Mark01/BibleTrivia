@@ -34,7 +34,7 @@ struct OnboardingComponentsView: View {
                 
                 Spacer()
             }
-            .padding(.horizontal, Constants.hPadding)
+            .padding(.horizontal, Constants.horizontalPadding)
         }
         .frame(maxWidth: .infinity)
         .background(Color.BTBackground)

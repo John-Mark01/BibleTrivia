@@ -14,7 +14,9 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     
-    @State private var loginDisabled: Bool = false
+    private var loginDisabled: Bool {
+        email.isEmpty && password.isEmpty
+    }
     
     func onForgotPasscode() {
         
@@ -57,17 +59,17 @@ struct LoginView: View {
             
             NewBTSecureField(value: $password, placeholder: "password")
             
-            ActionButtons(title: "Login",
-                          height: 8,
-                          disabled: loginDisabled,
-                          action: onLoginWithEmailAndPassword)
+            Button("Login") {
+                onLoginWithEmailAndPassword()
+            }
+            .buttonStyle(.primary)
+            .buttonDisabled(loginDisabled)
             
             
             Button("Forgot password".uppercased()) {
                 onForgotPasscode()
             }
-            .foregroundStyle(Color.blueGradient)
-            .modifier(CustomText(size: 20, font: .semiBold))
+            .applyFont(.semiBold, size: 15, textColor: .blueGradient)
             
             
             Spacer()
@@ -87,18 +89,14 @@ struct LoginView: View {
             }
             
             Text("By signing in to BibleTrivia, you agree to our Terms and Privacy Policy.")
-                .modifier(CustomText(size: 12, font: .regular))
+                .applyFont(.regular, size: 12)
                 .multilineTextAlignment(.center)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .applyBackground()
+        .applyViewPaddings(.horizontal)
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
-        .padding(.horizontal, Constants.hPadding)
-        .padding(.vertical, 30)
-        .background(Color.BTBackground)
-        .onChange(of: email) {
-            loginDisabled = email.isEmpty && password.isEmpty
-        }
+        .padding(.top, 30)
         .onTapGesture {
             dismissKeyboard()
         }
@@ -106,8 +104,10 @@ struct LoginView: View {
 }
 
 #Preview {
-    NavigationStack {
+    RouterView {
         LoginView()
     }
+    .environment(UserManager())
+    .environment(Router.shared)
 }
 

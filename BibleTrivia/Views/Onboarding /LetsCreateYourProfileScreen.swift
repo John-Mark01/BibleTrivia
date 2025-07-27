@@ -20,14 +20,14 @@ struct LetsCreateYourProfileScreen: View {
             Spacer()
             
             Text(message)
-                .addFont(style: .semiBold, size: 40)
+                .applyFont(.semiBold, size: 40)
             
             Spacer()
             
             OnboardButton(text: "Continue", action: onContinue)
         }
-        .addViewPaddings()
-        .addBackground()
+        .applyBackground()
+        .applyViewPaddings()
         .navigationBarBackButtonHidden()
     }
     

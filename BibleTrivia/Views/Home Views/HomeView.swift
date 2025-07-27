@@ -22,105 +22,50 @@ struct HomeView: View {
         ZStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-//                    HStack {
-//                        Text("Welcome, \(userName)!")
-//                            .modifier(CustomText(size: 24, font: .semiBold))
-//                        Spacer()
-//                    }
-                    //MARK: Top Buttons
+                    //Top Buttons
                     HStack {
                         
-                        Button(action: {
-                            //TODO: Modal showing the scorring
-                            LoadingManager.shared.show()
-                        }) {
-                            HStack {
-                                Image("star")
-                                    .resizable()
-                                    .frame(width: 34, height: 34)
-                                    .foregroundStyle(Color.yellow)
-                                    .padding(.trailing, 4)
-                                Text("Score:")
-                                    .modifier(CustomText(size: 24, font: .semiBold))
-                                    .foregroundStyle(Color.white)
-                                Text("328")
-                                    .modifier(CustomText(size: 24, font: .regular))
-                                    .foregroundStyle(Color.white)
-                            }
+                        Button("") {
                             
                         }
-                        .frame(width: 212, height: 70)
-                        .buttonStyle(ScoreButton())
+                        .buttonStyle(.score(score: "328"))
                         
-                        Spacer()
-                        Button(action: {
-                            //TODO: Modal showing the streak
-                            print("Streak pressed")
-                        }) {
-                            HStack {
-                                Image(systemName: "bolt.fill")
-                                    .resizable()
-                                    .frame(width: 24, height: 34)
-                                    .foregroundStyle(Color.BTDarkGray)
-                                
-                                Text("3")
-                                    .modifier(CustomText(size: 34, font: .semiBold))
-                                    .foregroundStyle(Color.white)
-                                    .bold()
-                            }
+                        Button("") {
+                            
                         }
-                        
-                        .buttonStyle(StreakButton())
+                        .buttonStyle(.streak(width: 123, streak: "500"))
                     }
                     
                     Spacer()
                     
-                    //MARK: Unfinished Quizes
+                    //Unfinished Quizes
                     VStack(alignment: .leading) {
                         Text("Unfinished Quizzes")
-                            .modifier(CustomText(size: 20, font: .medium))
+                            .applyFont(.medium, size: 20)
                         
                         UnfinishedQuizesViewRow(quizes: $tempQuiz, isPresented: $openModal)
                     }
                     
-                    //MARK: Find New Quizzes
+                    //Find New Quizzes
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Find New Quizzes")
-                            .modifier(CustomText(size: 20, font: .medium))
+                            .applyFont(.medium, size: 20)
                         
                         FindQuizViewRow(quizes: quizStore.allQuizez, isPresented: $openModal)
                         
                     }
                     .padding(.top, 10)
                 }
-                .padding(.horizontal, Constants.hPadding)
-                .padding(.vertical, Constants.vPadding)
                 .navigationTitle("Welcome, \(userName)!")
-                .navigationBarTitleDisplayMode(.large)
                 .navigationBarBackButtonHidden()
-                .background(Color.BTBackground)
+                .navigationBarTitleDisplayMode(.large)
                 .blur(radius: openModal ? 3 : 0)
                 .disabled(openModal)
-                
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            router.navigateTo(.account)
-                        }) {
-                            Image("Avatars/jacob")
-                                .resizable()
-                                .frame(width: 32, height: 32)
-                                .clipShape(
-                                    Circle()
-                                )
-                                .background(
-                                    Circle()
-                                        .frame(width: 36, height: 36)
-                                )
-                            
-                        }
-                    }
-                }
+                .applyViewPaddings()
+                .applyBackground()
+                .applyAccountButton(avatar: Image("Avatars/jacob"), onTap: {
+                    router.navigateTo(.account)
+                })
             }
             .background(Color.BTBackground)
             
@@ -141,13 +86,17 @@ struct HomeView: View {
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        HomeView()
-//    }
-//    .tint(Color.BTPrimary)
-//    .environment(QuizStore())
-//}
+#Preview {
+    NavigationStack {
+        HomeView()
+    }
+    .environment(QuizStore(supabase: Supabase()))
+    .environment(Router.shared)
+}
+
+
+import SwiftUI
+
 
 struct EmptyQuizView: View {
     var body: some View {
@@ -175,6 +124,6 @@ struct EmptyQuizView: View {
     }
 }
 
-#Preview {
+#Preview("EmptyQuizView") {
     EmptyQuizView()
 }

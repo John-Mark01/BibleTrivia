@@ -48,8 +48,12 @@ import SwiftUI
     
     /// Safe access to current quiz
     var currentQuiz: Quiz {
+        let answers = [Answer(id: 1, text: "Error", questionId: 0, isCorrect: true)]
+        let questions = [Question(text: "Error", explanation: "Error", answers: answers)]
+        let quiz = Quiz(name: "Error", questions: questions, time: 0, status: .new, difficulty: .deacon, totalPoints: 10)
         guard let quiz = chosenQuiz else {
-            return Quiz(id: 0, name: "Error", topicId: 0, time: 0, status: 0, difficulty: 0, totalPoints: 0)
+//            return Quiz(id: 0, name: "Error", topicId: 0, time: 0, status: 0, difficulty: 0, totalPoints: 0)
+            return quiz
         }
         return quiz
     }

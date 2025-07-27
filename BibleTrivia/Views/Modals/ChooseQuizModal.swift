@@ -26,21 +26,22 @@ struct ChooseQuizModal: View {
                 }
             VStack(alignment: .center, spacing: 10) {
                 Text(quiz.name)
-                    .foregroundStyle(Color.BTPrimary)
-                    .modifier(CustomText(size: 20, font: .medium))
+                    .applyFont(.medium, size: 20, textColor: .BTPrimary)
                     .padding(.top, 8)
+                
                 //MARK: Middle Info
                 VStack(spacing: 22) {
                     // Level
                     HStack {
                         Image("medal-star")
                         Text("Level:")
-                            .modifier(CustomText(size: 18, font: .medium))
+                            .applyFont(.medium, size: 18)
                         
                         Spacer()
+                        
                         VStack(alignment: .leading) {
                             Text(quiz.difficulty.getAsString())
-                                .modifier(CustomText(size: 18, font: .regular))
+                                .applyFont(.regular, size: 18)
                         }
                     }
                     
@@ -48,12 +49,12 @@ struct ChooseQuizModal: View {
                     HStack {
                         Image("task-square")
                         Text("Questions:")
-                            .modifier(CustomText(size: 18, font: .medium))
+                            .applyFont(.medium, size: 18)
                         
                         Spacer()
                         VStack(alignment: .leading) {
                             Text("\(quiz.numberOfQuestions)")
-                                .modifier(CustomText(size: 18, font: .regular))
+                                .applyFont(.regular, size: 18)
                         }
                     }
                     
@@ -61,12 +62,12 @@ struct ChooseQuizModal: View {
                     HStack {
                         Image("cup")
                         Text("Points:")
-                            .modifier(CustomText(size: 18, font: .medium))
+                            .applyFont(.medium, size: 18)
                         
                         Spacer()
                         VStack(alignment: .leading) {
                             Text("\(quiz.totalPoints)")
-                                .modifier(CustomText(size: 18, font: .regular))
+                                .applyFont(.regular, size: 18)
                         }
                     }
                     
@@ -74,12 +75,12 @@ struct ChooseQuizModal: View {
                     HStack {
                         Image("timer")
                         Text("Time:")
-                            .modifier(CustomText(size: 18, font: .medium))
+                            .applyFont(.medium, size: 18)
                         
                         Spacer()
                         VStack(alignment: .leading) {
                             Text("\(Int(quiz.time.rounded())) minutes")
-                                .modifier(CustomText(size: 18, font: .regular))
+                                .applyFont(.regular, size: 18)
                         }
                     }
                 }
@@ -89,16 +90,19 @@ struct ChooseQuizModal: View {
                 
                 //MARK: Buttons
                 VStack {
-                    ActionButtons(title: "Start Quiz", isPrimary: true, action: {
+                    Button("Start Quiz") {
                         withAnimation {
                             startQuiz()
                         }
-                    })
-                    ActionButtons(title: "Cancel", isPrimary: false ,action: {
+                    }
+                    .buttonStyle(.primary)
+                    
+                    Button("Cancel") {
                         withAnimation {
                             cancel()
                         }
-                    })
+                    }
+                    .buttonStyle(.secondary)
                 }
             }
             .padding(25)

@@ -74,7 +74,7 @@ struct SurveyView: View {
                 VStack(alignment: .leading, spacing: 40) {
                     
                     Text(onboardingManager.survey.questions[onboardingManager.survey.currentQuestionIndex].text)
-                        .modifier(CustomText(size: 30, font: .semiBold))
+                        .applyFont(.semiBold, size: 30)
                     
                     VStack(alignment: .leading, spacing: 16) {
                         ForEach(onboardingManager.survey.currentQuestion.answers, id: \.id) { answer in
@@ -103,8 +103,8 @@ struct SurveyView: View {
             
             
         }
-        .addViewPaddings()
-        .addBackground()
+        .applyBackground()
+        .applyViewPaddings()
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $showDidYouKnow, onDismiss: advance) {
             DidYouKnowScreen()

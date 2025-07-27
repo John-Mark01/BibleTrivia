@@ -25,7 +25,7 @@ struct BibleTriviaApp: App {
                 Group {
                     switch signInStatus {
                     case .idle:
-                        ProgressView("Loading...")
+                       LoadingView()
                     case .signedIn:
                         HomeViewTabBar()
                     case .notSignedIn:
@@ -39,7 +39,6 @@ struct BibleTriviaApp: App {
             .environment(onboardingManager)
             .environment(\.userName, "John-Mark")
             .environment(router)
-            .tint(Color.BTBlack)
             .overlay {
                 if LoadingManager.shared.isShowing {
                     LoadingView()
@@ -74,21 +73,21 @@ struct BibleTriviaApp: App {
                     await userManager.checkInUser()
                     // get initial data
                     try await quizStore.loadInitialData()
-                    signInStatus = .signedIn
+                    setSignedInStatus()
                 } catch let error as AuthError {
                     print (error)
-                    signInStatus = .notSignedIn
+                    setNotSignedInStatus()
                 } catch {
                     print(error.localizedDescription)
-                    signInStatus = .notSignedIn
+                    setNotSignedInStatus()
                 }
             } else if case .signedIn = event {
                 await userManager.downloadUserData()
                 await userManager.checkInUser()
                 try await quizStore.loadInitialData()
-                signInStatus = .signedIn
+                setSignedInStatus()
             } else if case .signedOut = event {
-                signInStatus = .notSignedIn
+                setNotSignedInStatus()
                 router.popToRoot()
             }
         }
@@ -98,5 +97,16 @@ struct BibleTriviaApp: App {
         case idle
         case signedIn
         case notSignedIn
+    }
+    
+    private func setSignedInStatus() {
+        withAnimation {
+            signInStatus = .signedIn
+        }
+    }
+    private func setNotSignedInStatus() {
+        withAnimation {
+            signInStatus = .notSignedIn
+        }
     }
 }

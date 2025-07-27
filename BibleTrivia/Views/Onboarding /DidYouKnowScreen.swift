@@ -14,9 +14,10 @@ struct DidYouKnowScreen: View {
         VStack(alignment: .center, spacing: 40) {
             
             Text("Did You Know?")
-                .modifier(CustomText(size: 40, font: .semiBold))
+                .applyFont(.semiBold, size: 40)
+                
             Text("That 88% of the world's population speaks a language that is not one of the 7 major world languages.")
-                .modifier(CustomText(size: 25, font: .medium))
+                .applyFont(.medium, size: 25)
             
             Spacer()
             

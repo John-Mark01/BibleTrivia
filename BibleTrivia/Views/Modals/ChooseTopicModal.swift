@@ -27,21 +27,22 @@ struct ChooseTopicModal: View {
                 }
             VStack(alignment: .center, spacing: 10) {
                 Text(topic.name)
-                    .foregroundStyle(Color.BTPrimary)
-                    .modifier(CustomText(size: 20, font: .medium))
+                    .applyFont(.medium, size: 20)
                     .padding(.top, 8)
+                
                 //MARK: Middle Info
                 VStack(spacing: 22) {
                     // Level
                     HStack {
-                        Image("medal-star")
+                        Image("medal-star")                        
                         Text("Status:")
-                            .modifier(CustomText(size: 18, font: .medium))
+                            .applyFont(.medium, size: 18)
                         
                         Spacer()
+                        
                         VStack(alignment: .leading) {
                             Text(topic.status.stringValue)
-                                .modifier(CustomText(size: 18, font: .regular))
+                                .applyFont(.regular, size: 18)
                         }
                     }
                     
@@ -49,12 +50,13 @@ struct ChooseTopicModal: View {
                     HStack {
                         Image("task-square")
                         Text("Quizez:")
-                            .modifier(CustomText(size: 18, font: .medium))
+                            .applyFont(.medium, size: 18)
                         
                         Spacer()
+                        
                         VStack(alignment: .leading) {
                             Text("\(topic.numberOfQuizes)")
-                                .modifier(CustomText(size: 18, font: .regular))
+                                .applyFont(.regular, size: 18)
                         }
                     }
                     
@@ -62,12 +64,13 @@ struct ChooseTopicModal: View {
                     HStack {
                         Image("cup")
                         Text("Points:")
-                            .modifier(CustomText(size: 18, font: .medium))
+                            .applyFont(.medium, size: 18)
                         
                         Spacer()
+                        
                         VStack(alignment: .leading) {
                             Text("\(topic.totalPoints)")
-                                .modifier(CustomText(size: 18, font: .regular))
+                                .applyFont(.regular, size: 18)
                         }
                     }
                     
@@ -82,16 +85,18 @@ struct ChooseTopicModal: View {
                 
                 //MARK: Buttons
                 VStack {
-                    ActionButtons(title: "View Quizez", isPrimary: true, action: {
+                    Button("View Quizez") {
                         withAnimation {
                             goToQuizez()
                         }
-                    })
-                    ActionButtons(title: "Close", isPrimary: false ,action: {
+                    }
+                    .buttonStyle(.primary)
+                    Button("Close") {
                         withAnimation {
                             close()
                         }
-                    })
+                    }
+                    .buttonStyle(.secondary)
                 }
             }
             .padding(25)
@@ -101,8 +106,5 @@ struct ChooseTopicModal: View {
             .padding(30)
         }
         .ignoresSafeArea()
-        
-        
     }
 }
-

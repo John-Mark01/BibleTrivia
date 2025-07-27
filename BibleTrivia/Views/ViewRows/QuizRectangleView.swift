@@ -23,12 +23,10 @@ struct QuizRectangleView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(quiz.name)
-                            .modifier(CustomText(size: 14, font: .regular))
-                            .foregroundStyle(Color.BTBlack)
+                            .applyFont(.regular, size: 14)
                         
                         Text("\(quiz.numberOfQuestions) " + "Questions")
-                            .modifier(CustomText(size: 10, font: .regular))
-                            .foregroundStyle(Color.BTLightGray)
+                            .applyFont(.regular, size: 10, textColor: .BTLightGray)
                         
                     }
                 }

@@ -54,37 +54,36 @@ struct FinishedQuizModal: View {
                 .padding(EdgeInsets(top: 20, leading: 0, bottom: 5, trailing: 0))
                 if quizStore.hasUserPassedQuiz() {
                     Text("You passed:\n\(quiz.name)!")
+                        .applyFont(.semiBold, size: 20)
                         .multilineTextAlignment(.center)
-                        .modifier(CustomText(size: 20, font: .semiBold))
                 } else {
                     Text("You almost passed:\n\(quiz.name)!")
+                        .applyFont(.semiBold, size: 20)
                         .multilineTextAlignment(.center)
-                        .modifier(CustomText(size: 20, font: .semiBold))
                 }
                 
                 
                 
                 if quizStore.hasUserPassedQuiz() {
                     Text("Keep up the good work :)")
-                        .modifier(CustomText(size: 14, font: .regular))
-                        .foregroundStyle(Color.BTLightGray)
+                        .applyFont(.regular, size: 14, textColor: .BTLightGray)
                 } else {
                     Text("Click on 'Back To Quiz' to review your answers")
-                        .modifier(CustomText(size: 14, font: .regular))
-                        .foregroundStyle(Color.BTLightGray)
+                        .applyFont(.regular, size: 14, textColor: .BTLightGray)
                 }
                 
                 Spacer()
                 
-                ActionButtons(title: "Continue", isPrimary: true) {
-//                    self.dismiss()
+                Button("Continue") {
                     onFinishQuiz()
                 }
+                .buttonStyle(.primary(height: 15))
                 
-                ActionButtons(title: "Back To Quiz", isPrimary: false) {
+                Button("Back To Quiz") {
                     onReviewQuiz()
                     isPresented = false
                 }
+                .buttonStyle(.secondary(height: 15))
             }
             .padding(25)
             .background(Color.BTBackground)

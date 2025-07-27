@@ -11,15 +11,12 @@ struct MyProgressView: View {
     @Environment(UserManager.self) var userManager
     var body: some View {
         ScrollView {
-            
             VStack {
                 UserAccountCard(user: userManager.user, viewUse: .myProgress)
-                    .frame(height: 50)
                 
             }
+            .applyViewPaddings()
             .navigationTitle("My Progress")
-            .padding(.horizontal, Constants.hPadding)
-            .padding(.top, Constants.topPadding)
         }
     }
 }
@@ -28,4 +25,5 @@ struct MyProgressView: View {
     NavigationStack {
         MyProgressView()
     }
+    .environment(UserManager())
 }

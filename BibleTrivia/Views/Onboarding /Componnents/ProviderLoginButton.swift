@@ -49,8 +49,7 @@ struct ProviderLoginButton: View {
                     .frame(width: 20, height: 23)
                 
                 Text("Sign in with \(provider.rawValue)")
-                    .modifier(CustomText(size: 19, font: .regular))
-                    .foregroundStyle(textColor)
+                    .applyFont(.regular, size: 20, textColor: textColor)
                     
             }
             .frame(maxWidth: .infinity)

@@ -14,7 +14,8 @@ struct AllTopicsView: View {
         
         VStack(alignment: .leading, spacing: 16) {
             Text("Topics")
-                .modifier(CustomText(size: 16, font: .semiBold))
+                .applyFont(.semiBold, size: 16)
+            
             ScrollView {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
                     ForEach($topics, id: \.id) { topic in
@@ -24,11 +25,9 @@ struct AllTopicsView: View {
             }
             .background(Color.BTBackground)
         }
+        .applyViewPaddings()
         .navigationTitle("Play")
         .navigationBarTitleDisplayMode(.inline)
-        .padding(.horizontal, Constants.hPadding)
-        .padding(.vertical, Constants.vPadding)
-        
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
@@ -38,8 +37,7 @@ struct AllTopicsView: View {
                         Image("star")
                         
                         Text("\(326)")
-                            .modifier(CustomText(size: 18, font: .regular))
-                            .foregroundStyle(Color.BTBlack)
+                            .applyFont(.regular, size: 18)
                     }
                 }
             }
