@@ -22,12 +22,7 @@ struct HomeView: View {
         ZStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-//                    HStack {
-//                        Text("Welcome, \(userName)!")
-//                            .modifier(CustomText(size: 24, font: .semiBold))
-//                        Spacer()
-//                    }
-                    //MARK: Top Buttons
+                    //Top Buttons
                     HStack {
                         
                         Button("") {
@@ -43,7 +38,7 @@ struct HomeView: View {
                     
                     Spacer()
                     
-                    //MARK: Unfinished Quizes
+                    //Unfinished Quizes
                     VStack(alignment: .leading) {
                         Text("Unfinished Quizzes")
                             .applyFont(.medium, size: 20)
@@ -51,7 +46,7 @@ struct HomeView: View {
                         UnfinishedQuizesViewRow(quizes: $tempQuiz, isPresented: $openModal)
                     }
                     
-                    //MARK: Find New Quizzes
+                    //Find New Quizzes
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Find New Quizzes")
                             .applyFont(.medium, size: 20)
