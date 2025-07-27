@@ -30,45 +30,15 @@ struct HomeView: View {
                     //MARK: Top Buttons
                     HStack {
                         
-                        Button(action: {
-                            //TODO: Modal showing the scorring
-                            LoadingManager.shared.show()
-                        }) {
-                            HStack {
-                                Image("star")
-                                    .resizable()
-                                    .frame(width: 34, height: 34)
-                                    .foregroundStyle(Color.yellow)
-                                    .padding(.trailing, 4)
-                                Text("Score:")
-                                    .applyFont(.semiBold, size: 23, textColor: .white)
-
-                                Text("328")
-                                    .applyFont(.regular, size: 24, textColor: .white)
-                            }
+                        Button("") {
                             
                         }
-                        .frame(width: 212, height: 70)
-                        .buttonStyle(ScoreButton())
+                        .buttonStyle(.score(score: "328"))
                         
-                        Spacer()
-                        Button(action: {
-                            //TODO: Modal showing the streak
-                            print("Streak pressed")
-                        }) {
-                            HStack {
-                                Image(systemName: "bolt.fill")
-                                    .resizable()
-                                    .frame(width: 24, height: 34)
-                                    .foregroundStyle(Color.BTDarkGray)
-                                
-                                Text("3")
-                                    .applyFont(.semiBold, size: 34, textColor: .white)
-                                    .bold()
-                            }
+                        Button("") {
+                            
                         }
-                        
-                        .buttonStyle(StreakButton())
+                        .buttonStyle(.streak(width: 123, streak: "500"))
                     }
                     
                     Spacer()

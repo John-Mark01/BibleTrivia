@@ -14,7 +14,9 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     
-    @State private var loginDisabled: Bool = false
+    private var loginDisabled: Bool {
+        email.isEmpty && password.isEmpty
+    }
     
     func onForgotPasscode() {
         
@@ -57,16 +59,17 @@ struct LoginView: View {
             
             NewBTSecureField(value: $password, placeholder: "password")
             
-            ActionButtons(title: "Login",
-                          height: 8,
-                          disabled: loginDisabled,
-                          action: onLoginWithEmailAndPassword)
+            Button("Login") {
+                onLoginWithEmailAndPassword()
+            }
+            .buttonStyle(.primary)
+            .buttonDisabled(loginDisabled)
             
             
             Button("Forgot password".uppercased()) {
                 onForgotPasscode()
             }
-            .applyFont(.semiBold, size: 20, textColor: .blueGradient)
+            .applyFont(.semiBold, size: 15, textColor: .blueGradient)
             
             
             Spacer()
@@ -94,9 +97,6 @@ struct LoginView: View {
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
         .padding(.top, 30)
-        .onChange(of: email) {
-            loginDisabled = email.isEmpty && password.isEmpty
-        }
         .onTapGesture {
             dismissKeyboard()
         }

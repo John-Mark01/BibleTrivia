@@ -63,6 +63,16 @@ struct BTButtonRenderer: ViewModifier {
     }
 }
 
+struct DisabledButtonStyleModifier: ViewModifier {
+    let isDisabled: Bool
+    
+    func body(content: Content) -> some View {
+        content
+            .opacity(isDisabled ? 0.5 : 1.0)
+            .disabled(isDisabled)
+    }
+}
+
 //MARK: Navigation & Toolbar
 struct BTAccountToolbarItem: ViewModifier {
     

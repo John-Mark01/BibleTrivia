@@ -30,6 +30,10 @@ extension View {
         self.modifier(BTButtonRenderer(action: action, hapticsEnabled: addHapticFeedback, hapticFeedbackStyle: feedbackStyle))
     }
     
+    func buttonDisabled(_ isDisabled: Bool) -> some View {
+        self.modifier(DisabledButtonStyleModifier(isDisabled: isDisabled))
+    }
+    
 //MARK: Keyboard dismissal
     func dismissKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)

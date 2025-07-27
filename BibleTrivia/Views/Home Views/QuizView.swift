@@ -15,9 +15,6 @@ struct QuizView: View {
     @State private var alertIsPresented: Bool = false
     @State private var isActionFromQuizStore: Bool = false
     
-    // Sensor Feedback Variables
-    @State private var nextButtonTapped: Bool = false
-    
     var body: some View {
         ZStack {
             Group {
@@ -97,8 +94,7 @@ struct QuizView: View {
                             Text("NEXT")
                                 .applyFont(.regular, size: 14, textColor: .BTPrimary)
                             
-                            Button(action: {
-                                nextButtonTapped.toggle()
+                            Button("") {
                                 quizStore.answerQuestion() { quizFinished in
                                     withAnimation {
                                         if !quizFinished {
@@ -113,13 +109,8 @@ struct QuizView: View {
                                         alertIsPresented = error
                                     }
                                 }
-                            }) {
-                                Image("Arrow")
-                                    .tint(Color.white)
                             }
-                            .frame(width: 67, height: 60)
-                            .buttonStyle(NextButton())
-                            .sensoryFeedback(.impact, trigger: nextButtonTapped)
+                            .buttonStyle(.next(width: 67, direction: .right))
                         }
                     }
                     
@@ -183,26 +174,17 @@ struct ReviewButtonControlls: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 20) {
-            Button(action: {
+            Button("") {
                 onCheckQuestionLeft()
-            }) {
-                Image("Arrow")
-                    .tint(Color.white)
-                    .rotationEffect(.degrees(180))
             }
-            .frame(width: 67, height: 60)
-            .buttonStyle(NextButton())
+            .buttonStyle(.next(width: 67, direction: .left))
             
             Spacer()
             
-            Button(action: {
+            Button("") {
                 onCheckQuestionRight()
-            }) {
-                Image("Arrow")
-                    .tint(Color.white)
             }
-            .frame(width: 67, height: 60)
-            .buttonStyle(NextButton())
+            .buttonStyle(.next(width: 67, direction: .right))
         }
     }
 }

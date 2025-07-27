@@ -74,15 +74,16 @@ struct FinishedQuizModal: View {
                 
                 Spacer()
                 
-                ActionButtons(title: "Continue", isPrimary: true) {
-//                    self.dismiss()
+                Button("Continue") {
                     onFinishQuiz()
                 }
+                .buttonStyle(.primary(height: 15))
                 
-                ActionButtons(title: "Back To Quiz", isPrimary: false) {
+                Button("Back To Quiz") {
                     onReviewQuiz()
                     isPresented = false
                 }
+                .buttonStyle(.secondary(height: 15))
             }
             .padding(25)
             .background(Color.BTBackground)

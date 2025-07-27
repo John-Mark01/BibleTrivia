@@ -52,5 +52,9 @@ struct ActionButtons: View {
 }
 
 #Preview {
-    ActionButtons(title: "Login", isPrimary: true, disabled: true, action: {})
+    VStack {
+        ActionButtons(title: "Login", isPrimary: true, disabled: false, action: {})
+        ActionButtons(title: "Register", isPrimary: false, disabled: false, action: {})
+    }
+    .applyViewPaddings()
 }

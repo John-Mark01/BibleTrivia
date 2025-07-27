@@ -90,16 +90,19 @@ struct ChooseQuizModal: View {
                 
                 //MARK: Buttons
                 VStack {
-                    ActionButtons(title: "Start Quiz", isPrimary: true, action: {
+                    Button("Start Quiz") {
                         withAnimation {
                             startQuiz()
                         }
-                    })
-                    ActionButtons(title: "Cancel", isPrimary: false ,action: {
+                    }
+                    .buttonStyle(.primary)
+                    
+                    Button("Cancel") {
                         withAnimation {
                             cancel()
                         }
-                    })
+                    }
+                    .buttonStyle(.secondary)
                 }
             }
             .padding(25)

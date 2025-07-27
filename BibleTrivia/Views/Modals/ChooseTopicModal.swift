@@ -85,16 +85,18 @@ struct ChooseTopicModal: View {
                 
                 //MARK: Buttons
                 VStack {
-                    ActionButtons(title: "View Quizez", isPrimary: true, action: {
+                    Button("View Quizez") {
                         withAnimation {
                             goToQuizez()
                         }
-                    })
-                    ActionButtons(title: "Close", isPrimary: false ,action: {
+                    }
+                    .buttonStyle(.primary)
+                    Button("Close") {
                         withAnimation {
                             close()
                         }
-                    })
+                    }
+                    .buttonStyle(.secondary)
                 }
             }
             .padding(25)
@@ -104,8 +106,5 @@ struct ChooseTopicModal: View {
             .padding(30)
         }
         .ignoresSafeArea()
-        
-        
     }
 }
-

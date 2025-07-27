@@ -12,6 +12,7 @@
 		3652A4142DB43B35001FD2BA /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4132DB43B34001FD2BA /* StreakView.swift */; };
 		3652A4162DB43DFD001FD2BA /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */; };
 		3663E6532E35681E004CB9BC /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6522E35681E004CB9BC /* CustomNavigationBar.swift */; };
+		3663E6552E367472004CB9BC /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6542E367472004CB9BC /* ButtonStyles.swift */; };
 		3670FF8D2E300E100000F67A /* QuizManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8C2E300E100000F67A /* QuizManager.swift */; };
 		3670FF8F2E300E1A0000F67A /* QuizRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8E2E300E1A0000F67A /* QuizRepository.swift */; };
 		367BF5D02D73C0D700F97BA1 /* LetsStartAQuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */; };
@@ -63,7 +64,6 @@
 		36E0A5F92D1C47C5006AEC4F /* ActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5BF2D1C47C5006AEC4F /* ActionButtons.swift */; };
 		36E0A5FA2D1C47C5006AEC4F /* ProgressViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */; };
 		36E0A5FB2D1C47C5006AEC4F /* QuizViewToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C12D1C47C5006AEC4F /* QuizViewToolbar.swift */; };
-		36E0A5FC2D1C47C5006AEC4F /* ScoreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C22D1C47C5006AEC4F /* ScoreButton.swift */; };
 		36E0A5FD2D1C47C5006AEC4F /* UserAccountCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C32D1C47C5006AEC4F /* UserAccountCard.swift */; };
 		36E0A5FE2D1C47C5006AEC4F /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C52D1C47C5006AEC4F /* AccountView.swift */; };
 		36E0A5FF2D1C47C5006AEC4F /* MyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C62D1C47C5006AEC4F /* MyProgressView.swift */; };
@@ -103,6 +103,7 @@
 		3652A4132DB43B34001FD2BA /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
 		3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
 		3663E6522E35681E004CB9BC /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
+		3663E6542E367472004CB9BC /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		3670FF8A2E2EC6000000F67A /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		3670FF8C2E300E100000F67A /* QuizManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizManager.swift; sourceTree = "<group>"; };
 		3670FF8E2E300E1A0000F67A /* QuizRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRepository.swift; sourceTree = "<group>"; };
@@ -154,7 +155,6 @@
 		36E0A5BF2D1C47C5006AEC4F /* ActionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtons.swift; sourceTree = "<group>"; };
 		36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViews.swift; sourceTree = "<group>"; };
 		36E0A5C12D1C47C5006AEC4F /* QuizViewToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewToolbar.swift; sourceTree = "<group>"; };
-		36E0A5C22D1C47C5006AEC4F /* ScoreButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreButton.swift; sourceTree = "<group>"; };
 		36E0A5C32D1C47C5006AEC4F /* UserAccountCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountCard.swift; sourceTree = "<group>"; };
 		36E0A5C52D1C47C5006AEC4F /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		36E0A5C62D1C47C5006AEC4F /* MyProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProgressView.swift; sourceTree = "<group>"; };
@@ -352,10 +352,10 @@
 		36E0A5C42D1C47C5006AEC4F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				3663E6542E367472004CB9BC /* ButtonStyles.swift */,
 				36E0A5BF2D1C47C5006AEC4F /* ActionButtons.swift */,
 				36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */,
 				36E0A5C12D1C47C5006AEC4F /* QuizViewToolbar.swift */,
-				36E0A5C22D1C47C5006AEC4F /* ScoreButton.swift */,
 				36E0A5C32D1C47C5006AEC4F /* UserAccountCard.swift */,
 			);
 			path = Components;
@@ -546,6 +546,7 @@
 				36E0A5EB2D1C47C5006AEC4F /* Question.swift in Sources */,
 				36E0A5EC2D1C47C5006AEC4F /* Quiz.swift in Sources */,
 				36E0A5ED2D1C47C5006AEC4F /* SectionModel.swift in Sources */,
+				3663E6552E367472004CB9BC /* ButtonStyles.swift in Sources */,
 				36E0A5EE2D1C47C5006AEC4F /* Topic.swift in Sources */,
 				3652A4162DB43DFD001FD2BA /* Extensions+Color.swift in Sources */,
 				36B5A7552D2B01DE0021F21C /* AuthManager.swift in Sources */,
@@ -567,7 +568,6 @@
 				36B5D6062D3C410700D5E732 /* LoginView.swift in Sources */,
 				36E0A5FB2D1C47C5006AEC4F /* QuizViewToolbar.swift in Sources */,
 				36B5A7572D2B14290021F21C /* UserStreak.swift in Sources */,
-				36E0A5FC2D1C47C5006AEC4F /* ScoreButton.swift in Sources */,
 				36CA40A82D3D5839003B1164 /* SurveyView.swift in Sources */,
 				36E0A5FD2D1C47C5006AEC4F /* UserAccountCard.swift in Sources */,
 				36E0A5FE2D1C47C5006AEC4F /* AccountView.swift in Sources */,

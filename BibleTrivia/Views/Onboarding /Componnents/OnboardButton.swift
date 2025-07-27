@@ -1,5 +1,5 @@
 //
-//  ActionButtons.swift
+//  OnboardButton.swift
 //  BibleTrivia
 //
 //  Created by John-Mark Iliev on 18.01.25.
