@@ -61,6 +61,7 @@ struct HomeView: View {
                 .navigationBarTitleDisplayMode(.large)
                 .blur(radius: openModal ? 3 : 0)
                 .disabled(openModal)
+                .blurTabBar(openModal)
                 .applyViewPaddings()
                 .applyBackground()
                 .applyAccountButton(avatar: Image("Avatars/jacob"), onTap: {

@@ -16,7 +16,7 @@ struct SplashScreen: View {
     var body: some View {
         
         if isActive {
-            HomeViewTabBar()
+            BTTabBar()
         } else {
             
             ZStack {

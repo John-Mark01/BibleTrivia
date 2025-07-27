@@ -82,7 +82,7 @@ final class Router {
             
             //MARK: TabView Screens
         case .home:
-            HomeViewTabBar()
+            BTTabBar()
         case .play:
             PlayView()
         case .topics:

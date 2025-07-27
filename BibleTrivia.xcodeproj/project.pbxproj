@@ -13,6 +13,7 @@
 		3652A4162DB43DFD001FD2BA /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */; };
 		3663E6532E35681E004CB9BC /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6522E35681E004CB9BC /* CustomNavigationBar.swift */; };
 		3663E6552E367472004CB9BC /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6542E367472004CB9BC /* ButtonStyles.swift */; };
+		3663E6572E36A097004CB9BC /* BTTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6562E36A097004CB9BC /* BTTabBar.swift */; };
 		3670FF8D2E300E100000F67A /* QuizManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8C2E300E100000F67A /* QuizManager.swift */; };
 		3670FF8F2E300E1A0000F67A /* QuizRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8E2E300E1A0000F67A /* QuizRepository.swift */; };
 		367BF5D02D73C0D700F97BA1 /* LetsStartAQuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */; };
@@ -67,7 +68,6 @@
 		36E0A5FE2D1C47C5006AEC4F /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C52D1C47C5006AEC4F /* AccountView.swift */; };
 		36E0A5FF2D1C47C5006AEC4F /* MyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C62D1C47C5006AEC4F /* MyProgressView.swift */; };
 		36E0A6002D1C47C5006AEC4F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C82D1C47C5006AEC4F /* HomeView.swift */; };
-		36E0A6012D1C47C5006AEC4F /* HomeViewTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C92D1C47C5006AEC4F /* HomeViewTabBar.swift */; };
 		36E0A6022D1C47C5006AEC4F /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5CA2D1C47C5006AEC4F /* PlayView.swift */; };
 		36E0A6032D1C47C5006AEC4F /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5CB2D1C47C5006AEC4F /* QuizView.swift */; };
 		36E0A6042D1C47C5006AEC4F /* TopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5CC2D1C47C5006AEC4F /* TopicsView.swift */; };
@@ -103,6 +103,8 @@
 		3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
 		3663E6522E35681E004CB9BC /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		3663E6542E367472004CB9BC /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		3663E6562E36A097004CB9BC /* BTTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTTabBar.swift; sourceTree = "<group>"; };
+		3663E6582E36AED6004CB9BC /* TabBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarManager.swift; sourceTree = "<group>"; };
 		3670FF8A2E2EC6000000F67A /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		3670FF8C2E300E100000F67A /* QuizManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizManager.swift; sourceTree = "<group>"; };
 		3670FF8E2E300E1A0000F67A /* QuizRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRepository.swift; sourceTree = "<group>"; };
@@ -157,7 +159,6 @@
 		36E0A5C52D1C47C5006AEC4F /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		36E0A5C62D1C47C5006AEC4F /* MyProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProgressView.swift; sourceTree = "<group>"; };
 		36E0A5C82D1C47C5006AEC4F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		36E0A5C92D1C47C5006AEC4F /* HomeViewTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewTabBar.swift; sourceTree = "<group>"; };
 		36E0A5CA2D1C47C5006AEC4F /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 		36E0A5CB2D1C47C5006AEC4F /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		36E0A5CC2D1C47C5006AEC4F /* TopicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsView.swift; sourceTree = "<group>"; };
@@ -208,6 +209,14 @@
 				3652A4112DB43743001FD2BA /* ViewModifiers.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3663E65A2E36B188004CB9BC /* Quiz */ = {
+			isa = PBXGroup;
+			children = (
+				36E0A5CB2D1C47C5006AEC4F /* QuizView.swift */,
+			);
+			path = Quiz;
 			sourceTree = "<group>";
 		};
 		36A591FE2D1EC51900972BA2 /* Lotties */ = {
@@ -311,6 +320,7 @@
 				36B5A75B2D32EEF40021F21C /* UserManager.swift */,
 				36CA40A12D3D3582003B1164 /* AlertManager.swift */,
 				36CA40A52D3D4EF2003B1164 /* OnboardingManager.swift */,
+				3663E6582E36AED6004CB9BC /* TabBarManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -370,12 +380,12 @@
 		36E0A5CD2D1C47C5006AEC4F /* Home Views */ = {
 			isa = PBXGroup;
 			children = (
-				36E0A5C72D1C47C5006AEC4F /* Account */,
+				3663E6562E36A097004CB9BC /* BTTabBar.swift */,
 				36E0A5C82D1C47C5006AEC4F /* HomeView.swift */,
-				36E0A5C92D1C47C5006AEC4F /* HomeViewTabBar.swift */,
 				36E0A5CA2D1C47C5006AEC4F /* PlayView.swift */,
-				36E0A5CB2D1C47C5006AEC4F /* QuizView.swift */,
 				36E0A5CC2D1C47C5006AEC4F /* TopicsView.swift */,
+				3663E65A2E36B188004CB9BC /* Quiz */,
+				36E0A5C72D1C47C5006AEC4F /* Account */,
 			);
 			path = "Home Views";
 			sourceTree = "<group>";
@@ -570,7 +580,6 @@
 				36E0A5FF2D1C47C5006AEC4F /* MyProgressView.swift in Sources */,
 				36B5D5F62D3C177200D5E732 /* ProviderLoginButton.swift in Sources */,
 				36E0A6002D1C47C5006AEC4F /* HomeView.swift in Sources */,
-				36E0A6012D1C47C5006AEC4F /* HomeViewTabBar.swift in Sources */,
 				36CA40A22D3D3582003B1164 /* AlertManager.swift in Sources */,
 				36E0A6022D1C47C5006AEC4F /* PlayView.swift in Sources */,
 				36CA40A42D3D4D80003B1164 /* GetEmailView.swift in Sources */,
@@ -594,8 +603,10 @@
 				36B5A74E2D2984F10021F21C /* Errors.swift in Sources */,
 				3680A40B2D53DD47008040F7 /* DidYouKnowScreen.swift in Sources */,
 				36E0A60E2D1C47C5006AEC4F /* AnswerViewRow.swift in Sources */,
+				3663E6572E36A097004CB9BC /* BTTabBar.swift in Sources */,
 				367BF5D02D73C0D700F97BA1 /* LetsStartAQuizScreen.swift in Sources */,
 				36B5A75A2D2B16700021F21C /* StreakManager.swift in Sources */,
+				3663E6592E36AED6004CB9BC /* TabBarManager.swift in Sources */,
 				36B5D6022D3C327000D5E732 /* ProgressTimerButton.swift in Sources */,
 				36B5D5FE2D3C2F4300D5E732 /* AvatarView.swift in Sources */,
 				3652A4122DB43743001FD2BA /* ViewModifiers.swift in Sources */,

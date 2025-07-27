@@ -82,6 +82,7 @@ struct PlayView: View {
             .navigationBarTitleDisplayMode(.inline)
             .blur(radius: (openQuizModal || openTopicModal) ? 3 : 0)
             .disabled(openQuizModal || openTopicModal)
+            .blurTabBar(openQuizModal || openTopicModal)
             .applyViewPaddings()
             .applyBackground()
             .applyAccountButton(avatar: Image("Avatars/jacob"), onTap: {

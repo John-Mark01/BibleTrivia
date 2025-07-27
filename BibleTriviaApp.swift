@@ -27,7 +27,7 @@ struct BibleTriviaApp: App {
                     case .idle:
                        LoadingView()
                     case .signedIn:
-                        HomeViewTabBar()
+                        BTTabBar()
                     case .notSignedIn:
                         WelcomeView()
                     }
