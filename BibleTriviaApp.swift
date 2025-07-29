@@ -43,14 +43,6 @@ struct BibleTriviaApp: App {
                 if LoadingManager.shared.isShowing {
                     LoadingView()
                 }
-                //TODO: Move quizStore error handling into AlertManager
-                if quizStore.showAlert {
-                    AlertDialog(isPresented: $quizStore.showAlert, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() })
-                }
-                
-                if alertManager.show {
-                    AlertDialog(isPresented: $alertManager.show, title: alertManager.alertTitle, message: alertManager.alertMessage, buttonTitle: alertManager.buttonText, primaryAction: alertManager.primaryAction ?? {})
-                }
             }
             .task {
                 do {

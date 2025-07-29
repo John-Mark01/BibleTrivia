@@ -165,12 +165,31 @@ struct CustomText: ViewModifier {
 }
 
 //MARK: Keyboard
-
 struct BTKeyboardRemover: ViewModifier {
     func body(content: Content) -> some View {
         content
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
+    }
+}
+
+//MARK: Alert Handling
+struct BTAlertHandler: ViewModifier {
+    @State private var alertManager = AlertManager.shared
+    
+    func body(content: Content) -> some View {
+        content
+            .overlay(
+                AlertDialog(
+                    isPresented: $alertManager.show,
+                    title: alertManager.alertTitle,
+                    message: alertManager.alertMessage,
+                    buttonTitle: alertManager.buttonText,
+                    primaryAction: alertManager.action
+                )
+            )
+            .blur(radius: alertManager.show ? 3 : 0)
+            .disabled(alertManager.show)
     }
 }

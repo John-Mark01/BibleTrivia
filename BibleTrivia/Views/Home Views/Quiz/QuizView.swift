@@ -10,10 +10,9 @@ import SwiftUI
 struct QuizView: View {
     @Environment(QuizStore.self) private var quizStore
     @Environment(Router.self) private var router
+    @Environment(AlertManager.self) private var alertManager
     
     @State private var finishQuizModal: Bool = false
-    @State private var alertIsPresented: Bool = false
-    @State private var isActionFromQuizStore: Bool = false
     
     var body: some View {
         ZStack {
@@ -27,10 +26,10 @@ struct QuizView: View {
                         quizStore.enterQuizReviewMode()
                     })
                 }
-                // Normal Alert
-                if alertIsPresented {
-                    AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() }, isAnotherAction: isActionFromQuizStore)
-                }
+//                // Normal Alert
+//                if alertIsPresented {
+//                    AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() }, isAnotherAction: isActionFromQuizStore)
+//                }
             }
             .zIndex(999)
             
@@ -42,16 +41,16 @@ struct QuizView: View {
                     
                     Spacer()
                     
-                    Button(action: {
-                        isActionFromQuizStore = false
-                        alertIsPresented = true
-                        quizStore.alertTitle = "Quit Quiz?"
-                        quizStore.alertMessage = "Do want to quit \(quizStore.currentQuiz.name)?\nYou can still finish your quiz later."
-                        quizStore.alertButtonTitle = "Close Quiz"
-                    }) {
-                        Image("Close")
-                    }
-                    .sensoryFeedback(.error, trigger: alertIsPresented)
+                    Image("Close")
+                        .makeButton(
+                            action: {
+                                alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
+                                    router.popBackStack()
+                                }
+                            },
+                            addHapticFeedback: true,
+                            feedbackStyle: .error
+                        )
                 }
                 
                 VStack(alignment: .leading, spacing: 10) {
@@ -95,19 +94,14 @@ struct QuizView: View {
                                 .applyFont(.regular, size: 14, textColor: .BTPrimary)
                             
                             Button("") {
-                                quizStore.answerQuestion() { quizFinished in
-                                    withAnimation {
-                                        if !quizFinished {
-                                            quizStore.toNextQuestion()
-                                        } else {
-                                            self.finishQuizModal = true
-                                        }
-                                    }
-                                } error: { error in
-                                    withAnimation {
-                                        isActionFromQuizStore = true
-                                        alertIsPresented = error
-                                    }
+                               let result = quizStore.answerQuestion()
+                                switch result {
+                                case .moveToNext:
+                                    quizStore.toNextQuestion()
+                                case .quizCompleted:
+                                    self.finishQuizModal = true
+                                case .error:
+                                    break
                                 }
                             }
                             .buttonStyle(.next(width: 67, direction: .right))
@@ -117,10 +111,11 @@ struct QuizView: View {
                 }
             }
             .navigationBarBackButtonHidden()
-            .blur(radius: alertIsPresented || finishQuizModal ? 3 : 0)
-            .disabled(alertIsPresented || finishQuizModal)
+            .blur(radius: finishQuizModal ? 3 : 0)
+            .disabled(finishQuizModal)
             .applyViewPaddings()
             .applyBackground()
+            .applyAlertHandling()
         }
     }
     
@@ -137,12 +132,7 @@ struct QuizView: View {
    private func goLeftCheckingQuesiton() {
         withAnimation {
             if quizStore.currentQuiz.isInReview {
-                quizStore.checkAnswerToTheLeft { error in
-                    withAnimation {
-                        isActionFromQuizStore = true
-                        alertIsPresented = error
-                    }
-                }
+                let _ = quizStore.checkAnswerToTheLeft()
             }
         }
     }
@@ -150,9 +140,7 @@ struct QuizView: View {
    private func goRightCheckingQuesiton() {
         if quizStore.currentQuiz.isInReview {
             withAnimation {
-                quizStore.checkAnswerToTheRight {
-                    finishQuizModal = true
-                }
+                let _ = quizStore.checkAnswerToTheRight()
             }
         }
     }
@@ -164,7 +152,7 @@ struct QuizView: View {
     }
     .environment(Router.shared)
     .environment(QuizStore(repository: QuizRepository(supabase: Supabase()), manager: .init()))
-    .environment(AlertManager())
+    .environment(AlertManager.shared)
 }
 
 struct ReviewButtonControlls: View {

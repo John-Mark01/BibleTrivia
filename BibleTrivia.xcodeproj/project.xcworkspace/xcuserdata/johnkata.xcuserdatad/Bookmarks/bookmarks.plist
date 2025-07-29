@@ -12,194 +12,6 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>30</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>29</string>
-					<key>Timestamp</key>
-					<string>766872349.641045</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>BibleTrivia/Services/QuizStore.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>    var alertButtonTitle: String = ""
-</string>
-				<key>leading</key>
-				<string>    var alertTitle: String = ""
-    var alertMessage: String = ""
-</string>
-				<key>trailing</key>
-				<string>    
-    // MARK: - Initialization
-    
-</string>
-			</dict>
-			<key>title</key>
-			<string>Replace with AlertManager</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>31</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>30</string>
-					<key>Timestamp</key>
-					<string>766872349.641956</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>BibleTrivia/Services/QuizStore.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>    
-</string>
-				<key>leading</key>
-				<string>    var alertMessage: String = ""
-    var alertButtonTitle: String = ""
-</string>
-				<key>trailing</key>
-				<string>    // MARK: - Initialization
-    
-    init(supabase: Supabase) {
-</string>
-			</dict>
-			<key>title</key>
-			<string>Replace with AlertManager</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>32</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>31</string>
-					<key>Timestamp</key>
-					<string>766872349.641965</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>BibleTrivia/Services/QuizStore.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>    // MARK: - Initialization
-</string>
-				<key>leading</key>
-				<string>    var alertButtonTitle: String = ""
-    
-</string>
-				<key>trailing</key>
-				<string>    
-    init(supabase: Supabase) {
-        self.quizRepository = QuizRepository(supabase: supabase)
-</string>
-			</dict>
-			<key>title</key>
-			<string>Replace with AlertManager</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>33</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>32</string>
-					<key>Timestamp</key>
-					<string>766872349.641947</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>BibleTrivia/Services/QuizStore.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>    
-</string>
-				<key>leading</key>
-				<string>    
-    // MARK: - Initialization
-</string>
-				<key>trailing</key>
-				<string>    init(supabase: Supabase) {
-        self.quizRepository = QuizRepository(supabase: supabase)
-        self.quizManager = QuizManager()
-</string>
-			</dict>
-			<key>title</key>
-			<string>Replace with AlertManager</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
 					<string>45</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
@@ -283,6 +95,52 @@
 			</dict>
 			<key>title</key>
 			<string>Move this down with .safeAreaInset, or .overlay(alignemnt: .top)</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>28</string>
+					<key>EndingLineNumber</key>
+					<string>235</string>
+					<key>StartingColumnNumber</key>
+					<string>28</string>
+					<key>StartingLineNumber</key>
+					<string>235</string>
+					<key>Timestamp</key>
+					<string>775512550.689719</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>BibleTrivia/Services/QuizStore.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string></string>
+				<key>leading</key>
+				<string>        var alertMessage: String = ""
+        
+        if let customError {</string>
+				<key>trailing</key>
+				<string>
+            switch customError {
+            case .networkError(let string):
+</string>
+			</dict>
+			<key>title</key>
+			<string>Add action from caller</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

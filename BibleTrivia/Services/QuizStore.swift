@@ -23,12 +23,6 @@ import SwiftUI
     var chosenQuiz: Quiz?
     var chosenTopic: Topic?
     
-    // Alert state
-    var showAlert: Bool = false  
-    var alertTitle: String = ""
-    var alertMessage: String = ""
-    var alertButtonTitle: String = ""
-    
     // MARK: - Initialization
     
     init(supabase: Supabase) {
@@ -107,11 +101,12 @@ import SwiftUI
     
     // MARK: - Question Navigation
     
-    func answerQuestion(finished: @escaping (Bool) -> Void,
-                        error: @escaping (Bool) -> Void) {
+    func answerQuestion() -> QuizQuestionResult {
         guard let quiz = chosenQuiz else {
-            error(true)
-            return
+            showAlert(alertTitle: "Error",
+                     message: "No quiz selected",
+                     buttonTitle: "Okay")
+            return .error
         }
         
         let result = quizManager.submitCurrentQuestion(in: quiz)
@@ -120,9 +115,9 @@ import SwiftUI
         case .success(let action):
             switch action {
             case .moveToNext:
-                finished(false)
+                return .moveToNext
             case .quizCompleted:
-                finished(true)
+                return .quizCompleted
             }
         case .failure(let submissionError):
             switch submissionError {
@@ -130,14 +125,21 @@ import SwiftUI
                 showAlert(alertTitle: "Warning",
                          message: "No answer selected!\nPlease select an answer",
                          buttonTitle: "Okay")
-                error(true)
+                return .error
             case .quizAlreadyCompleted:
                 showAlert(alertTitle: "Error",
                          message: "Quiz is already completed",
                          buttonTitle: "Okay")
-                error(true)
+                return .error
             }
         }
+    }
+    
+    // Result enum for cleaner return values
+    enum QuizQuestionResult {
+        case moveToNext
+        case quizCompleted
+        case error
     }
     
     func toNextQuestion() {
@@ -152,29 +154,42 @@ import SwiftUI
         quizManager.enterReviewMode(for: quiz)
     }
     
-    func checkAnswerToTheLeft(error: @escaping (Bool) -> Void) {
+    func checkAnswerToTheLeft() -> Bool {
         guard let quiz = chosenQuiz else {
-            error(true)
-            return
+            showAlert(alertTitle: "Error",
+                     message: "No quiz selected",
+                     buttonTitle: "Okay")
+            return false
         }
         
         if !quizManager.moveToPreviousQuestion(in: quiz) {
             showAlert(alertTitle: "Error", 
                      message: "This is the first question.", 
                      buttonTitle: "Close")
-            error(true)
+            return false
         }
+        return true
     }
     
-    func checkAnswerToTheRight(error: @escaping () -> Void) {
+    func checkAnswerToTheRight() -> QuizNavigationResult {
         guard let quiz = chosenQuiz else {
-            error()
-            return
+            showAlert(alertTitle: "Error",
+                     message: "No quiz selected",
+                     buttonTitle: "Okay")
+            return .error
         }
         
         if !quizManager.moveToNextQuestionInReview(in: quiz) {
-            error()
+            return .endOfQuiz
         }
+        return .success
+    }
+    
+    // Result enum for navigation
+    enum QuizNavigationResult {
+        case success
+        case endOfQuiz
+        case error
     }
     
     // MARK: - Progress & Evaluation
@@ -212,13 +227,13 @@ import SwiftUI
     // MARK: - Alert Management
     
     func showAlert(customError: Errors.BTError? = nil,
-                   alertTitle: String = "Error",
-                   message: String = "",
-                   buttonTitle: String) {
+                   alertTitle: LocalizedStringResource = "Error",
+                   message: LocalizedStringResource = "",
+                   buttonTitle: LocalizedStringResource) {
+        
+        var alertMessage: String = ""
         
         if let customError {
-            var alertMessage: String = ""
-            
             switch customError {
             case .networkError(let string):
                 alertMessage = string
@@ -235,14 +250,11 @@ import SwiftUI
             case .unknownError(let string):
                 alertMessage = string
             }
-            self.alertMessage = alertMessage
         } else {
-            self.alertMessage = message
+            alertMessage = message.key
         }
-        
-        self.showAlert = true
-        self.alertTitle = alertTitle
-        self.alertButtonTitle = buttonTitle
+        let localizedMessage = LocalizedStringResource(stringLiteral: alertMessage)
+        alertManager.showAlert(type: .error, title: alertTitle, message: localizedMessage, buttonText: buttonTitle, action: {})
     }
 }
 

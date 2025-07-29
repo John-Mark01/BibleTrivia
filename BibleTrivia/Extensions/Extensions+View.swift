@@ -57,4 +57,11 @@ extension View {
     func applyBackNavigationButton(onTap: @escaping () -> Void) -> some View {
         self.modifier(BTBackNavigationToolbarItem(onTap: onTap))
     }
+    
+//MARK: Alert Handling
+    func applyAlertHandling() -> some View {
+        self.modifier(BTAlertHandler())
+    }
+    
 }
+

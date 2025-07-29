@@ -7,25 +7,24 @@
 
 import Foundation
 
+@MainActor
 @Observable class AlertManager {
     
     static let shared = AlertManager()
     
     var show: Bool = false
     
-    var alertTitle: String = "Error"
-    var alertMessage: String = "Something went wrong. Please try again later."
-    var buttonText: String = "Dismiss"
-    
-    var primaryAction: (() -> Void)?
-    var secondaryAction: (() -> Void)?
+    var alertTitle: LocalizedStringResource = "Error"
+    var alertMessage: LocalizedStringResource = "Something went wrong. Please try again later."
+    var buttonText: LocalizedStringResource = "Dismiss"
+    var action: () -> Void = {}
     
     
-    func showAlert(type: AlertType, title: String? = nil, message: String, buttonText: String) {
-        
-        if let title = title {
-            self.alertTitle = title
-        }
+    func showAlert(type: AlertType,
+                   title: LocalizedStringResource? = nil,
+                   message: LocalizedStringResource,
+                   buttonText: LocalizedStringResource,
+                   action: @escaping () -> Void) {
         
        switch type {
         case .error:
@@ -37,34 +36,38 @@ import Foundation
         case .information:
            self.alertTitle = type.rawValue
         }
+        
+        if let title = title {
+            self.alertTitle = title
+        }
+        
         self.alertMessage = message
         self.buttonText = buttonText
+        self.action = action
         self.show = true
     }
     
-    func showDefaultAlert(message: String, buttonText: String = "Dismiss") {
-       
-        self.alertTitle = AlertType.warning.rawValue
-        self.alertMessage = message
-        self.buttonText = buttonText
-        self.show = true
-    }
+//MARK: View Specific alerts
     
-    //TODO: Alert with two buttons
-    func showActionAlert(_ action: AlertActionType) {}
-    
-    enum AlertType: String {
-        case error = "Error"
-        case warning = "Warning"
-        case success = "Success"
-        case information = "Information"
+    //QuizView
+    func showQuizExitAlert(quizName: String, action: @escaping () -> Void) {
+        self.showAlert(type: .warning,
+                       title: "Quit Quiz?",
+                       message: "Do want to quit \(quizName)?\nYou can still finish your quiz later.",
+                       buttonText: "Close Quiz",
+                       action: action)
     }
-    
-    enum AlertActionType {
-        case defaulT
-        case oneAction
-        case twoActions
-        case textField
-        case review
-    }
+
+}
+
+enum AlertType: LocalizedStringResource {
+    case error = "Error"
+    case warning = "Warning"
+    case success = "Success"
+    case information = "Information"
+}
+
+enum AlertActionType {
+    case oneAction(action: () -> Void)
+    case twoActions(action1: () -> Void, action2: () -> Void)
 }

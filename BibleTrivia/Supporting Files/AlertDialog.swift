@@ -9,9 +9,9 @@ import SwiftUI
 
 struct AlertDialog: View {
     @Binding var isPresented: Bool
-    let title: String
-    let message: String
-    let buttonTitle: String
+    let title: LocalizedStringResource
+    let message: LocalizedStringResource
+    let buttonTitle: LocalizedStringResource
     let primaryAction: () -> ()
     var isAnotherAction: Bool = true
     @State private var offset: CGFloat = 1000
