@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct BTTabBar: View {
-    @State private var selectedTab: Int = 0
     @Environment(\.tabBarManager) private var tabBarManager
+    @State private var selectedTab: Int = 0
     
     var body: some View {
         ZStack {
@@ -28,7 +28,11 @@ struct BTTabBar: View {
                             icon: "home",
                             title: "Home",
                             isSelected: selectedTab == 0,
-                            action: { selectedTab = 0 }
+                            action: {
+                                withAnimation(.bouncy(duration: 0.7, extraBounce: 0.3)) {
+                                    selectedTab = 0
+                                }
+                            }
                         )
                         
                         Spacer()
@@ -38,7 +42,11 @@ struct BTTabBar: View {
                             icon: "play",
                             title: "Play",
                             isSelected: selectedTab == 1,
-                            action: { selectedTab = 1 }
+                            action: { 
+                                withAnimation(.bouncy(duration: 0.7, extraBounce: 0.3)) {
+                                    selectedTab = 1
+                                }
+                            }
                         )
                         
                         Spacer()
@@ -48,7 +56,11 @@ struct BTTabBar: View {
                             icon: "topic",
                             title: "Topics",
                             isSelected: selectedTab == 2,
-                            action: { selectedTab = 2 }
+                            action: { 
+                                withAnimation(.bouncy(duration: 0.7, extraBounce: 0.3)) {
+                                    selectedTab = 2
+                                }
+                            }
                         )
                     }
                     .padding(.horizontal, 40)
