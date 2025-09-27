@@ -20,9 +20,7 @@ struct AlertDialog: View {
         ZStack {
             Color(.black)
                 .opacity(0.5)
-                .onTapGesture {
-                    close()
-                }
+                .onTapGesture { close() }
             VStack {
                 Text(title)
                     .applyFont(.semiBold, size: 23)
@@ -37,10 +35,7 @@ struct AlertDialog: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 40)
                         .foregroundStyle(Color.BTPrimary)
-                        .makeButton(action: {
-                            primaryAction()
-                            close()
-                        }, addHapticFeedback: true)
+                        .makeButton(action: runAction, addHapticFeedback: true)
                     
                     Text(buttonTitle)
                         .applyFont(.medium, size: 20, textColor: .white)
@@ -79,7 +74,8 @@ struct AlertDialog: View {
         }
         .ignoresSafeArea()
     }
-    func close() {
+    
+   private func close() {
         withAnimation() {
             offset = -1000
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
@@ -87,8 +83,18 @@ struct AlertDialog: View {
             }
         }
     }
+    
+    private func runAction() {
+        primaryAction()
+        close()
+    }
 }
 
 #Preview {
-    AlertDialog(isPresented: .constant(true), title: "Quit Quiz?", message: "You can still finish you quiz later.", buttonTitle: "Continue", primaryAction: {})
+    AlertDialog(
+        isPresented: .constant(true),
+        title: "Quit Quiz?",
+        message: "You can still finish you quiz later.",
+        buttonTitle: "Continue",
+        primaryAction: { print("This is a preview alert Action.") })
 }

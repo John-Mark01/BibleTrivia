@@ -18,13 +18,12 @@ struct QuizView: View {
         ZStack {
             Group {
                 if finishQuizModal {
-                    FinishedQuizModal(isPresented: $finishQuizModal, quiz: quizStore.currentQuiz, onFinishQuiz: {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            navigateAfterFinish()
-                        }
-                    }, onReviewQuiz: {
-                        quizStore.enterQuizReviewMode()
-                    })
+                    FinishedQuizModal(
+                        isPresented: $finishQuizModal,
+                        quiz: quizStore.currentQuiz,
+                        onFinishQuiz:navigateAfterFinish,
+                        onReviewQuiz:quizStore.enterQuizReviewMode
+                    )
                 }
             }
             .zIndex(999)
@@ -33,18 +32,16 @@ struct QuizView: View {
                 
                 // ProgressView + Close
                 HStack(spacing: 16) {
-                    LinearProgressView(progress: Int(quizStore.calculateCurrentQuestionProgress()), goal: quizStore.currentQuiz.numberOfQuestions)
+                    LinearProgressView(
+                        progress: Int(quizStore.calculateCurrentQuestionProgress()),
+                        goal: quizStore.currentQuiz.numberOfQuestions
+                    )
+                    .setStroke(color: .BTDarkGray, size: 1)
                     
                     Image("Close")
-                        .makeButton(
-                            action: {
-                                alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
-                                    router.popBackStack()
-                                }
-                            },
-                            addHapticFeedback: true,
-                            feedbackStyle: .error
-                        )
+                        .makeButton(action: onClose,
+                                    addHapticFeedback: true,
+                                    feedbackStyle: .error)
                 }
                 
                 VStack(alignment: .leading, spacing: 10) {
@@ -58,18 +55,6 @@ struct QuizView: View {
                     
                     QuizViewAnswerList()
                         .padding(.top, 16)
-                    
-                    
-                    if quizStore.currentQuiz.isInReview {
-                        HStack {
-                            Spacer()
-                            Text(quizStore.currentQuiz.currentQuestion.userAnswerIsCorrect ? "Correct!" : "Incorrect...")
-                                .applyFont(.medium, size: 20)
-                            
-                            Spacer()
-                        }
-                        .padding()
-                    }
                     
                     Spacer()
                     
@@ -88,15 +73,7 @@ struct QuizView: View {
                                 .applyFont(.regular, size: 14, textColor: .BTPrimary)
                             
                             Button("") {
-                                let result = quizStore.answerQuestion()
-                                switch result {
-                                case .moveToNext:
-                                    quizStore.toNextQuestion()
-                                case .quizCompleted:
-                                    self.finishQuizModal = true
-                                case .error:
-                                    break
-                                }
+                                 goRightCheckingQuesiton()
                             }
                             .buttonStyle(.next(width: 67, direction: .right))
                         }
@@ -114,12 +91,16 @@ struct QuizView: View {
     }
     
     private func navigateAfterFinish() {
-        let context = router.getCurrentContext()
-        
-        if context == .onboarding {
-            router.navigateTo(.streakView, from: .onboarding)
-        } else {
-            router.popToRoot()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            withAnimation {
+                let context = router.getCurrentContext()
+                
+                if context == .onboarding {
+                    router.navigateTo(.streakView, from: .onboarding)
+                } else {
+                    router.popToRoot()
+                }
+            }
         }
     }
     
@@ -131,10 +112,34 @@ struct QuizView: View {
     
     private func goRightCheckingQuesiton() {
         withAnimation {
-            let result = quizStore.checkAnswerToTheRight()
-            
-            if result == .endOfQuiz {
+            if quizStore.currentQuiz.isInReview {
+                
+                let result = quizStore.checkAnswerToTheRight()
+                if result == .endOfQuiz {
+                    self.finishQuizModal = true
+                }
+            } else {
+                let result = quizStore.answerQuestion()
+                switch result {
+                case .moveToNext:
+                    quizStore.toNextQuestion()
+                case .quizCompleted:
+                    self.finishQuizModal = true
+                case .error:
+                    break
+                }
+            }
+        }
+    }
+    
+    private func onClose() {
+        withAnimation {
+            if quizStore.currentQuiz.isInReview {
                 self.finishQuizModal = true
+            } else {
+                alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
+                    router.popBackStack()
+                }
             }
         }
     }
@@ -149,7 +154,7 @@ struct QuizView: View {
     .environment(AlertManager.shared)
 }
 
-struct ReviewButtonControlls: View {
+private struct ReviewButtonControlls: View {
     
     var onCheckQuestionLeft: () -> Void
     var onCheckQuestionRight: () -> Void

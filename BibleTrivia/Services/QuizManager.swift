@@ -11,16 +11,14 @@ final class QuizManager {
     
 // MARK: - Answer Management
     
-    func selectAnswer(at answerIndex: Int, in quiz: Quiz) -> Bool {
-        guard answerIndex < quiz.currentQuestion.answers.count else { return false }
+    func selectAnswer(at answerIndex: Int, in quiz: Quiz) {
+        guard answerIndex < quiz.currentQuestion.answers.count else { return }
         
-        // Check if an answer is already selected
-        if hasSelectedAnswer(in: quiz) {
-            return false
-        }
+        //Don't select answer if there is already a selected one
+        guard self.hasSelectedAnswer(in: quiz) == false else { return }
         
         quiz.currentQuestion.answers[answerIndex].isSelected = true
-        return true
+        return
     }
     
     func unselectAnswer(at answerIndex: Int, in quiz: Quiz) {
@@ -100,6 +98,7 @@ final class QuizManager {
     }
     
     func calculateCurrentQuestionProgress(in quiz: Quiz) -> Double {
+        guard quiz.isFinished == false else { return Double(quiz.numberOfQuestions) }
         return Double(quiz.currentQuestionIndex + 1) / Double(quiz.numberOfQuestions)
     }
     

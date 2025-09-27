@@ -11,12 +11,12 @@ import SwiftUI
 @MainActor
 @Observable class QuizStore {
     
-    // MARK: - Dependencies
+// MARK: - Dependencies
     private let quizRepository: QuizRepositoryProtocol
     private let quizManager: QuizManager
     private let alertManager: AlertManager
     
-    // MARK: - State Properties
+// MARK: - State Properties
     var allTopics: [Topic] = []
     var allQuizez: [Quiz] = []
     var startedQuizez: [Quiz] = []
@@ -88,17 +88,13 @@ import SwiftUI
     
     func selectAnswer(index: Int) {
         guard let quiz = chosenQuiz else { return }
-        
-        if quizManager.selectAnswer(at: index, in: quiz) {
-            selectAnswerHaptic()
-        }
+        quizManager.selectAnswer(at: index, in: quiz)
     }
     
     func unselectAnswer(index: Int) {
         guard let quiz = chosenQuiz else { return }
         
         quizManager.unselectAnswer(at: index, in: quiz)
-        selectAnswerHaptic()
     }
     
 // MARK: - Question Navigation
@@ -123,6 +119,7 @@ import SwiftUI
                 return .moveToNext
             case .quizCompleted:
                 self.currentQuiz.isFinished = true
+                //TODO: Set progress to 100%
                 return .quizCompleted
             }
         case .failure(let submissionError):
@@ -148,7 +145,7 @@ import SwiftUI
     }
     
     // Result enum for cleaner return values
-    enum QuizQuestionResult {
+   public enum QuizQuestionResult {
         case moveToNext
         case quizCompleted
         case error
@@ -242,22 +239,6 @@ import SwiftUI
     func calculateScore() -> Int {
         guard let quiz = chosenQuiz else { return 0 }
         return quizManager.calculateScore(in: quiz)
-    }
-}
-
-// MARK: - Sound and Haptics
-extension QuizStore {
-    
-    func selectAnswerHaptic() {
-        // Implementation for haptic feedback
-    }
-    
-    func playCorrectSound() {
-        // Implementation for sound feedback
-    }
-    
-    func initCorrectHaptic() {
-        // Implementation for haptic feedback
     }
 }
 

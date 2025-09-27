@@ -44,8 +44,13 @@ struct LinearProgressView: View {
     var strokeColor: Color = .clear
     var strokeSize: CGFloat = 1
     
+    private var progressGetter: CGFloat {
+        guard progress > 0 else { return 0.7 }
+        return CGFloat(progress)
+    }
+    
     private func calculateWidth(totalWidth: CGFloat) -> CGFloat {
-        return min((totalWidth / CGFloat(goal) * CGFloat(progress)), totalWidth)
+        return min((totalWidth / CGFloat(goal) * progressGetter), totalWidth) - 2
     }
     
     var body: some View {
@@ -61,38 +66,46 @@ struct LinearProgressView: View {
                 HStack {
                     RoundedRectangle(cornerRadius: 60)
                         .fill(fillColor)
-                        .frame(width: max(calculateWidth(totalWidth: geometry.size.width), 0), height: height - (strokeSize * 2))
+                        .frame(width: max(calculateWidth(totalWidth: geometry.size.width), 0),height: height - (strokeSize * 2))
                     
-                    Spacer(minLength: 0)
+//                    Spacer(minLength: 0)
                 }
                 .padding(strokeSize)
                 
 //                // Percentage text - positioned based on progress
-//                if showPercentage && progress > 0 {
-//                    HStack {
-//                        if calculateWidth(totalWidth: geometry.size.width) > 60 { // Only show if there's enough space
-//                            Spacer()
-//                            Text("\(Int(Double(progress) / Double(goal) * 100))%")
-//                                .applyFont(.medium, size: 15, textColor: .white)
-//                                .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
-//                                .background(
-//                                    RoundedRectangle(cornerRadius: 60)
-//                                        .stroke(Color.BTBlack, lineWidth: 2)
-//                                        .fill(Color.BTDarkGray)
-//                                )
-//                            Spacer()
-//                        }
-//                    }
-//                    .frame(width: calculateWidth(totalWidth: geometry.size.width), height: height)
-//                }
+                if showPercentage {
+                    HStack {
+                        Spacer()
+                        Text("\(Int(Double(progress) / Double(goal) * 100))%")
+                            .applyFont(.medium, size: 15, textColor: .white)
+                            .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
+                            .background(
+                                RoundedRectangle(cornerRadius: 60)
+                                    .stroke(Color.BTBlack, lineWidth: 2)
+                                    .fill(Color.BTDarkGray)
+                            )
+                        
+                    }
+                    .frame(width: calculateWidth(totalWidth: geometry.size.width), height: height)
+                    .fixedSize()
+                }
             }
         }
         .frame(height: height)
     }
+    
+    func setStroke(color: Color, size: CGFloat) -> Self {
+        var view = self
+        view.strokeColor = color
+        view.strokeSize = size
+        return view
+    }
 }
 
 #Preview("LinearProgressView") {
-    LinearProgressView(progress: 1, goal: 10)
+    LinearProgressView(progress: 5, goal: 30)
+        .setStroke(color: .BTDarkGray, size: 1)
+        .applyViewPaddings()
 }
 
 struct SimpleLinearProgressView: View {
