@@ -104,15 +104,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>28</string>
+					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>235</string>
+					<string>259</string>
 					<key>StartingColumnNumber</key>
-					<string>28</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>235</string>
+					<string>258</string>
 					<key>Timestamp</key>
-					<string>775512550.689719</string>
+					<string>780662436.097142</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -128,15 +128,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string></string>
+				<string>}
+</string>
 				<key>leading</key>
-				<string>        var alertMessage: String = ""
-        
-        if let customError {</string>
+				<string>        alertManager.showAlert(type: .error, title: alertTitle, message: localizedMessage, buttonText: buttonTitle, action: {})
+    }
+</string>
 				<key>trailing</key>
 				<string>
-            switch customError {
-            case .networkError(let string):
+// MARK: - Sound and Haptics
+extension QuizStore {
 </string>
 			</dict>
 			<key>title</key>

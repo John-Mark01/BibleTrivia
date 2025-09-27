@@ -34,15 +34,14 @@ struct CircularProgressView: View {
 }
 
 struct LinearProgressView: View {
-    // Remove @State containerWidth as we'll use GeometryReader differently
     var height: CGFloat = 20
-    var progress: Int = 0
-    var goal: Int = 0
+    var progress: Int
+    var goal: Int
     var showPercentage: Bool = true
     var fillColor: Color = Color.BTPrimary
     var backgroundColor: Color = .BTLightGray
     var backgroundOpacity: Double = 1.0
-    var strokeColor: Color = .BTBlack
+    var strokeColor: Color = .clear
     var strokeSize: CGFloat = 1
     
     private func calculateWidth(totalWidth: CGFloat) -> CGFloat {
@@ -54,82 +53,98 @@ struct LinearProgressView: View {
             ZStack(alignment: .leading) {
                 // Background
                 RoundedRectangle(cornerRadius: 60)
+                    .stroke(strokeColor, lineWidth: strokeSize)
                     .foregroundStyle(backgroundColor.opacity(backgroundOpacity))
                     .frame(width: geometry.size.width, height: height)
                 
-                // Progress
-                ZStack(alignment: .trailing) {
-                    RoundedRectangle(cornerRadius: 60)
-                        .stroke(strokeColor, lineWidth: strokeSize)
-                    
+                // Progress fill - only the filled portion
+                HStack {
                     RoundedRectangle(cornerRadius: 60)
                         .fill(fillColor)
+                        .frame(width: max(calculateWidth(totalWidth: geometry.size.width), 0), height: height - (strokeSize * 2))
                     
-                    if showPercentage {
-                        Text("\(Int(Double(progress) / Double(goal) * 100)) %")
-                            .applyFont(.medium, size: 15, textColor: .white)
-                            .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
-                            .background(
-                                RoundedRectangle(cornerRadius: 60)
-                                    .stroke(Color.BTBlack, lineWidth: 2)
-                                    .fill(Color.BTDarkGray)
-                            )
-                    }
+                    Spacer(minLength: 0)
                 }
-                .frame(width: calculateWidth(totalWidth: geometry.size.width), height: height)
+                .padding(strokeSize)
+                
+//                // Percentage text - positioned based on progress
+//                if showPercentage && progress > 0 {
+//                    HStack {
+//                        if calculateWidth(totalWidth: geometry.size.width) > 60 { // Only show if there's enough space
+//                            Spacer()
+//                            Text("\(Int(Double(progress) / Double(goal) * 100))%")
+//                                .applyFont(.medium, size: 15, textColor: .white)
+//                                .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
+//                                .background(
+//                                    RoundedRectangle(cornerRadius: 60)
+//                                        .stroke(Color.BTBlack, lineWidth: 2)
+//                                        .fill(Color.BTDarkGray)
+//                                )
+//                            Spacer()
+//                        }
+//                    }
+//                    .frame(width: calculateWidth(totalWidth: geometry.size.width), height: height)
+//                }
             }
         }
         .frame(height: height)
     }
 }
+
+#Preview("LinearProgressView") {
+    LinearProgressView(progress: 1, goal: 10)
+}
+
 struct SimpleLinearProgressView: View {
     @State private var containerWidth: CGFloat = 0
     
     var progress: Int = 0
     var goal: Int = 0
     var progressString: String = ""
-    var color: Color = Color.BTPrimary
+    var progressColor: Color = Color.BTPrimary
+    var backgroundColor: Color = Color.BTProgressBG
     
     var maxWidth: Double {
         return min((containerWidth / CGFloat(goal) * CGFloat(progress)), containerWidth)
     }
     
-     var body: some View {
-     
+    var body: some View {
+        
         VStack {
-            HStack {
-                Spacer()
-
-                Text(progressString)
-                    .applyFont(.regular, size: 10)
-            }
+            //            HStack {
+            //                Spacer()
+            //
+            //                Text(progressString)
+            //                    .applyFont(.regular, size: 10)
+            //            }
+            //
             ZStack(alignment: .leading) {
-                GeometryReader { geo in
-                    
+                GeometryReader { geometry in
                     RoundedRectangle(cornerRadius: 60)
-                        .foregroundStyle(Color.BTProgressBG)
+                        .stroke(Color.black, lineWidth: 0.5)
+                        .foregroundStyle(backgroundColor)
                         .onAppear {
-                            containerWidth = geo.size.width
+                            containerWidth = geometry.size.width
                         }
-                        
                 }
+                
                 ZStack(alignment: .trailing) {
-                        
                     RoundedRectangle(cornerRadius: 60)
-                        .fill(color)
-                    
+                        .fill(progressColor)
                 }
-                .padding(2)
+                .padding(4)
                 .frame(minWidth: maxWidth)
                 .fixedSize()
             }
             .fixedSize(horizontal: false, vertical: true)
-
         }
     }
 }
 
-#Preview {
-    SimpleLinearProgressView(progress: 2, goal: 15)
-        .frame(height: 2)
+#Preview("SimpleLinearProgressView") {
+    VStack {
+        SimpleLinearProgressView(progress: 100, goal: 100)
+            .frame(height: 20)
+    }
+    .applyViewPaddings()
 }

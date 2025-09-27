@@ -26,7 +26,7 @@ struct TopicCard: View {
                     .applyFont(.regular, size: 14, textColor: .BTLightGray)
             }
             
-            SimpleLinearProgressView(progress: Int(topic.completenesLevel), goal: topic.numberOfQuizes, progressString: topic.progressString, color: setBackgroundColor())
+            SimpleLinearProgressView(progress: Int(topic.completenesLevel), goal: topic.numberOfQuizes, progressString: topic.progressString, progressColor: setBackgroundColor())
         }
         .padding()
         .background(setBackgroundColor())

@@ -26,10 +26,6 @@ struct QuizView: View {
                         quizStore.enterQuizReviewMode()
                     })
                 }
-//                // Normal Alert
-//                if alertIsPresented {
-//                    AlertDialog(isPresented: $alertIsPresented, title: quizStore.alertTitle, message: quizStore.alertMessage, buttonTitle: quizStore.alertButtonTitle, primaryAction: { router.popToRoot() }, isAnotherAction: isActionFromQuizStore)
-//                }
             }
             .zIndex(999)
             
@@ -39,13 +35,11 @@ struct QuizView: View {
                 HStack(spacing: 16) {
                     LinearProgressView(progress: Int(quizStore.calculateCurrentQuestionProgress()), goal: quizStore.currentQuiz.numberOfQuestions)
                     
-                    Spacer()
-                    
                     Image("Close")
                         .makeButton(
                             action: {
                                 alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
-                                    router.popBackStack()
+                                    router.popToRoot()
                                 }
                             },
                             addHapticFeedback: true,
@@ -94,7 +88,7 @@ struct QuizView: View {
                                 .applyFont(.regular, size: 14, textColor: .BTPrimary)
                             
                             Button("") {
-                               let result = quizStore.answerQuestion()
+                                let result = quizStore.answerQuestion()
                                 switch result {
                                 case .moveToNext:
                                     quizStore.toNextQuestion()
@@ -119,28 +113,28 @@ struct QuizView: View {
         }
     }
     
-   private func navigateAfterFinish() {
-       let context = router.getCurrentContext()
-       
-       if context == .onboarding {
+    private func navigateAfterFinish() {
+        let context = router.getCurrentContext()
+        
+        if context == .onboarding {
             router.navigateTo(.streakView, from: .onboarding)
         } else {
             router.popToRoot()
         }
     }
     
-   private func goLeftCheckingQuesiton() {
+    private func goLeftCheckingQuesiton() {
         withAnimation {
-            if quizStore.currentQuiz.isInReview {
-                let _ = quizStore.checkAnswerToTheLeft()
-            }
+            quizStore.checkAnswerToTheLeft()
         }
     }
     
-   private func goRightCheckingQuesiton() {
-        if quizStore.currentQuiz.isInReview {
-            withAnimation {
-                let _ = quizStore.checkAnswerToTheRight()
+    private func goRightCheckingQuesiton() {
+        withAnimation {
+            let result = quizStore.checkAnswerToTheRight()
+            
+            if result == .endOfQuiz {
+                self.finishQuizModal = true
             }
         }
     }

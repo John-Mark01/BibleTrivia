@@ -180,16 +180,18 @@ struct BTAlertHandler: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .overlay(
-                AlertDialog(
-                    isPresented: $alertManager.show,
-                    title: alertManager.alertTitle,
-                    message: alertManager.alertMessage,
-                    buttonTitle: alertManager.buttonText,
-                    primaryAction: alertManager.action
-                )
-            )
             .blur(radius: alertManager.show ? 3 : 0)
             .disabled(alertManager.show)
+            .overlay {
+                if alertManager.show {
+                    AlertDialog(
+                        isPresented: $alertManager.show,
+                        title: alertManager.alertTitle,
+                        message: alertManager.alertMessage,
+                        buttonTitle: alertManager.buttonText,
+                        primaryAction: alertManager.action
+                    )
+                }
+            }
     }
 }

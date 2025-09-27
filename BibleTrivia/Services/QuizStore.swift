@@ -23,7 +23,7 @@ import SwiftUI
     var chosenQuiz: Quiz?
     var chosenTopic: Topic?
     
-    // MARK: - Initialization
+// MARK: - Initialization
     
     init(supabase: Supabase) {
         self.quizRepository = QuizRepository(supabase: supabase)
@@ -38,7 +38,7 @@ import SwiftUI
         self.alertManager = AlertManager.shared
     }
     
-    // MARK: - Computed Properties
+// MARK: - Computed Properties
     
     /// Safe access to current quiz
     var currentQuiz: Quiz {
@@ -52,7 +52,7 @@ import SwiftUI
         return quiz
     }
     
-    // MARK: - Quiz Selection & Management
+// MARK: - Quiz Selection & Management
     
     func chooseQuiz(quiz: Quiz) {
         self.chosenQuiz = quiz
@@ -82,7 +82,7 @@ import SwiftUI
         onQuit()
     }
     
-    // MARK: - Answer Management
+// MARK: - Answer Management
     
     func selectAnswer(index: Int) {
         guard let quiz = chosenQuiz else { return }
@@ -99,7 +99,7 @@ import SwiftUI
         selectAnswerHaptic()
     }
     
-    // MARK: - Question Navigation
+// MARK: - Question Navigation
     
     func answerQuestion() -> QuizQuestionResult {
         guard let quiz = chosenQuiz else {
@@ -117,6 +117,7 @@ import SwiftUI
             case .moveToNext:
                 return .moveToNext
             case .quizCompleted:
+                self.currentQuiz.isFinished = true
                 return .quizCompleted
             }
         case .failure(let submissionError):
@@ -147,28 +148,27 @@ import SwiftUI
         _ = quizManager.moveToNextQuestion(in: quiz)
     }
     
-    // MARK: - Quiz Review
+// MARK: - Quiz Review
     
     func enterQuizReviewMode() {
         guard let quiz = chosenQuiz else { return }
         quizManager.enterReviewMode(for: quiz)
     }
     
-    func checkAnswerToTheLeft() -> Bool {
+    func checkAnswerToTheLeft() {
         guard let quiz = chosenQuiz else {
             showAlert(alertTitle: "Error",
                      message: "No quiz selected",
                      buttonTitle: "Okay")
-            return false
+            return
         }
         
         if !quizManager.moveToPreviousQuestion(in: quiz) {
             showAlert(alertTitle: "Error", 
                      message: "This is the first question.", 
                      buttonTitle: "Close")
-            return false
+            return
         }
-        return true
     }
     
     func checkAnswerToTheRight() -> QuizNavigationResult {
@@ -192,7 +192,7 @@ import SwiftUI
         case error
     }
     
-    // MARK: - Progress & Evaluation
+// MARK: - Progress & Evaluation
     
     func calculateProgress() -> Double {
         guard let quiz = chosenQuiz else { return 0.0 }
