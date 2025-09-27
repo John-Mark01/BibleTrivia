@@ -7,15 +7,14 @@
 
 import Foundation
 
-
 @Observable
 class Errors {
     
     enum BTError: Error {
         // Fetching - C
-        case networkError(String)
-        case invalidResponse(String)
-        case parseError(String)
+        case networkError(LocalizedStringResource)
+        case invalidResponse(LocalizedStringResource)
+        case parseError(LocalizedStringResource)
         
         // Inserting - R
         
@@ -24,11 +23,11 @@ class Errors {
         // Deleting - D
         
         // Authentication
-        case signUpError(String)
-        case logInError(String)
-        case forgotPasswordError(String)
+        case signUpError(LocalizedStringResource)
+        case logInError(LocalizedStringResource)
+        case forgotPasswordError(LocalizedStringResource)
         
         //General
-        case unknownError(String)
+        case unknownError(LocalizedStringResource)
     }
 }

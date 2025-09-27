@@ -48,7 +48,7 @@ struct BibleTriviaApp: App {
                 do {
                     try await listenAuthEvents()
                 } catch {
-                    quizStore.showAlert(message: "Your session expired. Please sign in again", buttonTitle: "Okay")
+                    alertManager.showAlert(type: .error, message: "Your session expired. Please sign in again", buttonText: "Okay", action: {})
                 }
             }
         }

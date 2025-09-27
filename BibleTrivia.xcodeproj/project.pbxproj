@@ -21,6 +21,7 @@
 		3680A4092D53D12C008040F7 /* SurveyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A4082D53D12C008040F7 /* SurveyButton.swift */; };
 		3680A40B2D53DD47008040F7 /* DidYouKnowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */; };
 		3689B6012DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3689B6002DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift */; };
+		369013902E87F92100E3D337 /* Extensions+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3690138F2E87F91B00E3D337 /* Extensions+String.swift */; };
 		36A591FB2D1EBE5900972BA2 /* LoadingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A591FA2D1EBE5900972BA2 /* LoadingManager.swift */; };
 		36A592012D1EC62C00972BA2 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 36A592002D1EC62C00972BA2 /* Lottie */; };
 		36A592032D1EC81E00972BA2 /* Loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 36A592022D1EC81E00972BA2 /* Loading.json */; };
@@ -113,6 +114,7 @@
 		3680A4082D53D12C008040F7 /* SurveyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyButton.swift; sourceTree = "<group>"; };
 		3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidYouKnowScreen.swift; sourceTree = "<group>"; };
 		3689B6002DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetsCreateYourProfileScreen.swift; sourceTree = "<group>"; };
+		3690138F2E87F91B00E3D337 /* Extensions+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+String.swift"; sourceTree = "<group>"; };
 		36A591FA2D1EBE5900972BA2 /* LoadingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingManager.swift; sourceTree = "<group>"; };
 		36A592022D1EC81E00972BA2 /* Loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Loading.json; sourceTree = "<group>"; };
 		36AC71E02CB57C7B002FF37C /* BibleTrivia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BibleTrivia.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,6 +207,7 @@
 		3652A40E2DB436EB001FD2BA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3690138F2E87F91B00E3D337 /* Extensions+String.swift */,
 				3652A40F2DB436FA001FD2BA /* Extensions+View.swift */,
 				3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */,
 				3652A4112DB43743001FD2BA /* ViewModifiers.swift */,
@@ -573,6 +576,7 @@
 				36B5A75C2D32EEF40021F21C /* UserManager.swift in Sources */,
 				36E0A5FA2D1C47C5006AEC4F /* ProgressViews.swift in Sources */,
 				36B5D6062D3C410700D5E732 /* LoginView.swift in Sources */,
+				369013902E87F92100E3D337 /* Extensions+String.swift in Sources */,
 				36E0A5FB2D1C47C5006AEC4F /* QuizViewToolbar.swift in Sources */,
 				36B5A7572D2B14290021F21C /* UserStreak.swift in Sources */,
 				36CA40A82D3D5839003B1164 /* SurveyView.swift in Sources */,

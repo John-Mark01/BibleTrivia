@@ -65,9 +65,11 @@ import SwiftUI
     
     func startQuiz(onStart: @escaping (Bool) -> Void) {
         guard let unwrappedQuiz = chosenQuiz else {
-            showAlert(alertTitle: "Error", 
-                     message: "Unexpected Error, no quiz selected!", 
-                     buttonTitle: "Go Back")
+            alertManager.showAlert(
+                type: .error,
+                message: "Unexpected Error, no quiz selected!",
+                buttonText: "Go Back", action: {}
+            )
             onStart(false)
             return
         }
@@ -103,9 +105,12 @@ import SwiftUI
     
     func answerQuestion() -> QuizQuestionResult {
         guard let quiz = chosenQuiz else {
-            showAlert(alertTitle: "Error",
-                     message: "No quiz selected",
-                     buttonTitle: "Okay")
+            alertManager.showAlert(
+                    type: .error,
+                    message: "No quiz selected",
+                    buttonText: "Okay",
+                    action: {}
+            )
             return .error
         }
         
@@ -123,14 +128,20 @@ import SwiftUI
         case .failure(let submissionError):
             switch submissionError {
             case .noAnswerSelected:
-                showAlert(alertTitle: "Warning",
-                         message: "No answer selected!\nPlease select an answer",
-                         buttonTitle: "Okay")
+                alertManager.showAlert(
+                    type: .warning,
+                    message: "No answer selected!\nPlease select an answer",
+                    buttonText: "Okay",
+                    action: {}
+                )
                 return .error
             case .quizAlreadyCompleted:
-                showAlert(alertTitle: "Error",
-                         message: "Quiz is already completed",
-                         buttonTitle: "Okay")
+                alertManager.showAlert(
+                    type: .error,
+                    message: "Quiz is already completed",
+                    buttonText: "Okay",
+                    action: {}
+                )
                 return .error
             }
         }
@@ -157,25 +168,34 @@ import SwiftUI
     
     func checkAnswerToTheLeft() {
         guard let quiz = chosenQuiz else {
-            showAlert(alertTitle: "Error",
-                     message: "No quiz selected",
-                     buttonTitle: "Okay")
-            return
+            alertManager.showAlert(
+                type: .error,
+                message: "No quiz selected",
+                buttonText: "Okay",
+                action: {}
+            )
+          return
         }
         
         if !quizManager.moveToPreviousQuestion(in: quiz) {
-            showAlert(alertTitle: "Error", 
-                     message: "This is the first question.", 
-                     buttonTitle: "Close")
+            alertManager.showAlert(
+                type: .error,
+                message: "This is the first question.",
+                buttonText: "Close",
+                action: {}
+            )
             return
         }
     }
     
     func checkAnswerToTheRight() -> QuizNavigationResult {
         guard let quiz = chosenQuiz else {
-            showAlert(alertTitle: "Error",
-                     message: "No quiz selected",
-                     buttonTitle: "Okay")
+            alertManager.showAlert(
+                type: .error,
+                message: "No quiz selected",
+                buttonText: "Okay",
+                action: {}
+            )
             return .error
         }
         
@@ -222,39 +242,6 @@ import SwiftUI
     func calculateScore() -> Int {
         guard let quiz = chosenQuiz else { return 0 }
         return quizManager.calculateScore(in: quiz)
-    }
-    
-    // MARK: - Alert Management
-    
-    func showAlert(customError: Errors.BTError? = nil,
-                   alertTitle: LocalizedStringResource = "Error",
-                   message: LocalizedStringResource = "",
-                   buttonTitle: LocalizedStringResource) {
-        
-        var alertMessage: String = ""
-        
-        if let customError {
-            switch customError {
-            case .networkError(let string):
-                alertMessage = string
-            case .invalidResponse(let string):
-                alertMessage = string
-            case .parseError(let string):
-                alertMessage = string
-            case .signUpError(let string):
-                alertMessage = string
-            case .logInError(let string):
-                alertMessage = string
-            case .forgotPasswordError(let string):
-                alertMessage = string
-            case .unknownError(let string):
-                alertMessage = string
-            }
-        } else {
-            alertMessage = message.key
-        }
-        let localizedMessage = LocalizedStringResource(stringLiteral: alertMessage)
-        alertManager.showAlert(type: .error, title: alertTitle, message: localizedMessage, buttonText: buttonTitle, action: {})
     }
 }
 
@@ -305,13 +292,11 @@ extension QuizStore {
             
         } catch let error as QuizRepositoryError {
             await MainActor.run {
-                self.showAlert(customError: error.toBTError(), buttonTitle: "Dismiss")
+                self.alertManager.showBTErrorAlert(error.toBTError(), buttonTitle: "Dimiss", action: {})
             }
         } catch {
             await MainActor.run {
-                self.showAlert(alertTitle: "Error", 
-                              message: "Unexpected error occurred", 
-                              buttonTitle: "Dismiss")
+                self.unexpectedError()
             }
         }
     }
@@ -338,14 +323,12 @@ extension QuizStore {
         } catch let error as QuizRepositoryError {
             await MainActor.run {
                 LoadingManager.shared.hide()
-                self.showAlert(customError: error.toBTError(), buttonTitle: "Dismiss")
+                self.alertManager.showBTErrorAlert(error.toBTError(), buttonTitle: "Dimiss", action: {})
             }
         } catch {
             await MainActor.run {
                 LoadingManager.shared.hide()
-                self.showAlert(alertTitle: "Error", 
-                              message: "Unexpected error occurred", 
-                              buttonTitle: "Dismiss")
+                self.unexpectedError()
             }
         }
     }
@@ -374,17 +357,29 @@ extension QuizStore {
             
         } catch let error as QuizRepositoryError {
             await MainActor.run {
-                self.showAlert(customError: error.toBTError(), buttonTitle: "Dismiss")
+                self.alertManager.showBTErrorAlert(error.toBTError(), buttonTitle: "Dimiss", action: {})
             }
             throw error
         } catch {
             await MainActor.run {
-                self.showAlert(alertTitle: "Error", 
-                              message: "Failed to load quiz", 
-                              buttonTitle: "Dismiss")
+                alertManager.showAlert(
+                    type: .error,
+                    message: "Failed to load quiz",
+                    buttonText: "Dismiss",
+                    action: {}
+                )
             }
             throw error
         }
+    }
+    
+    private func unexpectedError() {
+        alertManager.showAlert(
+            type: .error,
+            message: "Unexpected error occurred",
+            buttonText: "Dismiss",
+            action: {}
+        )
     }
 }
 

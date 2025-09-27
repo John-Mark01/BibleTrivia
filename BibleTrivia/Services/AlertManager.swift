@@ -10,6 +10,7 @@ import Foundation
 @MainActor
 @Observable class AlertManager {
     
+    private init() {}
     static let shared = AlertManager()
     
     var show: Bool = false
@@ -56,6 +57,29 @@ import Foundation
                        message: "Do want to quit \(quizName)?\nYou can still finish your quiz later.",
                        buttonText: "Close Quiz",
                        action: action)
+    }
+    
+    //BTError
+    func showBTErrorAlert(_ error: Errors.BTError, buttonTitle: LocalizedStringResource, action: @escaping () -> Void) {
+        var alertMessage: LocalizedStringResource = ""
+        switch error {
+        case let .networkError(message):
+            alertMessage = message
+        case let .invalidResponse(message):
+            alertMessage = message
+        case let .parseError(message):
+            alertMessage = message
+        case let .signUpError(message):
+            alertMessage = message
+        case let .logInError(message):
+            alertMessage = message
+        case let .forgotPasswordError(message):
+            alertMessage = message
+        case let .unknownError(message):
+            alertMessage = message
+        }
+        
+        self.showAlert(type: .error, message: alertMessage, buttonText: buttonTitle, action: action)
     }
 
 }

@@ -26,17 +26,17 @@ class QuizRepository: QuizRepositoryProtocol {
         self.supabase = supabase
     }
     
-    // MARK: - Topics
+// MARK: - Topics
     
     func getTopics(limit: Int? = nil) async throws -> [Topic] {
         do {
             return try await supabase.getTopics(limit: limit)
         } catch {
-            throw QuizRepositoryError.topicsFetchFailed(error.localizedDescription)
+            throw QuizRepositoryError.topicsFetchFailed(error.localizedDescription.localized)
         }
     }
     
-    // MARK: - Quizzes
+// MARK: - Quizzes
     
     func getQuizzes(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
         do {
@@ -52,7 +52,7 @@ class QuizRepository: QuizRepositoryProtocol {
         } catch let error as QuizRepositoryError {
             throw error
         } catch {
-            throw QuizRepositoryError.quizzesFetchFailed(error.localizedDescription)
+            throw QuizRepositoryError.quizzesFetchFailed(error.localizedDescription.localized)
         }
     }
     
@@ -67,31 +67,31 @@ class QuizRepository: QuizRepositoryProtocol {
             
             return quiz
         } catch {
-            throw QuizRepositoryError.quizFetchFailed(error.localizedDescription)
+            throw QuizRepositoryError.quizFetchFailed(error.localizedDescription.localized)
         }
     }
     
-    // MARK: - Questions
+// MARK: - Questions
     
     func getQuestions(for quizId: Int) async throws -> [Question] {
         do {
             return try await supabase.getQuestions(for: quizId)
         } catch {
-            throw QuizRepositoryError.questionsFetchFailed(error.localizedDescription)
+            throw QuizRepositoryError.questionsFetchFailed(error.localizedDescription.localized)
         }
     }
     
-    // MARK: - Answers
+// MARK: - Answers
     
     func getAnswers(for questionIds: [Int]) async throws -> [Answer] {
         do {
             return try await supabase.getAnswers(for: questionIds)
         } catch {
-            throw QuizRepositoryError.answersFetchFailed(error.localizedDescription)
+            throw QuizRepositoryError.answersFetchFailed(error.localizedDescription.localized)
         }
     }
     
-    // MARK: - Helper Methods
+// MARK: - Helper Methods
     
     private func getQuestionsWithAnswers(for quizId: Int) async throws -> [Question] {
         do {
@@ -113,7 +113,7 @@ class QuizRepository: QuizRepositoryProtocol {
         } catch let error as QuizRepositoryError {
             throw error
         } catch {
-            throw QuizRepositoryError.questionsFetchFailed("Failed to fetch questions with answers: \(error.localizedDescription)")
+            throw QuizRepositoryError.questionsFetchFailed("Failed to fetch questions with answers: \(error.localizedDescription.localized)")
         }
     }
 }
@@ -121,15 +121,15 @@ class QuizRepository: QuizRepositoryProtocol {
 // MARK: - Repository Errors
 
 enum QuizRepositoryError: Error, LocalizedError {
-    case topicsFetchFailed(String)
-    case quizzesFetchFailed(String)
-    case quizFetchFailed(String)
-    case questionsFetchFailed(String)
-    case answersFetchFailed(String)
-    case networkError(String)
-    case parseError(String)
+    case topicsFetchFailed(LocalizedStringResource)
+    case quizzesFetchFailed(LocalizedStringResource)
+    case quizFetchFailed(LocalizedStringResource)
+    case questionsFetchFailed(LocalizedStringResource)
+    case answersFetchFailed(LocalizedStringResource)
+    case networkError(LocalizedStringResource)
+    case parseError(LocalizedStringResource)
     
-    var errorDescription: String? {
+    var errorDescription: LocalizedStringResource? {
         switch self {
         case .topicsFetchFailed(let message):
             return "Failed to fetch topics: \(message)"

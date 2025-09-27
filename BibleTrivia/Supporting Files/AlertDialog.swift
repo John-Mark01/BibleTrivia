@@ -13,7 +13,6 @@ struct AlertDialog: View {
     let message: LocalizedStringResource
     let buttonTitle: LocalizedStringResource
     let primaryAction: () -> ()
-    var isAnotherAction: Bool = true
     @State private var offset: CGFloat = 1000
     
     var body: some View {
@@ -36,15 +35,12 @@ struct AlertDialog: View {
                 
                 
                 ZStack {
-                    Button(action: {
-                        if !isAnotherAction {
+                    RoundedRectangle(cornerRadius: 40)
+                        .foregroundStyle(Color.BTPrimary)
+                        .makeButton(action: {
                             primaryAction()
-                        }
-                        close()
-                    }) {
-                        RoundedRectangle(cornerRadius: 40)
-                            .foregroundStyle(Color.BTPrimary)
-                    }
+                            close()
+                        }, addHapticFeedback: true)
                     
                     Text(buttonTitle)
                         .applyFont(.medium, size: 20, textColor: .white)
@@ -94,5 +90,5 @@ struct AlertDialog: View {
 }
 
 #Preview {
-    AlertDialog(isPresented: .constant(true), title: "Quit Quiz?", message: "You can still finish you quiz later.", buttonTitle: "Continue", primaryAction: {}, isAnotherAction: false)
+    AlertDialog(isPresented: .constant(true), title: "Quit Quiz?", message: "You can still finish you quiz later.", buttonTitle: "Continue", primaryAction: {})
 }

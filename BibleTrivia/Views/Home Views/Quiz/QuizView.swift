@@ -39,7 +39,7 @@ struct QuizView: View {
                         .makeButton(
                             action: {
                                 alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
-                                    router.popToRoot()
+                                    router.popBackStack()
                                 }
                             },
                             addHapticFeedback: true,
