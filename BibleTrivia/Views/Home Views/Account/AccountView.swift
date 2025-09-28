@@ -24,7 +24,7 @@ struct AccountView: View {
     ]
     var body: some View {
         ScrollView {
-            UserAccountCard(user: userManager.user)
+            UserAccountCard(user: userManager.user, viewUse: .account)
                 .padding(.bottom, 20)
             
             VStack(alignment: .leading, spacing: 16) {
