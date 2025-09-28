@@ -110,8 +110,8 @@
             filePath = "BibleTrivia/Services/User/UserRepository.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "getInitialUserData(for:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -119,33 +119,103 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "94BBED01-78E0-4DE1-9D4D-6BFB74C2740C"
+            uuid = "94BD1F6E-1551-4ADD-91DF-9BA739C4DEF1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BibleTrivia/Services/Utils/Supabase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
-            landmarkName = "parseUsers(_:)"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "getQuizzez(limit:offset:ids:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9EBDD5CF-5170-4738-B231-95EF8A0308B3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BibleTrivia/Services/Utils/Supabase.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
-            landmarkName = "getUser(withId:)"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "94BD1F6E-1551-4ADD-91DF-9BA739C4DEF1 - 6277956dddc78d67"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for BibleTrivia.Supabase.getQuizzez(limit: Swift.Optional&lt;Swift.Int&gt;, offset: Swift.Int, ids: Swift.Optional&lt;Swift.Array&lt;Swift.Int&gt;&gt;) async throws -&gt; Swift.Array&lt;BibleTrivia.Quiz&gt;"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/Utils/Supabase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83">
+               </Location>
+               <Location
+                  uuid = "94BD1F6E-1551-4ADD-91DF-9BA739C4DEF1 - 6277956dddc78d67"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for BibleTrivia.Supabase.getQuizzez(limit: Swift.Optional&lt;Swift.Int&gt;, offset: Swift.Int, ids: Swift.Optional&lt;Swift.Array&lt;Swift.Int&gt;&gt;) async throws -&gt; Swift.Array&lt;BibleTrivia.Quiz&gt;"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/Utils/Supabase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83">
+               </Location>
+               <Location
+                  uuid = "94BD1F6E-1551-4ADD-91DF-9BA739C4DEF1 - bc4185ec38e0c165"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for BibleTrivia.Supabase.getQuizzez(limit: Swift.Optional&lt;Swift.Int&gt;, offset: Swift.Int, ids: Swift.Optional&lt;Swift.Array&lt;Swift.Int&gt;&gt;) async throws -&gt; Swift.Array&lt;BibleTrivia.Quiz&gt;"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/Utils/Supabase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83">
+               </Location>
+               <Location
+                  uuid = "94BD1F6E-1551-4ADD-91DF-9BA739C4DEF1 - f64bb46e97ba055b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for BibleTrivia.Supabase.getQuizzez(limit: Swift.Optional&lt;Swift.Int&gt;, offset: Swift.Int, ids: Swift.Optional&lt;Swift.Array&lt;Swift.Int&gt;&gt;) async throws -&gt; Swift.Array&lt;BibleTrivia.Quiz&gt;"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/Utils/Supabase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83">
+               </Location>
+               <Location
+                  uuid = "94BD1F6E-1551-4ADD-91DF-9BA739C4DEF1 - 3d5a9f44a4287a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(10) suspend resume partial function for BibleTrivia.Supabase.getQuizzez(limit: Swift.Optional&lt;Swift.Int&gt;, offset: Swift.Int, ids: Swift.Optional&lt;Swift.Array&lt;Swift.Int&gt;&gt;) async throws -&gt; Swift.Array&lt;BibleTrivia.Quiz&gt;"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/Utils/Supabase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83">
+               </Location>
+               <Location
+                  uuid = "94BD1F6E-1551-4ADD-91DF-9BA739C4DEF1 - 919dce6c3d8c5aa1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(11) suspend resume partial function for BibleTrivia.Supabase.getQuizzez(limit: Swift.Optional&lt;Swift.Int&gt;, offset: Swift.Int, ids: Swift.Optional&lt;Swift.Array&lt;Swift.Int&gt;&gt;) async throws -&gt; Swift.Array&lt;BibleTrivia.Quiz&gt;"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/Utils/Supabase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

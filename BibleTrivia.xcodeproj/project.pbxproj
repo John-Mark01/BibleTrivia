@@ -35,7 +35,6 @@
 		36B5A74E2D2984F10021F21C /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A74D2D2984F10021F21C /* Errors.swift */; };
 		36B5A7552D2B01DE0021F21C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A7542D2B01DE0021F21C /* AuthManager.swift */; };
 		36B5A7572D2B14290021F21C /* UserStreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A7562D2B14290021F21C /* UserStreak.swift */; };
-		36B5A75A2D2B16700021F21C /* StreakManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A7592D2B16700021F21C /* StreakManager.swift */; };
 		36B5A75C2D32EEF40021F21C /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5A75B2D32EEF40021F21C /* UserManager.swift */; };
 		36B5D5F22D3C0E6400D5E732 /* OnboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5F12D3C0E6400D5E732 /* OnboardButton.swift */; };
 		36B5D5F42D3C153C00D5E732 /* OnboardingComponentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B5D5F32D3C153C00D5E732 /* OnboardingComponentsView.swift */; };
@@ -124,7 +123,6 @@
 		36B5A74D2D2984F10021F21C /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		36B5A7542D2B01DE0021F21C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		36B5A7562D2B14290021F21C /* UserStreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStreak.swift; sourceTree = "<group>"; };
-		36B5A7592D2B16700021F21C /* StreakManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakManager.swift; sourceTree = "<group>"; };
 		36B5A75B2D32EEF40021F21C /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		36B5D5F12D3C0E6400D5E732 /* OnboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardButton.swift; sourceTree = "<group>"; };
 		36B5D5F32D3C153C00D5E732 /* OnboardingComponentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingComponentsView.swift; sourceTree = "<group>"; };
@@ -233,7 +231,6 @@
 				364B7FFF2E89686D00C9EFD9 /* UserRepository.swift */,
 				36B5A75B2D32EEF40021F21C /* UserManager.swift */,
 				36B5A7542D2B01DE0021F21C /* AuthManager.swift */,
-				36B5A7592D2B16700021F21C /* StreakManager.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -638,7 +635,6 @@
 				36E0A60E2D1C47C5006AEC4F /* AnswerViewRow.swift in Sources */,
 				3663E6572E36A097004CB9BC /* BTTabBar.swift in Sources */,
 				367BF5D02D73C0D700F97BA1 /* LetsStartAQuizScreen.swift in Sources */,
-				36B5A75A2D2B16700021F21C /* StreakManager.swift in Sources */,
 				3663E6592E36AED6004CB9BC /* TabBarManager.swift in Sources */,
 				36B5D6022D3C327000D5E732 /* ProgressTimerButton.swift in Sources */,
 				36B5D5FE2D3C2F4300D5E732 /* AvatarView.swift in Sources */,

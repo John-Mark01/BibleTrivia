@@ -17,14 +17,12 @@ struct BibleTriviaApp: App {
     
     
     @State private var quizStore = QuizStore(supabase: Supabase())
-    @State private var alertManager = AlertManager.shared
-    @State private var signInStatus: SignInStatus = .idle
-    let onboardingManager = OnboardingManager(supabase: Supabase())
-    
     @State private var userManager: UserManager = UserManager(supabase: Supabase(), alertManager: .shared)
     
-    let streakManager = StreakManager()
-    let userDefaults = UserDefaults.standard
+    @State private var alertManager = AlertManager.shared
+    let onboardingManager = OnboardingManager(supabase: Supabase())
+    
+    @State private var signInStatus: SignInStatus = .idle
     
     var body: some Scene {
         WindowGroup {
@@ -70,8 +68,7 @@ struct BibleTriviaApp: App {
                 do {
                     let _ = try await userManager.supabase.auth.session
                     // streaks managing
-                    await userManager.fetchUser(userID: userID ?? .init())
-                    await userManager.checkInUser()
+                    await userManager.fetchUserAndDownloadInitialData(userID: userID ?? .init())
                     // get initial data
                     try await quizStore.loadInitialData()
                     setSignedInStatus()
@@ -83,8 +80,7 @@ struct BibleTriviaApp: App {
                     setNotSignedInStatus()
                 }
             } else if case .signedIn = event {
-                await userManager.fetchUser(userID: userID ?? .init())
-                await userManager.checkInUser()
+                await userManager.fetchUserAndDownloadInitialData(userID: userID ?? .init())
                 try await quizStore.loadInitialData()
                 setSignedInStatus()
             } else if case .signedOut = event {

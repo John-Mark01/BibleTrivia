@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Environment(QuizStore.self) var quizStore
-    @Environment(UserManager.self) private var userManager
     @Environment(Router.self) private var router
+    @Environment(UserManager.self) private var userManager
+    @Environment(QuizStore.self) var quizStore
     
     @State private var openModal: Bool = false
     @State private var alertDialog: Bool = false
     
     @State private var tempQuiz: [Quiz] = [/*DummySVM.shared.tempQuiz*/]
 //    @State private var dummyQuizzez = DummySVM.shared.quizes
+    
+    private var userScore: String {
+        String(userManager.user.totalPoints)
+    }
+    private var userStreak: String {
+        String(userManager.user.streak)
+    }
     
     var body: some View {
         ZStack {
@@ -28,12 +35,12 @@ struct HomeView: View {
                         Button("") {
                             
                         }
-                        .buttonStyle(.score(score: "328"))
+                        .buttonStyle(.score(score: userScore))
                         
                         Button("") {
                             
                         }
-                        .buttonStyle(.streak(width: 123, streak: "500"))
+                        .buttonStyle(.streak(width: 123, streak: userStreak))
                     }
                     
                     Spacer()
@@ -43,7 +50,14 @@ struct HomeView: View {
                         Text("Unfinished Quizzes")
                             .applyFont(.medium, size: 20)
                         
-                        UnfinishedQuizesViewRow(quizes: $tempQuiz, isPresented: $openModal)
+                        if let quizzez = userManager.startedQuizzes {
+                            UnfinishedQuizesViewRow(
+                                quizes: quizzez,
+                                isPresented: $openModal
+                            )
+                        } else {
+                            EmptyQuizView()
+                        }
                     }
                     
                     //Find New Quizzes

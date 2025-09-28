@@ -10,18 +10,30 @@ import Supabase
 
 @Observable class UserManager {
     
+    let supabase = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
+    
     let userRepository: UserRepositoryProtocol
     let alertManager: AlertManager
     
     var user: UserModel = UserModel()
-    let streakManager = StreakManager()
-    let supabase = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
+    var startedQuizzes: [Quiz]?
+    var completedQuizzes: [Quiz]?
     
-    init(supabase: Supabase, alertManager: AlertManager) {
+    init(supabase: Supabase, alertManager: AlertManager = .shared) {
         self.userRepository = UserRepository(supabase: supabase)
         self.alertManager = alertManager
     }
     
+    func fetchUserAndDownloadInitialData(userID: UUID) async {
+        Task {
+            await fetchUser(userID: userID)
+            await checkInUser(userID: userID)
+            await getUserStartedQuizzez(userID: userID)
+        }
+    }
+    
+    /// Fetches user data. This does NOT include user's quiz object. Just raw data
+    /// - Parameter userID: supabase.auth.session.user.id // the logged in user in the Auth sessiion
     func fetchUser(userID: UUID) async {
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
@@ -29,14 +41,35 @@ import Supabase
             let user = try await userRepository.getInitialUserData(for: userID)
             self.user = user
         } catch let error as UserRepository.UserRepositoryError {
-            await alertManager.showBTErrorAlert(error.toBTError(), buttonTitle: "Dimiss", action: {})
+            alertManager.showBTErrorAlert(error.toBTError(), buttonTitle: "Dimiss", action: {})
         } catch {
-            await alertManager.showAlert(
+            alertManager.showAlert(
                 type: .error,
                 message: "Unexpected error occurred",
                 buttonText: "Dismiss",
                 action: {}
             )
+        }
+    }
+    
+    /// Checks in user and backend updates his streak,
+    /// calls `check_and_update_streak` in Supabase
+    /// - Parameter userID: supabase.auth.session.user.id // the logged in user in the Auth sessiion
+    func checkInUser(userID: UUID) async {
+        do {
+            try await supabase
+                .rpc("check_and_update_streak", params: ["user_uuid" : userID])
+                .execute()
+        } catch {
+            print(error.localizedDescription) //TODO: Add alerts for all those erros caught
+        }
+    }
+    
+    func getUserStartedQuizzez(userID: UUID) async {
+        do {
+            self.startedQuizzes = try await userRepository.getUserStartedQuizzez(user.startedQuizzes)
+        } catch {
+            print(error.localizedDescription) //TODO: Add alerts for all those erros caught
         }
     }
     
@@ -86,25 +119,7 @@ extension UserManager {
             try await supabase.auth.signOut()
             completion()
         } catch {
-            await alertManager.showAlert(type: .error, message: "Coudn't sign out", buttonText: "Dissmiss", action: {})
-        }
-    }
-}
-
-//MARK: Onboarding + Registration Information
-extension UserManager {
-}
-
-//MARK: Streak
-extension UserManager {
-    
-    func checkInUser() async {
-        do {
-            try await supabase
-                .rpc("check_and_update_streak", params: ["user_uuid" : supabase.auth.session.user.id])
-                .execute()
-        } catch {
-            print(error.localizedDescription)
+            alertManager.showAlert(type: .error, message: "Coudn't sign out", buttonText: "Dissmiss", action: {})
         }
     }
 }

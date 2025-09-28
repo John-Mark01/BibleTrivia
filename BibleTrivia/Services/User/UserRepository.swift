@@ -9,6 +9,7 @@ import Foundation
 
 protocol UserRepositoryProtocol {
     func getInitialUserData(for userID: UUID) async throws -> UserModel
+    func getUserStartedQuizzez(_ quizzez: [Int]?) async throws -> [Quiz]
 }
 
 class UserRepository: UserRepositoryProtocol {
@@ -26,24 +27,37 @@ class UserRepository: UserRepositoryProtocol {
             throw UserRepositoryError.userFetchFailed(error.localizedDescription.localized)
         }
     }
+    
+    func getUserStartedQuizzez(_ quizzez: [Int]?) async throws -> [Quiz] {
+        do {
+          return try await supabase.getQuizzez(ids: quizzez)
+        } catch {
+            print("error: \(error.localizedDescription)")
+            throw UserRepositoryError.userFetchFailed(error.localizedDescription.localized)
+        }
+    }
 
     
     
 // MARK: - Repository Errors
     enum UserRepositoryError: Error, LocalizedError {
         case userFetchFailed(LocalizedStringResource)
+        case startedQuizzezFetchFailed(LocalizedStringResource)
         
         var errorDescription: LocalizedStringResource? {
             switch self {
             case let .userFetchFailed(message):
                 return "Failed to get user: \(message)"
+            case let .startedQuizzezFetchFailed(message):
+                return "Failed to get user started quizzez: \(message)"
             }
         }
         
         /// Converts repository errors to the app's BTError format
         func toBTError() -> Errors.BTError {
             switch self {
-            case let .userFetchFailed(message):
+            case let .userFetchFailed(message),
+                 let .startedQuizzezFetchFailed(message):
                 return .parseError(message)
             }
         }

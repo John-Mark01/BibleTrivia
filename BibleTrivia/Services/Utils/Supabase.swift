@@ -72,24 +72,43 @@ extension Supabase {
     }
     
     //Quizzes
-    func getQuizzez(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
-        let query = supabaseClient
+    func getQuizzez(limit: Int? = nil, offset: Int = 0, ids: [Int]? = nil) async throws -> [Quiz] {
+        let baseQuery = supabaseClient
             .from(Table.quizez)
             .select()
         
-        // Add pagination if limit is provided
-        if let limit = limit {
-            let response = try await query
-                .range(from: offset, to: offset + limit - 1)
-                .execute()
-            let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
-            return quizzez ?? []
+        let response: PostgrestResponse<Void>
+        
+        // IDs specified
+        if let ids = ids, !ids.isEmpty {
+            // Get specific quizzes by IDs
+            if let limit = limit {
+                // IDs with pagination
+                response = try await baseQuery
+                    .in("id", values: ids)
+                    .range(from: offset, to: offset + limit - 1)
+                    .execute()
+            } else {
+                // IDs without pagination
+                response = try await baseQuery
+                    .in("id", values: ids)
+                    .execute()
+            }
         } else {
-            // Get all if no limit specified
-            let response = try await query.execute()
-            let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
-            return quizzez ?? []
+            // No IDs specified
+            if let limit = limit {
+                // Pagination only
+                response = try await baseQuery
+                    .range(from: offset, to: offset + limit - 1)
+                    .execute()
+            } else {
+                // Get all quizzes
+                response = try await baseQuery.execute()
+            }
         }
+        
+        let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
+        return quizzez ?? []
     }
     
     func getQuizWithTopicID(_ id: Int) async throws -> Quiz? {
@@ -105,6 +124,19 @@ extension Supabase {
         } catch {
             print("Error decoding quizzes: \(error)")
             throw Errors.BTError.parseError("Error getting quiz. Please try again later.")
+        }
+    }
+    
+    func getQuizWithID(_ id: Int) async throws -> Quiz? {
+        do {
+            let response = try await supabaseClient
+                .from(Table.quizez)
+                .select()
+                .eq("id", value: id)
+                .execute()
+            let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
+            
+            return quizzez?.first
         }
     }
     
@@ -233,12 +265,13 @@ extension Supabase {
         return user ?? .init()
     }
     
-    private func parseUsers(_ data: Data) throws -> UserModel {
+    private func parseUsers(_ data: Data) throws -> UserModel? {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
+        
         do {
             let userPayload = try decoder.decode([UserModelPayload].self, from: data)
-            return userPayload.first?.toUser() ?? .init()
+            return userPayload.first?.toUser()
         } catch let error {
             print("Error decoding User: \(error)")
             throw Errors.BTError.parseError("Coudn't get User data. Please Try again later.")

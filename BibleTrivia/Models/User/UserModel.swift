@@ -29,6 +29,7 @@ class UserModel {
         case .seniorPastor: return .seniorPastor
         }
     }
+    
     init() {}
     init(name: String, age: Int, email: String?, userLevel: UserLevel, userPlan: UserPlan, completedQuizzes: [Int]?, startedQuizzes: [Int]?, totalPoints: Int, streak: Int, joinedAt: Date) {
         self.name = name

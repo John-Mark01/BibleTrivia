@@ -16,15 +16,15 @@ struct FindQuizViewRow: View {
         VStack(alignment: .leading) {
             ScrollView {
                 LazyVStack(spacing: 12) {
-                    ForEach(0..<quizes.count, id: \.self) { index in
+                    ForEach(quizes, id: \.id) { quiz in
                         Button(action: {
-                            print("I click on starting: \(quizStore.allQuizez[index].name) quiz")
-                            quizStore.chooseQuiz(quiz: quizStore.allQuizez[index])
+                            print("I click on starting: \(quiz.name) quiz")
+                            quizStore.chooseQuiz(quiz: quiz)
                             withAnimation(.snappy) {
                                 isPresented = true
                             }
                         }) {
-                            QuizRectangleView(quiz: quizStore.allQuizez[index])
+                            QuizRectangleView(quiz: quiz)
                         }
                     }
                 }

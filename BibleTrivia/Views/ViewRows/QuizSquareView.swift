@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct QuizSquareView: View {
-    @Binding var quiz: Quiz
+    var quiz: Quiz
+    
     var body: some View {
         VStack(alignment: .leading) {
             Image("Book")
