@@ -10,8 +10,7 @@ import Supabase
 
 @Observable class Supabase {
     
-    
-    let supabase = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
+    let supabaseClient = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
     
     enum Table {
         static let users     = "users"
@@ -26,14 +25,13 @@ import Supabase
     }
 }
 
-//MARK: Fetching Data
+//MARK: - Fetching Data
 
 extension Supabase {
     
-    //MARK: Topics
-    
+    //Topics
     func getTopics(limit: Int? = nil, offset: Int = 0) async throws -> [Topic] {
-        let query = supabase
+        let query = supabaseClient
             .from(Table.topics)
             .select()
         
@@ -73,9 +71,9 @@ extension Supabase {
         return Topic(id: payload.id, name: payload.name)
     }
     
-//MARK: Quizzez
+    //Quizzes
     func getQuizzez(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
-        let query = supabase
+        let query = supabaseClient
             .from(Table.quizez)
             .select()
         
@@ -96,7 +94,7 @@ extension Supabase {
     
     func getQuizWithTopicID(_ id: Int) async throws -> Quiz? {
         do {
-            let response = try await supabase
+            let response = try await supabaseClient
                 .from(Table.quizez)
                 .select()
                 .eq("topic_id", value: id)
@@ -141,12 +139,11 @@ extension Supabase {
         return Quiz(id: payload.id, name: payload.name, topicId: quizTopicId, time: quizTime, status: payload.status, difficulty: payload.difficulty, totalPoints: quizPoints)
     }
     
-    //MARK: Questions
-    
+    //Questions
     func getQuestions(for quizID: Int) async throws -> [Question] {
         do {
             let response =
-            try await supabase
+            try await supabaseClient
                 .from(Table.questions)
                 .select()
                 .eq("quiz_id", value: quizID) // filters all the questions for the array
@@ -187,11 +184,10 @@ extension Supabase {
     }
     
     
-    //MARK: Answers
-    
+    //Answers
     func getAnswers(for questionIds: [Int]) async throws -> [Answer] {
        let response =
-            try await supabase
+            try await supabaseClient
             .from(Table.answers)
             .select()
             .in("question_id", values: questionIds) // Filter by array of question IDs
@@ -224,12 +220,34 @@ extension Supabase {
     
     
     
-    //MARK: Users
+    //Users
+    func getUser(withId id: UUID) async throws -> UserModel {
+        let response =
+        try await supabaseClient
+            .from(Table.users)
+            .select()
+            .eq("id", value: id)
+            .execute()
+        
+        let user = try parseVoidResponse(response, for: .user) as? UserModel
+        return user ?? .init()
+    }
+    
+    private func parseUsers(_ data: Data) throws -> UserModel {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        do {
+            let userPayload = try decoder.decode([UserModelPayload].self, from: data)
+            return userPayload.first?.toUser() ?? .init()
+        } catch let error {
+            print("Error decoding User: \(error)")
+            throw Errors.BTError.parseError("Coudn't get User data. Please Try again later.")
+        }
+    }
     
     
-    
-    //MARK: Helpers
-    func parseVoidResponse(_ response: PostgrestResponse<Void>, for parseType: ParseType) throws -> [Any] {
+//MARK: - Helpers
+    func parseVoidResponse(_ response: PostgrestResponse<Void>, for parseType: ParseType) throws -> Any {
         print("Get \(parseType.rawValue.capitalized)s with status code: \(response.response.statusCode)")
         
         switch response.status {
@@ -244,7 +262,7 @@ extension Supabase {
             case .answer:
                 return try parseAnswers(response.data)
             case .user:
-                return []
+                return try parseUsers(response.data)
             }
         default:
             throw Errors.BTError.networkError("Network Error. Please try again later.")
@@ -255,8 +273,6 @@ extension Supabase {
 
 extension Supabase {
     enum StatusCode: Int, CaseIterable {
-        
         case succsess = 200
-        
     }
 }

@@ -7,27 +7,18 @@
 
 import Foundation
 
-struct UserModel: Decodable {
-    
-    var name: String
-    var age: Int
-    var avatarString: String //TODO: Create a enum with assotiated values (AvatarName / StringForImage)
-    var userLevel: UserLevel
-    var completedQuizzes: [Quiz]
-    var totalPoints: Int
-    var streek: Int
-    var userPlan: UserPlan
-    
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case age
-        case userLevel = "user_level"
-        case avatarString = "avatar_string"
-        case completedQuizzes = "completed_quizzes"
-        case totalPoints = "total_points"
-        case streek
-        case userPlan = "user_plan"
-    }
+@Observable
+class UserModel {
+    var name: String = ""
+    var age: Int = 0
+    var email: String? = ""
+    var userLevel: UserLevel = .newBorn
+    var userPlan: UserPlan = .free
+    var completedQuizzes: [Int]? = []
+    var startedQuizzes: [Int]? = []
+    var totalPoints: Int = 0
+    var streak: Int = 0
+    var joinedAt: Date = .now
     
     var nextLevel: UserLevel {
         switch userLevel {
@@ -38,28 +29,28 @@ struct UserModel: Decodable {
         case .seniorPastor: return .seniorPastor
         }
     }
-
-    
-    init(name: String, age: Int, avatarString: String, userLevel: UserLevel, completedQuizzes: [Quiz], points: Int, streek: Int, userPlan: UserPlan) {
+    init() {}
+    init(name: String, age: Int, email: String?, userLevel: UserLevel, userPlan: UserPlan, completedQuizzes: [Int]?, startedQuizzes: [Int]?, totalPoints: Int, streak: Int, joinedAt: Date) {
         self.name = name
         self.age = age
-        self.avatarString = avatarString
+        self.email = email
         self.userLevel = userLevel
-        self.completedQuizzes = completedQuizzes
-        self.totalPoints = points
-        self.streek = streek
         self.userPlan = userPlan
+        self.completedQuizzes = completedQuizzes
+        self.startedQuizzes = startedQuizzes
+        self.totalPoints = totalPoints
+        self.streak = streak
+        self.joinedAt = joinedAt
     }
-    
 }
 
 
 enum UserLevel: Int, Codable {
     case newBorn         = 0
-    case churchVolunteer = 500
-    case youthPastor     = 1200
-    case deacon          = 2000
-    case seniorPastor    = 3500
+    case churchVolunteer = 1
+    case youthPastor     = 2
+    case deacon          = 3
+    case seniorPastor    = 4
     
     var stringValue : String {
         switch self {
@@ -81,4 +72,47 @@ enum UserPlan: Int, Codable {
     case free
     case standard
     case premium
+}
+
+//MARK: - Server communcaiton
+
+struct UserModelPayload: Decodable {
+    var name: String
+    var age: Int
+    var email: String?
+    var level: UserLevel
+    var paymentPlan: UserPlan
+    var completedQuizzes: [Int]? //codingKey
+    var startedQuizzes: [Int]? //codingKey
+    var totalPoints: Int //codingKey
+    var streak: Int
+    var joinedAt: Date //codingKey
+    
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case age
+        case email
+        case level
+        case paymentPlan = "payment_plan"
+        case completedQuizzes = "completed_quizzez_ids"
+        case startedQuizzes = "started_quizzez_ids"
+        case totalPoints = "total_points"
+        case streak
+        case joinedAt = "joined_at"
+    }
+    
+    func toUser() -> UserModel {
+        return UserModel(
+            name: self.name,
+            age: self.age,
+            email: self.email,
+            userLevel: self.level,
+            userPlan: self.paymentPlan,
+            completedQuizzes: self.completedQuizzes,
+            startedQuizzes: self.startedQuizzes,
+            totalPoints: self.totalPoints,
+            streak: self.streak,
+            joinedAt: self.joinedAt
+        )
+    }
 }

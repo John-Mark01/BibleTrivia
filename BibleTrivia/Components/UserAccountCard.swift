@@ -21,7 +21,7 @@ struct UserAccountCard: View {
             VStack(alignment: .leading, spacing: 20) {
                 HStack(alignment: .top, spacing: 10) {
                     
-                    Image(user.avatarString)
+                    Image("Avatars/jacob") //TODO: Get custom user image or avatar
                         .resizable()
                         .clipShape(Circle())
                         .frame(width: 60, height: 60)
@@ -90,7 +90,7 @@ struct UserScoreCard: View {
                 
                 // Streak
                 VStack(alignment: .center, spacing: 4) {
-                    Text("\(user.streek)")
+                    Text("\(user.streak)")
                         .applyFont(.medium, size: 18, textColor: .white)
                     
                     Text("Days Steek")
@@ -104,7 +104,7 @@ struct UserScoreCard: View {
                 
                 // Streak
                 VStack(alignment: .center, spacing: 4) {
-                    Text("\(user.completedQuizzes.count)")
+                    Text("\(user.completedQuizzes?.count ?? 0)")
                         .applyFont(.medium, size: 18, textColor: .white)
                     
                     Text("Quizzez")

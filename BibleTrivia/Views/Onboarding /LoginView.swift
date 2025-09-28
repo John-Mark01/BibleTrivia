@@ -107,7 +107,7 @@ struct LoginView: View {
     RouterView {
         LoginView()
     }
-    .environment(UserManager())
+    .environment(UserManager(supabase: .init(), alertManager: .shared))
     .environment(Router.shared)
 }
 

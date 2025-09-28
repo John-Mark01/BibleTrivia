@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AccountView: View {
+    @Environment(Router.self) var router
     @Environment(UserManager.self) var userManager
     
     @State private var generalSection: [SectionModel] = [
@@ -30,7 +31,9 @@ struct AccountView: View {
                 BTForm(section: generalSection, sectionName: "General", action: {})
                 BTForm(section: moreSection, sectionName: "More", action: {
                     Task {
-                        await userManager.signOut()
+                        await userManager.signOut() {
+                            router.popToRoot()
+                        }
                     }
                 })
             }
@@ -45,7 +48,8 @@ struct AccountView: View {
     NavigationView {
         AccountView()
     }
-    .environment(UserManager())
+    .environment(UserManager(supabase: .init(), alertManager: .shared))
+    .environment(Router.shared)
 }
 
 struct BTForm: View {

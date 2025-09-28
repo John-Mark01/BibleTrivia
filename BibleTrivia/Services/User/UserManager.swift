@@ -10,33 +10,38 @@ import Supabase
 
 @Observable class UserManager {
     
-    var user: UserModel = UserModel(name: "", age: 0, avatarString: "", userLevel: .deacon, completedQuizzes: [], points: 0, streek: 0, userPlan: .free)
+    let userRepository: UserRepositoryProtocol
+    let alertManager: AlertManager
+    
+    var user: UserModel = UserModel()
     let streakManager = StreakManager()
     let supabase = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
     
-    
-    func setupUser() async {
-        //Download initial user data
+    init(supabase: Supabase, alertManager: AlertManager) {
+        self.userRepository = UserRepository(supabase: supabase)
+        self.alertManager = alertManager
     }
     
-    func downloadUserData() async {
+    func fetchUser(userID: UUID) async {
         LoadingManager.shared.show()
-        
+        defer { LoadingManager.shared.hide() }
         do {
-            let user: UserModel = try await supabase
-                .from("users")
-                .select()
-                .eq("id", value: supabase.auth.session.user.id)
-                .execute()
-                .value
-
-            print("User - \(user.name)")
-            LoadingManager.shared.hide()
+            let user = try await userRepository.getInitialUserData(for: userID)
+            self.user = user
+        } catch let error as UserRepository.UserRepositoryError {
+            await alertManager.showBTErrorAlert(error.toBTError(), buttonTitle: "Dimiss", action: {})
         } catch {
-            LoadingManager.shared.hide()
+            await alertManager.showAlert(
+                type: .error,
+                message: "Unexpected error occurred",
+                buttonText: "Dismiss",
+                action: {}
+            )
         }
     }
+    
 }
+
 
 //MARK: Authentication
 extension UserManager {
@@ -73,12 +78,16 @@ extension UserManager {
         }
     }
     
-    func signOut() async {
+    func signOut(completion: @escaping () -> Void) async {
         LoadingManager.shared.show()
+        defer { LoadingManager.shared.hide() }
         
-        try? await supabase.auth.signOut()
-        
-        LoadingManager.shared.hide()
+        do {
+            try await supabase.auth.signOut()
+            completion()
+        } catch {
+            await alertManager.showAlert(type: .error, message: "Coudn't sign out", buttonText: "Dissmiss", action: {})
+        }
     }
 }
 

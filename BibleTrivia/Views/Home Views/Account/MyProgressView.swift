@@ -25,5 +25,5 @@ struct MyProgressView: View {
     NavigationStack {
         MyProgressView()
     }
-    .environment(UserManager())
+    .environment(UserManager(supabase: .init(), alertManager: .shared))
 }

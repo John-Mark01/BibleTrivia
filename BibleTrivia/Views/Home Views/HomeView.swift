@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(QuizStore.self) var quizStore
-    @Environment(\.userName) private var userName
+    @Environment(UserManager.self) private var userManager
     @Environment(Router.self) private var router
     
     @State private var openModal: Bool = false
@@ -56,7 +56,7 @@ struct HomeView: View {
                     }
                     .padding(.top, 10)
                 }
-                .navigationTitle("Welcome, \(userName)!")
+                .navigationTitle("Welcome, \(userManager.user.name)!")
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.large)
                 .blur(radius: openModal ? 3 : 0)
@@ -93,6 +93,7 @@ struct HomeView: View {
     }
     .environment(QuizStore(supabase: Supabase()))
     .environment(Router.shared)
+    .environment(UserManager(supabase: .init(), alertManager: .shared))
 }
 
 

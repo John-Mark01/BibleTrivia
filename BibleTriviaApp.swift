@@ -6,16 +6,23 @@
 //
 
 import SwiftUI
+import Supabase
 import Auth
 
 @main
 struct BibleTriviaApp: App {
     @State private var router = Router.shared
+    @State private var supabaseClient = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
+    @State private var supabase = Supabase()
+    
+    
     @State private var quizStore = QuizStore(supabase: Supabase())
-    @State private var signInStatus: SignInStatus = .idle
     @State private var alertManager = AlertManager.shared
+    @State private var signInStatus: SignInStatus = .idle
     let onboardingManager = OnboardingManager(supabase: Supabase())
-    let userManager = UserManager()
+    
+    @State private var userManager: UserManager = UserManager(supabase: Supabase(), alertManager: .shared)
+    
     let streakManager = StreakManager()
     let userDefaults = UserDefaults.standard
     
@@ -57,11 +64,13 @@ struct BibleTriviaApp: App {
     private func listenAuthEvents() async throws {
         
         for await (event, _) in userManager.supabase.auth.authStateChanges {
+            let userID = try? await userManager.supabase.auth.session.user.id
+            
             if case .initialSession = event {
                 do {
                     let _ = try await userManager.supabase.auth.session
                     // streaks managing
-                    await userManager.downloadUserData()
+                    await userManager.fetchUser(userID: userID ?? .init())
                     await userManager.checkInUser()
                     // get initial data
                     try await quizStore.loadInitialData()
@@ -74,7 +83,7 @@ struct BibleTriviaApp: App {
                     setNotSignedInStatus()
                 }
             } else if case .signedIn = event {
-                await userManager.downloadUserData()
+                await userManager.fetchUser(userID: userID ?? .init())
                 await userManager.checkInUser()
                 try await quizStore.loadInitialData()
                 setSignedInStatus()
