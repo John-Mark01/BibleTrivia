@@ -30,7 +30,7 @@ class UserRepository: UserRepositoryProtocol {
     
     func getUserStartedQuizzez(_ quizzez: [Int]?) async throws -> [Quiz] {
         do {
-          return try await supabase.getQuizzez(ids: quizzez)
+            return try await supabase.getFullDataQuizzes(withIDs: quizzez)
         } catch {
             print("error: \(error.localizedDescription)")
             throw UserRepositoryError.userFetchFailed(error.localizedDescription.localized)

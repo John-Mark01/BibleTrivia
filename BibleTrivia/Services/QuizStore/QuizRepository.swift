@@ -40,11 +40,11 @@ class QuizRepository: QuizRepositoryProtocol {
     
     func getQuizzes(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
         do {
-            let quizzes = try await supabase.getQuizzez(limit: limit, offset: offset)
+            let quizzes = try await supabase.getAllAvailableQuizzez(limit: limit, offset: offset)
             
             // Fill each quiz with its questions and answers
             for quiz in quizzes {
-                let questions = try await getQuestionsWithAnswers(for: quiz.id)
+                let questions = try await supabase.getQuestionsWithAnswers(for: quiz.id)
                 quiz.questions = questions
             }
             
@@ -62,12 +62,14 @@ class QuizRepository: QuizRepositoryProtocol {
                 return nil
             }
             
-            let questions = try await getQuestionsWithAnswers(for: quiz.id)
+            let questions = try await supabase.getQuestionsWithAnswers(for: quiz.id)
             quiz.questions = questions
             
             return quiz
-        } catch {
+        } catch let error as QuizRepositoryError {
             throw QuizRepositoryError.quizFetchFailed(error.localizedDescription.localized)
+        } catch {
+            throw QuizRepositoryError.questionsFetchFailed("Failed to fetch questions with answers: \(error.localizedDescription.localized)")
         }
     }
     
@@ -88,32 +90,6 @@ class QuizRepository: QuizRepositoryProtocol {
             return try await supabase.getAnswers(for: questionIds)
         } catch {
             throw QuizRepositoryError.answersFetchFailed(error.localizedDescription.localized)
-        }
-    }
-    
-// MARK: - Helper Methods
-    
-    private func getQuestionsWithAnswers(for quizId: Int) async throws -> [Question] {
-        do {
-            let questions = try await getQuestions(for: quizId)
-            let questionIds = questions.map { $0.id }
-            let answers = try await getAnswers(for: questionIds)
-            
-            // Group answers by question ID
-            let answersDict = Dictionary(grouping: answers) { $0.questionId }
-            
-            // Add answers to their respective questions
-            let questionsWithAnswers = questions.map { question in
-                var updatedQuestion = question
-                updatedQuestion.answers = answersDict[question.id] ?? []
-                return updatedQuestion
-            }
-            
-            return questionsWithAnswers
-        } catch let error as QuizRepositoryError {
-            throw error
-        } catch {
-            throw QuizRepositoryError.questionsFetchFailed("Failed to fetch questions with answers: \(error.localizedDescription.localized)")
         }
     }
 }

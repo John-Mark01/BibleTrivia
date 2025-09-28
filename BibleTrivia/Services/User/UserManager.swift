@@ -28,7 +28,7 @@ import Supabase
         Task {
             await fetchUser(userID: userID)
             await checkInUser(userID: userID)
-            await getUserStartedQuizzez(userID: userID)
+            await getUserStartedQuizzez()
         }
     }
     
@@ -65,7 +65,7 @@ import Supabase
         }
     }
     
-    func getUserStartedQuizzez(userID: UUID) async {
+    func getUserStartedQuizzez() async {
         do {
             self.startedQuizzes = try await userRepository.getUserStartedQuizzez(user.startedQuizzes)
         } catch {

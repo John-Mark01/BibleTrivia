@@ -72,43 +72,24 @@ extension Supabase {
     }
     
     //Quizzes
-    func getQuizzez(limit: Int? = nil, offset: Int = 0, ids: [Int]? = nil) async throws -> [Quiz] {
-        let baseQuery = supabaseClient
+    func getAllAvailableQuizzez(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
+        let query = supabaseClient
             .from(Table.quizez)
             .select()
         
-        let response: PostgrestResponse<Void>
-        
-        // IDs specified
-        if let ids = ids, !ids.isEmpty {
-            // Get specific quizzes by IDs
-            if let limit = limit {
-                // IDs with pagination
-                response = try await baseQuery
-                    .in("id", values: ids)
-                    .range(from: offset, to: offset + limit - 1)
-                    .execute()
-            } else {
-                // IDs without pagination
-                response = try await baseQuery
-                    .in("id", values: ids)
-                    .execute()
-            }
+        // Add pagination if limit is provided
+        if let limit = limit {
+            let response = try await query
+                .range(from: offset, to: offset + limit - 1)
+                .execute()
+            let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
+            return quizzez ?? []
         } else {
-            // No IDs specified
-            if let limit = limit {
-                // Pagination only
-                response = try await baseQuery
-                    .range(from: offset, to: offset + limit - 1)
-                    .execute()
-            } else {
-                // Get all quizzes
-                response = try await baseQuery.execute()
-            }
+            // Get all if no limit specified
+            let response = try await query.execute()
+            let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
+            return quizzez ?? []
         }
-        
-        let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
-        return quizzez ?? []
     }
     
     func getQuizWithTopicID(_ id: Int) async throws -> Quiz? {
@@ -127,17 +108,16 @@ extension Supabase {
         }
     }
     
-    func getQuizWithID(_ id: Int) async throws -> Quiz? {
-        do {
-            let response = try await supabaseClient
-                .from(Table.quizez)
-                .select()
-                .eq("id", value: id)
-                .execute()
-            let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
-            
-            return quizzez?.first
-        }
+    func getQuizezWithIDs(_ ids: [Int]?) async throws -> [Quiz] {
+        guard let ids, !ids.isEmpty else { return [] }
+        
+        let response = try await supabaseClient
+            .from(Table.quizez)
+            .select()
+            .in("id", values: ids)
+            .execute()
+        let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
+        return quizzez ?? []
     }
     
     func parseQuizzes(_ data: Data) throws -> [Quiz] {
@@ -186,6 +166,25 @@ extension Supabase {
         } catch {
             throw Errors.BTError.parseError("Error getting question for quiz. Please contact us.")
         }
+    }
+    
+    func getQuestionsWithAnswers(for quizId: Int) async throws -> [Question] {
+        let questions = try await getQuestions(for: quizId)
+        let questionIds = questions.map { $0.id }
+        let answers = try await getAnswers(for: questionIds)
+        
+        // Group answers by question ID
+        let answersDict = Dictionary(grouping: answers) { $0.questionId }
+        
+        // Add answers to their respective questions
+        let questionsWithAnswers = questions.map { question in
+            var updatedQuestion = question
+            updatedQuestion.answers = answersDict[question.id] ?? []
+            return updatedQuestion
+        }
+        
+        return questionsWithAnswers
+        
     }
     
     func parseQuestions(_ data: Data) throws -> [Question] {
@@ -250,7 +249,16 @@ extension Supabase {
         return Answer(id: payload.id, text: payload.text, questionId: payload.questionId, isCorrect: payload.isCorrect)
     }
     
-    
+    //Quiz + Questions + Answers
+    func getFullDataQuizzes(withIDs ids: [Int]?) async throws -> [Quiz] {
+        let quizzes = try await getQuizezWithIDs(ids)
+        for quiz in quizzes {
+            let questions = try await getQuestionsWithAnswers(for: quiz.id)
+            quiz.questions = questions
+        }
+        
+        return quizzes
+    }
     
     //Users
     func getUser(withId id: UUID) async throws -> UserModel {
@@ -302,10 +310,4 @@ extension Supabase {
         }
     }
     
-}
-
-extension Supabase {
-    enum StatusCode: Int, CaseIterable {
-        case succsess = 200
-    }
 }
