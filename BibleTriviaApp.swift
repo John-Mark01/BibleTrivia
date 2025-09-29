@@ -63,6 +63,7 @@ struct BibleTriviaApp: App {
         
         for await (event, _) in userManager.supabase.auth.authStateChanges {
             let userID = try? await userManager.supabase.auth.session.user.id
+            UserDefaults.standard.set(userID?.uuidString, forKey: "userID")
             
             if case .initialSession = event {
                 do {

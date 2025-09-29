@@ -138,7 +138,7 @@ struct QuizView: View {
                 self.finishQuizModal = true
             } else {
                 alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
-                    router.popBackStack()
+                    quizStore.quitQuiz { router.popBackStack() }
                 }
             }
         }
@@ -150,7 +150,9 @@ struct QuizView: View {
         QuizView()
     }
     .environment(Router.shared)
-    .environment(QuizStore(repository: QuizRepository(supabase: Supabase()), manager: .init()))
+    .environment(QuizStore(repository:
+                            QuizRepository(supabase: Supabase()),
+                           manager: .init(quizSessionService: .init(supabaseClient: Supabase().supabaseClient, userId: .init()))))
     .environment(AlertManager.shared)
 }
 

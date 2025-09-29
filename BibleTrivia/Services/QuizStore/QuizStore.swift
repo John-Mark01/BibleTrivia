@@ -19,15 +19,16 @@ import SwiftUI
 // MARK: - State Properties
     var allTopics: [Topic] = []
     var allQuizez: [Quiz] = []
-    var startedQuizez: [Quiz] = []
     var chosenQuiz: Quiz?
     var chosenTopic: Topic?
     
 // MARK: - Initialization
     
     init(supabase: Supabase) {
+        #warning("Get userID from session. THE CORRECT WAY.")
+        let userID: UUID = UUID(uuidString: UserDefaults.standard.string(forKey: "userID") ?? "") ?? .init()
         self.quizRepository = QuizRepository(supabase: supabase)
-        self.quizManager = QuizManager()
+        self.quizManager = QuizManager(quizSessionService:QuizSessionService(supabaseClient: supabase.supabaseClient, userId: .init())) //TODO: Get userID from session.
         self.alertManager = AlertManager.shared
     }
     
@@ -63,25 +64,46 @@ import SwiftUI
         onCancel()
     }
     
-    func startQuiz(onStart: @escaping (Bool) -> Void) {
+    func startQuiz(onStart: @escaping () -> Void) {
         guard let unwrappedQuiz = chosenQuiz else {
             alertManager.showAlert(
                 type: .error,
                 message: "Unexpected Error, no quiz selected!",
                 buttonText: "Go Back", action: {}
             )
-            onStart(false)
             return
         }
-        
-        quizManager.startQuiz(unwrappedQuiz)
-        startedQuizez.append(unwrappedQuiz)
-        onStart(true)
+        #warning("Fix this Task modifier. Should be async/await method and the caller should handle the async result.")
+        Task {
+            do {
+                try await quizManager.startQuiz(unwrappedQuiz)
+                onStart()
+            } catch {
+                print("❌ Error starting quiz: \(error)")
+            }
+        }
     }
     
     func quitQuiz(onQuit: @escaping () -> Void) {
-        self.chosenQuiz = nil
-        onQuit()
+        guard let unwrappedQuiz = chosenQuiz else {
+            alertManager.showAlert(
+                type: .error,
+                message: "Unexpected Error, no quiz selected!",
+                buttonText: "Go Back", action: {}
+            )
+            return
+        }
+        #warning("Fix this Task modifier. Should be async/await method and the caller should handle the async result.")
+        
+        Task {
+            do {
+                try await quizManager.exitQuiz(unwrappedQuiz)
+                self.chosenQuiz = nil
+                onQuit()
+            } catch {
+                print("❌ Error starting quiz: \(error)")
+            }
+        }
     }
     
 // MARK: - Answer Management
@@ -118,8 +140,10 @@ import SwiftUI
             case .moveToNext:
                 return .moveToNext
             case .quizCompleted:
-                self.currentQuiz.isFinished = true
-                //TODO: Set progress to 100%
+                #warning("Fix call to QuizManager. ASYNC Should not be used like this.... Look at self.startQuiz() method for reference.")
+                Task {
+                    try? await quizManager.completeQuiz(quiz)
+                }
                 return .quizCompleted
             }
         case .failure(let submissionError):
