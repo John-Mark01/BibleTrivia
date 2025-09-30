@@ -19,6 +19,8 @@
 		3670FF8D2E300E100000F67A /* QuizManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8C2E300E100000F67A /* QuizManager.swift */; };
 		3670FF8F2E300E1A0000F67A /* QuizRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8E2E300E1A0000F67A /* QuizRepository.swift */; };
 		367BF5D02D73C0D700F97BA1 /* LetsStartAQuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */; };
+		367F0C122E8C5A9000B06A24 /* QuizSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367F0C112E8C5A9000B06A24 /* QuizSessionService.swift */; };
+		367F0C142E8C834C00B06A24 /* StartedQuiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367F0C132E8C834C00B06A24 /* StartedQuiz.swift */; };
 		3680A4092D53D12C008040F7 /* SurveyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A4082D53D12C008040F7 /* SurveyButton.swift */; };
 		3680A40B2D53DD47008040F7 /* DidYouKnowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */; };
 		3689B6012DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3689B6002DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift */; };
@@ -112,6 +114,8 @@
 		3670FF8C2E300E100000F67A /* QuizManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizManager.swift; sourceTree = "<group>"; };
 		3670FF8E2E300E1A0000F67A /* QuizRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRepository.swift; sourceTree = "<group>"; };
 		367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetsStartAQuizScreen.swift; sourceTree = "<group>"; };
+		367F0C112E8C5A9000B06A24 /* QuizSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSessionService.swift; sourceTree = "<group>"; };
+		367F0C132E8C834C00B06A24 /* StartedQuiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartedQuiz.swift; sourceTree = "<group>"; };
 		3680A4082D53D12C008040F7 /* SurveyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyButton.swift; sourceTree = "<group>"; };
 		3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidYouKnowScreen.swift; sourceTree = "<group>"; };
 		3689B6002DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetsCreateYourProfileScreen.swift; sourceTree = "<group>"; };
@@ -210,6 +214,7 @@
 				36E0A5AD2D1C47C5006AEC4F /* QuizStore.swift */,
 				3670FF8E2E300E1A0000F67A /* QuizRepository.swift */,
 				3670FF8C2E300E100000F67A /* QuizManager.swift */,
+				367F0C112E8C5A9000B06A24 /* QuizSessionService.swift */,
 			);
 			path = QuizStore;
 			sourceTree = "<group>";
@@ -336,6 +341,7 @@
 				36B5A74D2D2984F10021F21C /* Errors.swift */,
 				36E0A5AA2D1C47C5006AEC4F /* Topic.swift */,
 				36B5D5F72D3C218400D5E732 /* Provider.swift */,
+				367F0C132E8C834C00B06A24 /* StartedQuiz.swift */,
 				36B5A7582D2B14B00021F21C /* User */,
 			);
 			path = Models;
@@ -586,9 +592,11 @@
 				3652A4162DB43DFD001FD2BA /* Extensions+Color.swift in Sources */,
 				36B5A7552D2B01DE0021F21C /* AuthManager.swift in Sources */,
 				36E0A5EF2D1C47C5006AEC4F /* UserModel.swift in Sources */,
+				367F0C142E8C834C00B06A24 /* StartedQuiz.swift in Sources */,
 				36E0A5F02D1C47C5006AEC4F /* QuizStore.swift in Sources */,
 				36E0A5F12D1C47C5006AEC4F /* Supabase.swift in Sources */,
 				36E0A5F22D1C47C5006AEC4F /* FlowLayout.swift in Sources */,
+				367F0C122E8C5A9000B06A24 /* QuizSessionService.swift in Sources */,
 				36E0A5F32D1C47C5006AEC4F /* AlertDialog.swift in Sources */,
 				364B80002E89687800C9EFD9 /* UserRepository.swift in Sources */,
 				36E0A5F42D1C47C5006AEC4F /* Color.swift in Sources */,

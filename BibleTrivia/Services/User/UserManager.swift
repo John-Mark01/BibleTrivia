@@ -16,7 +16,7 @@ import Supabase
     let alertManager: AlertManager
     
     var user: UserModel = UserModel()
-    var startedQuizzes: [Quiz]?
+    var startedQuizzes: [StartedQuiz] = []
     var completedQuizzes: [Quiz]?
     
     init(supabase: Supabase, alertManager: AlertManager = .shared) {
@@ -67,10 +67,18 @@ import Supabase
     
     func getUserStartedQuizzez() async {
         do {
-            self.startedQuizzes = try await userRepository.getUserStartedQuizzez(user.startedQuizzes)
+            self.startedQuizzes = try await userRepository.getUserStartedQuizzez()
         } catch {
             print(error.localizedDescription) //TODO: Add alerts for all those erros caught
         }
+    }
+    
+    func removeStartedQuizAfterCompletion(with id: Int) {
+        self.startedQuizzes.removeAll { $0.quiz.id == id }
+    }
+    
+    func addStartedQuiz(_ quiz: StartedQuiz) {
+        self.startedQuizzes.append(quiz)
     }
     
 }

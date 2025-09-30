@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct QuizView: View {
-    @Environment(QuizStore.self) private var quizStore
     @Environment(Router.self) private var router
+    @Environment(QuizStore.self) private var quizStore
+    @Environment(UserManager.self) private var userManager
     @Environment(AlertManager.self) private var alertManager
     
     @State private var finishQuizModal: Bool = false
@@ -91,14 +92,18 @@ struct QuizView: View {
     }
     
     private func navigateAfterFinish() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            withAnimation {
-                let context = router.getCurrentContext()
-                
-                if context == .onboarding {
-                    router.navigateTo(.streakView, from: .onboarding)
-                } else {
-                    router.popToRoot()
+        quizStore.completeQuiz {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                withAnimation {
+                    let context = router.getCurrentContext()
+                    
+                    if context == .onboarding {
+                        router.navigateTo(.streakView, from: .onboarding)
+                    } else {
+                        userManager.removeStartedQuizAfterCompletion(with: quizStore.currentQuiz.id)
+                        quizStore.removeQuizFromStore(quizStore.currentQuiz)
+                        router.popToRoot()
+                    }
                 }
             }
         }
@@ -138,7 +143,10 @@ struct QuizView: View {
                 self.finishQuizModal = true
             } else {
                 alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
-                    quizStore.quitQuiz { router.popBackStack() }
+                    quizStore.quitQuiz { startedQuiz in
+                        userManager.addStartedQuiz(startedQuiz)
+                        router.popBackStack()
+                    }
                 }
             }
         }

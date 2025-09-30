@@ -9,14 +9,19 @@ import Foundation
 
 protocol UserRepositoryProtocol {
     func getInitialUserData(for userID: UUID) async throws -> UserModel
-    func getUserStartedQuizzez(_ quizzez: [Int]?) async throws -> [Quiz]
+    func getUserStartedQuizzez() async throws -> [StartedQuiz]
 }
 
 class UserRepository: UserRepositoryProtocol {
     
     private let supabase: Supabase
+    private let quizSessionManager: QuizSessionService
+
     
     init(supabase: Supabase) {
+        let userID: UUID = UUID(uuidString: UserDefaults.standard.string(forKey: "userID") ?? "") ?? .init()
+        self.quizSessionManager = QuizSessionService(supabaseClient: supabase.supabaseClient, userId: userID)
+        
         self.supabase = supabase
     }
     
@@ -28,9 +33,21 @@ class UserRepository: UserRepositoryProtocol {
         }
     }
     
-    func getUserStartedQuizzez(_ quizzez: [Int]?) async throws -> [Quiz] {
+    func getUserStartedQuizzez() async throws -> [StartedQuiz] {
         do {
-            return try await supabase.getFullDataQuizzes(withIDs: quizzez)
+            let sessions = try await quizSessionManager.getInProgressQuizzes()
+            
+            // Step 2: For each session, fetch the full Quiz from your server
+            var quizzez: [StartedQuiz] = []
+            for session in sessions {
+                let quiz = try await supabase.getFullDataQuizzes(withIDs: [session.quizId]).first
+                guard let quiz else { continue }
+                
+                let model = StartedQuiz(sessionId: session.id, quiz: quiz)
+                quizzez.append(model)
+            }
+            
+            return quizzez
         } catch {
             print("error: \(error.localizedDescription)")
             throw UserRepositoryError.userFetchFailed(error.localizedDescription.localized)

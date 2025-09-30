@@ -13,10 +13,6 @@ struct HomeView: View {
     @Environment(QuizStore.self) var quizStore
     
     @State private var openModal: Bool = false
-    @State private var alertDialog: Bool = false
-    
-    @State private var tempQuiz: [Quiz] = [/*DummySVM.shared.tempQuiz*/]
-//    @State private var dummyQuizzez = DummySVM.shared.quizes
     
     private var userScore: String {
         String(userManager.user.totalPoints)
@@ -50,10 +46,11 @@ struct HomeView: View {
                         Text("Unfinished Quizzes")
                             .applyFont(.medium, size: 20)
                         
-                        if let quizzez = userManager.startedQuizzes {
+                        
+                        if !userManager.startedQuizzes.isEmpty {
                             UnfinishedQuizesViewRow(
-                                quizes: quizzez,
-                                isPresented: $openModal
+                                quizes: userManager.startedQuizzes,
+                                onChoseQuiz: self.resumeQuiz(_:)
                             )
                         } else {
                             EmptyQuizView()
@@ -95,9 +92,18 @@ struct HomeView: View {
                         openModal = false
                     })
                     
-                } else {
-//                    AlertDialog(isPresented: .constant(true), title: "Error", message: "We coudn't load this quiz. Please try again later.", buttonTitle: "Close", primaryAction: {print("Error in getting quiz.")}, isAnotherAction: true)
                 }
+            }
+        }
+    }
+    
+    private func resumeQuiz(_ quiz: StartedQuiz) {
+        Task {
+            await quizStore.resumeQuiz(quiz.quiz, from: quiz.sessionId)
+            print("🟢 Resumin Quiz with name: \(quiz.quiz.name)\n")
+            withAnimation(.snappy) {
+//                openModal = true //TODO: Add new modal for Resuming a quiz
+                router.navigateTo(.quizView)
             }
         }
     }
