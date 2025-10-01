@@ -17,7 +17,11 @@ import Supabase
     
     var user: UserModel = UserModel()
     var startedQuizzes: [StartedQuiz] = []
-    var completedQuizzes: [Quiz]?
+    var completedQuizzes: [Quiz] = [] {
+        didSet {
+            self.user.completedQuizzes = completedQuizzes.map(\.id)
+        }
+    }
     
     init(supabase: Supabase, alertManager: AlertManager = .shared) {
         self.userRepository = UserRepository(supabase: supabase)
@@ -73,14 +77,26 @@ import Supabase
         }
     }
     
-    func removeStartedQuizAfterCompletion(with id: Int) {
-        self.startedQuizzes.removeAll { $0.quiz.id == id }
-    }
-    
     func addStartedQuiz(_ quiz: StartedQuiz) {
+        guard startedQuizzes.contains(where: { $0.quiz.id == quiz.quiz.id}) == false else { return }
         self.startedQuizzes.append(quiz)
     }
     
+    func convertStartedQuizToCompletedQuiz(_ quiz: Quiz) {
+        removeStartedQuiz(quiz)
+        addCompletedQuiz(quiz)
+    }
+    
+    private func removeStartedQuiz(_ quiz: Quiz) {
+        guard startedQuizzes.contains(where: { $0.quiz.id == quiz.id}) else { return }
+        self.startedQuizzes.removeAll { $0.quiz.id == quiz.id }
+    }
+    
+    
+    private func addCompletedQuiz(_ quiz: Quiz) {
+        guard completedQuizzes.contains(where: { $0.id == quiz.id}) else { return }
+        self.completedQuizzes.append(quiz)
+    }
 }
 
 

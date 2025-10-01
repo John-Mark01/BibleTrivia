@@ -98,7 +98,6 @@ import SwiftUI
         Task {
             do {
                 try await quizManager.exitQuiz(unwrappedQuiz) { sesionId in
-                    self.removeQuizFromStore(unwrappedQuiz)
                     onQuit(StartedQuiz(sessionId: sesionId, quiz: unwrappedQuiz))
                 }
             } catch {
@@ -133,6 +132,7 @@ import SwiftUI
     }
     
     func removeQuizFromStore(_ quiz: Quiz) {
+        guard allQuizez.contains(where: { $0.id == quiz.id }) else { return }
         self.allQuizez.removeAll { $0.id == quiz.id }
         self.chosenQuiz = nil
     }
@@ -291,6 +291,8 @@ import SwiftUI
         guard let quiz = chosenQuiz else { return 0 }
         return quizManager.calculateScore(in: quiz)
     }
+    
+    
 }
 
 // MARK: - Data Loading
