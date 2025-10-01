@@ -33,6 +33,7 @@ import Supabase
             await fetchUser(userID: userID)
             await checkInUser(userID: userID)
             await getUserStartedQuizzez()
+            await getUserCompletedQuizzez()
         }
     }
     
@@ -72,6 +73,17 @@ import Supabase
     func getUserStartedQuizzez() async {
         do {
             self.startedQuizzes = try await userRepository.getUserStartedQuizzez()
+        } catch {
+            print(error.localizedDescription) //TODO: Add alerts for all those erros caught
+        }
+    }
+    
+    func getUserCompletedQuizzez() async {
+        do {
+            self.completedQuizzes = try await userRepository
+                .getUserCompletedQuizzez()
+                .map(\.quiz)
+            print("✅ Recieved \(completedQuizzes.count) completed quizzes for user\n")
         } catch {
             print(error.localizedDescription) //TODO: Add alerts for all those erros caught
         }

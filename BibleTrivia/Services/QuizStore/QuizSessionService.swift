@@ -36,7 +36,7 @@ class QuizSessionService {
         )
         
         let response: [QuizSessionResponse] = try await supabaseClient
-            .from("user_quiz_sessions")
+            .from(Table.sessions)
             .insert(newSession)
             .select()
             .execute()
@@ -98,10 +98,23 @@ class QuizSessionService {
     /// Get in-progress quizzes for the user
     func getInProgressQuizzes() async throws -> [QuizSessionResponse] {
         let sessions: [QuizSessionResponse] = try await supabaseClient
-            .from("user_quiz_sessions")
+            .from(Table.sessions)
             .select()
             .eq("user_id", value: userId.uuidString)
             .eq("status", value: "in_progress")
+            .order("last_saved_at", ascending: false)
+            .execute()
+            .value
+        
+        return sessions
+    }
+    /// Get completed quizzes for the user
+    func getCompletedQuizzes() async throws -> [QuizSessionResponse] {
+        let sessions: [QuizSessionResponse] = try await supabaseClient
+            .from(Table.sessions)
+            .select()
+            .eq("user_id", value: userId.uuidString)
+            .eq("status", value: "completed")
             .order("last_saved_at", ascending: false)
             .execute()
             .value
@@ -117,7 +130,7 @@ class QuizSessionService {
         }
         
         let session: SessionWithAnswers = try await supabaseClient
-            .from("user_quiz_sessions")
+            .from(Table.sessions)
             .select("answers")
             .eq("id", value: sessionId)
             .single()
@@ -180,7 +193,7 @@ class QuizSessionService {
     // Get total attempts for quiz
     func getQuizAttempts(userId: UUID, quizId: Int) async throws -> Int {
         let attempts: [QuizSessionResponse] = try await supabaseClient
-            .from("user_quiz_sessions")
+            .from(Table.sessions)
             .select()
             .eq("user_id", value: userId.uuidString)
             .eq("quiz_id", value: quizId)
@@ -198,7 +211,7 @@ class QuizSessionService {
         }
         
         let result: [BestScore] = try await supabaseClient
-            .from("user_quiz_sessions")
+            .from(Table.sessions)
             .select("percentage")
             .eq("user_id", value: userId.uuidString)
             .eq("quiz_id", value: quizId)

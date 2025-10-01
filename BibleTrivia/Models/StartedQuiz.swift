@@ -12,3 +12,9 @@ struct StartedQuiz: Identifiable {
     let quiz: Quiz
     var id: Int { quiz.id }
 }
+
+struct CompletedQuiz: Identifiable {
+    let sessionId: Int
+    let quiz: Quiz
+    var id: Int { quiz.id }
+}
