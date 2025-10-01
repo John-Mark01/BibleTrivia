@@ -100,7 +100,7 @@ struct QuizView: View {
                     if context == .onboarding {
                         router.navigateTo(.streakView, from: .onboarding)
                     } else {
-                        userManager.removeStartedQuizAfterCompletion(with: quizStore.currentQuiz.id)
+                        userManager.convertStartedQuizToCompletedQuiz(quizStore.currentQuiz)
                         quizStore.removeQuizFromStore(quizStore.currentQuiz)
                         router.popToRoot()
                     }
@@ -145,6 +145,7 @@ struct QuizView: View {
                 alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
                     quizStore.quitQuiz { startedQuiz in
                         userManager.addStartedQuiz(startedQuiz)
+                        quizStore.removeQuizFromStore(startedQuiz.quiz)
                         router.popBackStack()
                     }
                 }

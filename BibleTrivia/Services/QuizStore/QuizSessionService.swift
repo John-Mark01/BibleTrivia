@@ -17,7 +17,7 @@ class QuizSessionService {
         self.userId = userId
     }
     
-    // MARK: - 1. Start Quiz (First Network Call)
+    // MARK: - 1. Start Quiz
     
     /// Call this when user taps "Start Quiz"
     /// Returns the session ID to track this quiz attempt
@@ -36,7 +36,7 @@ class QuizSessionService {
         )
         
         let response: [QuizSessionResponse] = try await supabaseClient
-            .from("user_quiz_sessions")
+            .from(Table.sessions)
             .insert(newSession)
             .select()
             .execute()
@@ -44,13 +44,13 @@ class QuizSessionService {
         
         guard let session = response.first else {
             throw NSError(domain: "QuizError", code: 1,
-                         userInfo: [NSLocalizedDescriptionKey: "Failed to create quiz session"])
+                          userInfo: [NSLocalizedDescriptionKey: "Failed to create quiz session"])
         }
         
         return session.id
     }
     
-    // MARK: - 2. Save Quiz Progress (Second Network Call - when exiting)
+    // MARK: - 2. Save Quiz Progress
     
     /// Call this when user exits without completing
     /// Saves all answered questions so they can resume later
@@ -74,7 +74,7 @@ class QuizSessionService {
             .execute()
     }
     
-    // MARK: - 3. Complete Quiz (Third Network Call - when finishing)
+    // MARK: - 3. Complete Quiz
     
     /// Call this when user completes the quiz
     /// Marks session as completed and calculates final score
@@ -93,36 +93,28 @@ class QuizSessionService {
             .value
     }
     
-    // MARK: - Helper Methods
-    
-    /// Extract answers from Quiz object
-    private func extractAnswers(from quiz: Quiz) -> [SavedAnswer] {
-        let dateFormatter = ISO8601DateFormatter()
-        let now = dateFormatter.string(from: Date())
-        
-        return quiz.questions.compactMap { question in
-            guard let userAnswer = question.userAnswer else {
-                return nil // Question not answered
-            }
-            
-            return SavedAnswer(
-                questionId: question.id,
-                answerId: userAnswer.id,
-                isCorrect: userAnswer.isCorrect,
-                answeredAt: now
-            )
-        }
-    }
-    
-    // MARK: - Resume Quiz
+    // MARK: - 4 Resume Quiz
     
     /// Get in-progress quizzes for the user
     func getInProgressQuizzes() async throws -> [QuizSessionResponse] {
         let sessions: [QuizSessionResponse] = try await supabaseClient
-            .from("user_quiz_sessions")
+            .from(Table.sessions)
             .select()
             .eq("user_id", value: userId.uuidString)
             .eq("status", value: "in_progress")
+            .order("last_saved_at", ascending: false)
+            .execute()
+            .value
+        
+        return sessions
+    }
+    /// Get completed quizzes for the user
+    func getCompletedQuizzes() async throws -> [QuizSessionResponse] {
+        let sessions: [QuizSessionResponse] = try await supabaseClient
+            .from(Table.sessions)
+            .select()
+            .eq("user_id", value: userId.uuidString)
+            .eq("status", value: "completed")
             .order("last_saved_at", ascending: false)
             .execute()
             .value
@@ -138,7 +130,7 @@ class QuizSessionService {
         }
         
         let session: SessionWithAnswers = try await supabaseClient
-            .from("user_quiz_sessions")
+            .from(Table.sessions)
             .select("answers")
             .eq("id", value: sessionId)
             .single()
@@ -173,5 +165,62 @@ class QuizSessionService {
             // All questions answered
             quiz.currentQuestionIndex = quiz.questions.count - 1
         }
+    }
+    
+    // MARK: - Helper Methods
+    
+    /// Extract answers from Quiz object
+    private func extractAnswers(from quiz: Quiz) -> [SavedAnswer] {
+        let dateFormatter = ISO8601DateFormatter()
+        let now = dateFormatter.string(from: Date())
+        
+        return quiz.questions.compactMap { question in
+            guard let userAnswer = question.userAnswer else {
+                return nil // Question not answered
+            }
+            
+            return SavedAnswer(
+                questionId: question.id,
+                answerId: userAnswer.id,
+                isCorrect: userAnswer.isCorrect,
+                answeredAt: now
+            )
+        }
+    }
+    
+//MARK: - Analitycs
+    
+    // Get total attempts for quiz
+    func getQuizAttempts(userId: UUID, quizId: Int) async throws -> Int {
+        let attempts: [QuizSessionResponse] = try await supabaseClient
+            .from(Table.sessions)
+            .select()
+            .eq("user_id", value: userId.uuidString)
+            .eq("quiz_id", value: quizId)
+            .order("attempt_number", ascending: true)
+            .execute()
+            .value
+        
+        return attempts.count
+    }
+    
+    // Get best score for a quiz
+    func getBestScoreForQuiz(userId: UUID, quizId: Int) async throws -> Double? {
+        struct BestScore: Codable {
+            let percentage: Double?
+        }
+        
+        let result: [BestScore] = try await supabaseClient
+            .from(Table.sessions)
+            .select("percentage")
+            .eq("user_id", value: userId.uuidString)
+            .eq("quiz_id", value: quizId)
+            .eq("status", value: "completed")
+            .order("percentage", ascending: false)
+            .limit(1)
+            .execute()
+            .value
+        
+        return result.first?.percentage
     }
 }

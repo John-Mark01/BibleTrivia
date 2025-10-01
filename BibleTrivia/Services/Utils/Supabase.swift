@@ -8,21 +8,22 @@
 import Foundation
 import Supabase
 
+enum Table {
+    static let users     = "users"
+    static let topics    = "topics"
+    static let quizez    = "quizzez"
+    static let questions = "questions"
+    static let answers   = "answers"
+    static let sessions  = "user_quiz_sessions"
+}
+
+enum ParseType: String {
+    case topic, quiz, question, answer, user
+}
+
 @Observable class Supabase {
     
     let supabaseClient = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
-    
-    enum Table {
-        static let users     = "users"
-        static let topics    = "topics"
-        static let quizez    = "quizzez"
-        static let questions = "questions"
-        static let answers   = "answers"
-    }
-    
-    enum ParseType: String {
-        case topic, quiz, question, answer, user
-    }
 }
 
 //MARK: - Fetching Data
@@ -73,9 +74,17 @@ extension Supabase {
     
     //Quizzes
     func getAllAvailableQuizzez(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
-        let query = supabaseClient
+        let completedQuizzez: [Int] = try await getUnavailableQuizzezIds()
+        
+        var query = supabaseClient
             .from(Table.quizez)
             .select()
+        
+        if !completedQuizzez.isEmpty {
+            let idsList = completedQuizzez.map(String.init).joined(separator: ",")
+            let inValue = "(\(idsList))" // -> "(1,2,3)"
+            query = query.not("id", operator: .in, value: inValue) // exclude all completed quizzez
+        }
         
         // Add pagination if limit is provided
         if let limit = limit {
@@ -108,6 +117,7 @@ extension Supabase {
         }
     }
     
+    //TODO: Used only in UserRepository
     func getQuizezWithIDs(_ ids: [Int]?) async throws -> [Quiz] {
         guard let ids, !ids.isEmpty else { return [] }
         
@@ -118,6 +128,27 @@ extension Supabase {
             .execute()
         let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
         return quizzez ?? []
+    }
+    
+    private func getUnavailableQuizzezIds() async throws -> [Int] {
+        let userId: UUID = UUID(uuidString: UserDefaults.standard.string(forKey: "userID") ?? "") ?? .init()
+        
+        // Get all completed quiz IDs for this user
+        struct CompletedQuiz: Codable {
+            let quiz_id: Int
+        }
+        
+        let completedQuizzes: [CompletedQuiz] = try await supabaseClient
+            .from(Table.sessions)
+            .select("quiz_id")
+            .eq("user_id", value: userId)
+            .or(#"status.eq.in_progress, status.eq.completed"#) // get both in_progress and completed
+            .execute()
+            .value
+        
+        let completedIds = completedQuizzes.map { $0.quiz_id }
+        
+        return completedIds
     }
     
     func parseQuizzes(_ data: Data) throws -> [Quiz] {
@@ -250,6 +281,7 @@ extension Supabase {
     }
     
     //Quiz + Questions + Answers
+    //TODO: Used Only in UserRepository
     func getFullDataQuizzes(withIDs ids: [Int]?) async throws -> [Quiz] {
         let quizzes = try await getQuizezWithIDs(ids)
         for quiz in quizzes {

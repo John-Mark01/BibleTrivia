@@ -210,37 +210,4 @@ enum QuizSubmissionAction {
 enum QuizSubmissionError {
     case noAnswerSelected
     case quizAlreadyCompleted
-} 
-
-
-//MARK: - Supabase
-
-struct QuizSessionResponse: Codable {
-    let id: Int
-    let userId: String
-    let quizId: Int
-    let startedAt: String
-    let status: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case userId = "user_id"
-        case quizId = "quiz_id"
-        case startedAt = "started_at"
-        case status
-    }
-}
-
-struct SavedAnswer: Codable {
-    let questionId: Int
-    let answerId: Int
-    let isCorrect: Bool
-    let answeredAt: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case questionId = "question_id"
-        case answerId = "answer_id"
-        case isCorrect = "is_correct"
-        case answeredAt = "answered_at"
-    }
 }
