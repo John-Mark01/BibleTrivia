@@ -13,6 +13,7 @@ struct QuizSessionResponse: Codable {
     let quizId: Int
     let startedAt: String
     let status: String
+    let attemptNumber: Int?
     
     private enum CodingKeys: String, CodingKey {
         case id
@@ -20,5 +21,6 @@ struct QuizSessionResponse: Codable {
         case quizId = "quiz_id"
         case startedAt = "started_at"
         case status
+        case attemptNumber = "attempt_number"
     }
 }
