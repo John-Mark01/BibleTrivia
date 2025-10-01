@@ -23,7 +23,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 16) {
                     //Top Buttons
                     HStack {

@@ -16,7 +16,7 @@ struct AllTopicsView: View {
             Text("Topics")
                 .applyFont(.semiBold, size: 16)
             
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
                     ForEach($topics, id: \.id) { topic in
                         TopicCard(topic: topic, topicType: .all)

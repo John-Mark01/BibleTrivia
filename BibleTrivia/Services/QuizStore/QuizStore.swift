@@ -73,6 +73,14 @@ import SwiftUI
             )
             return
         }
+        guard unwrappedQuiz.questions.isEmpty == false else {
+            alertManager.showAlert(
+                type: .error,
+                message: "Unexpected Error, no answers populated in quiz!",
+                buttonText: "Go Back", action: {}
+            )
+            return
+        }
         #warning("Fix this Task modifier. Should be async/await method and the caller should handle the async result.")
         Task {
             do {

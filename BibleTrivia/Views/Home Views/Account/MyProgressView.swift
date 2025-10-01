@@ -10,7 +10,7 @@ import SwiftUI
 struct MyProgressView: View {
     @Environment(UserManager.self) var userManager
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack {
                 UserAccountCard(user: userManager.user, viewUse: .myProgress)
                 

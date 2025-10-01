@@ -70,7 +70,7 @@ struct SurveyView: View {
                                    showPercentage: false)
             }
             
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 40) {
                     
                     Text(onboardingManager.survey.questions[onboardingManager.survey.currentQuestionIndex].text)

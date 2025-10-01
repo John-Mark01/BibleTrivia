@@ -25,7 +25,7 @@ struct AccountView: View {
         ]
     }
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             UserAccountCard(user: userManager.user, viewUse: .account)
                 .padding(.bottom, 20)
             
@@ -34,7 +34,9 @@ struct AccountView: View {
                 BTForm(section: moreSection, sectionName: "More")
             }
         }
+        .scrollBounceBehavior(.basedOnSize)
         .navigationTitle("Account")
+        .navigationBarTitleDisplayMode(.inline)
         .applyViewPaddings()
         .applyBackground()
     }

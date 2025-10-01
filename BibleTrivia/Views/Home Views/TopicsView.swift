@@ -10,7 +10,7 @@ import SwiftUI
 struct TopicsView: View {
     
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack {
                 Spacer()
                 Image(systemName: "book.fill")

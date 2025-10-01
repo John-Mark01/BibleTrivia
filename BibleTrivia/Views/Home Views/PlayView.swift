@@ -41,7 +41,7 @@ struct PlayView: View {
             }
             .zIndex(999)
             
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 16) {
                     
                     //MARK: Quiz Update

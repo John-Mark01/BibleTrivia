@@ -14,7 +14,7 @@ struct FindQuizViewRow: View {
     var body: some View {
         
         VStack(alignment: .leading) {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 LazyVStack(spacing: 12) {
                     ForEach(quizes, id: \.id) { quiz in
                         Button(action: {

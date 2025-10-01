@@ -25,5 +25,6 @@ struct RouterView<Content: View>: View {
                 }
         }
         .tint(Color.BTBlack)
+        .applyAlertHandling()
     }
 }

@@ -84,7 +84,7 @@ struct OnboardCountriesListView: View {
             Text("Select your country")
                 .applyFont(.medium, size: 20)
 
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(spacing: 10) {
                     ForEach(0..<10) { index in
                         

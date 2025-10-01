@@ -87,7 +87,6 @@ struct QuizView: View {
             .disabled(finishQuizModal)
             .applyViewPaddings()
             .applyBackground()
-            .applyAlertHandling()
         }
     }
     

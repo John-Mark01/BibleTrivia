@@ -10,7 +10,7 @@ import SwiftUI
 struct OnboardingComponentsView: View {
     @State private var valueForTextField: String = ""
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(alignment: .center, spacing: 16) {
 
                 OnboardingProcessView(action: {print("Back button taped")})
