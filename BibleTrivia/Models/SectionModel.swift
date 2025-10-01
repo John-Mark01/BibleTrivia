@@ -8,11 +8,7 @@
 import Foundation
 
 struct SectionModel {
-        var name: String = ""
-        var image: String = ""
-        
-        init(name: String, image: String) {
-            self.name = name
-            self.image = image
-        }
-    }
+    var name: String
+    var image: String
+    var action: () -> Void
+}
