@@ -21,6 +21,8 @@
 		367BF5D02D73C0D700F97BA1 /* LetsStartAQuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */; };
 		367F0C122E8C5A9000B06A24 /* QuizSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367F0C112E8C5A9000B06A24 /* QuizSessionService.swift */; };
 		367F0C142E8C834C00B06A24 /* StartedQuiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367F0C132E8C834C00B06A24 /* StartedQuiz.swift */; };
+		367F0C172E8D974700B06A24 /* QuizSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367F0C162E8D974700B06A24 /* QuizSessionResponse.swift */; };
+		367F0C192E8D974E00B06A24 /* SavedAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367F0C182E8D974E00B06A24 /* SavedAnswer.swift */; };
 		3680A4092D53D12C008040F7 /* SurveyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A4082D53D12C008040F7 /* SurveyButton.swift */; };
 		3680A40B2D53DD47008040F7 /* DidYouKnowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */; };
 		3689B6012DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3689B6002DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift */; };
@@ -116,6 +118,8 @@
 		367BF5CF2D73C0D700F97BA1 /* LetsStartAQuizScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetsStartAQuizScreen.swift; sourceTree = "<group>"; };
 		367F0C112E8C5A9000B06A24 /* QuizSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSessionService.swift; sourceTree = "<group>"; };
 		367F0C132E8C834C00B06A24 /* StartedQuiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartedQuiz.swift; sourceTree = "<group>"; };
+		367F0C162E8D974700B06A24 /* QuizSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSessionResponse.swift; sourceTree = "<group>"; };
+		367F0C182E8D974E00B06A24 /* SavedAnswer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAnswer.swift; sourceTree = "<group>"; };
 		3680A4082D53D12C008040F7 /* SurveyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyButton.swift; sourceTree = "<group>"; };
 		3680A40A2D53DD47008040F7 /* DidYouKnowScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidYouKnowScreen.swift; sourceTree = "<group>"; };
 		3689B6002DB52B75008B3EB2 /* LetsCreateYourProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetsCreateYourProfileScreen.swift; sourceTree = "<group>"; };
@@ -259,6 +263,15 @@
 			path = Quiz;
 			sourceTree = "<group>";
 		};
+		367F0C152E8D973B00B06A24 /* SessionService_DTO's */ = {
+			isa = PBXGroup;
+			children = (
+				367F0C182E8D974E00B06A24 /* SavedAnswer.swift */,
+				367F0C162E8D974700B06A24 /* QuizSessionResponse.swift */,
+			);
+			path = "SessionService_DTO's";
+			sourceTree = "<group>";
+		};
 		36A591FE2D1EC51900972BA2 /* Lotties */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +346,7 @@
 		36E0A5AC2D1C47C5006AEC4F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				367F0C152E8D973B00B06A24 /* SessionService_DTO's */,
 				36E0A5A52D1C47C5006AEC4F /* Answer.swift */,
 				36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */,
 				36E0A5A72D1C47C5006AEC4F /* Question.swift */,
@@ -593,6 +607,7 @@
 				36B5A7552D2B01DE0021F21C /* AuthManager.swift in Sources */,
 				36E0A5EF2D1C47C5006AEC4F /* UserModel.swift in Sources */,
 				367F0C142E8C834C00B06A24 /* StartedQuiz.swift in Sources */,
+				367F0C192E8D974E00B06A24 /* SavedAnswer.swift in Sources */,
 				36E0A5F02D1C47C5006AEC4F /* QuizStore.swift in Sources */,
 				36E0A5F12D1C47C5006AEC4F /* Supabase.swift in Sources */,
 				36E0A5F22D1C47C5006AEC4F /* FlowLayout.swift in Sources */,
@@ -628,6 +643,7 @@
 				36E0A6052D1C47C5006AEC4F /* ChooseQuizModal.swift in Sources */,
 				36A591FB2D1EBE5900972BA2 /* LoadingManager.swift in Sources */,
 				36E0A6062D1C47C5006AEC4F /* ChooseTopicModal.swift in Sources */,
+				367F0C172E8D974700B06A24 /* QuizSessionResponse.swift in Sources */,
 				36B5D5F22D3C0E6400D5E732 /* OnboardButton.swift in Sources */,
 				36E0A6072D1C47C5006AEC4F /* FinishedQuizModal.swift in Sources */,
 				36E0A6082D1C47C5006AEC4F /* QuizCard.swift in Sources */,

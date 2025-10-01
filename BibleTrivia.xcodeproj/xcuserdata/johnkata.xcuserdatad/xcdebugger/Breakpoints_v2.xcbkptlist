@@ -162,36 +162,6 @@
             endingLineNumber = "50"
             landmarkName = "getUserStartedQuizzez()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "98C56004-BACD-4832-9A5A-CD64947A8B05 - 7ea44980bf68e3a1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for BibleTrivia.UserRepository.getUserStartedQuizzez() async throws -&gt; Swift.Array&lt;BibleTrivia.StartedQuiz&gt;"
-                  moduleName = "BibleTrivia.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/User/UserRepository.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50">
-               </Location>
-               <Location
-                  uuid = "98C56004-BACD-4832-9A5A-CD64947A8B05 - 970ea749f70127af"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(5) suspend resume partial function for BibleTrivia.UserRepository.getUserStartedQuizzez() async throws -&gt; Swift.Array&lt;BibleTrivia.StartedQuiz&gt;"
-                  moduleName = "BibleTrivia.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/User/UserRepository.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
