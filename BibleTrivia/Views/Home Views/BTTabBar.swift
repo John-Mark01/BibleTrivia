@@ -155,10 +155,7 @@ struct TabContentView: View {
 }
 
 #Preview {
-    RouterView {
+    PreviewEnvironmentView {
         BTTabBar()
     }
-    .environment(Router.shared)
-    .environment(QuizStore(supabase: Supabase()))
-    .environment(\.tabBarManager, TabBarManager())
 }

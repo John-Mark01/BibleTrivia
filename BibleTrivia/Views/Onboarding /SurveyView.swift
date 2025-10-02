@@ -114,15 +114,13 @@ struct SurveyView: View {
 }
 
 #Preview {
-    let manager = OnboardingManager(supabase: Supabase())
-    NavigationStack {
+    let manager = OnboardingManager.mock
+    PreviewEnvironmentView {
         SurveyView()
             .onAppear {
                 manager.loadSurvey()
             }
     }
-    .environment(manager)
-    .environment(Router.shared)
 }
 
 

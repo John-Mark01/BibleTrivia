@@ -37,12 +37,7 @@ struct LetsCreateYourProfileScreen: View {
 }
 
 #Preview {
-    let manager = OnboardingManager(supabase: Supabase())
-    NavigationStack {
+    PreviewEnvironmentView {
         LetsCreateYourProfileScreen(message: "This is a test message!")
     }
-    .environment(manager)
-    .environment(Router.shared)
-    .environment(QuizStore(supabase: Supabase()))
-    .environment(OnboardingManager(supabase: Supabase()))
 }

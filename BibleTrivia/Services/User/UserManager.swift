@@ -10,8 +10,7 @@ import Supabase
 
 @Observable class UserManager {
     
-    let supabase = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
-    
+    let supabaseClient: SupabaseClient
     let userRepository: UserRepositoryProtocol
     let alertManager: AlertManager
     
@@ -25,6 +24,7 @@ import Supabase
     
     init(supabase: Supabase, alertManager: AlertManager = .shared) {
         self.userRepository = UserRepository(supabase: supabase)
+        self.supabaseClient = supabase.supabaseClient
         self.alertManager = alertManager
     }
     
@@ -62,7 +62,7 @@ import Supabase
     /// - Parameter userID: supabase.auth.session.user.id // the logged in user in the Auth sessiion
     func checkInUser(userID: UUID) async {
         do {
-            try await supabase
+            try await supabaseClient
                 .rpc("check_and_update_streak", params: ["user_uuid" : userID])
                 .execute()
         } catch {
@@ -121,7 +121,7 @@ extension UserManager {
         let userName = "\(firstName) \(lastName)".capitalized
         let userAge = Int(age) ?? 0
         
-        try await supabase.auth.signUp(
+        try await supabaseClient.auth.signUp(
             email: email,
             password: password,
             data: [
@@ -137,7 +137,7 @@ extension UserManager {
         LoadingManager.shared.show()
         
         do {
-            try await supabase.auth.signIn(email: email, password: password)
+            try await supabaseClient.auth.signIn(email: email, password: password)
             callBack(true)
             LoadingManager.shared.hide()
         }
@@ -152,7 +152,7 @@ extension UserManager {
         defer { LoadingManager.shared.hide() }
         
         do {
-            try await supabase.auth.signOut()
+            try await supabaseClient.auth.signOut()
             completion()
         } catch {
             alertManager.showAlert(type: .error, message: "Coudn't sign out", buttonText: "Dissmiss", action: {})

@@ -42,12 +42,7 @@ struct LetsStartAQuizScreen: View {
 }
 
 #Preview {
-    let manager = OnboardingManager(supabase: Supabase())
-    NavigationStack {
+    PreviewEnvironmentView {
         LetsStartAQuizScreen()
     }
-    .environment(manager)
-    .environment(Router.shared)
-    .environment(QuizStore(supabase: Supabase()))
-    .environment(OnboardingManager(supabase: Supabase()))
 }

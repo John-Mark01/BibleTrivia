@@ -23,7 +23,11 @@ enum ParseType: String {
 
 @Observable class Supabase {
     
-    let supabaseClient = SupabaseClient(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)
+    let supabaseClient: SupabaseClient
+    
+    init(supabaseClient: SupabaseClient) {
+        self.supabaseClient = supabaseClient
+    }
 }
 
 //MARK: - Fetching Data

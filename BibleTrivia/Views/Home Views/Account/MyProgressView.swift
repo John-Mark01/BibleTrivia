@@ -22,8 +22,7 @@ struct MyProgressView: View {
 }
 
 #Preview {
-    NavigationStack {
+    PreviewEnvironmentView {
         MyProgressView()
     }
-    .environment(UserManager(supabase: .init(), alertManager: .shared))
 }

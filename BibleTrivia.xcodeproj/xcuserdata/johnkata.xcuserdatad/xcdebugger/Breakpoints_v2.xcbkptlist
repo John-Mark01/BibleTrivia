@@ -126,8 +126,8 @@
             filePath = "BibleTrivia/Services/Utils/Supabase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "getQuizezWithIDs(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "BibleTrivia/Services/User/UserManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
             landmarkName = "completedQuizzes"
             landmarkType = "24">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "BibleTrivia/Services/Utils/Supabase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
             landmarkName = "getFullDataQuizzes(withIDs:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "BibleTrivia/Services/Utils/Supabase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "getAllAvailableQuizzez(limit:offset:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -302,8 +302,8 @@
             filePath = "BibleTrivia/Services/Utils/Supabase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "getAllAvailableQuizzez(limit:offset:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,8 +318,8 @@
             filePath = "BibleTrivia/Services/Utils/Supabase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "getAllAvailableQuizzez(limit:offset:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -120,10 +120,8 @@ struct PlayView: View {
 }
 
 #Preview {
-    RouterView {
+    PreviewEnvironmentView {
         PlayView()
             .tint(Color.BTPrimary)
     }
-    .environment(QuizStore(supabase: Supabase()))
-    .environment(Router.shared)
 }

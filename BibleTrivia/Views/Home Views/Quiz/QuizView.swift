@@ -154,14 +154,9 @@ struct QuizView: View {
 }
 
 #Preview {
-    RouterView {
+    PreviewEnvironmentView {
         QuizView()
     }
-    .environment(Router.shared)
-    .environment(QuizStore(repository:
-                            QuizRepository(supabase: Supabase()),
-                           manager: .init(quizSessionService: .init(supabaseClient: Supabase().supabaseClient, userId: .init()))))
-    .environment(AlertManager.shared)
 }
 
 private struct ReviewButtonControlls: View {

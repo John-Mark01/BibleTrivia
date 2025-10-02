@@ -65,11 +65,9 @@ struct GetEmailView: View {
 }
 
 #Preview {
-    RouterView {
+    PreviewEnvironmentView {
         GetEmailView()
     }
-    .environment(OnboardingManager(supabase: Supabase()))
-    .environment(Router.shared)
 }
 
 struct OnboardCountriesListView: View {

@@ -51,11 +51,9 @@ struct AccountView: View {
 }
 
 #Preview {
-    NavigationView {
+    PreviewEnvironmentView {
         AccountView()
     }
-    .environment(UserManager(supabase: .init(), alertManager: .shared))
-    .environment(Router.shared)
 }
 
 struct BTForm: View {

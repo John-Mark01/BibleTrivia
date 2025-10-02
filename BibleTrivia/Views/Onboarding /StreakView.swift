@@ -127,7 +127,7 @@ struct StreakView: View {
 }
 
 #Preview {
-    RouterView {
+    PreviewEnvironmentView {
         StreakView()
     }
     .environment(Router.shared)

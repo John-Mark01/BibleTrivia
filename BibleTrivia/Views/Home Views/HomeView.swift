@@ -110,12 +110,9 @@ struct HomeView: View {
 }
 
 #Preview {
-    NavigationStack {
+    PreviewEnvironmentView {
         HomeView()
     }
-    .environment(QuizStore(supabase: Supabase()))
-    .environment(Router.shared)
-    .environment(UserManager(supabase: .init(), alertManager: .shared))
 }
 
 
