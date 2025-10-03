@@ -10,13 +10,6 @@ import SwiftUI
 struct WelcomeView: View {
     @Environment(Router.self) private var router
     
-    func onRegistration() {
-        router.navigateTo(.getEmail)
-    }
-    func onLogin() {
-        router.navigateTo(.login)
-    }
-    
     var body: some View {
         VStack(alignment: .center, spacing: 16) {
             
@@ -47,11 +40,18 @@ struct WelcomeView: View {
         .applyViewPaddings()
         .applyBackground()
     }
+    
+    private func onRegistration() {
+        router.navigateTo(.registration)
+    }
+    
+    private func onLogin() {
+        router.navigateTo(.login)
+    }
 }
 
 #Preview {
-    NavigationStack {
+    PreviewEnvironmentView {
         WelcomeView()
     }
-    .environment(Router.shared)
 }

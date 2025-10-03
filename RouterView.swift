@@ -18,7 +18,8 @@ struct RouterView: View {
     @State private var supabaseClient: SupabaseClient
     @State private var quizStore: QuizStore
     @State private var userManager: UserManager
-    @State private var onboardingManager: OnboardingManager
+    @State private var authManager: AuthManager
+//    @State private var onboardingManager: OnboardingManager
     
     @State private var signInStatus: SignInStatus = .idle
     
@@ -31,8 +32,9 @@ struct RouterView: View {
         
         _supabaseClient = State(initialValue: supabaseClient)
         _quizStore = State(initialValue: QuizStore(supabase: Supabase(supabaseClient: supabaseClient)))
-        _userManager = State(initialValue: UserManager(supabase: Supabase(supabaseClient: supabaseClient), alertManager: .shared))
-        _onboardingManager = State(initialValue: OnboardingManager(supabase: Supabase(supabaseClient: supabaseClient)))
+        _userManager = State(initialValue: UserManager(supabase: Supabase(supabaseClient: supabaseClient), alertManager: .shared)) //TODO: Remove AlertManager dependency
+        _authManager = State(initialValue: AuthManager(supabaseClient: supabaseClient))
+//        _onboardingManager = State(initialValue: OnboardingManager(supabase: Supabase(supabaseClient: supabaseClient)))
     }
     
     var body: some View {
@@ -40,7 +42,7 @@ struct RouterView: View {
             Group {
                 switch signInStatus {
                 case .idle:
-                   LoadingView()
+                    LoadingView()
                 case .signedIn:
                     BTTabBar()
                 case .notSignedIn:
@@ -55,8 +57,9 @@ struct RouterView: View {
         .tint(Color.BTBlack)
         .environment(quizStore)
         .environment(userManager)
+        .environment(authManager)
         .environment(alertManager)
-        .environment(onboardingManager)
+//        .environment(onboardingManager)
         .environment(router)
         .overlay {
             if LoadingManager.shared.isShowing {
@@ -74,6 +77,9 @@ struct RouterView: View {
                     action: {}
                 )
             }
+        }
+        .onOpenURL { url in
+            handleAuthDeepLink(url)
         }
     }
     
@@ -106,6 +112,26 @@ struct RouterView: View {
         }
     }
     
+    private func handleAuthDeepLink(_ url: URL) {
+        Task {
+            guard url.scheme == "bibleTrivia" else { return }
+            
+            // Handle email confirmation: bibleTrivia://auth/callback?token=...
+            if url.host == "auth" && url.path == "/callback" {
+                if let token = url.queryParameters?["token"] {
+                    await authManager.verifyEmail(token: token)
+                }
+            }
+            
+            // Handle password reset: bibleTrivia://auth/reset-password?token=...
+            if url.host == "auth" && url.path == "/reset-password" {
+                if let token = url.queryParameters?["token"] {
+                    // Navigate to password reset view
+                    router.navigateTo(.resetPassword)
+                }
+            }
+        }
+    }
     
     private func setSignedInStatus() {
         withAnimation {

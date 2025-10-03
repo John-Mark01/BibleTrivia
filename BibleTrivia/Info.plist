@@ -4,7 +4,16 @@
 <dict>
 	<key>CFBundleURLTypes</key>
 	<array>
-		<dict/>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>bibleTrivia</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.johnmark.bibleTrivia</string>
+		</dict>
 	</array>
 	<key>SUPABASE_API_KEY</key>
 	<string>${SUPABASE_API_KEY}</string>

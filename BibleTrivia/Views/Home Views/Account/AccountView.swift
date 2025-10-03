@@ -10,6 +10,7 @@ import SwiftUI
 struct AccountView: View {
     @Environment(Router.self) var router
     @Environment(UserManager.self) var userManager
+    @Environment(AuthManager.self) var authManager
     
     @State private var generalSection: [SectionModel] = [
         SectionModel(name: "My Progress", image: "progress", action: {}),
@@ -43,7 +44,7 @@ struct AccountView: View {
     
     private func logout() {
         Task {
-            await userManager.signOut() {
+            await authManager.signOut() {
                 router.popToRoot()
             }
         }

@@ -26,8 +26,9 @@ struct PreviewEnvironmentView<Content: View>: View {
         .applyAlertHandling()
         .environment(QuizStore.mock)
         .environment(UserManager.mock)
+        .environment(AuthManager.mock)
         .environment(AlertManager.shared)
-        .environment(OnboardingManager.mock)
+//        .environment(OnboardingManager.mock)
         .environment(router)
     }
 }
@@ -45,12 +46,17 @@ extension UserManager {
         UserManager(supabase: MockSupabase(), alertManager: .shared)
     }
 }
-
-extension OnboardingManager {
-    static var mock: OnboardingManager {
-        OnboardingManager(supabase: MockSupabase())
+extension AuthManager {
+    static var mock: AuthManager {
+        AuthManager(supabaseClient: MockSupabase().supabaseClient)
     }
 }
+
+//extension OnboardingManager {
+//    static var mock: OnboardingManager {
+//        OnboardingManager(supabase: MockSupabase())
+//    }
+//}
 
 class MockSupabase: Supabase {
     override init(supabaseClient: SupabaseClient = .init(supabaseURL: Secrets.supabaseURL, supabaseKey: Secrets.supabaseAPIKey)) {

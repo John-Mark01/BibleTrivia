@@ -97,7 +97,7 @@ struct QuizView: View {
                     let context = router.getCurrentContext()
                     
                     if context == .onboarding {
-                        router.navigateTo(.streakView, from: .onboarding)
+//                        router.navigateTo(.streakView, from: .onboarding)
                     } else {
                         userManager.convertStartedQuizToCompletedQuiz(quizStore.currentQuiz)
                         quizStore.removeQuizFromStore(quizStore.currentQuiz)

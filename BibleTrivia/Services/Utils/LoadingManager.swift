@@ -10,9 +10,9 @@ import Lottie
 
 @Observable class LoadingManager {
     
-    var isShowing: Bool = false
-    
     static let shared = LoadingManager()
+    private init() {}
+    var isShowing: Bool = false
     
     func show() {
         withAnimation {

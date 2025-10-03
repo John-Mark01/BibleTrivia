@@ -17,22 +17,27 @@ final class Router {
     
     // Navigation destination views
     enum Destination: Codable, Hashable {
+        //Home Views
         case home
         case play
         case quizView
         case topics
         case account
         
-        //MARK: Other Views
         // Onboarding
         case welcome
+        case registration
         case login
-        //Register
-        case getEmail
-        case surveyView
-        case tryAQuizView
-        case createProfileView
-        case streakView
+        case emailVerificationPending(email: String)
+        case forgotPassword
+        case resetPassword
+        
+//        //Register
+//        case getEmail
+//        case surveyView
+//        case tryAQuizView
+//        case createProfileView
+//        case streakView
         // Add more destinations as needed
     }
     
@@ -67,18 +72,28 @@ final class Router {
             WelcomeView()
         case .login:
             LoginView()
-            //MARK: Register
-        case .getEmail:
-            GetEmailView()
-        case .surveyView:
-            SurveyView()
-        case .tryAQuizView:
-            LetsStartAQuizScreen()
-        case .createProfileView:
-            LetsCreateYourProfileScreen()
-            
-        case .streakView:
-            StreakView()
+        case .registration:
+            RegistrationView()
+        case .emailVerificationPending(email: let email):
+            EmailVerificationPendingView(email: email)
+        case .forgotPassword:
+            ForgotPasswordView()
+        case .resetPassword:
+            ResetPasswordView()
+
+    //TODO: For Advanced Onboarding...
+//        case .getEmail:
+//            GetEmailView()
+//        case .surveyView:
+//            SurveyView()
+//        case .tryAQuizView:
+//            LetsStartAQuizScreen()
+//        case .createProfileView:
+//            LetsCreateYourProfileScreen()
+//            
+//        case .streakView:
+//            StreakView()
+    //TODO: For Advanced Onboarding...
             
             //MARK: TabView Screens
         case .home:
