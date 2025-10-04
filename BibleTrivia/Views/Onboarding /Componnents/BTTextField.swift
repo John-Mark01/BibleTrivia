@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewBTTextField: View {
     @Binding var value: String
+    @FocusState var isFocused: Bool
     var backgroundColor: Color = .BTStroke
     var placeholder: String = "Placeholder"
     var keyboardType: UIKeyboardType = .default
@@ -22,6 +23,7 @@ struct NewBTTextField: View {
                 .padding()
                 .background(backgroundColor)
                 .clipShape(.rect(cornerRadius: 12))
+                .focused($isFocused)
                 .overlay {
                     HStack {
                         Spacer()
@@ -39,10 +41,12 @@ struct NewBTTextField: View {
                 .keyboardType(keyboardType)
                 .textContentType(contentType)
                 .textInputAutocapitalization(.never)
+                .onTapGesture { isFocused = true }
     }
 }
 struct NewBTSecureField: View {
     @Binding var value: String
+    @FocusState var isFocused: Bool
     var backgroundColor: Color = .BTStroke
     var placeholder: String = "Placeholder"
     
@@ -60,6 +64,8 @@ struct NewBTSecureField: View {
         .padding()
         .background(backgroundColor)
         .clipShape(.rect(cornerRadius: 12))
+        .focused($isFocused)
+        .onTapGesture { isFocused = true }
         .overlay {
             HStack {
                 Spacer()
@@ -79,9 +85,8 @@ struct NewBTSecureField: View {
 
 #Preview {
     @Previewable @State var text = ""
-    NewBTSecureField(value: $text)
-        .padding()
-    
     NewBTTextField(value: $text)
+        .padding()
+    NewBTSecureField(value: $text)
         .padding()
 }

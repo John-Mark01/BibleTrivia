@@ -80,6 +80,12 @@ import Foundation
         
         self.showAlert(type: .error, message: alertMessage, buttonText: buttonTitle, action: action)
     }
+    
+    //Feature comming sooom
+    func showFeatureCommingSoonAlert(for feature: String, action: @escaping () -> Void = {}) {
+        let alertMessage = LocalizedStringResource(stringLiteral: "\(feature)" + " is comming soon. Stay tuned!")
+        self.showAlert(type: .information, message: alertMessage, buttonText: "Close", action: action)
+    }
 
 }
 

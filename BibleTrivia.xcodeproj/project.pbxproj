@@ -59,6 +59,9 @@
 		36B6B1802E90661C004137CA /* SurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B6B17A2E90661C004137CA /* SurveyView.swift */; };
 		36B6B1812E90661C004137CA /* DidYouKnowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B6B1742E90661C004137CA /* DidYouKnowScreen.swift */; };
 		36B6B1822E90661C004137CA /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B6B1792E90661C004137CA /* StreakView.swift */; };
+		36B6B1842E90D967004137CA /* Validations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B6B1832E90D967004137CA /* Validations.swift */; };
+		36B6B1862E90F752004137CA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B6B1852E90F752004137CA /* LoginViewModel.swift */; };
+		36B6B1882E90FDC5004137CA /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B6B1872E90FDC5004137CA /* RegistrationViewModel.swift */; };
 		36CA40A22D3D3582003B1164 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CA40A12D3D3582003B1164 /* AlertManager.swift */; };
 		36CA40A62D3D4EF2003B1164 /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CA40A52D3D4EF2003B1164 /* OnboardingManager.swift */; };
 		36E0A5E92D1C47C5006AEC4F /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5A52D1C47C5006AEC4F /* Answer.swift */; };
@@ -157,6 +160,9 @@
 		36B6B1782E90661C004137CA /* LoginViewAdvanced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewAdvanced.swift; sourceTree = "<group>"; };
 		36B6B1792E90661C004137CA /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
 		36B6B17A2E90661C004137CA /* SurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyView.swift; sourceTree = "<group>"; };
+		36B6B1832E90D967004137CA /* Validations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validations.swift; sourceTree = "<group>"; };
+		36B6B1852E90F752004137CA /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		36B6B1872E90FDC5004137CA /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		36CA40A12D3D3582003B1164 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		36CA40A52D3D4EF2003B1164 /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		36E0A5A52D1C47C5006AEC4F /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
@@ -238,6 +244,7 @@
 		364B7FFD2E89681100C9EFD9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				36B6B1832E90D967004137CA /* Validations.swift */,
 				367F0C1A2E8F019F00B06A24 /* PreviewEnvironmentView.swift */,
 				36A591FA2D1EBE5900972BA2 /* LoadingManager.swift */,
 				36CA40A12D3D3582003B1164 /* AlertManager.swift */,
@@ -289,9 +296,9 @@
 		367F0C202E90646300B06A24 /* Simple v1 */ = {
 			isa = PBXGroup;
 			children = (
-				367F0C212E90647C00B06A24 /* RegistrationView.swift */,
+				36B6B1892E90FF79004137CA /* Register */,
+				36B6B18A2E90FF8A004137CA /* Login */,
 				367F0C232E90649C00B06A24 /* EmailVerificationPendingView.swift */,
-				367F0C252E9064D300B06A24 /* LoginView.swift */,
 				367F0C272E9064F900B06A24 /* ForgotPasswordView.swift */,
 				367F0C292E90652A00B06A24 /* ResetPasswordView.swift */,
 				36B6B17B2E90661C004137CA /* Advanced v2 */,
@@ -375,6 +382,24 @@
 				36B6B17A2E90661C004137CA /* SurveyView.swift */,
 			);
 			path = "Advanced v2";
+			sourceTree = "<group>";
+		};
+		36B6B1892E90FF79004137CA /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				367F0C212E90647C00B06A24 /* RegistrationView.swift */,
+				36B6B1872E90FDC5004137CA /* RegistrationViewModel.swift */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		36B6B18A2E90FF8A004137CA /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				367F0C252E9064D300B06A24 /* LoginView.swift */,
+				36B6B1852E90F752004137CA /* LoginViewModel.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		36E0A5AC2D1C47C5006AEC4F /* Models */ = {
@@ -636,6 +661,7 @@
 				36E0A5EC2D1C47C5006AEC4F /* Quiz.swift in Sources */,
 				36E0A5ED2D1C47C5006AEC4F /* SectionModel.swift in Sources */,
 				367F0C262E9064D300B06A24 /* LoginView.swift in Sources */,
+				36B6B1862E90F752004137CA /* LoginViewModel.swift in Sources */,
 				3663E6552E367472004CB9BC /* ButtonStyles.swift in Sources */,
 				36E0A5EE2D1C47C5006AEC4F /* Topic.swift in Sources */,
 				3652A4162DB43DFD001FD2BA /* Extensions+Color.swift in Sources */,
@@ -656,6 +682,7 @@
 				367F0C1B2E8F019F00B06A24 /* PreviewEnvironmentView.swift in Sources */,
 				367F0C122E8C5A9000B06A24 /* QuizSessionService.swift in Sources */,
 				36E0A5F32D1C47C5006AEC4F /* AlertDialog.swift in Sources */,
+				36B6B1842E90D967004137CA /* Validations.swift in Sources */,
 				364B80002E89687800C9EFD9 /* UserRepository.swift in Sources */,
 				36E0A5F42D1C47C5006AEC4F /* Color.swift in Sources */,
 				367F0C1F2E905B5800B06A24 /* Extensions+URL.swift in Sources */,
@@ -713,6 +740,7 @@
 				36B5D6002D3C2FC700D5E732 /* BTTextField.swift in Sources */,
 				36E0A6152D1C47C5006AEC4F /* RouterView.swift in Sources */,
 				36E0A6162D1C47C5006AEC4F /* Secrets.swift in Sources */,
+				36B6B1882E90FDC5004137CA /* RegistrationViewModel.swift in Sources */,
 				36CA40A62D3D4EF2003B1164 /* OnboardingManager.swift in Sources */,
 				3652A4102DB436FA001FD2BA /* Extensions+View.swift in Sources */,
 				36E0A6182D1C47C5006AEC4F /* SplashScreen.swift in Sources */,
