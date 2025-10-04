@@ -115,11 +115,11 @@ struct LoginView: View {
                 .applyFont(.regular, size: 12)
                 .multilineTextAlignment(.center)
         }
-        .applyBackground()
-        .applyViewPaddings(.all)
-        .dismissKeyboardOnTap()
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
+        .applyViewPaddings(.all)
+        .dismissKeyboardOnTap()
+        .applyBackground()
     }
 }
 

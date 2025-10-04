@@ -62,11 +62,11 @@ struct EmailVerificationPendingView: View {
 
             
         }
-        .applyBackground()
-        .applyViewPaddings(.all)
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
         .onAppear { effect.toggle() }
+        .applyViewPaddings(.all)
+        .applyBackground()
     }
 }
 

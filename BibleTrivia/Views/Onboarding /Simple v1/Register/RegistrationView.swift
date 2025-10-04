@@ -156,6 +156,7 @@ struct RegistrationView: View {
                     }
                 }
             }
+            .padding(.top, Constants.vStackSpacing)
             .buttonStyle(.primary)
             .buttonDisabled(viewModel.registerDisabled)
             
@@ -166,11 +167,11 @@ struct RegistrationView: View {
             
             Spacer()
         }
-        .applyBackground()
-        .applyViewPaddings(.all)
-        .dismissKeyboardOnTap()
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
+        .applyViewPaddings(.all)
+        .dismissKeyboardOnTap()
+        .applyBackground()
     }
 }
 

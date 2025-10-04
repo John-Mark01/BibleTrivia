@@ -64,12 +64,12 @@ struct ForgotPasswordView: View {
             .buttonStyle(.borderedProminent)
             .tint(.BTStroke)
         }
-        .applyBackground()
-        .applyViewPaddings(.all)
-        .dismissKeyboardOnTap()
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
         .onAppear { effect.toggle() }
+        .applyViewPaddings(.all)
+        .dismissKeyboardOnTap()
+        .applyBackground()
     }
 }
 
