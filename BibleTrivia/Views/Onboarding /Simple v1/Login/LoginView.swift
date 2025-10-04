@@ -117,9 +117,9 @@ struct LoginView: View {
         }
         .applyBackground()
         .applyViewPaddings(.all)
+        .dismissKeyboardOnTap()
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
-        .onTapGesture { dismissKeyboard() }
     }
 }
 

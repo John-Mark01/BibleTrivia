@@ -11,6 +11,7 @@ struct EmailVerificationPendingView: View {
     @Environment(AuthManager.self) private var authManager
     @Environment(Router.self) private var router
     
+    @State private var effect: Bool = false
     let email: String
     
     var body: some View {
@@ -18,6 +19,7 @@ struct EmailVerificationPendingView: View {
             Image(systemName: "envelope.circle.fill")
                 .font(.system(size: 100))
                 .foregroundStyle(Color.BTPrimary)
+                .symbolEffect(.wiggle, value: effect)
             
             Text("Check Your Email")
                 .applyFont(.semiBold, size: 32, textColor: .BTBlack)
@@ -37,25 +39,26 @@ struct EmailVerificationPendingView: View {
             Divider()
                 .padding()
             
-            VStack(spacing: 15) {
+            VStack(spacing: 8) {
                 Text("Didn't receive the email?")
                     .applyFont(.regular, size: 17, textColor: .BTLightGray)
                 
                 Button("Resend Confirmation Email") {
                     Task {
+                        effect.toggle()
                         await authManager.resendConfirmationEmail(email: email)
                     }
                 }
-                .applyFont(.semiBold, size: 16, textColor: .BTPrimary)
-                .buttonStyle(.bordered)
+                .applyFont(.semiBold, size: 17, textColor: .BTPrimary)
             }
             
             Button("Back to Login") {
                 router.navigateToAndClearBackstack(to: .welcome)
                 router.navigateTo(.login)
             }
-            .buttonStyle(.bordered)
             .applyFont(.semiBold, size: 16, textColor: .BTBlack)
+            .buttonStyle(.borderedProminent)
+            .tint(.BTStroke)
 
             
         }
@@ -63,6 +66,7 @@ struct EmailVerificationPendingView: View {
         .applyViewPaddings(.all)
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
+        .onAppear { effect.toggle() }
     }
 }
 
