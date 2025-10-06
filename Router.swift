@@ -138,7 +138,7 @@ final class Router {
             self.destinationContext[destination] = context
             self.stack.append(destination)
             self.path.append(destination)
-            self.logNavigation("Navigated to \(destination), path count: \(self.path.count)")
+            self.logNavigation("✅ Navigated to \(destination), path count: \(self.path.count)")
         }
     }
     
@@ -150,7 +150,7 @@ final class Router {
             let removedDestination = self.stack.removeLast()
             self.destinationContext.removeValue(forKey: removedDestination)
             self.path.removeLast()
-            self.logNavigation("Went back, path count: \(self.path.count)")
+            self.logNavigation("✅ Went back, path count: \(self.path.count)")
         }
     }
     
@@ -172,7 +172,7 @@ final class Router {
                 }
             }
             
-            self.logNavigation("Went back \(safeCount) levels, path count: \(self.path.count)")
+            self.logNavigation("✅ Went back \(safeCount) levels, path count: \(self.path.count)")
         }
     }
     
@@ -187,7 +187,7 @@ final class Router {
                 self.path.removeLast(self.path.count)
             }
             
-            self.logNavigation("Navigated to root, path count: \(self.path.count)")
+            self.logNavigation("✅ Navigated to root, path count: \(self.path.count)")
         }
     }
     
@@ -196,7 +196,7 @@ final class Router {
     func goBackTo(_ destination: Destination) {
         performOnMainThread {
             guard let index = self.stack.firstIndex(of: destination) else {
-                self.logNavigation("Cannot go back to \(destination): not in stack")
+                self.logNavigation("❌Cannot go back to \(destination): not in stack")
                 return
             }
             
@@ -221,7 +221,7 @@ final class Router {
                 }
             }
             
-            self.logNavigation("Went back to \(destination), path count: \(self.path.count)")
+            self.logNavigation("✅ Went back to \(destination), path count: \(self.path.count)")
         }
     }
     
@@ -261,7 +261,7 @@ final class Router {
                 self.path.append(destination)
             }
             
-            self.logNavigation("Navigated to \(destination) and cleared backstack, path count: \(self.path.count)")
+            self.logNavigation("✅ Navigated to \(destination) and cleared backstack, path count: \(self.path.count)")
         }
     }
     
@@ -306,7 +306,7 @@ final class Router {
     
     private func logNavigation(_ message: String) {
         #if DEBUG
-        print("Router: \(message)")
+        print("🟠 Router: \(message)\n")
         #endif
     }
 }
