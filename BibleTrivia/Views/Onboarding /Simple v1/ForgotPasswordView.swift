@@ -57,7 +57,7 @@ struct ForgotPasswordView: View {
             Spacer()
             
             Button("Back to Login") {
-                router.navigateToAndClearBackstack(to: .welcome)
+                router.popToRoot()
                 router.navigateTo(.login)
             }
             .applyFont(.semiBold, size: 16, textColor: .BTBlack)

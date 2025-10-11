@@ -76,8 +76,8 @@ struct LoginView: View {
                         email: viewModel.email,
                         password: viewModel.password
                     ) {
-                        // Success - navigate to home
-                        router.navigateTo(.home)
+                        // listenAuthEvents() will log the user to .home
+                        router.popToRoot()
                     }
                 }
             }

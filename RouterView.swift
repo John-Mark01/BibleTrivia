@@ -114,19 +114,41 @@ struct RouterView: View {
     
     private func handleAuthDeepLink(_ url: URL) {
         Task {
-            guard url.scheme == "bibleTrivia" else { return }
+            guard url.scheme == "bibletrivia", url.host == "auth" else { return }
             
-            // Handle email confirmation: bibleTrivia://auth/callback?token=...
-            if url.host == "auth" && url.path == "/callback" {
-                if let token = url.queryParameters?["token"] {
-                    await authManager.verifyEmail(token: token)
+            // Email confirmation callback with OTP code
+            if url.path == "/callback" {
+                // Extract the token_hash or code from URL
+                guard let code = url.queryParameters?["token_hash"] ?? url.queryParameters?["code"] else {
+                    print("❌ No verification code found in URL")
+                    return
+                }
+                
+                print("✅ Received verification code from email link")
+                
+                // Get email from stored value (you'll need to store this during sign up)
+                guard let email = UserDefaults.standard.string(forKey: "pendingVerificationEmail") else {
+                    await MainActor.run {
+                        alertManager.showAlert(
+                            type: .error,
+                            message: "Session expired. Please sign up again.",
+                            buttonText: "OK",
+                            action: { router.popToRoot() }
+                        )
+                    }
+                    return
+                }
+                
+                // Verify the OTP code
+                await authManager.verifyEmailWithCode(email: email, code: code) {
+                    router.popToRoot()
                 }
             }
             
-            // Handle password reset: bibleTrivia://auth/reset-password?token=...
-            if url.host == "auth" && url.path == "/reset-password" {
-                if let token = url.queryParameters?["token"] {
-                    // Navigate to password reset view
+            // Password reset callback
+            if url.path == "/reset-password" {
+                // Navigate to password reset view
+                await MainActor.run {
                     router.navigateTo(.resetPassword)
                 }
             }

@@ -12,6 +12,8 @@ struct EmailVerificationPendingView: View {
     @Environment(Router.self) private var router
     
     @State private var effect: Bool = false
+    @State private var otpCode: String = ""
+    @State private var isVerifying: Bool = false
     let email: String
     
     var body: some View {
@@ -34,6 +36,48 @@ struct EmailVerificationPendingView: View {
                 .applyFont(.regular, size: 18, textColor: .BTLightGray)
                 .multilineTextAlignment(.center)
             
+            VStack(spacing: 15) {
+                Text("Enter Verification Code")
+                    .font(.headline)
+                
+                // OTP Code Input
+                TextField("000000", text: $otpCode)
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .frame(height: 60)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(12)
+                    .onChange(of: otpCode) { oldValue, newValue in
+                        // Limit to 6 digits
+                        if newValue.count > 6 {
+                            otpCode = String(newValue.prefix(6))
+                        }
+                        // Auto-verify when 6 digits entered
+                        if newValue.count == 6 {
+                            verifyCode()
+                        }
+                    }
+                
+                // Verify Button
+                Button(action: verifyCode) {
+                    if isVerifying {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    } else {
+                        Text("Verify Code")
+                            .bold()
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(otpCode.count == 6 ? Color.blue : Color.gray)
+                .foregroundColor(.white)
+                .cornerRadius(12)
+                .disabled(otpCode.count != 6 || isVerifying)
+            }
+            .padding()
+            
             Spacer()
             
             Divider()
@@ -53,13 +97,13 @@ struct EmailVerificationPendingView: View {
             }
             
             Button("Back to Login") {
-                router.navigateToAndClearBackstack(to: .welcome)
+                router.popToRoot()
                 router.navigateTo(.login)
             }
             .applyFont(.semiBold, size: 16, textColor: .BTBlack)
             .buttonStyle(.borderedProminent)
             .tint(.BTStroke)
-
+            
             
         }
         .navigationBarBackButtonHidden()
@@ -67,6 +111,20 @@ struct EmailVerificationPendingView: View {
         .onAppear { effect.toggle() }
         .applyViewPaddings(.all)
         .applyBackground()
+    }
+    
+    private func verifyCode() {
+        guard otpCode.count == 6 else { return }
+        
+        isVerifying = true
+        
+        Task {
+            await authManager.verifyEmailWithCode(email: email, code: otpCode) {
+                // Success - pop to root, listenAuthEvents will handle navigation
+                router.popToRoot()
+            }
+            isVerifying = false
+        }
     }
 }
 

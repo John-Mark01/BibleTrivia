@@ -10,9 +10,9 @@ import SwiftUI
 struct PlayView: View {
     @Environment(Router.self) private var router
     @Environment(QuizStore.self) var quizStore
+    @Environment(UserManager.self) var userManager
     
-//    @State private var dummyTopics = DummySVM.shared.topics
-//    @State private var dummyQuizzez = DummySVM.shared.quizes
+
     @State private var openQuizModal: Bool = false
     @State private var openTopicModal: Bool = false
     @State private var showAllTopics: Bool = false
@@ -96,7 +96,7 @@ struct PlayView: View {
                         HStack(spacing: 4) {
                             Image("star")
                             
-                            Text("\(326)")
+                            Text("\(userManager.user.totalPoints)")
                                 .applyFont(.regular, size: 18)
                         }
                     }

@@ -49,6 +49,9 @@ import Supabase
                 redirectTo: URL(string: "bibleTrivia://auth/callback")
             )
             
+            //TODO: Save user email to Keychain
+            UserDefaults.standard.set(email, forKey: "pendingVerificationEmail")
+            
             await MainActor.run {
                 alertManager.showAlert(
                     type: .success,
@@ -126,43 +129,39 @@ import Supabase
     
 // MARK: - Email Confirmation - (Email Auth)
     
-    /// Verifies the email using the token from the confirmation link
-    /// This is called when user clicks the link in their email
-    func verifyEmail(
-        token: String,
-        onSuccess: @escaping () -> Void = {}
-    ) async {
+    func verifyEmailWithCode(email: String, code: String, onSuccess: @escaping () -> Void = {}) async {
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
         
+        let supabaseClient = SupabaseClient(
+            supabaseURL: Secrets.supabaseURL,
+            supabaseKey: Secrets.supabaseAPIKey
+        )
+        
         do {
             let response = try await supabaseClient.auth.verifyOTP(
-                email: "",  // Email not needed when using token directly
-                token: token,
-                type: .email
+                email: email,
+                token: code,
+                type: .signup
             )
             
-            print("✅ Email verified successfully for user: \(response.user.email ?? "unknown")")
+            print("✅ Email verified successfully for: \(response.user.email ?? "unknown")")
             
-            await MainActor.run {
-                alertManager.showAlert(
-                    type: .success,
-                    message: "Email confirmed! You can now sign in.",
-                    buttonText: "Continue",
-                    action: onSuccess
-                )
-            }
+            // Clear the stored email
+            UserDefaults.standard.removeObject(forKey: "pendingVerificationEmail")
+            onSuccess()
             
         } catch {
+            print("❌ Email verification error: \(error.localizedDescription)")
+            
             await MainActor.run {
-                alertManager.showAlert(
+                AlertManager.shared.showAlert(
                     type: .error,
-                    message: "Email verification failed. The link may have expired.",
+                    message: "Verification failed. The code may have expired.",
                     buttonText: "Dismiss",
                     action: {}
                 )
             }
-            print("❌ Email verification error: \(error.localizedDescription)")
         }
     }
     
@@ -178,7 +177,7 @@ import Supabase
             try await supabaseClient.auth.resend(
                 email: email,
                 type: .signup,
-                //                    redirectTo: URL(string: "bibleTrivia://auth/callback")
+//                redirectTo: URL(string: "bibleTrivia://auth/callback")
             )
             
             await MainActor.run {

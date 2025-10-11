@@ -44,7 +44,7 @@ struct ResetPasswordView: View {
                 
                 Task {
                     await authManager.updatePassword(newPassword: newPassword) {
-                        // Navigate to login
+                        // listenAuthEvents() will log the user to .home
                         router.popToRoot()
                     }
                 }
