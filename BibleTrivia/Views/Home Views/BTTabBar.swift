@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct BTTabBar: View {
-    @State private var selectedTab: Int = 0
     @Environment(\.tabBarManager) private var tabBarManager
+    @Environment(\.colorScheme) private var colorScheme
+    @State private var selectedTab: Int = 0
+    
+    private var shadowColor: Color {
+        colorScheme == .light ? .black : .clear
+    }
     
     var body: some View {
         ZStack {
@@ -59,7 +64,7 @@ struct BTTabBar: View {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(
                                 LinearGradient(
-                                    gradient: Gradient(colors: [Color.white, Color.white.opacity(0.95)]),
+                                    gradient: Gradient(colors: [.background, .background.opacity(0.95)]),
                                     startPoint: .top,
                                     endPoint: .bottom
                                 )
@@ -67,7 +72,7 @@ struct BTTabBar: View {
                     )
                     .cornerRadius(16)
                     .shadow(
-                        color: Color.black.opacity(0.1),
+                        color: shadowColor.opacity(0.1),
                         radius: 8,
                         x: 0,
                         y: -5
@@ -77,7 +82,7 @@ struct BTTabBar: View {
                         RoundedRectangle(cornerRadius: 16)
                             .stroke(
                                 LinearGradient(
-                                    gradient: Gradient(colors: [Color.white.opacity(0.8), Color.clear]),
+                                    gradient: Gradient(colors: [.background.opacity(0.8), Color.clear]),
                                     startPoint: .top,
                                     endPoint: .bottom
                                 ),
