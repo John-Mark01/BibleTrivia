@@ -25,7 +25,7 @@ struct PreviewEnvironmentView<Content: View>: View {
         }
         .applyAlertHandling()
         .environment(QuizStore.mock)
-        .environment(UserManager.mock)
+        .environment(UserStore.mock)
         .environment(AuthManager.mock)
         .environment(AlertManager.shared)
 //        .environment(OnboardingManager.mock)
@@ -41,9 +41,9 @@ extension QuizStore {
     }
 }
 
-extension UserManager {
-    static var mock: UserManager {
-        UserManager(supabase: MockSupabase(), alertManager: .shared)
+extension UserStore {
+    static var mock: UserStore {
+        UserStore(supabase: MockSupabase(), alertManager: .shared)
     }
 }
 extension AuthManager {

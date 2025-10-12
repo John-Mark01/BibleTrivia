@@ -1,5 +1,5 @@
 //
-//  UserManager.swift
+//  UserStore.swift
 //  BibleTrivia
 //
 //  Created by John-Mark Iliev on 11.01.25.
@@ -8,25 +8,30 @@
 import Foundation
 import Supabase
 
-@Observable class UserManager: RouterAccessible {
+@Observable class UserStore: RouterAccessible {
     
     let supabaseClient: SupabaseClient
     let userRepository: UserRepositoryProtocol
     let alertManager: AlertManager
-    
-    var user: UserModel = UserModel()
-    var startedQuizzes: [StartedQuiz] = []
-    var completedQuizzes: [Quiz] = [] {
-        didSet {
-            self.user.completedQuizzes = completedQuizzes.map(\.id)
-        }
-    }
     
     init(supabase: Supabase, alertManager: AlertManager = .shared) {
         self.userRepository = UserRepository(supabase: supabase)
         self.supabaseClient = supabase.supabaseClient
         self.alertManager = alertManager
     }
+    
+    var user: UserModel = UserModel()
+    var startedQuizzes: [StartedQuiz] = [] {
+        didSet {
+            self.user.startedQuizzes = startedQuizzes.map(\.id)
+        }
+    }
+    var completedQuizzes: [Quiz] = [] {
+        didSet {
+            self.user.completedQuizzes = completedQuizzes.map(\.id)
+        }
+    }
+    
     
     func fetchUserAndDownloadInitialData(userID: UUID) async {
         LoadingManager.shared.show()
@@ -155,7 +160,7 @@ import Supabase
     }
     
     private func log(with message: String) {
-        print("🟠 UserManager: \(message)\n")
+        print("🟠 UserStore: \(message)\n")
     }
 }
 

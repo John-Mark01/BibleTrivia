@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AccountView: View {
     @Environment(Router.self) var router
-    @Environment(UserManager.self) var userManager
+    @Environment(UserStore.self) var userStore
     @Environment(AuthManager.self) var authManager
     
     @State private var generalSection: [SectionModel] = [
@@ -27,7 +27,7 @@ struct AccountView: View {
     }
     var body: some View {
         ScrollView(showsIndicators: false) {
-            UserAccountCard(user: userManager.user, viewUse: .account)
+            UserAccountCard(user: userStore.user, viewUse: .account)
                 .padding(.bottom, 20)
             
             VStack(alignment: .leading, spacing: 16) {

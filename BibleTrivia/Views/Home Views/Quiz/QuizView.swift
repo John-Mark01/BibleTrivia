@@ -10,7 +10,7 @@ import SwiftUI
 struct QuizView: View {
     @Environment(Router.self) private var router
     @Environment(QuizStore.self) private var quizStore
-    @Environment(UserManager.self) private var userManager
+    @Environment(UserStore.self) private var userStore
     @Environment(AlertManager.self) private var alertManager
     
     @State private var finishQuizModal: Bool = false
@@ -99,7 +99,7 @@ struct QuizView: View {
                     if context == .onboarding {
 //                        router.navigateTo(.streakView, from: .onboarding)
                     } else {
-                        userManager.convertStartedQuizToCompletedQuiz(quizStore.currentQuiz)
+                        userStore.convertStartedQuizToCompletedQuiz(quizStore.currentQuiz)
                         quizStore.removeQuizFromStore(quizStore.currentQuiz)
                         router.popToRoot()
                     }
@@ -143,7 +143,7 @@ struct QuizView: View {
             } else {
                 alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
                     quizStore.quitQuiz { startedQuiz in
-                        userManager.addStartedQuiz(startedQuiz)
+                        userStore.addStartedQuiz(startedQuiz)
                         quizStore.removeQuizFromStore(startedQuiz.quiz)
                         router.popBackStack()
                     }

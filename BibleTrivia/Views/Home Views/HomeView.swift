@@ -9,16 +9,16 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(Router.self) private var router
-    @Environment(UserManager.self) private var userManager
+    @Environment(UserStore.self) private var userStore
     @Environment(QuizStore.self) var quizStore
     
     @State private var openModal: Bool = false
     
     private var userScore: String {
-        String(userManager.user.totalPoints)
+        String(userStore.user.totalPoints)
     }
     private var userStreak: String {
-        String(userManager.user.streak)
+        String(userStore.user.streak)
     }
     
     var body: some View {
@@ -47,9 +47,9 @@ struct HomeView: View {
                             .applyFont(.medium, size: 20)
                         
                         
-                        if !userManager.startedQuizzes.isEmpty {
+                        if !userStore.startedQuizzes.isEmpty {
                             UnfinishedQuizesViewRow(
-                                quizes: userManager.startedQuizzes,
+                                quizes: userStore.startedQuizzes,
                                 onChoseQuiz: self.resumeQuiz(_:)
                             )
                         } else {
@@ -67,7 +67,7 @@ struct HomeView: View {
                     }
                     .padding(.top, 10)
                 }
-                .navigationTitle("Welcome, \(userManager.user.name)!")
+                .navigationTitle("Welcome, \(userStore.user.name)!")
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.large)
                 .blur(radius: openModal ? 3 : 0)

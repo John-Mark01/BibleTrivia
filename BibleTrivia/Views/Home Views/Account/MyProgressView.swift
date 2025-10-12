@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct MyProgressView: View {
-    @Environment(UserManager.self) var userManager
+    @Environment(UserStore.self) var userStore
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack {
-                UserAccountCard(user: userManager.user, viewUse: .myProgress)
+                UserAccountCard(user: userStore.user, viewUse: .myProgress)
                 
             }
             .applyViewPaddings()
