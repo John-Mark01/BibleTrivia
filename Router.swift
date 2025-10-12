@@ -22,7 +22,9 @@ final class Router {
         case play
         case quizView
         case topics
+        
         case account
+        case myProgress
         
         // Onboarding
         case welcome
@@ -110,6 +112,8 @@ final class Router {
             //MARK: Account
         case .account:
             AccountView()
+        case .myProgress:
+            MyProgressView()
         }
     }
     

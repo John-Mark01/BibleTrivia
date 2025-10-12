@@ -12,15 +12,23 @@ struct QuizSessionResponse: Codable {
     let userId: String
     let quizId: Int
     let startedAt: String
+    let completedAt: String
     let status: String
     let attemptNumber: Int?
+    let percentage: Double
+    let passed: Bool
+    let timeSpent: Int
     
     private enum CodingKeys: String, CodingKey {
         case id
         case userId = "user_id"
         case quizId = "quiz_id"
         case startedAt = "started_at"
+        case completedAt = "completed_at"
         case status
         case attemptNumber = "attempt_number"
+        case percentage
+        case passed
+        case timeSpent = "time_spent_seconds"
     }
 }

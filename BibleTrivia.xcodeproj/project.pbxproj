@@ -17,6 +17,7 @@
 		3663E6592E36AED6004CB9BC /* TabBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6582E36AED6004CB9BC /* TabBarManager.swift */; };
 		3670FF8D2E300E100000F67A /* QuizManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8C2E300E100000F67A /* QuizManager.swift */; };
 		3670FF8F2E300E1A0000F67A /* QuizRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3670FF8E2E300E1A0000F67A /* QuizRepository.swift */; };
+		3678FD262E9C559200328B8A /* BTContentBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3678FD252E9C559200328B8A /* BTContentBox.swift */; };
 		367F0C122E8C5A9000B06A24 /* QuizSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367F0C112E8C5A9000B06A24 /* QuizSessionService.swift */; };
 		367F0C142E8C834C00B06A24 /* StartedQuiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367F0C132E8C834C00B06A24 /* StartedQuiz.swift */; };
 		367F0C172E8D974700B06A24 /* QuizSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367F0C162E8D974700B06A24 /* QuizSessionResponse.swift */; };
@@ -123,6 +124,7 @@
 		3670FF8A2E2EC6000000F67A /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		3670FF8C2E300E100000F67A /* QuizManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizManager.swift; sourceTree = "<group>"; };
 		3670FF8E2E300E1A0000F67A /* QuizRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRepository.swift; sourceTree = "<group>"; };
+		3678FD252E9C559200328B8A /* BTContentBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTContentBox.swift; sourceTree = "<group>"; };
 		367F0C112E8C5A9000B06A24 /* QuizSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSessionService.swift; sourceTree = "<group>"; };
 		367F0C132E8C834C00B06A24 /* StartedQuiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartedQuiz.swift; sourceTree = "<group>"; };
 		367F0C162E8D974700B06A24 /* QuizSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSessionResponse.swift; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 		36E0A5C42D1C47C5006AEC4F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				3678FD252E9C559200328B8A /* BTContentBox.swift */,
 				3663E6542E367472004CB9BC /* ButtonStyles.swift */,
 				36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */,
 				36E0A5C12D1C47C5006AEC4F /* QuizViewToolbar.swift */,
@@ -696,6 +699,7 @@
 				36E0A5FA2D1C47C5006AEC4F /* ProgressViews.swift in Sources */,
 				369013902E87F92100E3D337 /* Extensions+String.swift in Sources */,
 				36E0A5FB2D1C47C5006AEC4F /* QuizViewToolbar.swift in Sources */,
+				3678FD262E9C559200328B8A /* BTContentBox.swift in Sources */,
 				36B5A7572D2B14290021F21C /* UserStreak.swift in Sources */,
 				36E0A5FD2D1C47C5006AEC4F /* UserAccountCard.swift in Sources */,
 				36E0A5FE2D1C47C5006AEC4F /* AccountView.swift in Sources */,

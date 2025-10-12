@@ -12,10 +12,12 @@ struct AccountView: View {
     @Environment(UserStore.self) var userStore
     @Environment(AuthManager.self) var authManager
     
-    @State private var generalSection: [SectionModel] = [
-        SectionModel(name: "My Progress", image: "progress", action: {}),
-        SectionModel(name: "Friends", image: "friends", action: {})
-    ]
+    private var generalSection: [SectionModel] {
+        [
+            SectionModel(name: "My Progress", image: "progress", action: onMyProgress),
+            SectionModel(name: "Friends", image: "friends", action: {})
+        ]
+    }
     
     private var moreSection: [SectionModel] {
         [
@@ -45,9 +47,12 @@ struct AccountView: View {
     private func logout() {
         Task {
             await authManager.signOut() {
-                router.popToRoot()
+//                router.popToRoot()
             }
         }
+    }
+    private func onMyProgress() {
+        router.navigateTo(.myProgress)
     }
 }
 

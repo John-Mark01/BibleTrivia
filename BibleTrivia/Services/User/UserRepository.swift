@@ -52,10 +52,11 @@ class UserRepository: UserRepositoryProtocol {
         // For each session, fetch the full Quiz from your server
         var quizzez: [CompletedQuiz] = []
         for session in sessions {
-            let quiz = try await supabase.getFullDataQuizzes(withIDs: [session.quizId]).first
+//            let quiz = try await supabase.getFullDataQuizzes(withIDs: [session.quizId]).first
+            let quiz = try await supabase.getQuizezWithIDs([session.quizId]).first
             guard let quiz else { continue }
             
-            let model = CompletedQuiz(sessionId: session.id, quiz: quiz)
+            let model = CompletedQuiz(quiz: quiz, session: session)
             quizzez.append(model)
         }
         

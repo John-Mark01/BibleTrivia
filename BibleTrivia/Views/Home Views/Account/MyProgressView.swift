@@ -43,10 +43,9 @@ struct MyProgressView: View {
                                 .applyFont(.semiBold, size: 20, textColor: .BTPrimary)
                                 .padding(.top, -8)
                         }
-                        .padding(.horizontal, 20)
                     }
                     
-                    Spacer()
+                    Spacer(minLength: 25)
                     
                     BTContentBox {
                         VStack(alignment: .center, spacing: Constants.vStackSpacing) {
@@ -59,10 +58,27 @@ struct MyProgressView: View {
                                 .applyFont(.semiBold, size: 20, textColor: .BTPrimary)
                                 .padding(.top, -8)
                         }
-                        .padding(.horizontal, 20)
                     }
                 }
                 
+                //Quizzes History
+                LazyVStack(alignment: .leading, spacing: Constants.vStackSpacing) {
+                    //Title
+                    HStack {
+                        Text("Quizzes History")
+                            .applyFont(.medium, size: 16, textColor: .BTBlack)
+                        
+                        Spacer()
+                        
+                        Text("See all")
+                            .applyFont(.medium, size: 14, textColor: .BTPrimary)
+                    }
+                    
+                    //Quizzes
+                    ForEach(userStore.completedQuizzes, id: \.id) { quiz in
+                        CompletedQuizzezViewRow(completedQuiz: quiz)
+                    }
+                }
             }
         }
         .navigationTitle("My Progress")
@@ -77,33 +93,42 @@ struct MyProgressView: View {
     }
 }
 
-struct BTContentBox<Content: View>: View {
-    @ViewBuilder let content: () -> Content
+struct CompletedQuizzezViewRow: View {
+    var completedQuiz: CompletedQuiz
     
     var body: some View {
-        content()
-            .padding(Constants.horizontalPadding)
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.boxStroke, lineWidth: 1)
-                    .foregroundStyle(.white)
-            )
-    }
-}
-
-#Preview("SurfaceStack") {
-    
-    VStack {
         BTContentBox {
-            HStack {
-                Text("Hello")
-                Image(systemName: "house")
-                    .font(.largeTitle)
+            HStack(alignment: .center, spacing: 12) {
+                
+                //TODO: Here should be the quiz photo
+                RoundedRectangle(cornerRadius: 16)
+                    .frame(width: 70, height: 72)
+                    .foregroundStyle(.lightGray)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(completedQuiz.quiz.name)
+                        .applyFont(.medium, size: 14, textColor: .BTBlack)
+                    
+                    Text(completedQuiz.session.completedAt)
+                        .applyFont(.regular, size: 10, textColor: .lightGray)
+                    
+                    Text("\(10) Points") //TODO: Need to update user_sessions to include received points
+                        .applyFont(.semiBold, size: 16, textColor: Color.init(hex: "6A5ADF"))
+                        .padding(.top, 8)
+                    
+                    Spacer()
+                }
+                
+                Spacer()
+                
+                Text(completedQuiz.session.passed ? "Passed" : "Failed")
+                    .applyFont(.regular, size: 14, textColor: .white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 3)
+                    .background(completedQuiz.session.passed ? Color.greenGradient : Color.redGradient)
+                    .clipShape(RoundedRectangle(cornerRadius: 7))
+                    .frame(maxHeight: .infinity, alignment: .top)
             }
         }
-        
-        Spacer()
     }
-    .applyViewPaddings()
-    .applyBackground()
 }

@@ -26,7 +26,7 @@ import Supabase
             self.user.startedQuizzes = startedQuizzes.map(\.id)
         }
     }
-    var completedQuizzes: [Quiz] = [] {
+    var completedQuizzes: [CompletedQuiz] = [] {
         didSet {
             self.user.completedQuizzes = completedQuizzes.map(\.id)
         }
@@ -108,9 +108,7 @@ import Supabase
     
     func getUserCompletedQuizzez() async {
         do {
-            self.completedQuizzes = try await userRepository
-                .getUserCompletedQuizzez()
-                .map(\.quiz)
+            self.completedQuizzes = try await userRepository.getUserCompletedQuizzez()
             log(with: "✅ Recieved \(completedQuizzes.count) completed quizzes for user")
             
         } catch {
@@ -155,8 +153,10 @@ import Supabase
     /// If the completed quiz already exists, then the operation is discarded.
     /// - Parameter quiz: a completed quiz by the user
     private func addCompletedQuiz(_ quiz: Quiz) {
-        guard completedQuizzes.contains(where: { $0.id == quiz.id}) == false else { return }
-        self.completedQuizzes.append(quiz)
+        guard completedQuizzes.contains(where: { $0.quiz.id == quiz.id}) == false else { return }
+        
+        //TODO: get session ID, or fill session data for quiz and append to `completedQuizzes`
+//        self.completedQuizzes.append(CompletedQuiz(quiz: quiz))
     }
     
     private func log(with message: String) {
