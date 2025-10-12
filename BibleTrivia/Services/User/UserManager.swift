@@ -8,7 +8,7 @@
 import Foundation
 import Supabase
 
-@Observable class UserManager {
+@Observable class UserManager: RouterAccessible {
     
     let supabaseClient: SupabaseClient
     let userRepository: UserRepositoryProtocol
@@ -43,18 +43,24 @@ import Supabase
     func fetchUser(userID: UUID) async {
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
+        
         do {
             let user = try await userRepository.getInitialUserData(for: userID)
-            self.user = user
-        } catch let error as UserRepository.UserRepositoryError {
-            alertManager.showBTErrorAlert(error.toBTError(), buttonTitle: "Dimiss", action: {})
+            await MainActor.run {
+                self.user = user
+            }
+            log(with: "✅ Successfully fetched user.")
+            
         } catch {
             alertManager.showAlert(
                 type: .error,
-                message: "Unexpected error occurred",
-                buttonText: "Dismiss",
-                action: {}
+                message: "Coudn't fetch your data. Please try to log in again.",
+                buttonText: "Go to login",
+                action: { [weak self] in
+                    self?.router.popToRoot()
+                }
             )
+            log(with: "❌ Failed to fetch user — \(error.localizedDescription)")
         }
     }
     
@@ -66,16 +72,32 @@ import Supabase
             try await supabaseClient
                 .rpc("check_and_update_streak", params: ["user_uuid" : userID])
                 .execute()
+            log(with: "✅ Successfully checked in user")
+            
         } catch {
-            print(error.localizedDescription) //TODO: Add alerts for all those erros caught
+            alertManager.showAlert(
+                type: .error,
+                message: "Something wend wrong when trying to check you in. Please try again.",
+                buttonText: "Dismiss",
+                action: {}
+            )
+            log(with: "❌ Failed to check in user - \(error.localizedDescription)")
         }
     }
     
     func getUserStartedQuizzez() async {
         do {
             self.startedQuizzes = try await userRepository.getUserStartedQuizzez()
+            log(with: "✅ Recieved \(startedQuizzes.count) started quizzes for user")
+            
         } catch {
-            print(error.localizedDescription) //TODO: Add alerts for all those erros caught
+            alertManager.showAlert(
+                type: .error,
+                message: "Something wend wrong when trying to get your started quizzes. Please try again.",
+                buttonText: "Dismiss",
+                action: {}
+            )
+            log(with: "❌ Failed to get user's started quizzez - \(error.localizedDescription)")
         }
     }
     
@@ -84,9 +106,16 @@ import Supabase
             self.completedQuizzes = try await userRepository
                 .getUserCompletedQuizzez()
                 .map(\.quiz)
-            print("✅ Recieved \(completedQuizzes.count) completed quizzes for user\n")
+            log(with: "✅ Recieved \(completedQuizzes.count) completed quizzes for user")
+            
         } catch {
-            print(error.localizedDescription) //TODO: Add alerts for all those erros caught
+            alertManager.showAlert(
+                type: .error,
+                message: "Something wend wrong when trying to get your completed quizzes. Please try again.",
+                buttonText: "Dismiss",
+                action: {}
+            )
+            log(with: "❌ Failed to get user's completed quizzez - \(error.localizedDescription)")
         }
     }
     
@@ -123,6 +152,10 @@ import Supabase
     private func addCompletedQuiz(_ quiz: Quiz) {
         guard completedQuizzes.contains(where: { $0.id == quiz.id}) == false else { return }
         self.completedQuizzes.append(quiz)
+    }
+    
+    private func log(with message: String) {
+        print("🟠 UserManager: \(message)\n")
     }
 }
 

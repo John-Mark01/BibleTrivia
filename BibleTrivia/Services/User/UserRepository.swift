@@ -27,78 +27,38 @@ class UserRepository: UserRepositoryProtocol {
     }
     
     func getInitialUserData(for userID: UUID) async throws -> UserModel {
-        do {
-            return try await supabase.getUser(withId: userID)
-        } catch {
-            throw UserRepositoryError.userFetchFailed(error.localizedDescription.localized)
-        }
+        return try await supabase.getUser(withId: userID)
     }
     
     func getUserStartedQuizzez() async throws -> [StartedQuiz] {
-        do {
-            let sessions = try await quizSessionManager.getInProgressQuizzes()
+        let sessions = try await quizSessionManager.getInProgressQuizzes()
+        
+        // For each session, fetch the full Quiz from your server
+        var quizzez: [StartedQuiz] = []
+        for session in sessions {
+            let quiz = try await supabase.getFullDataQuizzes(withIDs: [session.quizId]).first
+            guard let quiz else { continue }
             
-            // For each session, fetch the full Quiz from your server
-            var quizzez: [StartedQuiz] = []
-            for session in sessions {
-                let quiz = try await supabase.getFullDataQuizzes(withIDs: [session.quizId]).first
-                guard let quiz else { continue }
-                
-                let model = StartedQuiz(sessionId: session.id, quiz: quiz)
-                quizzez.append(model)
-            }
-            
-            return quizzez
-        } catch {
-            print("error: \(error.localizedDescription)")
-            throw UserRepositoryError.userFetchFailed(error.localizedDescription.localized)
+            let model = StartedQuiz(sessionId: session.id, quiz: quiz)
+            quizzez.append(model)
         }
+        
+        return quizzez
     }
     
     func getUserCompletedQuizzez() async throws -> [CompletedQuiz] {
-        do {
-            let sessions = try await quizSessionManager.getCompletedQuizzes()
-            
-            // For each session, fetch the full Quiz from your server
-            var quizzez: [CompletedQuiz] = []
-            for session in sessions {
-                let quiz = try await supabase.getFullDataQuizzes(withIDs: [session.quizId]).first
-                guard let quiz else { continue }
-                
-                let model = CompletedQuiz(sessionId: session.id, quiz: quiz)
-                quizzez.append(model)
-            }
-            
-            return quizzez
-        } catch {
-            print("error: \(error.localizedDescription)")
-            throw UserRepositoryError.userFetchFailed(error.localizedDescription.localized)
-        }
-    }
-
-    
-    
-// MARK: - Repository Errors
-    enum UserRepositoryError: Error, LocalizedError {
-        case userFetchFailed(LocalizedStringResource)
-        case startedQuizzezFetchFailed(LocalizedStringResource)
+        let sessions = try await quizSessionManager.getCompletedQuizzes()
         
-        var errorDescription: LocalizedStringResource? {
-            switch self {
-            case let .userFetchFailed(message):
-                return "Failed to get user: \(message)"
-            case let .startedQuizzezFetchFailed(message):
-                return "Failed to get user started quizzez: \(message)"
-            }
+        // For each session, fetch the full Quiz from your server
+        var quizzez: [CompletedQuiz] = []
+        for session in sessions {
+            let quiz = try await supabase.getFullDataQuizzes(withIDs: [session.quizId]).first
+            guard let quiz else { continue }
+            
+            let model = CompletedQuiz(sessionId: session.id, quiz: quiz)
+            quizzez.append(model)
         }
         
-        /// Converts repository errors to the app's BTError format
-        func toBTError() -> Errors.BTError {
-            switch self {
-            case let .userFetchFailed(message),
-                 let .startedQuizzezFetchFailed(message):
-                return .parseError(message)
-            }
-        }
+        return quizzez
     }
 }

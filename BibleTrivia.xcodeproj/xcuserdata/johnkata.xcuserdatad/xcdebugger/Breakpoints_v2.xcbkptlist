@@ -350,13 +350,13 @@
             filePath = "BibleTrivia/Services/User/UserManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "addCompletedQuiz(_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "8B3D953C-99D2-4FA3-8B5F-8C76318E4D48 - 3a1384e08dd61582"
+                  uuid = "8B3D953C-99D2-4FA3-8B5F-8C76318E4D48 - 3a1384e08dd61841"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -366,11 +366,11 @@
                   urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/User/UserManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "124"
-                  endingLineNumber = "124">
+                  startingLineNumber = "153"
+                  endingLineNumber = "153">
                </Location>
                <Location
-                  uuid = "8B3D953C-99D2-4FA3-8B5F-8C76318E4D48 - bc250ff945ec18a6"
+                  uuid = "8B3D953C-99D2-4FA3-8B5F-8C76318E4D48 - bc250ff945ec1565"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -380,8 +380,8 @@
                   urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/User/UserManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "124"
-                  endingLineNumber = "124">
+                  startingLineNumber = "153"
+                  endingLineNumber = "153">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -396,8 +396,8 @@
             filePath = "BibleTrivia/Services/User/UserManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "addCompletedQuiz(_:)"
             landmarkType = "7">
          </BreakpointContent>
