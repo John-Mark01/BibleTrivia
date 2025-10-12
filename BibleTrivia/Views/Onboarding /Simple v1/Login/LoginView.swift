@@ -75,10 +75,10 @@ struct LoginView: View {
                     await authManager.signIn(
                         email: viewModel.email,
                         password: viewModel.password
-                    ) {
-                        // listenAuthEvents() will log the user to .home
-                        router.popToRoot()
-                    }
+                    )
+//                    await MainActor.run {
+//                        router.popToRoot()
+//                    }
                 }
             }
             .buttonStyle(.primary)

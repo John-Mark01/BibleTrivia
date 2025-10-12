@@ -296,8 +296,10 @@ final class Router {
         if Thread.isMainThread {
             block()
         } else {
-            DispatchQueue.main.async {
-                block()
+            Task {
+                await MainActor.run {
+                    block()
+                }
             }
         }
     }

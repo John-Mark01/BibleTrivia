@@ -80,8 +80,7 @@ import Supabase
     /// Checks if email is confirmed before allowing access
     func signIn(
         email: String,
-        password: String,
-        onSuccess: @escaping () -> Void = {}
+        password: String
     ) async {
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
@@ -110,10 +109,6 @@ import Supabase
             }
             
             print("✅ User signed in successfully")
-            await MainActor.run {
-                onSuccess()
-            }
-            
         } catch {
             await MainActor.run {
                 alertManager.showAlert(

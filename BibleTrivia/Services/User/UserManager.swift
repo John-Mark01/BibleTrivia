@@ -29,12 +29,10 @@ import Supabase
     }
     
     func fetchUserAndDownloadInitialData(userID: UUID) async {
-        Task {
-            await fetchUser(userID: userID)
-            await checkInUser(userID: userID)
-            await getUserStartedQuizzez()
-            await getUserCompletedQuizzez()
-        }
+        await fetchUser(userID: userID)
+        await checkInUser(userID: userID)
+        await getUserStartedQuizzez()
+        await getUserCompletedQuizzez()
     }
     
     /// Fetches user data. This does NOT include user's quiz object. Just raw data

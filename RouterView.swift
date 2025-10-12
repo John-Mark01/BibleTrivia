@@ -11,6 +11,8 @@ import Supabase
 /// App Composition Root.
 /// Here are all the business logic objects created
 /// - UserStore, QuizStore, AlertManager, Router, OnboardingManager, Auth,
+
+@MainActor
 struct RouterView: View {
     @State private var router = Router.shared
     @State private var alertManager = AlertManager.shared
@@ -76,6 +78,7 @@ struct RouterView: View {
                     buttonText: "Okay",
                     action: {}
                 )
+                await setNotSignedInStatus()
             }
         }
         .onOpenURL { url in
@@ -83,6 +86,7 @@ struct RouterView: View {
         }
     }
     
+    @MainActor
     private func listenAuthEvents() async throws {
         for await (event, _) in supabaseClient.auth.authStateChanges {
             let userID = try? await supabaseClient.auth.session.user.id
@@ -93,21 +97,19 @@ struct RouterView: View {
                     let _ = try await supabaseClient.auth.session
                     await userManager.fetchUserAndDownloadInitialData(userID: userID ?? .init())
                     try await quizStore.loadInitialData()
-                    setSignedInStatus()
-                } catch let error as AuthError {
-                    print(error)
-                    setNotSignedInStatus()
+                    await setSignedInStatus()
+                    
                 } catch {
-                    print(error.localizedDescription)
-                    setNotSignedInStatus()
+                    print("🔴 listenAuthEvents — \(error.localizedDescription)\n")
+                    await setNotSignedInStatus()
                 }
             } else if case .signedIn = event {
                 await userManager.fetchUserAndDownloadInitialData(userID: userID ?? .init())
                 try await quizStore.loadInitialData()
-                setSignedInStatus()
+                await setSignedInStatus()
+                
             } else if case .signedOut = event {
-                setNotSignedInStatus()
-                router.popToRoot()
+                await setNotSignedInStatus()
             }
         }
     }
@@ -155,17 +157,24 @@ struct RouterView: View {
         }
     }
     
-    private func setSignedInStatus() {
-        withAnimation {
-            signInStatus = .signedIn
+    private func setSignedInStatus() async {
+        await MainActor.run {
+            withAnimation {
+                signInStatus = .signedIn
+                router.popToRoot()
+            }
         }
     }
     
-    private func setNotSignedInStatus() {
-        withAnimation {
-            signInStatus = .notSignedIn
+    private func setNotSignedInStatus() async {
+       await MainActor.run {
+            withAnimation {
+                signInStatus = .notSignedIn
+                router.popToRoot()
+            }
         }
     }
+    
     private enum SignInStatus {
         case idle
         case signedIn
