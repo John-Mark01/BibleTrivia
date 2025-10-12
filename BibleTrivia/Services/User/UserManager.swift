@@ -29,6 +29,9 @@ import Supabase
     }
     
     func fetchUserAndDownloadInitialData(userID: UUID) async {
+        LoadingManager.shared.show()
+        defer { LoadingManager.shared.hide() }
+        
         await fetchUser(userID: userID)
         await checkInUser(userID: userID)
         await getUserStartedQuizzez()
@@ -87,14 +90,25 @@ import Supabase
         }
     }
     
+    /// Function that adds started quizzez for user
+    /// If the completed quiz already exists, then the operation is discarded.
+    /// - Parameter quiz: a `StartedQuiz` quiz by the user
     func addStartedQuiz(_ quiz: StartedQuiz) {
         guard startedQuizzes.contains(where: { $0.quiz.id == quiz.quiz.id}) == false else { return }
-        self.startedQuizzes.append(quiz)
+        Task {
+            await MainActor.run {
+                self.startedQuizzes.append(quiz)
+            }
+        }
     }
     
     func convertStartedQuizToCompletedQuiz(_ quiz: Quiz) {
-        removeStartedQuiz(quiz)
-        addCompletedQuiz(quiz)
+        Task {
+            await MainActor.run {
+                removeStartedQuiz(quiz)
+                addCompletedQuiz(quiz)
+            }
+        }
     }
     
     private func removeStartedQuiz(_ quiz: Quiz) {
@@ -103,8 +117,11 @@ import Supabase
     }
     
     
+    /// Function that adds completed quizzez for user
+    /// If the completed quiz already exists, then the operation is discarded.
+    /// - Parameter quiz: a completed quiz by the user
     private func addCompletedQuiz(_ quiz: Quiz) {
-        guard completedQuizzes.contains(where: { $0.id == quiz.id}) else { return }
+        guard completedQuizzes.contains(where: { $0.id == quiz.id}) == false else { return }
         self.completedQuizzes.append(quiz)
     }
 }
