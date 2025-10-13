@@ -90,8 +90,9 @@ struct QuizView: View {
         }
     }
     
+    @MainActor
     private func navigateAfterFinish() {
-        quizStore.completeQuiz {
+        quizStore.completeQuiz { completedQuiz in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 withAnimation {
                     let context = router.getCurrentContext()
@@ -99,8 +100,8 @@ struct QuizView: View {
                     if context == .onboarding {
 //                        router.navigateTo(.streakView, from: .onboarding)
                     } else {
-                        userStore.convertStartedQuizToCompletedQuiz(quizStore.currentQuiz)
-                        quizStore.removeQuizFromStore(quizStore.currentQuiz)
+                        userStore.convertStartedQuizToCompletedQuiz(completedQuiz)
+                        quizStore.removeQuizFromStore(completedQuiz.quiz)
                         router.popToRoot()
                     }
                 }
@@ -108,12 +109,14 @@ struct QuizView: View {
         }
     }
     
+    @MainActor
     private func goLeftCheckingQuesiton() {
         withAnimation {
             quizStore.checkAnswerToTheLeft()
         }
     }
     
+    @MainActor
     private func goRightCheckingQuesiton() {
         withAnimation {
             if quizStore.currentQuiz.isInReview {
@@ -136,6 +139,7 @@ struct QuizView: View {
         }
     }
     
+    @MainActor
     private func onClose() {
         withAnimation {
             if quizStore.currentQuiz.isInReview {

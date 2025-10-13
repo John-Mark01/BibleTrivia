@@ -23,12 +23,12 @@ import Supabase
     var user: UserModel = UserModel()
     var startedQuizzes: [StartedQuiz] = [] {
         didSet {
-            self.user.startedQuizzes = startedQuizzes.map(\.id)
+            self.user.startedQuizzes = startedQuizzes.map(\.id).count
         }
     }
     var completedQuizzes: [CompletedQuiz] = [] {
         didSet {
-            self.user.completedQuizzes = completedQuizzes.map(\.id)
+            self.user.completedQuizzes = completedQuizzes.map(\.id).count
         }
     }
     
@@ -40,7 +40,7 @@ import Supabase
         await fetchUser(userID: userID)
         await checkInUser(userID: userID)
         await getUserStartedQuizzez()
-        await getUserCompletedQuizzez()
+        await getUserCompletedQuizzezCount()
     }
     
     /// Fetches user data. This does NOT include user's quiz object. Just raw data
@@ -122,6 +122,22 @@ import Supabase
         }
     }
     
+    func getUserCompletedQuizzezCount() async {
+        do {
+            self.user.completedQuizzes = try await userRepository.getUserCompletedQuizzezCount()
+            log(with: "✅ Recieved \(completedQuizzes.count) count for user's completed quizzes")
+            
+        } catch {
+            alertManager.showAlert(
+                type: .error,
+                message: "Something wend wrong when trying to get your completed quizzes count. Please try again.",
+                buttonText: "Dismiss",
+                action: {}
+            )
+            log(with: "❌ Failed to get user's completed quizzez - \(error.localizedDescription)")
+        }
+    }
+    
     /// Function that adds started quizzez for user
     /// If the completed quiz already exists, then the operation is discarded.
     /// - Parameter quiz: a `StartedQuiz` quiz by the user
@@ -134,11 +150,11 @@ import Supabase
         }
     }
     
-    func convertStartedQuizToCompletedQuiz(_ quiz: Quiz) {
+    func convertStartedQuizToCompletedQuiz(_ completedQuiz: CompletedQuiz) {
         Task {
             await MainActor.run {
-                removeStartedQuiz(quiz)
-                addCompletedQuiz(quiz)
+                removeStartedQuiz(completedQuiz.quiz)
+                addCompletedQuiz(completedQuiz)
             }
         }
     }
@@ -152,11 +168,9 @@ import Supabase
     /// Function that adds completed quizzez for user
     /// If the completed quiz already exists, then the operation is discarded.
     /// - Parameter quiz: a completed quiz by the user
-    private func addCompletedQuiz(_ quiz: Quiz) {
-        guard completedQuizzes.contains(where: { $0.quiz.id == quiz.id}) == false else { return }
-        
-        //TODO: get session ID, or fill session data for quiz and append to `completedQuizzes`
-//        self.completedQuizzes.append(CompletedQuiz(quiz: quiz))
+    private func addCompletedQuiz(_ completedQuiz: CompletedQuiz) {
+        guard completedQuizzes.contains(where: { $0.id == completedQuiz.id}) == false else { return }
+        self.completedQuizzes.append(completedQuiz)
     }
     
     private func log(with message: String) {

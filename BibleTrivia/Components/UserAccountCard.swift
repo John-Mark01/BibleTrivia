@@ -104,7 +104,7 @@ struct UserScoreCard: View {
                 
                 // Streak
                 VStack(alignment: .center, spacing: 4) {
-                    Text("\(user.completedQuizzes?.count ?? 0)")
+                    Text("\(user.completedQuizzes ?? 0)")
                         .applyFont(.medium, size: 18, textColor: .white)
                     
                     Text("Quizzez")

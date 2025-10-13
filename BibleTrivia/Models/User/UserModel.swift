@@ -14,8 +14,8 @@ class UserModel {
     var email: String? = ""
     var userLevel: UserLevel = .newBorn
     var userPlan: UserPlan = .free
-    var completedQuizzes: [Int]? = []
-    var startedQuizzes: [Int]? = []
+    var completedQuizzes: Int?
+    var startedQuizzes: Int?
     var totalPoints: Int = 0
     var streak: Int = 0
     var joinedAt: Date = .now
@@ -31,7 +31,7 @@ class UserModel {
     }
     
     init() {}
-    init(name: String, age: Int, email: String?, userLevel: UserLevel, userPlan: UserPlan, completedQuizzes: [Int]?, startedQuizzes: [Int]?, totalPoints: Int, streak: Int, joinedAt: Date) {
+    init(name: String, age: Int, email: String?, userLevel: UserLevel, userPlan: UserPlan, completedQuizzes: Int?, startedQuizzes: Int?, totalPoints: Int, streak: Int, joinedAt: Date) {
         self.name = name
         self.age = age
         self.email = email
@@ -83,8 +83,6 @@ struct UserModelPayload: Decodable {
     var email: String?
     var level: UserLevel
     var paymentPlan: UserPlan
-    var completedQuizzes: [Int]? //codingKey
-    var startedQuizzes: [Int]? //codingKey
     var totalPoints: Int //codingKey
     var streak: Int
     var joinedAt: Date //codingKey
@@ -95,8 +93,6 @@ struct UserModelPayload: Decodable {
         case email
         case level
         case paymentPlan = "payment_plan"
-        case completedQuizzes = "completed_quizzez_ids"
-        case startedQuizzes = "started_quizzez_ids"
         case totalPoints = "total_points"
         case streak
         case joinedAt = "joined_at"
@@ -109,8 +105,8 @@ struct UserModelPayload: Decodable {
             email: self.email,
             userLevel: self.level,
             userPlan: self.paymentPlan,
-            completedQuizzes: self.completedQuizzes,
-            startedQuizzes: self.startedQuizzes,
+            completedQuizzes: nil,
+            startedQuizzes: nil,
             totalPoints: self.totalPoints,
             streak: self.streak,
             joinedAt: self.joinedAt

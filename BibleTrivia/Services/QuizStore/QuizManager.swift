@@ -155,16 +155,16 @@ final class QuizManager {
         quiz.currentQuestionIndex = 0 // Start review from first question
     }
     
-    func completeQuiz(_ quiz: Quiz) async throws {
+    func completeQuiz(_ quiz: Quiz) async throws -> CompletedQuiz? {
         quiz.status = .completed //TODO: Transfer functionality to quizStore as last action
         quiz.isFinished = true //TODO: Transfer functionality to quizStore as last action
         
         //Send notification to supabase
-        guard let sessionId = sessionId else { return }
+        guard let sessionId = sessionId else { return nil}
         try await quizSessionService.completeQuiz(sessionId: sessionId, quiz: quiz)
         
-        let correctCount = quiz.questions.filter { $0.userAnswer?.isCorrect == true }.count
-        print("✅ Quiz completed - Score: \(correctCount)/\(quiz.questions.count)")
+        print("✅ Quiz completed - \(quiz.name)")
+        return CompletedQuiz(quiz: quiz, sessionId: sessionId)
     }
     
 // MARK: - Answer Evaluation

@@ -119,7 +119,7 @@ import SwiftUI
         self.chosenQuiz = quiz
     }
     
-    func completeQuiz(onComplete: @escaping () -> Void) {
+    func completeQuiz(onComplete: @escaping (CompletedQuiz) -> Void) {
         guard let unwrappedQuiz = chosenQuiz else {
             alertManager.showAlert(
                 type: .error,
@@ -131,8 +131,17 @@ import SwiftUI
         
         Task {
             do {
-                try await quizManager.completeQuiz(unwrappedQuiz)
-                onComplete()
+                guard let completedQuiz = try await quizManager.completeQuiz(unwrappedQuiz) else {
+                    alertManager.showAlert(
+                        type: .error,
+                        message: "Couldn't complete quiz. Please try again.",
+                        buttonText: "Dismiss",
+                        action: {}
+                    )
+                    print("❌ Couldn't unwrap completed quiz.\n")
+                    return
+                }
+                onComplete(completedQuiz)
             } catch {
                 print("❌ Error completing quiz: \(error)")
             }

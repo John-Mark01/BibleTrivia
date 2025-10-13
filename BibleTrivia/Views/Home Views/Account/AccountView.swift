@@ -52,7 +52,10 @@ struct AccountView: View {
         }
     }
     private func onMyProgress() {
-        router.navigateTo(.myProgress)
+        Task {
+            await userStore.getUserCompletedQuizzez()
+            router.navigateTo(.myProgress)
+        }
     }
 }
 

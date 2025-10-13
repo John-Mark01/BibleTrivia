@@ -11,6 +11,7 @@ protocol UserRepositoryProtocol {
     func getInitialUserData(for userID: UUID) async throws -> UserModel
     func getUserStartedQuizzez() async throws -> [StartedQuiz]
     func getUserCompletedQuizzez() async throws -> [CompletedQuiz]
+    func getUserCompletedQuizzezCount() async throws -> Int
 }
 
 class UserRepository: UserRepositoryProtocol {
@@ -52,14 +53,18 @@ class UserRepository: UserRepositoryProtocol {
         // For each session, fetch the full Quiz from your server
         var quizzez: [CompletedQuiz] = []
         for session in sessions {
-//            let quiz = try await supabase.getFullDataQuizzes(withIDs: [session.quizId]).first
             let quiz = try await supabase.getQuizezWithIDs([session.quizId]).first
             guard let quiz else { continue }
             
-            let model = CompletedQuiz(quiz: quiz, session: session)
+            let model = CompletedQuiz(quiz: quiz, sessionId: session.id, session: session)
             quizzez.append(model)
         }
         
         return quizzez
+    }
+    
+    func getUserCompletedQuizzezCount() async throws -> Int {
+        let sessions = try await quizSessionManager.getCompletedQuizzes()
+        return sessions.count
     }
 }

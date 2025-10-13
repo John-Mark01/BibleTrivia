@@ -39,7 +39,7 @@ struct MyProgressView: View {
                             Text("Total Quizzes")
                                 .applyFont(.medium, size: 14, textColor: .BTBlack)
                             
-                            Text("\(userStore.user.completedQuizzes?.count ?? 0)")
+                            Text("\(userStore.user.completedQuizzes ?? 0)")
                                 .applyFont(.semiBold, size: 20, textColor: .BTPrimary)
                                 .padding(.top, -8)
                         }
@@ -63,6 +63,7 @@ struct MyProgressView: View {
                 
                 //Quizzes History
                 LazyVStack(alignment: .leading, spacing: Constants.vStackSpacing) {
+                    
                     //Title
                     HStack {
                         Text("Quizzes History")
@@ -72,17 +73,27 @@ struct MyProgressView: View {
                         
                         Text("See all")
                             .applyFont(.medium, size: 14, textColor: .BTPrimary)
+                            .makeButton(
+                                action: {}, //TODO: Add a full list of quizzez history. Reuse the `AllQuizzezScreen`
+                                addHapticFeedback: true,
+                                feedbackStyle: .selection
+                            )
                     }
                     
                     //Quizzes
-                    ForEach(userStore.completedQuizzes, id: \.id) { quiz in
-                        CompletedQuizzezViewRow(completedQuiz: quiz)
+                    ForEach(userStore.completedQuizzes.indices, id: \.self) { index in
+                        // allow only the first 10 quizzez to be rendered on screen
+                        if index <= 10 {
+                            CompletedQuizzezViewRow(completedQuiz: userStore.completedQuizzes[index])
+                        }
                     }
                 }
             }
+            .applyViewPaddings(.vertical)
         }
         .navigationTitle("My Progress")
-        .applyViewPaddings()
+        .navigationBarTitleDisplayMode(.large)
+        .applyViewPaddings(.horizontal)
         .applyBackground()
     }
 }
@@ -90,45 +101,5 @@ struct MyProgressView: View {
 #Preview {
     PreviewEnvironmentView {
         MyProgressView()
-    }
-}
-
-struct CompletedQuizzezViewRow: View {
-    var completedQuiz: CompletedQuiz
-    
-    var body: some View {
-        BTContentBox {
-            HStack(alignment: .center, spacing: 12) {
-                
-                //TODO: Here should be the quiz photo
-                RoundedRectangle(cornerRadius: 16)
-                    .frame(width: 70, height: 72)
-                    .foregroundStyle(.lightGray)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(completedQuiz.quiz.name)
-                        .applyFont(.medium, size: 14, textColor: .BTBlack)
-                    
-                    Text(completedQuiz.session.completedAt)
-                        .applyFont(.regular, size: 10, textColor: .lightGray)
-                    
-                    Text("\(10) Points") //TODO: Need to update user_sessions to include received points
-                        .applyFont(.semiBold, size: 16, textColor: Color.init(hex: "6A5ADF"))
-                        .padding(.top, 8)
-                    
-                    Spacer()
-                }
-                
-                Spacer()
-                
-                Text(completedQuiz.session.passed ? "Passed" : "Failed")
-                    .applyFont(.regular, size: 14, textColor: .white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 3)
-                    .background(completedQuiz.session.passed ? Color.greenGradient : Color.redGradient)
-                    .clipShape(RoundedRectangle(cornerRadius: 7))
-                    .frame(maxHeight: .infinity, alignment: .top)
-            }
-        }
     }
 }

@@ -15,6 +15,7 @@ struct StartedQuiz: Identifiable {
 
 struct CompletedQuiz: Identifiable {
     let quiz: Quiz
-    let session: QuizSessionResponse
+    let sessionId: Int
+    var session: QuizSessionResponse?
     var id: Int { quiz.id }
 }
