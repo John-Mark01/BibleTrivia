@@ -12,7 +12,9 @@ struct PlayView: View {
     @Environment(QuizStore.self) var quizStore
     @Environment(UserStore.self) var userStore
     
-
+    //Tasks
+    @State private var refreshTask: Task<(), Error>?
+    
     @State private var openQuizModal: Bool = false
     @State private var openTopicModal: Bool = false
     @State private var showAllTopics: Bool = false
@@ -21,14 +23,16 @@ struct PlayView: View {
         ZStack {
             Group {
                 if openQuizModal {
-                    if let quiz = quizStore.chosenQuiz {
-                        ChooseQuizModal(isPresented: $openQuizModal, quiz: quiz, startQuiz: {
+                    ChooseQuizModal(
+                        quiz: quizStore.currentQuiz,
+                        startQuiz: {
                             router.navigateTo(.quizView)
                         }, cancel: {
-                            openQuizModal = false
-                        })
-                    }
+                            onCloseQuizModal()
+                        }
+                    )
                 }
+                
                 if openTopicModal {
                     if let topic = quizStore.chosenTopic {
                         ChooseTopicModal(isPresented: $openTopicModal, topic: topic, goToQuizez: {
@@ -74,7 +78,10 @@ struct PlayView: View {
                         }.tint(Color.BTBlack)
                     }
                     
-                    QuizViewRow(quizez: quizStore.allQuizez, isPresented: $openQuizModal)
+                    QuizzezCarousel(quizez: quizStore.allQuizez) { quiz in
+                        quizStore.chooseQuiz(quiz: quiz)
+                        onOpenQuizModal()
+                    }
                 }
             }
             .refreshable { onRefresh()}
@@ -106,15 +113,28 @@ struct PlayView: View {
                 AllTopicsView(topics: quizStore.allTopics)
             }
         }
+        .onDisappear { refreshTask?.cancel() }
     }
     
     private func onRefresh() {
-        Task {
+        refreshTask = Task {
             do {
                 try await quizStore.getQuizzezOnly(limit: 50)
             } catch {
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    private func onOpenQuizModal() {
+        withAnimation(.snappy) {
+            self.openQuizModal = true
+        }
+    }
+    
+    private func onCloseQuizModal() {
+        withAnimation(.snappy) {
+            self.openQuizModal = false
         }
     }
 }

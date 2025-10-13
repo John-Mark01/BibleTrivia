@@ -7,17 +7,17 @@
 
 import Foundation
 
-@Observable class Quiz: Identifiable, Codable {
+@Observable class Quiz: Identifiable {
     var id: Int = 0
     var topicId: Int = 0
-    var name: String
+    var name: String = ""
     var questions: [Question] = []
-    let time: TimeInterval
+    var time: TimeInterval = 0
     var status: QuizStatus = .new
     var difficulty: DifficultyLevel = .newBorn
     
     var currentQuestionIndex: Int = 0
-    var totalPoints: Int
+    var totalPoints: Int = 0
     
     var numberOfQuestions: Int {
         return questions.count
@@ -37,24 +37,25 @@ import Foundation
     var isInReview = false
     var isFinished = false
     
-    init(name: String, questions: [Question], time: TimeInterval, status: QuizStatus, difficulty: DifficultyLevel, totalPoints: Int) {
-        self.name = name
-        self.questions = questions
-        self.time = time
-        self.status = status
-        self.difficulty = difficulty
-        self.totalPoints = totalPoints
-    }
     
-    init(id: Int, name: String, topicId: Int, time: TimeInterval, status: Int, difficulty: Int, totalPoints: Int) {
-        self.id = id
-        self.name = name
-        self.topicId = topicId
-        self.time = time
-        self.status = QuizStatus(rawValue: status) ?? .new
-        self.difficulty = DifficultyLevel(rawValue: difficulty)!
-        self.totalPoints = totalPoints
-    }
+//    init(name: String, questions: [Question], time: TimeInterval, status: QuizStatus, difficulty: DifficultyLevel, totalPoints: Int) {
+//        self.name = name
+//        self.questions = questions
+//        self.time = time
+//        self.status = status
+//        self.difficulty = difficulty
+//        self.totalPoints = totalPoints
+//    }
+//    
+//    init(id: Int, name: String, topicId: Int, time: TimeInterval, status: Int, difficulty: Int, totalPoints: Int) {
+//        self.id = id
+//        self.name = name
+//        self.topicId = topicId
+//        self.time = time
+//        self.status = QuizStatus(rawValue: status) ?? .new
+//        self.difficulty = DifficultyLevel(rawValue: difficulty)!
+//        self.totalPoints = totalPoints
+//    }
 }
 
 enum QuizStatus: Int, Codable {
@@ -92,5 +93,17 @@ struct QuizPayload: Decodable {
         case difficulty
         case totalPoints    /*= "total_points"*/
         case topicId    /*= "total_points"*/
+    }
+    
+    func toQuiz() -> Quiz {
+        let quiz = Quiz()
+        quiz.id = self.id
+        quiz.name = self.name
+        quiz.topicId = self.topicId ?? 0
+        quiz.time = self.timeToComplete ?? 0
+        quiz.status = .init(rawValue: self.status) ?? .new
+        quiz.difficulty = .init(rawValue: self.difficulty) ?? .newBorn
+        
+        return quiz
     }
 }

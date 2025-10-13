@@ -19,7 +19,7 @@ import SwiftUI
 // MARK: - State Properties
     var allTopics: [Topic] = []
     var allQuizez: [Quiz] = []
-    var chosenQuiz: Quiz?
+    private var chosenQuiz: Quiz?
     var chosenTopic: Topic?
     
 // MARK: - Initialization
@@ -43,28 +43,28 @@ import SwiftUI
     
     /// Safe access to current quiz
     var currentQuiz: Quiz {
-        let answers = [Answer(id: 1, text: "Error", questionId: 0, isCorrect: true)]
-        let questions = [Question(text: "Error", explanation: "Error", answers: answers)]
-        let quiz = Quiz(name: "Error", questions: questions, time: 0, status: .new, difficulty: .deacon, totalPoints: 10)
-        guard let quiz = chosenQuiz else {
+        guard let quiz = self.chosenQuiz else {
 //            return Quiz(id: 0, name: "Error", topicId: 0, time: 0, status: 0, difficulty: 0, totalPoints: 0)
-            return quiz
+            return Quiz()
         }
+        
         return quiz
     }
     
 // MARK: - Quiz Selection & Management
     
     func chooseQuiz(quiz: Quiz) {
+        log(with: "❗️ User is chosing quiz with name: \(quiz.name)")
         self.chosenQuiz = quiz
     }
     
     func cancelChoosingQuiz(onCancel: @escaping () -> Void) {
+        log(with: "❗️ User is cancels quiz with name: \(chosenQuiz?.name ?? "")")
         self.chosenQuiz = nil
         onCancel()
     }
     
-    func startQuiz(onStart: @escaping () -> Void) {
+    func startQuiz(onStart: @escaping () -> Void) async {
         guard let unwrappedQuiz = chosenQuiz else {
             alertManager.showAlert(
                 type: .error,
@@ -73,6 +73,7 @@ import SwiftUI
             )
             return
         }
+        
         guard unwrappedQuiz.questions.isEmpty == false else {
             alertManager.showAlert(
                 type: .error,
@@ -81,14 +82,19 @@ import SwiftUI
             )
             return
         }
-        #warning("Fix this Task modifier. Should be async/await method and the caller should handle the async result.")
-        Task {
-            do {
-                try await quizManager.startQuiz(unwrappedQuiz)
-                onStart()
-            } catch {
-                print("❌ Error starting quiz: \(error)")
-            }
+        
+        do {
+            try await quizManager.startQuiz(unwrappedQuiz)
+            log(with: "✅ User starts quiz - '\(unwrappedQuiz.name)'")
+            onStart()
+        } catch {
+            alertManager.showAlert(
+                type: .error,
+                message: "Coudn't start quiz. Please try again",
+                buttonText: "Dismiss",
+                action: {}
+            )
+            log(with: "❌ Error starting quiz: \(error.localizedDescription)")
         }
     }
     
@@ -117,6 +123,7 @@ import SwiftUI
     func resumeQuiz(_ quiz: Quiz, from sessionId: Int) async {
         let quiz = await quizManager.resumeQuiz(quiz: quiz, sessionId: sessionId)
         self.chosenQuiz = quiz
+        log(with: "✅ Resuming Quiz with name: \(quiz?.name ?? "")")
     }
     
     func completeQuiz(onComplete: @escaping (CompletedQuiz) -> Void) {
@@ -431,6 +438,10 @@ extension QuizStore {
             buttonText: "Dismiss",
             action: {}
         )
+    }
+    
+    private func log(with message: String) {
+        print("🟠 QuizStore: \(message)\n")
     }
 }
 

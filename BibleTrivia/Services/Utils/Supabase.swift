@@ -163,27 +163,13 @@ extension Supabase {
             let quizPayload = try decoder.decode([QuizPayload].self, from: data)
             var quizzes: [Quiz] = []
              quizPayload.forEach {
-                quizzes.append(convertPayloadToQuiz($0))
+                 quizzes.append($0.toQuiz())
             }
             return quizzes
         } catch {
             print("Error decoding quizzes: \(error)")
             throw Errors.BTError.parseError("Error getting quiz. Please try again later.")
         }
-    }
-    
-    func convertPayloadToQuiz(_ payload: QuizPayload) -> Quiz {
-        
-        var quizTime: TimeInterval = 0
-        var quizPoints: Int = 0
-        var quizTopicId: Int = 0
-        
-        if let timeToComplete = payload.timeToComplete, let totalPoints = payload.totalPoints, let topicId = payload.topicId {
-            quizTime = timeToComplete
-            quizPoints = Int(totalPoints)
-            quizTopicId = topicId
-        }
-        return Quiz(id: payload.id, name: payload.name, topicId: quizTopicId, time: quizTime, status: payload.status, difficulty: payload.difficulty, totalPoints: quizPoints)
     }
     
     //Questions

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ChooseQuizModal: View {
-    
-    @Binding var isPresented: Bool
     var quiz: Quiz
     let startQuiz: () -> ()
     let cancel: () -> ()
@@ -19,11 +17,8 @@ struct ChooseQuizModal: View {
         ZStack {
             Color.black
                 .opacity(0.1)
-                .onTapGesture {
-                    withAnimation {
-                        isPresented = false
-                    }
-                }
+                .onTapGesture { cancel() }
+            
             VStack(alignment: .center, spacing: 10) {
                 Text(quiz.name)
                     .applyFont(.medium, size: 20, textColor: .BTPrimary)
@@ -118,7 +113,6 @@ struct ChooseQuizModal: View {
 }
 
 #Preview {
-    @Previewable @State var quiz = Quiz(name: "NewTestement", questions: [], time: 3, status: .new, difficulty: .deacon, totalPoints: 10)
-    ChooseQuizModal(isPresented: .constant(true), quiz: quiz, startQuiz: {}, cancel: {})
+    ChooseQuizModal(quiz: .init(), startQuiz: {}, cancel: {})
 
 }
