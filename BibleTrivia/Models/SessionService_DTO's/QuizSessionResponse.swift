@@ -17,7 +17,7 @@ struct QuizSessionResponse: Codable {
     let attemptNumber: Int?
     let percentage: Double?
     let passed: Bool?
-    let timeSpent: Int = 0
+    let timeSpent: Int?
     
     private enum CodingKeys: String, CodingKey {
         case id
