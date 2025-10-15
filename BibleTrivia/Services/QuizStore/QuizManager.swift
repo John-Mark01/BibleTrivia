@@ -49,8 +49,6 @@ final class QuizManager {
             return .failure(.noAnswerSelected)
         }
         
-        // Set the user's answer
-        //TODO: Save for supabase
         quiz.currentQuestion.userAnswer = selectedAnswer
         
         // Check if this was the last question

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-@Observable class QuizStore {
+@Observable final class QuizStore: RouterAccessible {
     
 // MARK: - Dependencies
     private let quizRepository: QuizRepositoryProtocol
@@ -19,7 +19,7 @@ import SwiftUI
 // MARK: - State Properties
     var allTopics: [Topic] = []
     var allQuizez: [Quiz] = []
-    private var chosenQuiz: Quiz?
+    private(set) var chosenQuiz: Quiz?
     var chosenTopic: Topic?
     
 // MARK: - Initialization
@@ -44,7 +44,11 @@ import SwiftUI
     /// Safe access to current quiz
     var currentQuiz: Quiz {
         guard let quiz = self.chosenQuiz else {
-//            return Quiz(id: 0, name: "Error", topicId: 0, time: 0, status: 0, difficulty: 0, totalPoints: 0)
+            alertManager.showAlert(
+                type: .error,
+                message: "Unexpected Error, no quiz is selected!",
+                buttonText: "Go Back", action: { self.router.popBackStack() }
+            )
             return Quiz()
         }
         
@@ -69,7 +73,7 @@ import SwiftUI
             alertManager.showAlert(
                 type: .error,
                 message: "Unexpected Error, no quiz selected!",
-                buttonText: "Go Back", action: {}
+                buttonText: "Go Back", action: { self.router.popBackStack() }
             )
             return
         }
@@ -98,25 +102,29 @@ import SwiftUI
         }
     }
     
-    func quitQuiz(onQuit: @escaping (StartedQuiz) -> Void) {
+    func quitQuiz(onQuit: @escaping (StartedQuiz) -> Void) async {
         guard let unwrappedQuiz = chosenQuiz else {
             alertManager.showAlert(
                 type: .error,
                 message: "Unexpected Error, no quiz selected!",
-                buttonText: "Go Back", action: {}
+                buttonText: "Go Back", action: { self.router.popBackStack() }
             )
             return
         }
-        #warning("Fix this Task modifier. Should be async/await method and the caller should handle the async result.")
         
-        Task {
-            do {
-                try await quizManager.exitQuiz(unwrappedQuiz) { sesionId in
-                    onQuit(StartedQuiz(sessionId: sesionId, quiz: unwrappedQuiz))
-                }
-            } catch {
-                print("❌ Error quiting quiz: \(error)")
+        do {
+            try await quizManager.exitQuiz(unwrappedQuiz) { [weak self] sesionId in
+                onQuit(StartedQuiz(sessionId: sesionId, quiz: unwrappedQuiz))
+                self?.log(with: "✅ User quits quiz - '\(unwrappedQuiz.name)'")
             }
+        } catch {
+            alertManager.showAlert(
+                type: .error,
+                message: "Coudn't quit quiz. Please try again",
+                buttonText: "Dismiss",
+                action: {}
+            )
+            log(with: "❌ Error quiting quiz: \(error.localizedDescription)")
         }
     }
     
@@ -126,32 +134,37 @@ import SwiftUI
         log(with: "✅ Resuming Quiz with name: \(quiz?.name ?? "")")
     }
     
-    func completeQuiz(onComplete: @escaping (CompletedQuiz) -> Void) {
+    func completeQuiz(onComplete: @escaping (CompletedQuiz) async -> Void) async {
         guard let unwrappedQuiz = chosenQuiz else {
             alertManager.showAlert(
                 type: .error,
                 message: "Unexpected Error, no quiz selected!",
-                buttonText: "Go Back", action: {}
+                buttonText: "Go Back", action: { self.router.popBackStack() }
             )
             return
         }
         
-        Task {
-            do {
-                guard let completedQuiz = try await quizManager.completeQuiz(unwrappedQuiz) else {
-                    alertManager.showAlert(
-                        type: .error,
-                        message: "Couldn't complete quiz. Please try again.",
-                        buttonText: "Dismiss",
-                        action: {}
-                    )
-                    print("❌ Couldn't unwrap completed quiz.\n")
-                    return
-                }
-                onComplete(completedQuiz)
-            } catch {
-                print("❌ Error completing quiz: \(error)")
+        do {
+            guard let completedQuiz = try await quizManager.completeQuiz(unwrappedQuiz) else {
+                alertManager.showAlert(
+                    type: .error,
+                    message: "Couldn't complete quiz. Please try again.",
+                    buttonText: "Dismiss",
+                    action: {}
+                )
+                log(with: "❌ Couldn't unwrap completed quiz.")
+                return
             }
+            log(with: "✅ Quiz with name: \(completedQuiz.quiz.name) completed.")
+            await onComplete(completedQuiz)
+        } catch {
+            alertManager.showAlert(
+                type: .error,
+                message: "Coudn't complete quiz. Please try again",
+                buttonText: "Dismiss",
+                action: {}
+            )
+            log(with: "❌ Error completing quiz: \(error.localizedDescription)")
         }
     }
     
@@ -179,10 +192,9 @@ import SwiftUI
     func answerQuestion() -> QuizQuestionResult {
         guard let quiz = chosenQuiz else {
             alertManager.showAlert(
-                    type: .error,
-                    message: "No quiz selected",
-                    buttonText: "Okay",
-                    action: {}
+                type: .error,
+                message: "Unexpected Error, no quiz selected!",
+                buttonText: "Go Back", action: { self.router.popBackStack() }
             )
             return .error
         }
@@ -231,8 +243,8 @@ import SwiftUI
         _ = quizManager.moveToNextQuestion(in: quiz)
     }
     
-// MARK: - Quiz Review
     
+// MARK: - Quiz Review
     func enterQuizReviewMode() {
         guard let quiz = chosenQuiz else { return }
         quizManager.enterReviewMode(for: quiz)
@@ -291,39 +303,22 @@ import SwiftUI
         return quizManager.calculateProgress(in: quiz)
     }
     
-    func calculateProgressString() -> String {
-        guard let quiz = chosenQuiz else { return "0%" }
-        return quizManager.calculateProgressString(in: quiz)
-    }
-    
     func calculateCurrentQuestionProgress() -> Double {
         guard let quiz = chosenQuiz else { return 0.0 }
         return quizManager.calculateCurrentQuestionProgress(in: quiz)
-    }
-    
-    func evaluateAnswer() -> Bool {
-        guard let quiz = chosenQuiz else { return false }
-        return quizManager.isCurrentAnswerCorrect(in: quiz)
     }
     
     func hasUserPassedQuiz() -> Bool {
         guard let quiz = chosenQuiz else { return false }
         return quizManager.hasUserPassedQuiz(quiz)
     }
-    
-    func calculateScore() -> Int {
-        guard let quiz = chosenQuiz else { return 0 }
-        return quizManager.calculateScore(in: quiz)
-    }
-    
-    
 }
 
 // MARK: - Data Loading
 extension QuizStore {
     
     /// Loads initial data (topics and quizzes)
-    func loadInitialData(limit: Int? = nil) async throws {
+    func loadInitialData(limit: Int? = nil) async {
         do {
             async let topicsTask = quizRepository.getTopics(limit: limit)
             async let quizzesTask = quizRepository.getQuizzes(limit: limit, offset: 0)
@@ -360,7 +355,7 @@ extension QuizStore {
     }
     
     /// Loads only quizzes with pagination support
-    func getQuizzezOnly(limit: Int? = nil, offset: Int = 0) async throws {
+    func getQuizzezOnly(limit: Int? = nil, offset: Int = 0) async {
         LoadingManager.shared.show()
         
         do {
@@ -392,14 +387,14 @@ extension QuizStore {
     }
     
     /// Loads more quizzes for pagination
-    func loadMoreQuizzes(batchSize: Int = 10) async throws {
+    func loadMoreQuizzes(batchSize: Int = 10) async {
         let currentCount = allQuizez.count
-        try await getQuizzezOnly(limit: batchSize, offset: currentCount)
+        await getQuizzezOnly(limit: batchSize, offset: currentCount)
     }
     
     /// Refreshes quizzes
-    func refreshQuizzes(amount: Int = 10) async throws {
-        try await getQuizzezOnly(limit: amount, offset: 0)
+    func refreshQuizzes(amount: Int = 10) async {
+        await getQuizzezOnly(limit: amount, offset: 0)
     }
     
     /// Loads first quiz for onboarding

@@ -68,26 +68,14 @@ struct RouterView: View {
                 LoadingView()
             }
         }
-        .task {
-            do {
-                try await listenAuthEvents()
-            } catch {
-                alertManager.showAlert(
-                    type: .error,
-                    message: "Your session expired. Please sign in again",
-                    buttonText: "Okay",
-                    action: {}
-                )
-                await setNotSignedInStatus()
-            }
-        }
+        .task { await listenAuthEvents() }
         .onOpenURL { url in
             handleAuthDeepLink(url)
         }
     }
     
     @MainActor
-    private func listenAuthEvents() async throws {
+    private func listenAuthEvents() async {
         for await (event, _) in supabaseClient.auth.authStateChanges {
             let userID = try? await supabaseClient.auth.session.user.id
             UserDefaults.standard.set(userID?.uuidString, forKey: "userID")
@@ -96,16 +84,22 @@ struct RouterView: View {
                 do {
                     let _ = try await supabaseClient.auth.session
                     await userStore.fetchUserAndDownloadInitialData(userID: userID ?? .init())
-                    try await quizStore.loadInitialData()
+                    await quizStore.loadInitialData()
                     await setSignedInStatus()
                     
                 } catch {
-                    print("🔴 listenAuthEvents — \(error.localizedDescription)\n")
+                    alertManager.showAlert(
+                        type: .error,
+                        message: "Your session expired. Please sign in again",
+                        buttonText: "Okay",
+                        action: {}
+                    )
                     await setNotSignedInStatus()
+                    print("🔴 listenAuthEvents() error — \(error.localizedDescription)\n")
                 }
             } else if case .signedIn = event {
                 await userStore.fetchUserAndDownloadInitialData(userID: userID ?? .init())
-                try await quizStore.loadInitialData()
+                await quizStore.loadInitialData()
                 await setSignedInStatus()
                 
             } else if case .signedOut = event {

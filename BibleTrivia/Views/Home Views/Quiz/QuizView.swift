@@ -92,16 +92,17 @@ struct QuizView: View {
     
     @MainActor
     private func navigateAfterFinish() {
-        quizStore.completeQuiz { completedQuiz in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        Task {
+            await quizStore.completeQuiz { completedQuiz in
+                try? await Task.sleep(nanoseconds: 3_000_000)
                 withAnimation {
                     let context = router.getCurrentContext()
                     
                     if context == .onboarding {
-//                        router.navigateTo(.streakView, from: .onboarding)
+                        //router.navigateTo(.streakView, from: .onboarding)
                     } else {
-                        userStore.convertStartedQuizToCompletedQuiz(completedQuiz)
-                        quizStore.removeQuizFromStore(completedQuiz.quiz)
+                        self.userStore.convertStartedQuizToCompletedQuiz(completedQuiz)
+                        self.quizStore.removeQuizFromStore(completedQuiz.quiz)
                         router.popToRoot()
                     }
                 }
@@ -145,13 +146,21 @@ struct QuizView: View {
             if quizStore.currentQuiz.isInReview {
                 self.finishQuizModal = true
             } else {
-                alertManager.showQuizExitAlert(quizName: quizStore.currentQuiz.name) {
-                    quizStore.quitQuiz { startedQuiz in
-                        userStore.addStartedQuiz(startedQuiz)
-                        quizStore.removeQuizFromStore(startedQuiz.quiz)
-                        router.popBackStack()
-                    }
-                }
+                alertManager.showQuizExitAlert(
+                    quizName: quizStore.currentQuiz.name,
+                    action: quitQuiz
+                )
+            }
+        }
+    }
+    
+    @MainActor
+    private func quitQuiz() {
+        Task {
+            await quizStore.quitQuiz { startedQuiz in
+                self.userStore.addStartedQuiz(startedQuiz)
+                self.quizStore.removeQuizFromStore(startedQuiz.quiz)
+                router.popBackStack()
             }
         }
     }

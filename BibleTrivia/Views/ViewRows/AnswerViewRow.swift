@@ -7,6 +7,24 @@
 
 import SwiftUI
 
+struct QuizViewAnswerList: View {
+    @Environment(QuizStore.self) var quizStore
+    @Environment(AlertManager.self) var alertManager
+    
+    var body: some View {
+        ForEach(0..<quizStore.currentQuiz.currentQuestion.answers.count, id: \.self) { index in
+            AnswerViewRow(
+                answer: quizStore.currentQuiz.currentQuestion.answers[index],
+                abcLetter: quizStore.currentQuiz.currentQuestion.getAnswerABC(index: index),
+                selectAnswer: {quizStore.selectAnswer(index: index)},
+                unselectAnswer: {quizStore.unselectAnswer(index: index)},
+                isInReview: quizStore.currentQuiz.isInReview
+            )
+        }
+    }
+}
+
+
 struct AnswerViewRow: View {
     
     @State private var selectionTapped: Bool = false
@@ -141,20 +159,3 @@ struct AnswerViewRow: View {
 //    }
 //  
 //}
-
-struct QuizViewAnswerList: View {
-    @Environment(QuizStore.self) var quizStore
-    @Environment(AlertManager.self) var alertManager
-    
-    var body: some View {
-        ForEach(0..<quizStore.currentQuiz.currentQuestion.answers.count, id: \.self) { index in
-            AnswerViewRow(
-                answer: quizStore.currentQuiz.currentQuestion.answers[index],
-                abcLetter: quizStore.currentQuiz.currentQuestion.getAnswerABC(index: index),
-                selectAnswer: {quizStore.selectAnswer(index: index)},
-                unselectAnswer: {quizStore.unselectAnswer(index: index)},
-                isInReview: quizStore.currentQuiz.isInReview
-            )
-        }
-    }
-}
