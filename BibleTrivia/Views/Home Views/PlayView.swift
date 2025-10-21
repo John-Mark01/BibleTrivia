@@ -118,11 +118,7 @@ struct PlayView: View {
     
     private func onRefresh() {
         refreshTask = Task {
-            do {
-                try await quizStore.getQuizzezOnly(limit: 50)
-            } catch {
-                print(error.localizedDescription)
-            }
+            await quizStore.getQuizzezOnly(limit: 50)
         }
     }
     
