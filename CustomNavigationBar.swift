@@ -10,8 +10,6 @@ import SwiftUI
 
 
 struct CustomNavigationBar: View {
-    @Environment(Router.self) private var router
-    
     let title: String
     var leftButtonAction: (() -> Void)?
     var rightButtonAction: (() -> Void)?
@@ -56,5 +54,6 @@ struct CustomNavigationBar: View {
             }
         }
         .padding(.horizontal, Constants.horizontalPadding)
+        .dismissKeyboardOnTap()
     }
 }

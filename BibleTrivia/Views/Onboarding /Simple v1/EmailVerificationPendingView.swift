@@ -119,9 +119,9 @@ struct EmailVerificationPendingView: View {
         isVerifying = true
         
         Task {
-            await authManager.verifyEmailWithCode(email: email, code: otpCode) {
+            await authManager.verifyEmailWithOTPCode(email: email, code: otpCode) {
                 // Success - pop to root, listenAuthEvents will handle navigation
-                router.popToRoot()
+//                router.popToRoot()
             }
             isVerifying = false
         }

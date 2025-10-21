@@ -12,19 +12,13 @@ struct LoginView: View {
     @Environment(Router.self) private var router
     
     @State private var viewModel = LoginViewModel()
+    @State private var loginTask: Task<(), Error>?
     
     @FocusState private var emailIsFocused: Bool
     @FocusState private var passwordIsFocused: Bool
     
     var body: some View {
         VStack(alignment: .center, spacing: Constants.vStackSpacing) {
-            
-            //Navigation Bar
-            CustomNavigationBar(
-                title: "Enter your details",
-                leftButtonAction: { router.popBackStack() }
-            )
-            
             
             //Email
             VStack(alignment: .leading, spacing: Constants.vStackSpacing / 2) {
@@ -71,15 +65,7 @@ struct LoginView: View {
             
             
             Button("Login") {
-                Task {
-                    await authManager.signIn(
-                        email: viewModel.email,
-                        password: viewModel.password
-                    )
-//                    await MainActor.run {
-//                        router.popToRoot()
-//                    }
-                }
+                onLogin()
             }
             .buttonStyle(.primary)
             .buttonDisabled(viewModel.loginDisabled)
@@ -93,38 +79,69 @@ struct LoginView: View {
             
             Spacer()
             
-            Group {
-                ProviderLoginButton(provider: .apple,
-                                    backgroundColor: .BTBackground,
-                                    strokeColor: .BTStroke,
-                                    strokeSize: 2,
-                                    action: {
-                    authManager.alertManager.showFeatureCommingSoonAlert(for: "Sign with Apple")
-                })
-                
-                ProviderLoginButton(provider: .google,
-                                    backgroundColor: .BTBackground,
-                                    strokeColor: .BTStroke,
-                                    strokeSize: 2,
-                                    action: {
-                    authManager.alertManager.showFeatureCommingSoonAlert(for: "Sign with Google")
-                })
-            }
-            
-            Text("By signing in to BibleTrivia, you agree to our Terms and Privacy Policy.")
-                .applyFont(.regular, size: 12)
-                .multilineTextAlignment(.center)
         }
+        
         .navigationBarBackButtonHidden()
-        .ignoresSafeArea(.keyboard)
+        .onSubmit { onLogin() }
+        .onDisappear { self.loginTask?.cancel() }
+        .safeAreaInset(edge: .top) {
+            CustomNavigationBar(
+                title: "Enter your details",
+                leftButtonAction: { router.popBackStack() }
+            )
+            .padding(.bottom, 16)
+        }
+        .safeAreaInset(edge: .bottom) {
+            ProviderSignUpButtonsView { provider in
+                authManager.alertManager.showFeatureCommingSoonAlert(for: "Sign with \(provider.rawValue.capitalized)")
+            }
+        }
         .applyViewPaddings(.all)
         .dismissKeyboardOnTap()
         .applyBackground()
+    }
+    
+    private func onLogin() {
+        self.loginTask = Task {
+            await authManager.signIn(
+                email: viewModel.email,
+                password: viewModel.password
+            )
+        }
     }
 }
 
 #Preview {
     PreviewEnvironmentView {
         LoginView()
+    }
+}
+
+
+struct ProviderSignUpButtonsView: View {
+    var onSignUp: (Provider) -> Void
+    
+    var body: some View {
+        VStack(alignment: .center, spacing: Constants.vStackSpacing) {
+                ProviderLoginButton(provider: .apple,
+                                    backgroundColor: .BTBackground,
+                                    strokeColor: .BTStroke,
+                                    strokeSize: 2,
+                                    action: { onSignUp(.apple) }
+                )
+                
+                ProviderLoginButton(provider: .google,
+                                    backgroundColor: .BTBackground,
+                                    strokeColor: .BTStroke,
+                                    strokeSize: 2,
+                                    action: { onSignUp(.google)}
+                )
+                
+                Text("By signing in to BibleTrivia, you agree to our Terms and Privacy Policy.")
+                    .applyFont(.regular, size: 12)
+                    .multilineTextAlignment(.center)
+        }
+        .ignoresSafeArea(.keyboard)
+        .applyViewPaddings(.horizontal)
     }
 }
