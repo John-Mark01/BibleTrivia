@@ -87,7 +87,7 @@ struct RouterView: View {
                     
                 } catch {
                     alertManager.showAlert(
-                        type: .error,
+                        type: .information,
                         message: "Your session expired. Please sign in again",
                         buttonText: "Okay",
                         action: {}
