@@ -46,12 +46,12 @@ struct HomeView: View {
                     Spacer()
                     
                     //Unfinished Quizes
-                    VStack(alignment: .leading) {
-                        Text("Unfinished Quizzes")
-                            .applyFont(.medium, size: 20)
-                        
-                        
-                        if !userStore.startedQuizzes.isEmpty {
+                    if !userStore.startedQuizzes.isEmpty {
+                        VStack(alignment: .leading) {
+                            Text("Unfinished Quizzes")
+                                .applyFont(.medium, size: 20)
+                            
+                            
                             UnfinishedQuizesViewRow(
                                 quizes: userStore.startedQuizzes,
                                 onChoseQuiz: self.resumeQuiz(_:)

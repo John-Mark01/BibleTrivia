@@ -158,9 +158,9 @@ struct QuizView: View {
     private func quitQuiz() {
         Task {
             await quizStore.quitQuiz { startedQuiz in
-                self.userStore.addStartedQuiz(startedQuiz)
-                self.quizStore.removeQuizFromStore(startedQuiz.quiz)
                 router.popBackStack()
+                userStore.addStartedQuiz(startedQuiz)
+                quizStore.removeQuizFromStore(startedQuiz.quiz)
             }
         }
     }

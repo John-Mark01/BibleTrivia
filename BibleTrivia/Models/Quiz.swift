@@ -11,7 +11,7 @@ import Foundation
     var id: Int = 0
     var topicId: Int = 0
     var name: String = ""
-    var questions: [Question] = []
+    var questions: [Question] = [.init(text: "N/A", explanation: "N/A", answers: [])]
     var time: TimeInterval = 0
     var status: QuizStatus = .new
     var difficulty: DifficultyLevel = .newBorn
