@@ -8,31 +8,28 @@
 import Foundation
 
 protocol UserRepositoryProtocol {
-    func getInitialUserData(for userID: UUID) async throws -> UserModel
-    func getUserStartedQuizzez() async throws -> [StartedQuiz]
-    func getUserCompletedQuizzez() async throws -> [CompletedQuiz]
-    func getUserCompletedQuizzezCount() async throws -> Int
+    func getInitialUserData(for userId: UUID) async throws -> UserModel
+    func getUserStartedQuizzez(for userId: UUID) async throws -> [StartedQuiz]
+    func getUserCompletedQuizzez(for userId: UUID) async throws -> [CompletedQuiz]
+    func getUserCompletedQuizzezCount(for userId: UUID) async throws -> Int
 }
 
-class UserRepository: UserRepositoryProtocol {
+final class UserRepository: UserRepositoryProtocol {
     
     private let supabase: Supabase
     private let quizSessionManager: QuizSessionService
 
-    
     init(supabase: Supabase) {
-        let userID: UUID = UUID(uuidString: UserDefaults.standard.string(forKey: "userID") ?? "") ?? .init()
-        self.quizSessionManager = QuizSessionService(supabaseClient: supabase.supabaseClient, userId: userID)
-        
         self.supabase = supabase
+        self.quizSessionManager = QuizSessionService(supabaseClient: supabase.supabaseClient)
     }
     
-    func getInitialUserData(for userID: UUID) async throws -> UserModel {
-        return try await supabase.getUser(withId: userID)
+    func getInitialUserData(for userId: UUID) async throws -> UserModel {
+        return try await supabase.getUser(withId: userId)
     }
     
-    func getUserStartedQuizzez() async throws -> [StartedQuiz] {
-        let sessions = try await quizSessionManager.getInProgressQuizzes()
+    func getUserStartedQuizzez(for userId: UUID) async throws -> [StartedQuiz] {
+        let sessions = try await quizSessionManager.getInProgressQuizzes(for: userId)
         
         // For each session, fetch the full Quiz from your server
         var quizzez: [StartedQuiz] = []
@@ -47,8 +44,8 @@ class UserRepository: UserRepositoryProtocol {
         return quizzez
     }
     
-    func getUserCompletedQuizzez() async throws -> [CompletedQuiz] {
-        let sessions = try await quizSessionManager.getCompletedQuizzes()
+    func getUserCompletedQuizzez(for userId: UUID) async throws -> [CompletedQuiz] {
+        let sessions = try await quizSessionManager.getCompletedQuizzes(for: userId)
         
         // For each session, fetch the full Quiz from your server
         var quizzez: [CompletedQuiz] = []
@@ -63,8 +60,8 @@ class UserRepository: UserRepositoryProtocol {
         return quizzez
     }
     
-    func getUserCompletedQuizzezCount() async throws -> Int {
-        let sessions = try await quizSessionManager.getCompletedQuizzes()
+    func getUserCompletedQuizzezCount(for userId: UUID) async throws -> Int {
+        let sessions = try await quizSessionManager.getCompletedQuizzes(for: userId)
         return sessions.count
     }
 }

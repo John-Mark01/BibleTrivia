@@ -34,7 +34,7 @@ struct RouterView: View {
         
         _supabaseClient = State(initialValue: supabaseClient)
         _quizStore = State(initialValue: QuizStore(supabase: Supabase(supabaseClient: supabaseClient)))
-        _userStore = State(initialValue: UserStore(supabase: Supabase(supabaseClient: supabaseClient), alertManager: .shared)) //TODO: Remove AlertManager dependency
+        _userStore = State(initialValue: UserStore(supabase: Supabase(supabaseClient: supabaseClient)))
         _authManager = State(initialValue: AuthManager(supabaseClient: supabaseClient))
 //        _onboardingManager = State(initialValue: OnboardingManager(supabase: Supabase(supabaseClient: supabaseClient)))
     }
@@ -75,13 +75,19 @@ struct RouterView: View {
     @MainActor
     private func listenAuthEvents() async {
         for await (event, _) in supabaseClient.auth.authStateChanges {
-            let userID = try? await supabaseClient.auth.session.user.id
-            UserDefaults.standard.set(userID?.uuidString, forKey: "userID")
+            // Get the authenticated user ID from the session
+            guard let userID = try? await supabaseClient.auth.session.user.id else {
+                await setNotSignedInStatus()
+                continue
+            }
+            
+            userStore.setUserId(userID)
+            quizStore.setUserId(userID)
             
             if case .initialSession = event {
                 do {
                     let _ = try await supabaseClient.auth.session
-                    await userStore.fetchUserAndDownloadInitialData(userID: userID ?? .init())
+                    await userStore.fetchUserAndDownloadInitialData()
                     await quizStore.loadInitialData()
                     await setSignedInStatus()
                     
@@ -96,7 +102,7 @@ struct RouterView: View {
                     print("🔴 listenAuthEvents() error — \(error.localizedDescription)\n")
                 }
             } else if case .signedIn = event {
-                await userStore.fetchUserAndDownloadInitialData(userID: userID ?? .init())
+                await userStore.fetchUserAndDownloadInitialData()
                 await quizStore.loadInitialData()
                 await setSignedInStatus()
                 

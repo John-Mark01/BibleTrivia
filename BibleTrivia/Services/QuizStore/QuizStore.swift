@@ -9,26 +9,25 @@ import Foundation
 import SwiftUI
 
 @MainActor
-@Observable final class QuizStore: RouterAccessible {
+@Observable final class QuizStore: RouterAccessible, AuthenticatedStore {
     
 // MARK: - Dependencies
     private let quizRepository: QuizRepositoryProtocol
     private let quizManager: QuizManager
-    private let alertManager: AlertManager
+    let alertManager: AlertManager
+    var userId: UUID?
     
 // MARK: - State Properties
     var allTopics: [Topic] = []
     var allQuizez: [Quiz] = []
     private(set) var chosenQuiz: Quiz?
-    var chosenTopic: Topic?
+    private(set) var chosenTopic: Topic?
     
 // MARK: - Initialization
     
     init(supabase: Supabase) {
-        #warning("Get userID from session. THE CORRECT WAY.")
-        let userID: UUID = UUID(uuidString: UserDefaults.standard.string(forKey: "userID") ?? "") ?? .init()
         self.quizRepository = QuizRepository(supabase: supabase)
-        self.quizManager = QuizManager(quizSessionService:QuizSessionService(supabaseClient: supabase.supabaseClient, userId: userID)) //TODO: Get userID from session.
+        self.quizManager = QuizManager(supabaseClient: supabase.supabaseClient)
         self.alertManager = AlertManager.shared
     }
     
@@ -55,6 +54,12 @@ import SwiftUI
         return quiz
     }
     
+// MARK: - Authentication
+    /// Call this after user authenticates to set up the store
+    func setUserId(_ id: UUID) {
+        self.userId = id
+    }
+    
 // MARK: - Quiz Selection & Management
     
     func chooseQuiz(quiz: Quiz) {
@@ -69,6 +74,8 @@ import SwiftUI
     }
     
     func startQuiz(onStart: @escaping () -> Void) async {
+        guard let userId = requireAuthentication() else { return }
+        
         guard let unwrappedQuiz = chosenQuiz else {
             alertManager.showAlert(
                 type: .error,
@@ -81,14 +88,14 @@ import SwiftUI
         guard unwrappedQuiz.questions.isEmpty == false else {
             alertManager.showAlert(
                 type: .error,
-                message: "Unexpected Error, no answers populated in quiz!",
+                message: "Unexpected Error, no questions populated in quiz!",
                 buttonText: "Go Back", action: {}
             )
             return
         }
         
         do {
-            try await quizManager.startQuiz(unwrappedQuiz)
+            try await quizManager.startQuiz(unwrappedQuiz, userId: userId)
             log(with: "✅ User starts quiz - '\(unwrappedQuiz.name)'")
             onStart()
         } catch {
@@ -103,6 +110,8 @@ import SwiftUI
     }
     
     func quitQuiz(onQuit: @escaping (StartedQuiz) -> Void) async {
+        guard let userId = requireAuthentication() else { return }
+        
         guard let unwrappedQuiz = chosenQuiz else {
             alertManager.showAlert(
                 type: .error,
@@ -113,7 +122,7 @@ import SwiftUI
         }
         
         do {
-            try await quizManager.exitQuiz(unwrappedQuiz) { [weak self] sesionId in
+            try await quizManager.exitQuiz(unwrappedQuiz, userId: userId) { [weak self] sesionId in
                 onQuit(StartedQuiz(sessionId: sesionId, quiz: unwrappedQuiz))
                 self?.log(with: "✅ User quits quiz - '\(unwrappedQuiz.name)'")
             }
@@ -129,12 +138,15 @@ import SwiftUI
     }
     
     func resumeQuiz(_ quiz: Quiz, from sessionId: Int) async {
-        let quiz = await quizManager.resumeQuiz(quiz: quiz, sessionId: sessionId)
+        guard let userId = requireAuthentication() else { return }
+        
+        let quiz = await quizManager.resumeQuiz(quiz: quiz, userId: userId, sessionId: sessionId)
         self.chosenQuiz = quiz
         log(with: "✅ Resuming Quiz with name: \(quiz?.name ?? "")")
     }
     
     func completeQuiz(onComplete: @escaping (CompletedQuiz) async -> Void) async {
+        guard let userId = requireAuthentication() else { return }
         guard let unwrappedQuiz = chosenQuiz else {
             alertManager.showAlert(
                 type: .error,
@@ -145,7 +157,7 @@ import SwiftUI
         }
         
         do {
-            guard let completedQuiz = try await quizManager.completeQuiz(unwrappedQuiz) else {
+            guard let completedQuiz = try await quizManager.completeQuiz(unwrappedQuiz, userId: userId) else {
                 alertManager.showAlert(
                     type: .error,
                     message: "Couldn't complete quiz. Please try again.",
@@ -319,9 +331,11 @@ extension QuizStore {
     
     /// Loads initial data (topics and quizzes)
     func loadInitialData(limit: Int? = nil) async {
+        guard let userId = requireAuthentication() else { return }
+        
         do {
             async let topicsTask = quizRepository.getTopics(limit: limit)
-            async let quizzesTask = quizRepository.getQuizzes(limit: limit, offset: 0)
+            async let quizzesTask = quizRepository.getQuizzes(userId: userId, limit: limit, offset: 0)
             
             let (topics, quizzes) = try await (topicsTask, quizzesTask)
             
@@ -356,10 +370,11 @@ extension QuizStore {
     
     /// Loads only quizzes with pagination support
     func getQuizzezOnly(limit: Int? = nil, offset: Int = 0) async {
-        LoadingManager.shared.show()
+        guard let userId = requireAuthentication() else { return }
         
+        LoadingManager.shared.show()
         do {
-            let quizzes = try await quizRepository.getQuizzes(limit: limit, offset: offset)
+            let quizzes = try await quizRepository.getQuizzes(userId: userId, limit: limit, offset: offset)
             
             await MainActor.run {
                 withAnimation {
@@ -436,8 +451,6 @@ extension QuizStore {
     }
     
     private func log(with message: String) {
-        print("🟠 QuizStore: \(message)\n")
+        print("🟡 QuizStore: \(message)\n")
     }
 }
-
-

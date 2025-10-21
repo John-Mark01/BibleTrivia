@@ -8,17 +8,22 @@
 import Foundation
 import Supabase
 
-@Observable class UserStore: RouterAccessible {
+@Observable class UserStore: RouterAccessible, AuthenticatedStore {
     
     let supabaseClient: SupabaseClient
-    let userRepository: UserRepositoryProtocol
     let alertManager: AlertManager
+    let supabase: Supabase
+    
+    var userId: UUID?
+    private var userRepository: UserRepositoryProtocol?
     
     init(supabase: Supabase, alertManager: AlertManager = .shared) {
-        self.userRepository = UserRepository(supabase: supabase)
+        self.supabase = supabase
         self.supabaseClient = supabase.supabaseClient
         self.alertManager = alertManager
+        self.userRepository = UserRepository(supabase: supabase)
     }
+    
     
     var user: UserModel = UserModel()
     var startedQuizzes: [StartedQuiz] = [] {
@@ -33,24 +38,35 @@ import Supabase
     }
     
     
-    func fetchUserAndDownloadInitialData(userID: UUID) async {
+    // MARK: - Authentication
+    
+    /// Call this after user authenticates to set up the store
+    func setUserId(_ id: UUID) {
+        self.userId = id
+    }
+    
+    // MARK: - User Data Methods
+    
+    func fetchUserAndDownloadInitialData() async {
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
         
-        await fetchUser(userID: userID)
-        await checkInUser(userID: userID)
+        await fetchUser()
+        await checkInUser()
         await getUserStartedQuizzez()
         await getUserCompletedQuizzezCount()
     }
     
     /// Fetches user data. This does NOT include user's quiz object. Just raw data
-    /// - Parameter userID: supabase.auth.session.user.id // the logged in user in the Auth sessiion
-    func fetchUser(userID: UUID) async {
-        LoadingManager.shared.show()
-        defer { LoadingManager.shared.hide() }
+    func fetchUser() async {
+        guard let userId = requireAuthentication() else { return }
+        guard let userRepository = userRepository else {
+            log(with: "❌ Cannot fetch user - repository not initialized")
+            return
+        }
         
         do {
-            let user = try await userRepository.getInitialUserData(for: userID)
+            let user = try await userRepository.getInitialUserData(for: userId)
             await MainActor.run {
                 self.user = user
             }
@@ -59,7 +75,7 @@ import Supabase
         } catch {
             alertManager.showAlert(
                 type: .error,
-                message: "Coudn't fetch your data. Please try to log in again.",
+                message: "Couldn't fetch your data. Please try to log in again.",
                 buttonText: "Go to login",
                 action: { [weak self] in
                     self?.router.popToRoot()
@@ -69,20 +85,20 @@ import Supabase
         }
     }
     
-    /// Checks in user and backend updates his streak,
-    /// calls `check_and_update_streak` in Supabase
-    /// - Parameter userID: supabase.auth.session.user.id // the logged in user in the Auth sessiion
-    func checkInUser(userID: UUID) async {
+    /// Checks in user and backend updates their streak
+    func checkInUser() async {
+        guard let userId = requireAuthentication() else { return }
+        
         do {
             try await supabaseClient
-                .rpc("check_and_update_streak", params: ["user_uuid" : userID])
+                .rpc("check_and_update_streak", params: ["user_uuid": userId])
                 .execute()
             log(with: "✅ Successfully checked in user")
             
         } catch {
             alertManager.showAlert(
                 type: .error,
-                message: "Something wend wrong when trying to check you in. Please try again.",
+                message: "Something went wrong when trying to check you in. Please try again.",
                 buttonText: "Dismiss",
                 action: {}
             )
@@ -91,56 +107,72 @@ import Supabase
     }
     
     func getUserStartedQuizzez() async {
+        guard let userId = requireAuthentication() else { return }
+        guard let userRepository = userRepository else {
+            log(with: "❌ Cannot get started quizzes - repository not initialized")
+            return
+        }
+        
         do {
-            self.startedQuizzes = try await userRepository.getUserStartedQuizzez()
-            log(with: "✅ Recieved \(startedQuizzes.count) started quizzes for user")
+            self.startedQuizzes = try await userRepository.getUserStartedQuizzez(for: userId)
+            log(with: "✅ Received \(startedQuizzes.count) started quizzes for user")
             
         } catch {
             alertManager.showAlert(
                 type: .error,
-                message: "Something wend wrong when trying to get your started quizzes. Please try again.",
+                message: "Something went wrong when trying to get your started quizzes. Please try again.",
                 buttonText: "Dismiss",
                 action: {}
             )
-            log(with: "❌ Failed to get user's started quizzez - \(error.localizedDescription)")
+            log(with: "❌ Failed to get user's started quizzes - \(error.localizedDescription)")
         }
     }
     
     func getUserCompletedQuizzez() async {
+        guard let userId = requireAuthentication() else { return }
+        guard let userRepository = userRepository else {
+            log(with: "❌ Cannot get completed quizzes - repository not initialized")
+            return
+        }
+        
         do {
-            self.completedQuizzes = try await userRepository.getUserCompletedQuizzez()
-            log(with: "✅ Recieved \(completedQuizzes.count) completed quizzes for user")
+            self.completedQuizzes = try await userRepository.getUserCompletedQuizzez(for: userId)
+            log(with: "✅ Received \(completedQuizzes.count) completed quizzes for user")
             
         } catch {
             alertManager.showAlert(
                 type: .error,
-                message: "Something wend wrong when trying to get your completed quizzes. Please try again.",
+                message: "Something went wrong when trying to get your completed quizzes. Please try again.",
                 buttonText: "Dismiss",
                 action: {}
             )
-            log(with: "❌ Failed to get user's completed quizzez - \(error.localizedDescription)")
+            log(with: "❌ Failed to get user's completed quizzes - \(error.localizedDescription)")
         }
     }
     
     func getUserCompletedQuizzezCount() async {
+        guard let userId = requireAuthentication() else { return }
+        guard let userRepository = userRepository else {
+            log(with: "❌ Cannot get completed quizzes count - repository not initialized")
+            return
+        }
+        
         do {
-            self.user.completedQuizzes = try await userRepository.getUserCompletedQuizzezCount()
-            log(with: "✅ Recieved \(completedQuizzes.count) count for user's completed quizzes")
+            self.user.completedQuizzes = try await userRepository.getUserCompletedQuizzezCount(for: userId)
+            log(with: "✅ Received \(user.completedQuizzes, default: "0") count for user's completed quizzes")
             
         } catch {
             alertManager.showAlert(
                 type: .error,
-                message: "Something wend wrong when trying to get your completed quizzes count. Please try again.",
+                message: "Something went wrong when trying to get your completed quizzes count. Please try again.",
                 buttonText: "Dismiss",
                 action: {}
             )
-            log(with: "❌ Failed to get user's completed quizzez - \(error.localizedDescription)")
+            log(with: "❌ Failed to get user's completed quizzes count - \(error.localizedDescription)")
         }
     }
     
-    /// Function that adds started quizzez for user
-    /// If the completed quiz already exists, then the operation is discarded.
-    /// - Parameter quiz: a `StartedQuiz` quiz by the user
+    /// Function that adds started quizzes for user
     func addStartedQuiz(_ quiz: StartedQuiz) {
         guard startedQuizzes.contains(where: { $0.quiz.id == quiz.quiz.id}) == false else { return }
         Task {
@@ -164,17 +196,13 @@ import Supabase
         self.startedQuizzes.removeAll { $0.quiz.id == quiz.id }
     }
     
-    
-    /// Function that adds completed quizzez for user
-    /// If the completed quiz already exists, then the operation is discarded.
-    /// - Parameter quiz: a completed quiz by the user
     private func addCompletedQuiz(_ completedQuiz: CompletedQuiz) {
         guard completedQuizzes.contains(where: { $0.id == completedQuiz.id}) == false else { return }
         self.completedQuizzes.append(completedQuiz)
     }
     
     private func log(with message: String) {
-        print("🟠 UserStore: \(message)\n")
+        print("🔵 UserStore: \(message)\n")
     }
 }
 

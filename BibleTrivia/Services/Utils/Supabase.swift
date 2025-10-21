@@ -77,8 +77,8 @@ extension Supabase {
     }
     
     //Quizzes
-    func getAllAvailableQuizzez(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
-        let completedQuizzez: [Int] = try await getUnavailableQuizzezIds()
+    func getAllAvailableQuizzez(userId: UUID, limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
+        let completedQuizzez: [Int] = try await getUnavailableQuizzezIds(for: userId)
         
         var query = supabaseClient
             .from(Table.quizez)
@@ -134,8 +134,7 @@ extension Supabase {
         return quizzez ?? []
     }
     
-    private func getUnavailableQuizzezIds() async throws -> [Int] {
-        let userId: UUID = UUID(uuidString: UserDefaults.standard.string(forKey: "userID") ?? "") ?? .init()
+    private func getUnavailableQuizzezIds(for userId: UUID) async throws -> [Int] {
         
         // Get all completed quiz IDs for this user
         struct CompletedQuiz: Codable {

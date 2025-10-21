@@ -10,18 +10,16 @@ import Supabase
 
 class QuizSessionService {
     private let supabaseClient: SupabaseClient
-    private let userId: UUID
     
-    init(supabaseClient: SupabaseClient, userId: UUID) {
+    init(supabaseClient: SupabaseClient) {
         self.supabaseClient = supabaseClient
-        self.userId = userId
     }
     
     // MARK: - 1. Start Quiz
     
     /// Call this when user taps "Start Quiz"
     /// Returns the session ID to track this quiz attempt
-    func startQuiz(_ quiz: Quiz) async throws -> Int {
+    func startQuiz(_ quiz: Quiz, userId: UUID) async throws -> Int {
         struct InsertSession: Encodable {
             let user_id: String
             let quiz_id: Int
@@ -96,7 +94,7 @@ class QuizSessionService {
     // MARK: - 4 Resume Quiz
     
     /// Get in-progress quizzes for the user
-    func getInProgressQuizzes() async throws -> [QuizSessionResponse] {
+    func getInProgressQuizzes(for userId: UUID) async throws -> [QuizSessionResponse] {
         let sessions: [QuizSessionResponse] = try await supabaseClient
             .from(Table.sessions)
             .select()
@@ -109,7 +107,7 @@ class QuizSessionService {
         return sessions
     }
     /// Get completed quizzes for the user
-    func getCompletedQuizzes() async throws -> [QuizSessionResponse] {
+    func getCompletedQuizzes(for userId: UUID) async throws -> [QuizSessionResponse] {
         let sessions: [QuizSessionResponse] = try await supabaseClient
             .from(Table.sessions)
             .select()
@@ -191,7 +189,7 @@ class QuizSessionService {
 //MARK: - Analitycs
     
     // Get total attempts for quiz
-    func getQuizAttempts(userId: UUID, quizId: Int) async throws -> Int {
+    func getQuizAttempts(for userId: UUID, quizId: Int) async throws -> Int {
         let attempts: [QuizSessionResponse] = try await supabaseClient
             .from(Table.sessions)
             .select()
@@ -205,7 +203,7 @@ class QuizSessionService {
     }
     
     // Get best score for a quiz
-    func getBestScoreForQuiz(userId: UUID, quizId: Int) async throws -> Double? {
+    func getBestScoreForQuiz(for userId: UUID, quizId: Int) async throws -> Double? {
         struct BestScore: Codable {
             let percentage: Double?
         }

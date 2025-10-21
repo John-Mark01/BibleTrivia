@@ -13,8 +13,8 @@ final class QuizManager {
     let quizSessionService: QuizSessionService
     private var sessionId: Int?
     
-    init(quizSessionService: QuizSessionService) {
-        self.quizSessionService = quizSessionService
+    init(supabaseClient: SupabaseClient) {
+        self.quizSessionService = QuizSessionService(supabaseClient: supabaseClient)
     }
     
     // MARK: - Answer Management
@@ -111,17 +111,17 @@ final class QuizManager {
     
 // MARK: - Quiz Management
     
-    func startQuiz(_ quiz: Quiz) async throws {
+    func startQuiz(_ quiz: Quiz, userId: UUID) async throws {
         quiz.status = .started
         quiz.currentQuestionIndex = 0
         quiz.isInReview = false
         quiz.isFinished = false
         
         //Send notification to Supabase
-        sessionId = try await quizSessionService.startQuiz(quiz)
+        sessionId = try await quizSessionService.startQuiz(quiz, userId: userId)
     }
     
-    func exitQuiz(_ quiz: Quiz, onExit: @escaping (_ sessionId: Int) -> Void) async throws {
+    func exitQuiz(_ quiz: Quiz, userId: UUID, onExit: @escaping (_ sessionId: Int) -> Void) async throws {
         //Send notification to Supabase
         guard let sessionId = sessionId else { return }
         try await quizSessionService.saveQuizProgress(sessionId: sessionId, quiz: quiz)
@@ -131,7 +131,7 @@ final class QuizManager {
         onExit(sessionId)
     }
     
-    func resumeQuiz(quiz: Quiz, sessionId: Int) async -> Quiz? {
+    func resumeQuiz(quiz: Quiz, userId: UUID, sessionId: Int) async -> Quiz? {
         do {
             // Get saved answers
             let savedAnswers = try await quizSessionService.resumeQuizSession(sessionId: sessionId)
@@ -153,7 +153,7 @@ final class QuizManager {
         quiz.currentQuestionIndex = 0 // Start review from first question
     }
     
-    func completeQuiz(_ quiz: Quiz) async throws -> CompletedQuiz? {
+    func completeQuiz(_ quiz: Quiz, userId: UUID, ) async throws -> CompletedQuiz? {
         quiz.status = .completed //TODO: Transfer functionality to quizStore as last action
         quiz.isFinished = true //TODO: Transfer functionality to quizStore as last action
         

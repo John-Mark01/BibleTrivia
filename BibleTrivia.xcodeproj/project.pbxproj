@@ -11,6 +11,7 @@
 		3652A4102DB436FA001FD2BA /* Extensions+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A40F2DB436FA001FD2BA /* Extensions+View.swift */; };
 		3652A4122DB43743001FD2BA /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4112DB43743001FD2BA /* ViewModifiers.swift */; };
 		3652A4162DB43DFD001FD2BA /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */; };
+		365B03FA2EA815B80050E6E8 /* AuthenticatedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365B03F92EA815B80050E6E8 /* AuthenticatedStore.swift */; };
 		3663E6532E35681E004CB9BC /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6522E35681E004CB9BC /* CustomNavigationBar.swift */; };
 		3663E6552E367472004CB9BC /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6542E367472004CB9BC /* ButtonStyles.swift */; };
 		3663E6572E36A097004CB9BC /* BTTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3663E6562E36A097004CB9BC /* BTTabBar.swift */; };
@@ -118,6 +119,7 @@
 		3652A40F2DB436FA001FD2BA /* Extensions+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+View.swift"; sourceTree = "<group>"; };
 		3652A4112DB43743001FD2BA /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		3652A4152DB43DFD001FD2BA /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
+		365B03F92EA815B80050E6E8 /* AuthenticatedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedStore.swift; sourceTree = "<group>"; };
 		3663E6522E35681E004CB9BC /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		3663E6542E367472004CB9BC /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		3663E6562E36A097004CB9BC /* BTTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTTabBar.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 		36E0A5AF2D1C47C5006AEC4F /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				365B03F92EA815B80050E6E8 /* AuthenticatedStore.swift */,
 				364B7FFE2E89681E00C9EFD9 /* User */,
 				364B7FFC2E8967EC00C9EFD9 /* QuizStore */,
 				364B7FFD2E89681100C9EFD9 /* Utils */,
@@ -672,6 +675,7 @@
 				36E0A5EE2D1C47C5006AEC4F /* Topic.swift in Sources */,
 				3652A4162DB43DFD001FD2BA /* Extensions+Color.swift in Sources */,
 				36B5A7552D2B01DE0021F21C /* AuthManager.swift in Sources */,
+				365B03FA2EA815B80050E6E8 /* AuthenticatedStore.swift in Sources */,
 				36E0A5EF2D1C47C5006AEC4F /* UserModel.swift in Sources */,
 				36B6B17C2E90661C004137CA /* LetsStartAQuizScreen.swift in Sources */,
 				36B6B17D2E90661C004137CA /* LoginViewAdvanced.swift in Sources */,

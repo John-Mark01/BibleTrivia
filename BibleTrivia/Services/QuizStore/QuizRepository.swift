@@ -11,7 +11,7 @@ import Foundation
 /// Follows Dependency Inversion Principle - depend on abstractions, not concretions
 protocol QuizRepositoryProtocol {
     func getTopics(limit: Int?) async throws -> [Topic]
-    func getQuizzes(limit: Int?, offset: Int) async throws -> [Quiz]
+    func getQuizzes(userId: UUID, limit: Int?, offset: Int) async throws -> [Quiz]
     func getQuestions(for quizId: Int) async throws -> [Question]
     func getAnswers(for questionIds: [Int]) async throws -> [Answer]
     func getQuizWithTopicID(_ topicId: Int) async throws -> Quiz?
@@ -38,9 +38,9 @@ class QuizRepository: QuizRepositoryProtocol {
     
 // MARK: - Quizzes
     
-    func getQuizzes(limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
+    func getQuizzes(userId: UUID, limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
         do {
-            let quizzes = try await supabase.getAllAvailableQuizzez(limit: limit, offset: offset)
+            let quizzes = try await supabase.getAllAvailableQuizzez(userId: userId, limit: limit, offset: offset)
             
             // Fill each quiz with its questions and answers
             for quiz in quizzes {
