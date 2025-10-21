@@ -69,7 +69,7 @@ import SwiftUI
     
     func cancelChoosingQuiz(onCancel: @escaping () -> Void) {
         onCancel()
-        log(with: "❗️ User is cancels quiz with name: \(chosenQuiz?.name ?? "")")
+        log(with: "❗️ User is canceling quiz with name: \(chosenQuiz?.name ?? "")")
         self.chosenQuiz = nil
     }
     
