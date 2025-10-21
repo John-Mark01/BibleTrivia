@@ -56,8 +56,6 @@ struct HomeView: View {
                                 quizes: userStore.startedQuizzes,
                                 onChoseQuiz: self.resumeQuiz(_:)
                             )
-                        } else {
-                            EmptyQuizView()
                         }
                     }
                     
@@ -140,38 +138,4 @@ struct HomeView: View {
     PreviewEnvironmentView {
         HomeView()
     }
-}
-
-
-import SwiftUI
-
-
-struct EmptyQuizView: View {
-    var body: some View {
-        
-        VStack(alignment: .center, spacing: 5) {
-            Image(systemName: "clock")
-                .resizable()
-                .frame(width: 30, height: 30)
-                .foregroundStyle(Color.white)
-                .symbolEffect(.rotate)
-                .padding(.bottom, 8)
-            Text("No Started Quizzes Yet")
-                .font(.headline)
-                .foregroundColor(.white)
-            Text("Choose one from down below.")
-                .font(.subheadline)
-                .foregroundColor(.white)
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: 120)
-        .padding()
-        .background(Color.BTDarkGray)
-        .cornerRadius(10)
-        .shadow(radius: 2)
-    }
-}
-
-#Preview("EmptyQuizView") {
-    EmptyQuizView()
 }
