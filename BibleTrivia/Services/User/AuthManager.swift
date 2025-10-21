@@ -49,9 +49,6 @@ import Supabase
                 redirectTo: URL(string: "bibleTrivia://auth/callback")
             )
             
-            //TODO: Save user email to Keychain
-            UserDefaults.standard.set(email, forKey: "pendingVerificationEmail")
-            
             await MainActor.run {
                 alertManager.showAlert(
                     type: .success,
@@ -128,10 +125,6 @@ import Supabase
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
         
-        let supabaseClient = SupabaseClient(
-            supabaseURL: Secrets.supabaseURL,
-            supabaseKey: Secrets.supabaseAPIKey
-        )
         
         do {
             let response = try await supabaseClient.auth.verifyOTP(
@@ -141,9 +134,6 @@ import Supabase
             )
             
             print("✅ Email verified successfully for: \(response.user.email ?? "unknown")")
-            
-            // Clear the stored email
-            UserDefaults.standard.removeObject(forKey: "pendingVerificationEmail")
             onSuccess()
             
         } catch {

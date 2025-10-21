@@ -298,10 +298,10 @@ import SwiftUI
     
 // MARK: - Progress & Evaluation
     
-    func calculateProgress() -> Double {
-        guard let quiz = chosenQuiz else { return 0.0 }
-        return quizManager.calculateProgress(in: quiz)
-    }
+//    func calculateProgress() -> Double {
+//        guard let quiz = chosenQuiz else { return 0.0 }
+//        return quizManager.calculateProgress(in: quiz)
+//    }
     
     func calculateCurrentQuestionProgress() -> Double {
         guard let quiz = chosenQuiz else { return 0.0 }

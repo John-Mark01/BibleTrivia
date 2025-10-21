@@ -91,18 +91,18 @@ final class QuizManager {
     
 // MARK: - Progress Calculation
     
-    func calculateProgress(in quiz: Quiz) -> Double {
-        let answeredQuestions = quiz.questions.filter { $0.userAnswer != nil }
-        return Double(answeredQuestions.count) / Double(quiz.numberOfQuestions)
-    }
-    
-    func calculateProgressString(in quiz: Quiz) -> String {
-        let progress = calculateProgress(in: quiz)
-        let percentageFormatter = NumberFormatter()
-        percentageFormatter.numberStyle = .percent
-        percentageFormatter.maximumFractionDigits = 0
-        return percentageFormatter.string(from: NSNumber(value: progress)) ?? "0%"
-    }
+//    func calculateProgress(in quiz: Quiz) -> Double {
+//        let answeredQuestions = quiz.questions.filter { $0.userAnswer != nil }
+//        return Double(answeredQuestions.count) / Double(quiz.numberOfQuestions)
+//    }
+//    
+//    func calculateProgressString(in quiz: Quiz) -> String {
+//        let progress = calculateProgress(in: quiz)
+//        let percentageFormatter = NumberFormatter()
+//        percentageFormatter.numberStyle = .percent
+//        percentageFormatter.maximumFractionDigits = 0
+//        return percentageFormatter.string(from: NSNumber(value: progress)) ?? "0%"
+//    }
     
     func calculateCurrentQuestionProgress(in quiz: Quiz) -> Double {
         guard quiz.isFinished == false else { return Double(quiz.numberOfQuestions) }
