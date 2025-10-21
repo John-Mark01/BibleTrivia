@@ -121,7 +121,7 @@ import Supabase
     
 // MARK: - Email Confirmation - (Email Auth)
     
-    func verifyEmailWithCode(email: String, code: String, onSuccess: @escaping () -> Void = {}) async {
+    func verifyEmailWithOTPCode(email: String, code: String, onSuccess: @escaping () -> Void = {}) async {
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
         
@@ -135,6 +135,43 @@ import Supabase
             
             print("✅ Email verified successfully for: \(response.user.email ?? "unknown")")
             onSuccess()
+            
+        } catch {
+            print("❌ Email verification error: \(error.localizedDescription)")
+            
+            await MainActor.run {
+                AlertManager.shared.showAlert(
+                    type: .error,
+                    message: "Verification failed. The code may have expired.",
+                    buttonText: "Dismiss",
+                    action: {}
+                )
+            }
+        }
+    }
+    
+    func verifyEmailWithTokenHash(_ tokenHash: String) async {
+        LoadingManager.shared.show()
+        defer { LoadingManager.shared.hide() }
+        
+        
+        do {
+            let response = try await supabaseClient.auth.verifyOTP(
+                tokenHash: tokenHash,
+                type: .signup
+            )
+            
+            print("✅ Email verified successfully for: \(response.user.email ?? "unknown")")
+            
+            // Show success message
+            await MainActor.run {
+                alertManager.showAlert(
+                    type: .success,
+                    message: "Email confirmed! Welcome to BibleTrivia! 🙏",
+                    buttonText: "Get Started",
+                    action: {}
+                )
+            }
             
         } catch {
             print("❌ Email verification error: \(error.localizedDescription)")

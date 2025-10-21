@@ -69,9 +69,7 @@ struct RouterView: View {
             }
         }
         .task { await listenAuthEvents() }
-        .onOpenURL { url in
-            handleAuthDeepLink(url)
-        }
+        .onOpenURL { handleAuthDeepLink($0) }
     }
     
     @MainActor
@@ -110,35 +108,18 @@ struct RouterView: View {
     
     private func handleAuthDeepLink(_ url: URL) {
         Task {
+            print("handling deep link:\n\(url.absoluteString)")
             guard url.scheme == "bibletrivia", url.host == "auth" else { return }
             
             // Email confirmation callback with OTP code
             if url.path == "/callback" {
                 // Extract the token_hash or code from URL
-                guard let code = url.queryParameters?["token_hash"] ?? url.queryParameters?["code"] else {
+                guard let tokenHash = url.queryParameters?["token_hash"] else {
                     print("❌ No verification code found in URL")
                     return
                 }
                 
-                print("✅ Received verification code from email link")
-                
-                // Get email from stored value (you'll need to store this during sign up)
-                guard let email = UserDefaults.standard.string(forKey: "pendingVerificationEmail") else {
-                    await MainActor.run {
-                        alertManager.showAlert(
-                            type: .error,
-                            message: "Session expired. Please sign up again.",
-                            buttonText: "OK",
-                            action: { router.popToRoot() }
-                        )
-                    }
-                    return
-                }
-                
-                // Verify the OTP code
-                await authManager.verifyEmailWithCode(email: email, code: code) {
-                    router.popToRoot()
-                }
+                await authManager.verifyEmailWithTokenHash(tokenHash)
             }
             
             // Password reset callback
