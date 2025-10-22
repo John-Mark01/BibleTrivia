@@ -161,7 +161,6 @@ struct RegistrationView: View {
                 title: "Welcome to BibleTrivia!",
                 leftButtonAction: { router.popBackStack() }
             )
-            .padding(.bottom, 16)
         }
         .applyViewPaddings(.all)
         .dismissKeyboardOnTap()
@@ -170,6 +169,7 @@ struct RegistrationView: View {
     
     private func onSignUp() {
         guard !viewModel.registerDisabled else { return }
+        
         self.signUpTask = Task {
             await authManager.signUpWithEmailConfirmation(
                 email: viewModel.email,

@@ -76,11 +76,9 @@ struct LoginView: View {
             }
             .applyFont(.semiBold, size: 15, textColor: .blueGradient)
             
-            
             Spacer()
             
         }
-        
         .navigationBarBackButtonHidden()
         .onSubmit { onLogin() }
         .onDisappear { self.loginTask?.cancel() }
@@ -89,16 +87,16 @@ struct LoginView: View {
                 title: "Enter your details",
                 leftButtonAction: { router.popBackStack() }
             )
-            .padding(.bottom, 16)
         }
-        .safeAreaInset(edge: .bottom) {
+        .overlay(alignment: .bottom) {
             ProviderSignUpButtonsView { provider in
                 authManager.alertManager.showFeatureCommingSoonAlert(for: "Sign with \(provider.rawValue.capitalized)")
             }
         }
         .applyViewPaddings(.all)
-        .dismissKeyboardOnTap()
         .applyBackground()
+        .ignoresSafeArea(.keyboard)
+        .dismissKeyboardOnTap()
     }
     
     private func onLogin() {
@@ -141,7 +139,6 @@ struct ProviderSignUpButtonsView: View {
                     .applyFont(.regular, size: 12)
                     .multilineTextAlignment(.center)
         }
-        .ignoresSafeArea(.keyboard)
         .applyViewPaddings(.horizontal)
     }
 }

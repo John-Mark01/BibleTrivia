@@ -13,7 +13,7 @@ struct CustomNavigationBar: View {
     let title: String
     var leftButtonAction: (() -> Void)?
     var rightButtonAction: (() -> Void)?
-    var leftButtonIcon: String = "Arrow"
+    var leftButtonIcon: String = "Icon/pointing_arrow"
     var leftButtonDirection: LayoutDirection = .leftToRight
     var rightButtonIcon: String?
     var backgroundColor: Color = .btBackground
@@ -54,6 +54,7 @@ struct CustomNavigationBar: View {
             }
         }
         .padding(.horizontal, Constants.horizontalPadding)
+        .padding(.bottom, 16)
         .background(.btBackground)
         .dismissKeyboardOnTap()
     }

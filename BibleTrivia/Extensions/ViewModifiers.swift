@@ -169,7 +169,9 @@ struct BTKeyboardRemover: ViewModifier {
     func body(content: Content) -> some View {
         content
             .onTapGesture {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                withAnimation {
+                    let _ = UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }
             }
     }
 }

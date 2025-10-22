@@ -79,7 +79,6 @@
 		36E0A5F22D1C47C5006AEC4F /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5B02D1C47C5006AEC4F /* FlowLayout.swift */; };
 		36E0A5F32D1C47C5006AEC4F /* AlertDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5B62D1C47C5006AEC4F /* AlertDialog.swift */; };
 		36E0A5F52D1C47C5006AEC4F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5B92D1C47C5006AEC4F /* Constants.swift */; };
-		36E0A5F72D1C47C5006AEC4F /* DummySVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5BC2D1C47C5006AEC4F /* DummySVM.swift */; };
 		36E0A5FA2D1C47C5006AEC4F /* ProgressViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */; };
 		36E0A5FB2D1C47C5006AEC4F /* QuizViewToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C12D1C47C5006AEC4F /* QuizViewToolbar.swift */; };
 		36E0A5FD2D1C47C5006AEC4F /* UserAccountCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C32D1C47C5006AEC4F /* UserAccountCard.swift */; };
@@ -186,7 +185,6 @@
 		36E0A5B62D1C47C5006AEC4F /* AlertDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDialog.swift; sourceTree = "<group>"; };
 		36E0A5B72D1C47C5006AEC4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		36E0A5B92D1C47C5006AEC4F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		36E0A5BC2D1C47C5006AEC4F /* DummySVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySVM.swift; sourceTree = "<group>"; };
 		36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViews.swift; sourceTree = "<group>"; };
 		36E0A5C12D1C47C5006AEC4F /* QuizViewToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewToolbar.swift; sourceTree = "<group>"; };
 		36E0A5C32D1C47C5006AEC4F /* UserAccountCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountCard.swift; sourceTree = "<group>"; };
@@ -325,7 +323,6 @@
 				36E0A5E32D1C47C5006AEC4F /* Router.swift */,
 				36E0A5E42D1C47C5006AEC4F /* RouterView.swift */,
 				3663E6522E35681E004CB9BC /* CustomNavigationBar.swift */,
-				36E0A5BC2D1C47C5006AEC4F /* DummySVM.swift */,
 				36E0A5E82D1C47C5006AEC4F /* BibleTrivia */,
 				36AC71E12CB57C7B002FF37C /* Products */,
 			);
@@ -695,7 +692,6 @@
 				36E0A5F52D1C47C5006AEC4F /* Constants.swift in Sources */,
 				36B5D5F42D3C153C00D5E732 /* OnboardingComponentsView.swift in Sources */,
 				3670FF8D2E300E100000F67A /* QuizManager.swift in Sources */,
-				36E0A5F72D1C47C5006AEC4F /* DummySVM.swift in Sources */,
 				36B5D6042D3C3E5B00D5E732 /* WelcomeView.swift in Sources */,
 				3670FF8F2E300E1A0000F67A /* QuizRepository.swift in Sources */,
 				36B5A75C2D32EEF40021F21C /* UserStore.swift in Sources */,
