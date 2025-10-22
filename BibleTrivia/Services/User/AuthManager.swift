@@ -62,7 +62,7 @@ import Supabase
             await MainActor.run {
                 alertManager.showAlert(
                     type: .error,
-                    message: "Sign up failed. Please try again.",
+                    message: "Sign up failed. \n\(error.localizedDescription).",
                     buttonText: "Dismiss",
                     action: {}
                 )
@@ -110,7 +110,7 @@ import Supabase
             await MainActor.run {
                 alertManager.showAlert(
                     type: .error,
-                    message: "Sign in failed. Please check your credentials.",
+                    message: "Sign in failed. \(error.localizedDescription).",
                     buttonText: "Dismiss",
                     action: {}
                 )
@@ -142,7 +142,7 @@ import Supabase
             await MainActor.run {
                 AlertManager.shared.showAlert(
                     type: .error,
-                    message: "Verification failed. The code may have expired.",
+                    message: "Verification failed. \n\(error.localizedDescription).",
                     buttonText: "Dismiss",
                     action: {}
                 )
@@ -179,7 +179,7 @@ import Supabase
             await MainActor.run {
                 AlertManager.shared.showAlert(
                     type: .error,
-                    message: "Verification failed. The code may have expired.",
+                    message: "Verification failed. \n\(error.localizedDescription).",
                     buttonText: "Dismiss",
                     action: {}
                 )
@@ -215,7 +215,7 @@ import Supabase
             await MainActor.run {
                 alertManager.showAlert(
                     type: .error,
-                    message: "Failed to send email. Please try again later.",
+                    message: "Failed to send email. \n\(error.localizedDescription).",
                     buttonText: "Dismiss",
                     action: {}
                 )
@@ -253,7 +253,7 @@ import Supabase
             await MainActor.run {
                 alertManager.showAlert(
                     type: .error,
-                    message: "Failed to send reset email. Please try again.",
+                    message: "Failed to send reset email. \n\(error.localizedDescription).",
                     buttonText: "Dismiss",
                     action: {}
                 )
@@ -286,7 +286,7 @@ import Supabase
             await MainActor.run {
                 alertManager.showAlert(
                     type: .error,
-                    message: "Failed to update password. Please try again.",
+                    message: "Failed to update password. \n\(error.localizedDescription).",
                     buttonText: "Dismiss",
                     action: {}
                 )
@@ -322,7 +322,7 @@ import Supabase
             await MainActor.run {
                 alertManager.showAlert(
                     type: .error,
-                    message: "Failed to change email. Please try again.",
+                    message: "Failed to change email. \n\(error.localizedDescription).",
                     buttonText: "Dismiss",
                     action: {}
                 )
@@ -347,7 +347,7 @@ import Supabase
             await MainActor.run {
                 alertManager.showAlert(
                     type: .error,
-                    message: "Couldn't sign out. Please try again.",
+                    message: "Couldn't sign out. \n\(error.localizedDescription).",
                     buttonText: "Dismiss",
                     action: {}
                 )

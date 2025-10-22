@@ -20,28 +20,29 @@ struct NewBTTextField: View {
         Group {
             TextField(placeholder, text: $value)
         }
-                .padding()
-                .background(backgroundColor)
-                .clipShape(.rect(cornerRadius: 12))
-                .focused($isFocused)
-                .overlay {
-                    HStack {
-                        Spacer()
-                        
-                        Image("Icon/close")
-                            .onTapGesture {
-                                withAnimation {
-                                    value.removeAll()
-                                }
+        .padding()
+        .background(backgroundColor)
+        .clipShape(.rect(cornerRadius: 12))
+        .focused($isFocused)
+        .overlay {
+            if !value.isEmpty {
+                HStack {
+                    Spacer()
+                    
+                    Image("Icon/close")
+                        .onTapGesture {
+                            withAnimation {
+                                value.removeAll()
                             }
-                            .padding()
-                       
-                    }
+                        }
+                        .padding()
                 }
-                .keyboardType(keyboardType)
-                .textContentType(contentType)
-                .textInputAutocapitalization(.never)
-                .onTapGesture { isFocused = true }
+            }
+        }
+        .keyboardType(keyboardType)
+        .textContentType(contentType)
+        .textInputAutocapitalization(.never)
+        .onTapGesture { isFocused = true }
     }
 }
 struct NewBTSecureField: View {

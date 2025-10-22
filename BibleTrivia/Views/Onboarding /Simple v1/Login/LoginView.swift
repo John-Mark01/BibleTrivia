@@ -80,7 +80,7 @@ struct LoginView: View {
             
         }
         .navigationBarBackButtonHidden()
-        .onSubmit { onLogin() }
+        .onSubmit { onSubmit() }
         .onDisappear { self.loginTask?.cancel() }
         .safeAreaInset(edge: .top) {
             CustomNavigationBar(
@@ -100,11 +100,28 @@ struct LoginView: View {
     }
     
     private func onLogin() {
+        guard !viewModel.loginDisabled else {
+            authManager.alertManager.showAlert(
+                type: .warning,
+                message: "Can't continue with Login. Please check all the fields above.",
+                buttonText: "Got it",
+                action: {}
+            )
+            return
+        }
         self.loginTask = Task {
             await authManager.signIn(
                 email: viewModel.email,
                 password: viewModel.password
             )
+        }
+    }
+    
+    private func onSubmit() {
+        if emailIsFocused {
+            passwordIsFocused = true
+        } else if passwordIsFocused {
+            onLogin()
         }
     }
 }

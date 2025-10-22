@@ -151,7 +151,7 @@ struct RegistrationView: View {
                 Spacer()
             }
         }
-        .onSubmit { onSignUp() }
+        .onSubmit { onSubmit() }
         .onDisappear { self.signUpTask?.cancel() }
         .scrollBounceBehavior(.basedOnSize)
         .navigationBarBackButtonHidden()
@@ -168,7 +168,15 @@ struct RegistrationView: View {
     }
     
     private func onSignUp() {
-        guard !viewModel.registerDisabled else { return }
+        guard !viewModel.registerDisabled else {
+            authManager.alertManager.showAlert(
+                type: .warning,
+                message: "Can't continue with Sign Up. Please check all the fields above.",
+                buttonText: "Got it",
+                action: {}
+            )
+            return
+        }
         
         self.signUpTask = Task {
             await authManager.signUpWithEmailConfirmation(
@@ -181,6 +189,20 @@ struct RegistrationView: View {
                 // Navigate to email verification pending view
                 router.navigateTo(.emailVerificationPending(email: viewModel.email))
             }
+        }
+    }
+    
+    private func onSubmit() {
+        if firstNameIsFocused {
+            lastNameIsFocused = true
+        } else if lastNameIsFocused {
+            ageIsFocused = true
+        } else if ageIsFocused {
+            emailIsFocused = true
+        } else if emailIsFocused {
+            passwordIsFocused = true
+        } else {
+            onSignUp()
         }
     }
 }
