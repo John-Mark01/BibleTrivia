@@ -12,7 +12,7 @@ struct QuizUpdateView: View {
         HStack {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
-                    Image("bible_mini")
+                    Image("Icon/bible_mini")
                     
                     Text("Quiz Update")
                         .applyFont(.semiBold, size: 18, textColor: .white)

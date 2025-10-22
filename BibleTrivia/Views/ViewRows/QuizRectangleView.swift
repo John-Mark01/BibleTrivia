@@ -32,7 +32,7 @@ struct QuizRectangleView: View {
                 }
                 Spacer()
                 
-                Image("Go_Arrow")
+                Image("Icon/navigation_arrow")
                     .padding()
             }
         }

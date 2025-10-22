@@ -18,7 +18,7 @@ struct QuizViewToolbar: View {
             
             Spacer()
             
-            Image("close")
+            Image("Icon/close")
                 
         }
     }

@@ -122,7 +122,7 @@ struct BTBackNavigationToolbarItem: ViewModifier {
                         isPressed.toggle()
                         onTap()
                     }) {
-                        Image("Arrow")
+                        Image("Icon/pointing_arrow")
                             .foregroundColor(.black)
                             .frame(width: 44, height: 44)
                             .layoutDirectionBehavior(.mirrors(in: .leftToRight))

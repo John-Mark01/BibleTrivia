@@ -35,7 +35,7 @@ struct FinishedQuizModal: View {
                                     .fill(.btPrimary)
                                     .frame(width: 24, height: 24)
                                 
-                                Image("Tic")
+                                Image("Icon/tic")
                                 
                             }
                         } else {
@@ -44,7 +44,7 @@ struct FinishedQuizModal: View {
                                     .fill(.btIncorrect)
                                     .frame(width: 24, height: 24)
                                 
-                                Image("close_white")
+                                Image("Icon/close_white")
                                 
                                 
                             }

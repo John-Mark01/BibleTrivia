@@ -12,7 +12,7 @@ struct QuizSquareView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Image("Book")
+            Image("Icon/book")
                 .padding(.leading, 20)
                 .padding()
             HStack {

@@ -166,7 +166,7 @@ struct NextButton: ButtonStyle {
                 .foregroundStyle(.btPrimary)
                 .offset(y: configuration.isPressed ? offset : 0)
                 
-            Image("Arrow")
+            Image("Icon/pointing_arrow")
                 .tint(.white)
                 .rotationEffect(.degrees(direction == .left ? 180 : 0))
                 .offset(y: configuration.isPressed ? offset : 0)

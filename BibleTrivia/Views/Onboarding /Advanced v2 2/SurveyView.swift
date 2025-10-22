@@ -60,7 +60,7 @@
 //                Button(action: {
 //                    onNavigateBack()
 //                }) {
-//                    Image("Arrow")
+//                    Image("Icon/pointing_arrow")
 //                        .frame(width: 44, height: 44)
 //                        .layoutDirectionBehavior(.mirrors(in: .leftToRight))
 //                }

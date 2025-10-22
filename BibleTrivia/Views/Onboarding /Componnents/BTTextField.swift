@@ -28,7 +28,7 @@ struct NewBTTextField: View {
                     HStack {
                         Spacer()
                         
-                        Image("Close")
+                        Image("Icon/close")
                             .onTapGesture {
                                 withAnimation {
                                     value.removeAll()

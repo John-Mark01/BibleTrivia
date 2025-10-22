@@ -55,7 +55,7 @@ struct AlertDialog: View {
                         Button(action: {
                             close()
                         }) {
-                            Image("Close")
+                            Image("Icon/close")
                         }
                     }
                     

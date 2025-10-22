@@ -39,7 +39,7 @@ struct QuizView: View {
                     )
                     .setStroke(color: .btDarkGray, size: 1)
                     
-                    Image("Close")
+                    Image("Icon/close")
                         .makeButton(action: onClose,
                                     addHapticFeedback: true,
                                     feedbackStyle: .error)

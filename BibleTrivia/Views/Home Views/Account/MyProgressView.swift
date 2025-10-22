@@ -21,7 +21,7 @@ struct MyProgressView: View {
                 //Motivation text
                 BTContentBox {
                     HStack(spacing: Constants.vStackSpacing) {
-                        Image("bulzai")
+                        Image("Icon/bulzai")
                         
                         Text("Keep up the good work, wou are ahead of others :)")
                             .applyFont(.medium, size: 12, textColor: .btPrimary)
@@ -34,7 +34,7 @@ struct MyProgressView: View {
                 HStack {
                     BTContentBox {
                         VStack(alignment: .center, spacing: Constants.vStackSpacing) {
-                            Image("quiz_roulette")
+                            Image("Icon/quiz_roulette")
                             
                             Text("Total Quizzes")
                                 .applyFont(.medium, size: 14, textColor: .btBlack)
@@ -49,7 +49,7 @@ struct MyProgressView: View {
                     
                     BTContentBox {
                         VStack(alignment: .center, spacing: Constants.vStackSpacing) {
-                            Image("quiz_score")
+                            Image("Icon/quiz_score")
                             
                             Text("Total Points")
                                 .applyFont(.medium, size: 14, textColor: .btBlack)
