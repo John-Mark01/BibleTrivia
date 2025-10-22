@@ -16,7 +16,7 @@ struct CustomNavigationBar: View {
     var leftButtonIcon: String = "Arrow"
     var leftButtonDirection: LayoutDirection = .leftToRight
     var rightButtonIcon: String?
-    var backgroundColor: Color = .BTBackground
+    var backgroundColor: Color = .btBackground
     
     var body: some View {
         HStack(spacing: 16) {
@@ -54,6 +54,7 @@ struct CustomNavigationBar: View {
             }
         }
         .padding(.horizontal, Constants.horizontalPadding)
+        .background(.btBackground)
         .dismissKeyboardOnTap()
     }
 }

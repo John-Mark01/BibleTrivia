@@ -22,7 +22,7 @@ struct ProgressTimerButton: View {
         }) {
             Text(isRunning ? "Stop" : "Start")
                 .padding()
-                .background(isRunning ? Color.red : Color.green)
+                .background(isRunning ? .red : .green)
                 .foregroundColor(.white)
                 .cornerRadius(10)
         }

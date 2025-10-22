@@ -14,7 +14,7 @@ struct UserAccountCard: View {
         
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .foregroundStyle(Color.BTPrimary)
+                .foregroundStyle(.btPrimary)
                 .frame(maxWidth: .infinity)
 
             
@@ -70,7 +70,7 @@ struct UserScoreCard: View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
                 .frame(maxWidth: .infinity, maxHeight: 70)
-                .foregroundStyle(Color.white.opacity(0.4))
+                .foregroundStyle(.white.opacity(0.4))
             
             HStack(alignment: .center) {
                 // Points
@@ -84,7 +84,7 @@ struct UserScoreCard: View {
                 Spacer()
                 
                 Text("|")
-                    .foregroundStyle(Color.white.opacity(0.7))
+                    .foregroundStyle(.white.opacity(0.7))
                 
                 Spacer()
                 
@@ -99,7 +99,7 @@ struct UserScoreCard: View {
                 
                 Spacer()
                 Text("|")
-                    .foregroundStyle(Color.white.opacity(0.7))
+                    .foregroundStyle(.white.opacity(0.7))
                 Spacer()
                 
                 // Streak
@@ -115,7 +115,7 @@ struct UserScoreCard: View {
             .padding()
             
         }
-        .background(Color.BTPrimary)
+        .background(.btPrimary)
         
     }
 }

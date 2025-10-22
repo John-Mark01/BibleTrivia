@@ -21,7 +21,7 @@ struct ChooseQuizModal: View {
             
             VStack(alignment: .center, spacing: 10) {
                 Text(quiz.name)
-                    .applyFont(.medium, size: 20, textColor: .BTPrimary)
+                    .applyFont(.medium, size: 20, textColor: .btPrimary)
                     .padding(.top, 8)
                 
                 //MARK: Middle Info
@@ -101,7 +101,7 @@ struct ChooseQuizModal: View {
                 }
             }
             .padding(25)
-            .background(Color.BTBackground)
+            .background(.btBackground)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .fixedSize(horizontal: false, vertical: true)
             .padding(30)

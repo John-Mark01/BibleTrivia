@@ -12,7 +12,7 @@ struct QuizViewToolbar: View {
         HStack {
             ProgressView(value: 0.3)
                 .progressViewStyle(.linear)
-                .tint(Color.BTPrimary)
+                .tint(.btPrimary)
                 .scaleEffect(x: 1, y: 3, anchor: .center)
                 
             

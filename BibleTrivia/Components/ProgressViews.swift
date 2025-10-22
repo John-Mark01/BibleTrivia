@@ -14,13 +14,13 @@ struct CircularProgressView: View {
         ZStack {
             Circle()
                 .stroke(
-                    Color.BTLightGray.opacity(0.5),
+                    .btLightGray.opacity(0.5),
                     lineWidth: 5
                 )
             Circle()
                 .trim(from: 0, to: progress)
                 .stroke(
-                    Color.BTPrimary,
+                    .btPrimary,
                     style: StrokeStyle(
                         lineWidth: 5,
                         lineCap: .round
@@ -38,8 +38,8 @@ struct LinearProgressView: View {
     var progress: Int
     var goal: Int
     var showPercentage: Bool = true
-    var fillColor: Color = Color.BTPrimary
-    var backgroundColor: Color = .BTLightGray
+    var fillColor: Color = .btPrimary
+    var backgroundColor: Color = .btLightGray
     var backgroundOpacity: Double = 1.0
     var strokeColor: Color = .clear
     var strokeSize: CGFloat = 1
@@ -81,8 +81,8 @@ struct LinearProgressView: View {
                             .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
                             .background(
                                 RoundedRectangle(cornerRadius: 60)
-                                    .stroke(Color.BTBlack, lineWidth: 2)
-                                    .fill(Color.BTDarkGray)
+                                    .stroke(.btBlack, lineWidth: 2)
+                                    .fill(.btDarkGray)
                             )
                         
                     }
@@ -104,7 +104,7 @@ struct LinearProgressView: View {
 
 #Preview("LinearProgressView") {
     LinearProgressView(progress: 5, goal: 30)
-        .setStroke(color: .BTDarkGray, size: 1)
+        .setStroke(color: .btDarkGray, size: 1)
         .applyViewPaddings()
 }
 
@@ -114,8 +114,8 @@ struct SimpleLinearProgressView: View {
     var progress: Int = 0
     var goal: Int = 0
     var progressString: String = ""
-    var progressColor: Color = Color.BTPrimary
-    var backgroundColor: Color = Color.BTProgressBG
+    var progressColor: Color = .btPrimary
+    var backgroundColor: Color = .btProgressBG
     
     var maxWidth: Double {
         return min((containerWidth / CGFloat(goal) * CGFloat(progress)), containerWidth)
@@ -134,7 +134,7 @@ struct SimpleLinearProgressView: View {
             ZStack(alignment: .leading) {
                 GeometryReader { geometry in
                     RoundedRectangle(cornerRadius: 60)
-                        .stroke(Color.black, lineWidth: 0.5)
+                        .stroke(.black, lineWidth: 0.5)
                         .foregroundStyle(backgroundColor)
                         .onAppear {
                             containerWidth = geometry.size.width

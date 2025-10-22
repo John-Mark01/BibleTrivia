@@ -23,7 +23,7 @@ struct TopicCard: View {
             }
             HStack {
                 Text("\(topic.numberOfQuizes) quizzez")
-                    .applyFont(.regular, size: 14, textColor: .BTLightGray)
+                    .applyFont(.regular, size: 14, textColor: .btLightGray)
             }
             
             SimpleLinearProgressView(progress: Int(topic.completenesLevel), goal: topic.numberOfQuizes, progressString: topic.progressString, progressColor: setBackgroundColor())
@@ -33,19 +33,19 @@ struct TopicCard: View {
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(Color.BTStroke, lineWidth: 2)
+                .stroke(.btStroke, lineWidth: 2)
         )
     }
     func setBackgroundColor() -> Color {
-        let colors = [
-            Color.blueGradient,
-            Color.creamGradient,
-            Color.greenGradient,
-            Color.pinkGradient,
-            Color.redGradient]
+        let colors: [Color] = [
+            .blueGradient,
+            .creamGradient,
+            .greenGradient,
+            .pinkGradient,
+            .redGradient]
         switch topicType {
         case .play:
-            return Color.BTBackground
+            return .btBackground
         case .all:
             return colors.randomElement()!
         }

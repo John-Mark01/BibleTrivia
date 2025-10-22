@@ -100,7 +100,7 @@ struct ChooseTopicModal: View {
                 }
             }
             .padding(25)
-            .background(Color.BTBackground)
+            .background(.btBackground)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .fixedSize(horizontal: false, vertical: true)
             .padding(30)

@@ -78,7 +78,6 @@
 		36E0A5F12D1C47C5006AEC4F /* Supabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5AE2D1C47C5006AEC4F /* Supabase.swift */; };
 		36E0A5F22D1C47C5006AEC4F /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5B02D1C47C5006AEC4F /* FlowLayout.swift */; };
 		36E0A5F32D1C47C5006AEC4F /* AlertDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5B62D1C47C5006AEC4F /* AlertDialog.swift */; };
-		36E0A5F42D1C47C5006AEC4F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5B82D1C47C5006AEC4F /* Color.swift */; };
 		36E0A5F52D1C47C5006AEC4F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5B92D1C47C5006AEC4F /* Constants.swift */; };
 		36E0A5F72D1C47C5006AEC4F /* DummySVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5BC2D1C47C5006AEC4F /* DummySVM.swift */; };
 		36E0A5FA2D1C47C5006AEC4F /* ProgressViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */; };
@@ -186,7 +185,6 @@
 		36E0A5B42D1C47C5006AEC4F /* Rubik-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-SemiBold.ttf"; sourceTree = "<group>"; };
 		36E0A5B62D1C47C5006AEC4F /* AlertDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDialog.swift; sourceTree = "<group>"; };
 		36E0A5B72D1C47C5006AEC4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		36E0A5B82D1C47C5006AEC4F /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		36E0A5B92D1C47C5006AEC4F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		36E0A5BC2D1C47C5006AEC4F /* DummySVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummySVM.swift; sourceTree = "<group>"; };
 		36E0A5C02D1C47C5006AEC4F /* ProgressViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViews.swift; sourceTree = "<group>"; };
@@ -465,7 +463,6 @@
 				36A591FE2D1EC51900972BA2 /* Lotties */,
 				36E0A5B62D1C47C5006AEC4F /* AlertDialog.swift */,
 				36E0A5B72D1C47C5006AEC4F /* Assets.xcassets */,
-				36E0A5B82D1C47C5006AEC4F /* Color.swift */,
 				36E0A5B92D1C47C5006AEC4F /* Constants.swift */,
 			);
 			path = "Supporting Files";
@@ -694,7 +691,6 @@
 				36E0A5F32D1C47C5006AEC4F /* AlertDialog.swift in Sources */,
 				36B6B1842E90D967004137CA /* Validations.swift in Sources */,
 				364B80002E89687800C9EFD9 /* UserRepository.swift in Sources */,
-				36E0A5F42D1C47C5006AEC4F /* Color.swift in Sources */,
 				367F0C1F2E905B5800B06A24 /* Extensions+URL.swift in Sources */,
 				36E0A5F52D1C47C5006AEC4F /* Constants.swift in Sources */,
 				36B5D5F42D3C153C00D5E732 /* OnboardingComponentsView.swift in Sources */,

@@ -31,9 +31,9 @@ struct OnboardingProcessView: View {
                                progress: progress,
                                goal: 100,
                                showPercentage: false,
-                               backgroundColor: .BTLightGray.opacity(0.5),
+                               backgroundColor: .btLightGray.opacity(0.5),
                                backgroundOpacity: 0.4,
-                               strokeColor: .BTPrimary, strokeSize: 1)
+                               strokeColor: .btPrimary, strokeSize: 1)
             
             
         }

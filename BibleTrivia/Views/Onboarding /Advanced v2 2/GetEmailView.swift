@@ -100,7 +100,7 @@
 //                                Spacer()
 //                            }
 //                            .padding()
-//                            .background(Color.BTLightGray)
+//                            .background(.btLightGray)
 //                            .clipShape(.rect(cornerRadius: 12))
 //                        }
 //                        

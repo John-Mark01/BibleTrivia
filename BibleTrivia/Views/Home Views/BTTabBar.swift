@@ -64,7 +64,7 @@ struct BTTabBar: View {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(
                                 LinearGradient(
-                                    gradient: Gradient(colors: [.background, .background.opacity(0.95)]),
+                                    gradient: Gradient(colors: [.btBackground, .btBackground.opacity(0.95)]),
                                     startPoint: .top,
                                     endPoint: .bottom
                                 )
@@ -82,7 +82,7 @@ struct BTTabBar: View {
                         RoundedRectangle(cornerRadius: 16)
                             .stroke(
                                 LinearGradient(
-                                    gradient: Gradient(colors: [.background.opacity(0.8), Color.clear]),
+                                    gradient: Gradient(colors: [.btBackground.opacity(0.8), .clear]),
                                     startPoint: .top,
                                     endPoint: .bottom
                                 ),
@@ -112,19 +112,19 @@ struct TabBarItem: View {
                     .renderingMode(.template)
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundColor(isSelected ? Color.BTPrimary : Color.gray)
+                    .foregroundStyle(isSelected ? .btPrimary : .gray)
                 
                 Text(title)
                     .font(.caption)
                     .fontWeight(isSelected ? .semibold : .regular)
-                    .foregroundColor(isSelected ? Color.BTPrimary : Color.gray)
+                    .foregroundStyle(isSelected ? .btPrimary : .gray)
                 
                 // Enhanced underline indicator
                 RoundedRectangle(cornerRadius: 2)
                     .frame(width: isSelected ? 50 : 0, height: 3)
-                    .foregroundColor(Color.BTPrimary)
+                    .foregroundStyle(.btPrimary)
                     .shadow(
-                        color: isSelected ? Color.BTPrimary.opacity(0.3) : Color.clear,
+                        color: isSelected ? .btPrimary.opacity(0.3) : .clear,
                         radius: 3,
                         x: 0,
                         y: 1

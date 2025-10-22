@@ -24,7 +24,7 @@ struct MyProgressView: View {
                         Image("bulzai")
                         
                         Text("Keep up the good work, wou are ahead of others :)")
-                            .applyFont(.medium, size: 12, textColor: .BTPrimary)
+                            .applyFont(.medium, size: 12, textColor: .btPrimary)
                         
                         Spacer()
                     }
@@ -37,10 +37,10 @@ struct MyProgressView: View {
                             Image("quiz_roulette")
                             
                             Text("Total Quizzes")
-                                .applyFont(.medium, size: 14, textColor: .BTBlack)
+                                .applyFont(.medium, size: 14, textColor: .btBlack)
                             
                             Text("\(userStore.user.completedQuizzes ?? 0)")
-                                .applyFont(.semiBold, size: 20, textColor: .BTPrimary)
+                                .applyFont(.semiBold, size: 20, textColor: .btPrimary)
                                 .padding(.top, -8)
                         }
                     }
@@ -52,10 +52,10 @@ struct MyProgressView: View {
                             Image("quiz_score")
                             
                             Text("Total Points")
-                                .applyFont(.medium, size: 14, textColor: .BTBlack)
+                                .applyFont(.medium, size: 14, textColor: .btBlack)
                             
                             Text("\(userStore.user.totalPoints)")
-                                .applyFont(.semiBold, size: 20, textColor: .BTPrimary)
+                                .applyFont(.semiBold, size: 20, textColor: .btPrimary)
                                 .padding(.top, -8)
                         }
                     }
@@ -67,12 +67,12 @@ struct MyProgressView: View {
                     //Title
                     HStack {
                         Text("Quizzes History")
-                            .applyFont(.medium, size: 16, textColor: .BTBlack)
+                            .applyFont(.medium, size: 16, textColor: .btBlack)
                         
                         Spacer()
                         
                         Text("See all")
-                            .applyFont(.medium, size: 14, textColor: .BTPrimary)
+                            .applyFont(.medium, size: 14, textColor: .btPrimary)
                             .makeButton(
                                 action: {}, //TODO: Add a full list of quizzez history. Reuse the `AllQuizzezScreen`
                                 addHapticFeedback: true,

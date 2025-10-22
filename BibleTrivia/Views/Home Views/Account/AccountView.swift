@@ -88,11 +88,11 @@ struct BTForm: View {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.BTStroke,lineWidth: 1)
+                        .stroke(.btStroke,lineWidth: 1)
                 )
             }
-            .background(Color.clear)
-            .tint(Color.BTBlack)
+            .background(.clear)
+            .tint(.btBlack)
         }
     }
 }
@@ -119,7 +119,7 @@ struct BTFormButton: View {
                 Spacer()
                 
                 Image("Go_Arrow")
-                    .tint(Color.black)
+                    .tint(.black)
             }
         }
     }

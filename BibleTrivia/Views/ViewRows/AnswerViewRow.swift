@@ -53,7 +53,7 @@ struct AnswerViewRow: View {
                         .foregroundStyle(getBackgroundColor())
                         .overlay(
                             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                .fill(Color.clear)
+                                .fill(.clear)
                                 .stroke(getStrokeColor(), lineWidth: 2)
                         )
                     
@@ -86,24 +86,24 @@ struct AnswerViewRow: View {
        
         if isInReview {
             if answer.isCorrect {
-                return .BTPrimary
+                return .btPrimary
             }
             return .clear
         }
-        return answer.isSelected ? .clear : .BTBackground
+        return answer.isSelected ? .clear : .btBackground
     }
     
     private func getStrokeColor() -> Color {
 
         if isInReview {
             if answer.isCorrect && answer.isSelected {
-                return .BTBlack
+                return .btBlack
             } else if answer.isSelected {
-                return .BTIncorrect
+                return .btIncorrect
             }
-            return .BTStroke
+            return .btStroke
         }
-        return answer.isSelected ? .BTPrimary : .BTStroke
+        return answer.isSelected ? .btPrimary : .btStroke
     }
     
     private func getCircleColor() -> Color {
@@ -112,20 +112,20 @@ struct AnswerViewRow: View {
             if answer.isCorrect {
                 return .white
             } else if answer.isSelected {
-                return .BTIncorrect
+                return .btIncorrect
             }
-            return .BTAnswer
+            return .btAnswer
         }
-        return answer.isSelected ? .BTPrimary : .BTAnswer
+        return answer.isSelected ? .btPrimary : .btAnswer
     }
     
     private func getLetterColor() -> Color {
         
         if isInReview {
             if answer.isCorrect && answer.isSelected {
-                return .BTPrimary
+                return .btPrimary
             } else if answer.isCorrect {
-                return .BTPrimary
+                return .btPrimary
             } else if !answer.isCorrect {
                 return .white
             }
@@ -139,11 +139,11 @@ struct AnswerViewRow: View {
             if answer.isCorrect {
                 return .white
             } else if answer.isSelected {
-                return .BTIncorrect
+                return .btIncorrect
             }
-            return .BTBlack
+            return .btBlack
         }
-        return answer.isSelected ? .BTPrimary : .BTBlack
+        return answer.isSelected ? .btPrimary : .btBlack
     }
 }
 
@@ -152,7 +152,7 @@ struct AnswerViewRow: View {
 //    @Previewable @State var isSelected: Bool = false
 //    @Previewable @State var answer: Answer = Answer(isCorrect: false, isSelected: true, text: "The first man")
 //    ZStack {
-//        Color.BTBackground.ignoresSafeArea(.all)
+//        .btBackground.ignoresSafeArea(.all)
 //        AnswerViewRow()
 //            .environment(QuizStore())
 //            .frame(width: 300, height: 50)

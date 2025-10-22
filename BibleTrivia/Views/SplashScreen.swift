@@ -20,7 +20,7 @@ struct SplashScreen: View {
         } else {
             
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color.BTPrimary, Color.BTSecondary]),
+                LinearGradient(gradient: Gradient(colors: [.btPrimary, .btSecondary]),
                                startPoint: .topLeading,
                                endPoint: .bottomTrailing)
                 .ignoresSafeArea()

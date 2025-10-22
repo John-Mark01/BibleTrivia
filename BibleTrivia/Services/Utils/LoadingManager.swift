@@ -46,7 +46,7 @@ struct LoadingView: View {
 //                            .modifier(CustomText(size: 20, font: .regular))
 //                            .background(
 //                                RoundedRectangle(cornerRadius: 14)
-//                                    .fill(Color.gray.opacity(0.7))
+//                                    .fill(.gray.opacity(0.7))
 //                            )
 //                            .offset(y: 70)
 //                    )

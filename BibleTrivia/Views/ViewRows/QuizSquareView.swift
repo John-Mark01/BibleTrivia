@@ -21,7 +21,7 @@ struct QuizSquareView: View {
                         .applyFont(.regular, size: 16)
 
                     Text("\(quiz.numberOfQuestions) questions")
-                        .applyFont(.regular, size: 10, textColor: .BTLightGray)
+                        .applyFont(.regular, size: 10, textColor: .btLightGray)
                 }
                 .padding(1)
                 
@@ -33,16 +33,16 @@ struct QuizSquareView: View {
 //                    
 //                    Text(quiz.progressString)
 //                        .modifier(CustomText(size: 10, font: .regular))
-//                        .foregroundStyle(Color.BTPrimary)
+//                        .foregroundStyle(.btPrimary)
 //                }
             }
             .padding(8)
         }
-        .background(Color.BTBackground)
+        .background(.btBackground)
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(Color.BTStroke, lineWidth: 2)
+                .stroke(.btStroke, lineWidth: 2)
         )
     
     }

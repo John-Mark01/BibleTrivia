@@ -23,14 +23,14 @@ struct ForgotPasswordView: View {
         VStack(alignment: .center, spacing: Constants.vStackSpacing) {
             Image(systemName: "lock.rotation")
                 .font(.system(size: 100))
-                .foregroundStyle(Color.BTPrimary)
+                .foregroundStyle(.btPrimary)
                 .symbolEffect(.rotate, value: effect)
             
             Text("Reset Password")
-                .applyFont(.semiBold, size: 32, textColor: .BTBlack)
+                .applyFont(.semiBold, size: 32, textColor: .btBlack)
             
             Text("Enter your email and we'll send you a link to reset your password")
-                .applyFont(.regular, size: 18, textColor: .BTLightGray)
+                .applyFont(.regular, size: 18, textColor: .btLightGray)
                 .multilineTextAlignment(.center)
                 .padding(5)
             
@@ -60,9 +60,9 @@ struct ForgotPasswordView: View {
                 router.popToRoot()
                 router.navigateTo(.login)
             }
-            .applyFont(.semiBold, size: 16, textColor: .BTBlack)
+            .applyFont(.semiBold, size: 16, textColor: .btBlack)
             .buttonStyle(.borderedProminent)
-            .tint(.BTStroke)
+            .tint(.btStroke)
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)

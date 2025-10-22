@@ -37,7 +37,7 @@ struct QuizView: View {
                         progress: Int(quizStore.calculateCurrentQuestionProgress()),
                         goal: quizStore.currentQuiz.numberOfQuestions
                     )
-                    .setStroke(color: .BTDarkGray, size: 1)
+                    .setStroke(color: .btDarkGray, size: 1)
                     
                     Image("Close")
                         .makeButton(action: onClose,
@@ -71,7 +71,7 @@ struct QuizView: View {
                             Spacer()
                             
                             Text("NEXT")
-                                .applyFont(.regular, size: 14, textColor: .BTPrimary)
+                                .applyFont(.regular, size: 14, textColor: .btPrimary)
                             
                             Button("") {
                                  goRightCheckingQuesiton()

@@ -28,9 +28,9 @@ struct PrimaryButtonStyle: ButtonStyle {
     
     private func backgroundColor(for configuration: Configuration) -> Color {
         if configuration.isPressed {
-            return Color.BTPrimary.opacity(0.8)
+            return .btPrimary.opacity(0.8)
         } else {
-            return Color.BTPrimary
+            return .btPrimary
         }
     }
 }
@@ -60,18 +60,18 @@ struct SecondaryButtonStyle: ButtonStyle {
     
     private func backgroundColor(for configuration: Configuration) -> Color {
         if configuration.isPressed {
-            return Color.BTPrimary.opacity(0.1)
+            return .btPrimary.opacity(0.1)
         } else {
-            return Color.white
+            return .white
         }
     }
     
     private func textColor(for configuration: Configuration) -> Color {
-        return Color.BTPrimary
+        return .btPrimary
     }
     
     private func borderColor(for configuration: Configuration) -> Color {
-        return Color.BTPrimary
+        return .btPrimary
     }
 }
 
@@ -85,18 +85,18 @@ struct ScoreButton: ButtonStyle {
         let offset: CGFloat = 6
         ZStack {
             RoundedRectangle(cornerRadius: 16)
-                .foregroundStyle(Color.BTSecondary)
+                .foregroundStyle(.btSecondary)
                 .offset(y: offset)
             
             RoundedRectangle(cornerRadius: 16)
-                .foregroundStyle(Color.BTPrimary)
+                .foregroundStyle(.btPrimary)
                 .offset(y: configuration.isPressed ? offset : 0)
                 
             HStack {
                 Image("star")
                     .resizable()
                     .frame(width: 34, height: 34)
-                    .foregroundStyle(Color.yellow)
+                    .foregroundStyle(.yellow)
                     .padding(.trailing, 4)
                 
                 Text("Score:")
@@ -122,18 +122,18 @@ struct StreakButton: ButtonStyle {
         let offset: CGFloat = 6
         ZStack {
             RoundedRectangle(cornerRadius: 16)
-                .foregroundStyle(Color.BTSecondary)
+                .foregroundStyle(.btSecondary)
                 .offset(y: offset)
             
             RoundedRectangle(cornerRadius: 16)
-                .foregroundStyle(Color.BTPrimary.gradient)
+                .foregroundStyle(.btPrimary.gradient)
                 .offset(y: configuration.isPressed ? offset : 0)
                 
             HStack {
                 Image(systemName: "bolt.fill")
                     .resizable()
                     .frame(width: 24, height: 34)
-                    .foregroundStyle(Color.BTDarkGray)
+                    .foregroundStyle(.btDarkGray)
                 
                 Text(streak)
                     .applyFont(.medium, size: 30, textColor: .white)
@@ -159,15 +159,15 @@ struct NextButton: ButtonStyle {
         let offset: CGFloat = 6
         ZStack {
             RoundedRectangle(cornerRadius: 100)
-                .foregroundStyle(Color.BTSecondary)
+                .foregroundStyle(.btSecondary)
                 .offset(y: offset)
             
             RoundedRectangle(cornerRadius: 100)
-                .foregroundStyle(Color.BTPrimary)
+                .foregroundStyle(.btPrimary)
                 .offset(y: configuration.isPressed ? offset : 0)
                 
             Image("Arrow")
-                .tint(Color.white)
+                .tint(.white)
                 .rotationEffect(.degrees(direction == .left ? 180 : 0))
                 .offset(y: configuration.isPressed ? offset : 0)
         }

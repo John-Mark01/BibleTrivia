@@ -18,7 +18,7 @@ struct OnboardButton: View {
     let action: () -> Void
     @State private var isTapped = false
     
-    init(text: String, textColor: Color = .white, textSize: CGFloat = 20, backgroundColor: Color = .BTPrimary, strokeColor: Color = .BTPrimary, strokeSize: CGFloat = 1, disabled: Bool = false, action: @escaping () -> Void) {
+    init(text: String, textColor: Color = .white, textSize: CGFloat = 20, backgroundColor: Color = .btPrimary, strokeColor: Color = .btPrimary, strokeSize: CGFloat = 1, disabled: Bool = false, action: @escaping () -> Void) {
         self.text = text
         self.textColor = textColor
         self.textSize = textSize

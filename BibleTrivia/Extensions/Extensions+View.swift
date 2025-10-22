@@ -44,7 +44,7 @@ extension View {
     }
     
 //MARK: Text & Font
-    func applyFont(_ style: CustomText.FontStyle, size: CGFloat, textColor: Color = .BTBlack) -> some View {
+    func applyFont(_ style: CustomText.FontStyle, size: CGFloat, textColor: Color = .btBlack) -> some View {
         self.modifier(CustomText(size: size, font: style, foregroundColor: textColor))
     }
     

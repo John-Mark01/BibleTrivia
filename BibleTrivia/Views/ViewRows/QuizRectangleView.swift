@@ -16,7 +16,7 @@ struct QuizRectangleView: View {
             HStack(spacing: 18) {
                 Circle()
                     .frame(width: 48, height: 48)
-                    .foregroundStyle(Color.BTPrimary)
+                    .foregroundStyle(.btPrimary)
                     .overlay(
                         Image("Quiz_Pic")
                     )
@@ -26,7 +26,7 @@ struct QuizRectangleView: View {
                             .applyFont(.regular, size: 14)
                         
                         Text("\(quiz.numberOfQuestions) " + "Questions")
-                            .applyFont(.regular, size: 10, textColor: .BTLightGray)
+                            .applyFont(.regular, size: 10, textColor: .btLightGray)
                         
                     }
                 }
@@ -41,8 +41,8 @@ struct QuizRectangleView: View {
         
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color.clear)
-                .stroke(Color.BTStroke, lineWidth: 2)
+                .fill(.clear)
+                .stroke(.btStroke, lineWidth: 2)
         )
     }
 }

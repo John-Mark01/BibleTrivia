@@ -23,7 +23,7 @@ struct AllTopicsView: View {
                     }
                 }
             }
-            .background(Color.BTBackground)
+            .background(.btBackground)
         }
         .applyViewPaddings()
         .navigationTitle("Play")

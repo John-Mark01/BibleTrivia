@@ -13,7 +13,7 @@ struct BTContentBox<Content: View>: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.boxStroke, lineWidth: 2)
+                .stroke(.boxStroke, lineWidth: 2)
                 .foregroundStyle(.white)
             
             content()

@@ -10,7 +10,7 @@ import SwiftUI
 struct NewBTTextField: View {
     @Binding var value: String
     @FocusState var isFocused: Bool
-    var backgroundColor: Color = .BTStroke
+    var backgroundColor: Color = .btStroke
     var placeholder: String = "Placeholder"
     var keyboardType: UIKeyboardType = .default
     var contentType: UITextContentType = .name
@@ -47,7 +47,7 @@ struct NewBTTextField: View {
 struct NewBTSecureField: View {
     @Binding var value: String
     @FocusState var isFocused: Bool
-    var backgroundColor: Color = .BTStroke
+    var backgroundColor: Color = .btStroke
     var placeholder: String = "Placeholder"
     
     @State private var imageIsTapped: Bool = false

@@ -22,15 +22,15 @@ struct QuizCard: View {
                 Spacer()
                 
                 Text(quiz.status.stringValue)
-                    .applyFont(.medium, size: 14, textColor: .BTPrimary)
+                    .applyFont(.medium, size: 14, textColor: .btPrimary)
             }
             HStack {
                 Text("\(quiz.numberOfQuestions) questions")
-                    .applyFont(.regular, size: 14, textColor: .BTLightGray)
+                    .applyFont(.regular, size: 14, textColor: .btLightGray)
             }
             HStack {
                 Text("\(quiz.totalPoints) points")
-                    .applyFont(.regular, size: 16, textColor: .BTPrimary)
+                    .applyFont(.regular, size: 16, textColor: .btPrimary)
                     .padding(.top, 8)
                 
                 Spacer()
@@ -40,11 +40,11 @@ struct QuizCard: View {
            
         }
         .padding()
-        .background(Color.BTBackground)
+        .background(.btBackground)
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(Color.BTStroke, lineWidth: 2)
+                .stroke(.btStroke, lineWidth: 2)
                 .frame(height: 130)
         )
     }

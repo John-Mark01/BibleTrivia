@@ -13,7 +13,7 @@ struct BTBackground: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.BTBackground)
+            .background(.btBackground)
     }
 }
 
@@ -99,7 +99,7 @@ struct BTAccountToolbarItem: ViewModifier {
                             .background(
                                 Circle()
                                     .frame(width: 36, height: 36)
-                                    .tint(.BTPrimary)
+                                    .tint(.btPrimary)
                             )
                     }
                     .sensoryFeedback(.impact, trigger: isPressed)

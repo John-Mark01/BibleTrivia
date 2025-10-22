@@ -84,7 +84,7 @@ struct HomeView: View {
                     router.navigateTo(.account)
                 })
             }
-            .background(Color.BTBackground)
+            .background(.btBackground)
             
             if openQuizModal {
                 ChooseQuizModal(

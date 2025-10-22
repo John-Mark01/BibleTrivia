@@ -147,7 +147,7 @@
 //                .frame(width: 25, height: 25)
 //                .overlay(
 //                    Circle()
-//                        .stroke(isCurrentDay ? Color(hex: "FF9C21") : Color.clear, lineWidth: isCurrentDay ? 2 : 0)
+//                        .stroke(isCurrentDay ? Color(hex: "FF9C21") : .clear, lineWidth: isCurrentDay ? 2 : 0)
 //                        .frame(width: 30, height: 30)
 //                )
 //            

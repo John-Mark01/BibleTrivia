@@ -61,7 +61,7 @@ struct PlayView: View {
                         Button("See all") {
                             self.showAllTopics = true
                         }
-                        .tint(Color.BTBlack)
+                        .tint(.btBlack)
                     }
                     
                     TopicsViewRow(topics: quizStore.allTopics, isPresented: $openTopicModal)
@@ -75,7 +75,7 @@ struct PlayView: View {
                         
                         Button("See all") {
                             
-                        }.tint(Color.BTBlack)
+                        }.tint(.btBlack)
                     }
                     
                     QuizzezCarousel(quizez: quizStore.allQuizez) { quiz in
@@ -138,6 +138,6 @@ struct PlayView: View {
 #Preview {
     PreviewEnvironmentView {
         PlayView()
-            .tint(Color.BTPrimary)
+            .tint(.btPrimary)
     }
 }

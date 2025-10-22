@@ -20,20 +20,20 @@ struct EmailVerificationPendingView: View {
         VStack(alignment: .center, spacing: Constants.vStackSpacing) {
             Image(systemName: "envelope.circle.fill")
                 .font(.system(size: 100))
-                .foregroundStyle(Color.BTPrimary)
+                .foregroundStyle(.btPrimary)
                 .symbolEffect(.wiggle, value: effect)
             
             Text("Check Your Email")
-                .applyFont(.semiBold, size: 32, textColor: .BTBlack)
+                .applyFont(.semiBold, size: 32, textColor: .btBlack)
             
             Text("We sent a confirmation link to:")
-                .applyFont(.regular, size: 18, textColor: .BTLightGray)
+                .applyFont(.regular, size: 18, textColor: .btLightGray)
             
             Text(email)
-                .applyFont(.medium, size: 20, textColor: .BTPrimary)
+                .applyFont(.medium, size: 20, textColor: .btPrimary)
             
             Text("Click the link in the email to verify your account")
-                .applyFont(.regular, size: 18, textColor: .BTLightGray)
+                .applyFont(.regular, size: 18, textColor: .btLightGray)
                 .multilineTextAlignment(.center)
             
             VStack(spacing: 15) {
@@ -46,7 +46,7 @@ struct EmailVerificationPendingView: View {
                     .multilineTextAlignment(.center)
                     .font(.system(size: 32, weight: .bold, design: .rounded))
                     .frame(height: 60)
-                    .background(Color.gray.opacity(0.1))
+                    .background(.gray.opacity(0.1))
                     .cornerRadius(12)
                     .onChange(of: otpCode) { oldValue, newValue in
                         // Limit to 6 digits
@@ -71,7 +71,7 @@ struct EmailVerificationPendingView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
-                .background(otpCode.count == 6 ? Color.blue : Color.gray)
+                .background(otpCode.count == 6 ? .blue : .gray)
                 .foregroundColor(.white)
                 .cornerRadius(12)
                 .disabled(otpCode.count != 6 || isVerifying)
@@ -85,7 +85,7 @@ struct EmailVerificationPendingView: View {
             
             VStack(spacing: 8) {
                 Text("Didn't receive the email?")
-                    .applyFont(.regular, size: 17, textColor: .BTLightGray)
+                    .applyFont(.regular, size: 17, textColor: .btLightGray)
                 
                 Button("Resend Confirmation Email") {
                     Task {
@@ -93,16 +93,16 @@ struct EmailVerificationPendingView: View {
                         await authManager.resendConfirmationEmail(email: email)
                     }
                 }
-                .applyFont(.semiBold, size: 17, textColor: .BTPrimary)
+                .applyFont(.semiBold, size: 17, textColor: .btPrimary)
             }
             
             Button("Back to Login") {
                 router.popToRoot()
                 router.navigateTo(.login)
             }
-            .applyFont(.semiBold, size: 16, textColor: .BTBlack)
+            .applyFont(.semiBold, size: 16, textColor: .btBlack)
             .buttonStyle(.borderedProminent)
-            .tint(.BTStroke)
+            .tint(.btStroke)
             
             
         }

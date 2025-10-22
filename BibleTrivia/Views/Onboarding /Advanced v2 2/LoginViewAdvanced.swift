@@ -54,14 +54,14 @@
 //            
 //            Group {
 //                ProviderLoginButton(provider: .apple,
-//                                    backgroundColor: .BTBackground,
-//                                    strokeColor: .BTStroke,
+//                                    backgroundColor: .btBackground,
+//                                    strokeColor: .btStroke,
 //                                    strokeSize: 2,
 //                                    action: onLoginWithApple)
 //                
 //                ProviderLoginButton(provider: .google,
-//                                    backgroundColor: .BTBackground,
-//                                    strokeColor: .BTStroke,
+//                                    backgroundColor: .btBackground,
+//                                    strokeColor: .btStroke,
 //                                    strokeSize: 2,
 //                                    action: onLoginWithGoogle)
 //            }

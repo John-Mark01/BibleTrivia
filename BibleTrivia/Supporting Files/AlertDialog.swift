@@ -34,7 +34,7 @@ struct AlertDialog: View {
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 40)
-                        .foregroundStyle(Color.BTPrimary)
+                        .foregroundStyle(.btPrimary)
                         .makeButton(action: runAction, addHapticFeedback: true)
                     
                     Text(buttonTitle)
@@ -45,7 +45,7 @@ struct AlertDialog: View {
             }
             .fixedSize(horizontal: false, vertical: true)
             .padding()
-            .background(Color.BTBackground)
+            .background(.btBackground)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay {
                 VStack {

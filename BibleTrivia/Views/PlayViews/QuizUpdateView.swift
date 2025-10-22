@@ -26,12 +26,12 @@ struct QuizUpdateView: View {
                 Spacer()
                 
                 Text("Start Quiz")
-                    .applyFont(.medium, size: 14, textColor: .BTPrimary)
-                    .foregroundStyle(Color.BTPrimary)
+                    .applyFont(.medium, size: 14, textColor: .btPrimary)
+                    .foregroundStyle(.btPrimary)
                     .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                     .background {
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.white)
+                            .fill(.white)
                     }
                     .makeButton(action: {})
             }
@@ -51,7 +51,7 @@ struct QuizUpdateView: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.BTSecondary.gradient)
+                .fill(.btSecondary.gradient)
         )
     }
 }

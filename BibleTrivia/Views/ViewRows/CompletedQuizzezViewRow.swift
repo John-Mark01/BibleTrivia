@@ -41,17 +41,17 @@ struct CompletedQuizzezViewRow: View {
                 //TODO: Here should be the quiz photo
                 RoundedRectangle(cornerRadius: 16)
                     .frame(width: 70, height: 72)
-                    .foregroundStyle(.lightGray)
+                    .foregroundStyle(.btLightGray)
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(quizName)
-                        .applyFont(.medium, size: 14, textColor: .BTBlack)
+                        .applyFont(.medium, size: 14, textColor: .btBlack)
                     
                     Text(completedAtString)
-                        .applyFont(.regular, size: 10, textColor: .lightGray)
+                        .applyFont(.regular, size: 10, textColor: .btLightGray)
                     
                     Text(pointsString)
-                        .applyFont(.semiBold, size: 16, textColor: Color.init(hex: "6A5ADF"))
+                        .applyFont(.semiBold, size: 16, textColor: .init(hex: "6A5ADF"))
                         .padding(.top, 8)
                     
                     Spacer()
@@ -63,7 +63,7 @@ struct CompletedQuizzezViewRow: View {
                     .applyFont(.regular, size: 14, textColor: .white)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 3)
-                    .background(isPassed ? Color.greenGradient : Color.redGradient)
+                    .background(isPassed ? .greenGradient : .redGradient)
                     .clipShape(RoundedRectangle(cornerRadius: 7))
                     .frame(maxHeight: .infinity, alignment: .top)
             }

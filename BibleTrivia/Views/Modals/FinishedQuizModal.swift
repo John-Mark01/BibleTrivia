@@ -32,7 +32,7 @@ struct FinishedQuizModal: View {
                         if question.userAnswerIsCorrect {
                             ZStack {
                                 Circle()
-                                    .fill(Color.BTPrimary)
+                                    .fill(.btPrimary)
                                     .frame(width: 24, height: 24)
                                 
                                 Image("Tic")
@@ -41,7 +41,7 @@ struct FinishedQuizModal: View {
                         } else {
                             ZStack {
                                 Circle()
-                                    .fill(Color.BTIncorrect)
+                                    .fill(.btIncorrect)
                                     .frame(width: 24, height: 24)
                                 
                                 Image("close_white")
@@ -66,10 +66,10 @@ struct FinishedQuizModal: View {
                 
                 if quizStore.hasUserPassedQuiz() {
                     Text("Keep up the good work :)")
-                        .applyFont(.regular, size: 14, textColor: .BTLightGray)
+                        .applyFont(.regular, size: 14, textColor: .btLightGray)
                 } else {
                     Text("Click on 'Back To Quiz' to review your answers")
-                        .applyFont(.regular, size: 14, textColor: .BTLightGray)
+                        .applyFont(.regular, size: 14, textColor: .btLightGray)
                 }
                 
                 Spacer()
@@ -86,7 +86,7 @@ struct FinishedQuizModal: View {
                 .buttonStyle(.secondary(height: 15))
             }
             .padding(25)
-            .background(Color.BTBackground)
+            .background(.btBackground)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .fixedSize(horizontal: false, vertical: true)
             .padding(30)

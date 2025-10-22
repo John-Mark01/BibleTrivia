@@ -124,15 +124,15 @@ struct ProviderSignUpButtonsView: View {
     var body: some View {
         VStack(alignment: .center, spacing: Constants.vStackSpacing) {
                 ProviderLoginButton(provider: .apple,
-                                    backgroundColor: .BTBackground,
-                                    strokeColor: .BTStroke,
+                                    backgroundColor: .btBackground,
+                                    strokeColor: .btStroke,
                                     strokeSize: 2,
                                     action: { onSignUp(.apple) }
                 )
                 
                 ProviderLoginButton(provider: .google,
-                                    backgroundColor: .BTBackground,
-                                    strokeColor: .BTStroke,
+                                    backgroundColor: .btBackground,
+                                    strokeColor: .btStroke,
                                     strokeSize: 2,
                                     action: { onSignUp(.google)}
                 )

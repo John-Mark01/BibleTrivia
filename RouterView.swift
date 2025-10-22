@@ -56,7 +56,7 @@ struct RouterView: View {
             }
         }
         .applyAlertHandling()
-        .tint(Color.BTBlack)
+        .tint(.btBlack)
         .environment(quizStore)
         .environment(userStore)
         .environment(authManager)
