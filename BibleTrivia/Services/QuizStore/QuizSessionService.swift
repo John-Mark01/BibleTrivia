@@ -8,7 +8,7 @@
 import Foundation
 import Supabase
 
-class QuizSessionService {
+final class QuizSessionService {
     private let supabaseClient: SupabaseClient
     
     init(supabaseClient: SupabaseClient) {

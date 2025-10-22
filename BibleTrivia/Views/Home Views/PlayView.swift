@@ -118,7 +118,7 @@ struct PlayView: View {
     
     private func onRefresh() {
         refreshTask = Task {
-            await quizStore.getQuizzezOnly(limit: 50)
+            await quizStore.refreshQuizzes(amount: 50)
         }
     }
     

@@ -332,6 +332,7 @@ extension QuizStore {
     /// Loads initial data (topics and quizzes)
     func loadInitialData(limit: Int? = nil) async {
         guard let userId = requireAuthentication() else { return }
+        LoadingManager.shared.show()
         
         do {
             async let topicsTask = quizRepository.getTopics(limit: limit)
@@ -352,6 +353,7 @@ extension QuizStore {
             // Update UI on main thread
             await MainActor.run {
                 withAnimation {
+                    LoadingManager.shared.hide()
                     self.allTopics = updatedTopics
                     self.allQuizez = quizzes
                 }
@@ -369,7 +371,7 @@ extension QuizStore {
     }
     
     /// Loads only quizzes with pagination support
-    func getQuizzezOnly(limit: Int? = nil, offset: Int = 0) async {
+    private func getQuizzezOnly(limit: Int? = nil, offset: Int = 0) async {
         guard let userId = requireAuthentication() else { return }
         
         LoadingManager.shared.show()

@@ -8,7 +8,7 @@
 import Foundation
 import Supabase
 
-@Observable class UserStore: RouterAccessible, AuthenticatedStore {
+@Observable final class UserStore: RouterAccessible, AuthenticatedStore {
     
     let supabaseClient: SupabaseClient
     let alertManager: AlertManager
