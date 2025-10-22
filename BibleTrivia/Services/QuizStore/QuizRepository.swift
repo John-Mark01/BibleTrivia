@@ -10,7 +10,6 @@ import Foundation
 /// Repository protocol for quiz data operations
 /// Follows Dependency Inversion Principle - depend on abstractions, not concretions
 protocol QuizRepositoryProtocol {
-    func getTopics(limit: Int?) async throws -> [Topic]
     func getQuizzes(userId: UUID, limit: Int?, offset: Int) async throws -> [Quiz]
     func getQuestions(for quizId: Int) async throws -> [Question]
     func getAnswers(for questionIds: [Int]) async throws -> [Answer]
@@ -25,18 +24,6 @@ class QuizRepository: QuizRepositoryProtocol {
     init(supabase: Supabase) {
         self.supabase = supabase
     }
-    
-// MARK: - Topics
-    
-    func getTopics(limit: Int? = nil) async throws -> [Topic] {
-        do {
-            return try await supabase.getTopics(limit: limit)
-        } catch {
-            throw QuizRepositoryError.topicsFetchFailed(error.localizedDescription.localized)
-        }
-    }
-    
-// MARK: - Quizzes
     
     func getQuizzes(userId: UUID, limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
         do {
@@ -97,7 +84,6 @@ class QuizRepository: QuizRepositoryProtocol {
 // MARK: - Repository Errors
 
 enum QuizRepositoryError: Error, LocalizedError {
-    case topicsFetchFailed(LocalizedStringResource)
     case quizzesFetchFailed(LocalizedStringResource)
     case quizFetchFailed(LocalizedStringResource)
     case questionsFetchFailed(LocalizedStringResource)
@@ -107,8 +93,6 @@ enum QuizRepositoryError: Error, LocalizedError {
     
     var errorDescription: LocalizedStringResource? {
         switch self {
-        case .topicsFetchFailed(let message):
-            return "Failed to fetch topics: \(message)"
         case .quizzesFetchFailed(let message):
             return "Failed to fetch quizzes: \(message)"
         case .quizFetchFailed(let message):
@@ -127,8 +111,7 @@ enum QuizRepositoryError: Error, LocalizedError {
     /// Converts repository errors to the app's BTError format
     func toBTError() -> Errors.BTError {
         switch self {
-        case .topicsFetchFailed(let message), 
-             .quizzesFetchFailed(let message), 
+        case .quizzesFetchFailed(let message),
              .quizFetchFailed(let message),
              .questionsFetchFailed(let message), 
              .answersFetchFailed(let message):

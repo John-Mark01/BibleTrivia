@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct AllTopicsView: View {
-    @State var topics: [Topic] = []
-    @State private var goToTopic: Bool = false
+    var topics: [Topic] = []
+    
     var body: some View {
-        
         VStack(alignment: .leading, spacing: 16) {
             Text("Topics")
                 .applyFont(.semiBold, size: 16)
             
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
-                    ForEach($topics, id: \.id) { topic in
+                    ForEach(topics, id: \.id) { topic in
                         TopicCard(topic: topic, topicType: .all)
                     }
                 }

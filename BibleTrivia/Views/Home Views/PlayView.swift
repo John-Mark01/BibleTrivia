@@ -12,6 +12,8 @@ struct PlayView: View {
     @Environment(QuizStore.self) var quizStore
     @Environment(UserStore.self) var userStore
     
+    let topics: [Topic]? = nil
+    
     //Tasks
     @State private var refreshTask: Task<(), Error>?
     
@@ -34,7 +36,7 @@ struct PlayView: View {
                 }
                 
                 if openTopicModal {
-                    if let topic = quizStore.chosenTopic {
+                    if let topic = topics?.first {
                         ChooseTopicModal(isPresented: $openTopicModal, topic: topic, goToQuizez: {
                             showAllTopics = true
                         }, close: {
@@ -64,7 +66,9 @@ struct PlayView: View {
                         .tint(.btBlack)
                     }
                     
-                    TopicsViewRow(topics: quizStore.allTopics, isPresented: $openTopicModal)
+                    TopicsCaurosel(topics: topics ?? [], onSelect: { topic in
+                        //TODO: Add logic for choosing a topic
+                    })
                     
                     //MARK: Quick Quiz
                     HStack {
@@ -110,7 +114,7 @@ struct PlayView: View {
                 }
             }
             .navigationDestination(isPresented: $showAllTopics) {
-                AllTopicsView(topics: quizStore.allTopics)
+                AllTopicsView(topics: topics ?? [])
             }
         }
         .onDisappear { refreshTask?.cancel() }

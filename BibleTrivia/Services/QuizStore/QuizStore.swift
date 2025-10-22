@@ -18,10 +18,8 @@ import SwiftUI
     var userId: UUID?
     
 // MARK: - State Properties
-    var allTopics: [Topic] = []
     var allQuizez: [Quiz] = []
     private(set) var chosenQuiz: Quiz?
-    private(set) var chosenTopic: Topic?
     
 // MARK: - Initialization
     
@@ -329,32 +327,19 @@ import SwiftUI
 // MARK: - Data Loading
 extension QuizStore {
     
-    /// Loads initial data (topics and quizzes)
+    /// Loads initial data (quizzes)
     func loadInitialData(limit: Int? = nil) async {
         guard let userId = requireAuthentication() else { return }
+        
         LoadingManager.shared.show()
+        defer { LoadingManager.shared.hide() }
         
         do {
-            async let topicsTask = quizRepository.getTopics(limit: limit)
-            async let quizzesTask = quizRepository.getQuizzes(userId: userId, limit: limit, offset: 0)
-            
-            let (topics, quizzes) = try await (topicsTask, quizzesTask)
-            
-            // Group quizzes by topic
-            let quizzesByTopic = Dictionary(grouping: quizzes) { $0.topicId }
-            
-            // Update topics with their quizzes
-            let updatedTopics = topics.map { topic in
-                var updatedTopic = topic
-                updatedTopic.quizes = quizzesByTopic[topic.id] ?? []
-                return updatedTopic
-            }
+            let quizzes = try await quizRepository.getQuizzes(userId: userId, limit: limit, offset: 0)
             
             // Update UI on main thread
             await MainActor.run {
                 withAnimation {
-                    LoadingManager.shared.hide()
-                    self.allTopics = updatedTopics
                     self.allQuizez = quizzes
                 }
             }
@@ -412,35 +397,6 @@ extension QuizStore {
     /// Refreshes quizzes
     func refreshQuizzes(amount: Int = 10) async {
         await getQuizzezOnly(limit: amount, offset: 0)
-    }
-    
-    /// Loads first quiz for onboarding
-    func loadOnboardingFirstQuiz(topicID: Int) async throws {
-        do {
-            guard let quiz = try await quizRepository.getQuizWithTopicID(topicID) else {
-                throw QuizRepositoryError.quizFetchFailed("No quiz found for topic \(topicID)")
-            }
-            
-            await MainActor.run {
-                self.chosenQuiz = quiz
-            }
-            
-        } catch let error as QuizRepositoryError {
-            await MainActor.run {
-                self.alertManager.showBTErrorAlert(error.toBTError(), buttonTitle: "Dimiss", action: {})
-            }
-            throw error
-        } catch {
-            await MainActor.run {
-                alertManager.showAlert(
-                    type: .error,
-                    message: "Failed to load quiz",
-                    buttonText: "Dismiss",
-                    action: {}
-                )
-            }
-            throw error
-        }
     }
     
     private func unexpectedError() {

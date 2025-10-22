@@ -7,8 +7,8 @@
 import SwiftUI
 
 struct TopicCard: View {
-    @Binding var topic: Topic
-    @State var topicType: TopicCardType = .play
+    var topic: Topic
+    var topicType: TopicCardType = .play
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
