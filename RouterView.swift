@@ -10,7 +10,7 @@ import Supabase
 
 /// App Composition Root.
 /// Here are all the business logic objects created
-/// - UserStore, QuizStore, AlertManager, Router, OnboardingManager, Auth,
+/// - UserStore, QuizStore, TopicStore, AlertManager, Router, OnboardingManager, Auth,
 
 @MainActor
 struct RouterView: View {
@@ -19,6 +19,7 @@ struct RouterView: View {
     
     @State private var supabaseClient: SupabaseClient
     @State private var quizStore: QuizStore
+    @State private var topicStore: TopicStore
     @State private var userStore: UserStore
     @State private var authManager: AuthManager
 //    @State private var onboardingManager: OnboardingManager
@@ -34,6 +35,7 @@ struct RouterView: View {
         
         _supabaseClient = State(initialValue: supabaseClient)
         _quizStore = State(initialValue: QuizStore(supabase: Supabase(supabaseClient: supabaseClient)))
+        _topicStore = State(initialValue: TopicStore(supabase: Supabase(supabaseClient: supabaseClient)))
         _userStore = State(initialValue: UserStore(supabase: Supabase(supabaseClient: supabaseClient)))
         _authManager = State(initialValue: AuthManager(supabaseClient: supabaseClient))
 //        _onboardingManager = State(initialValue: OnboardingManager(supabase: Supabase(supabaseClient: supabaseClient)))
@@ -58,6 +60,7 @@ struct RouterView: View {
         .applyAlertHandling()
         .tint(.btBlack)
         .environment(quizStore)
+        .environment(topicStore)
         .environment(userStore)
         .environment(authManager)
         .environment(alertManager)
@@ -83,12 +86,14 @@ struct RouterView: View {
             
             userStore.setUserId(userID)
             quizStore.setUserId(userID)
+            topicStore.setUserId(userID)
             
             if case .initialSession = event {
                 do {
                     let _ = try await supabaseClient.auth.session
                     await userStore.fetchUserAndDownloadInitialData()
-                    await quizStore.loadInitialData()
+                    await quizStore.loadQuizzes()
+                    await topicStore.loadTopics()
                     await setSignedInStatus()
                     
                 } catch {
@@ -103,7 +108,8 @@ struct RouterView: View {
                 }
             } else if case .signedIn = event {
                 await userStore.fetchUserAndDownloadInitialData()
-                await quizStore.loadInitialData()
+                await quizStore.loadQuizzes()
+                await topicStore.loadTopics()
                 await setSignedInStatus()
                 
             } else if case .signedOut = event {

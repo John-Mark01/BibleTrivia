@@ -10,10 +10,9 @@ import SwiftUI
 
 struct ChooseTopicModal: View {
     
-    @Binding var isPresented: Bool
     var topic: Topic
-    let goToQuizez: () -> ()
-    let close: () -> ()
+    let goToQuizez: () -> Void
+    let cancel: () -> Void
     
     var body: some View {
         
@@ -21,10 +20,9 @@ struct ChooseTopicModal: View {
             Color.black
                 .opacity(0.1)
                 .onTapGesture {
-                    withAnimation {
-                        isPresented = false
-                    }
+                    withAnimation { cancel() }
                 }
+            
             VStack(alignment: .center, spacing: 10) {
                 Text(topic.name)
                     .applyFont(.medium, size: 20)
@@ -91,10 +89,9 @@ struct ChooseTopicModal: View {
                         }
                     }
                     .buttonStyle(.primary)
+                    
                     Button("Close") {
-                        withAnimation {
-                            close()
-                        }
+                        withAnimation { cancel() }
                     }
                     .buttonStyle(.secondary)
                 }

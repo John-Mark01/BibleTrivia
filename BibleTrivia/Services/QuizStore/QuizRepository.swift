@@ -45,7 +45,7 @@ class QuizRepository: QuizRepositoryProtocol {
     
     func getQuizWithTopicID(_ topicId: Int) async throws -> Quiz? {
         do {
-            guard let quiz = try await supabase.getQuizWithTopicID(topicId) else {
+            guard let quiz = try await supabase.getQuizzesWithTopicID(topicId).first else {
                 return nil
             }
             

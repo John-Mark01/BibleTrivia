@@ -105,7 +105,7 @@ extension Supabase {
         }
     }
     
-    func getQuizWithTopicID(_ id: Int) async throws -> Quiz? {
+    func getQuizzesWithTopicID(_ id: Int) async throws -> [Quiz] {
         do {
             let response = try await supabaseClient
                 .from(Table.quizez)
@@ -114,7 +114,7 @@ extension Supabase {
                 .execute()
             let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
             
-            return quizzez?.first
+            return quizzez ?? []
         } catch {
             print("Error decoding quizzes: \(error)")
             throw Errors.BTError.parseError("Error getting quiz. Please try again later.")

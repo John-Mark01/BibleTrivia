@@ -30,11 +30,10 @@ struct Topic {
     }
     
     var progressString: String {
-        let progress = completenesLevel
         let percentageFormatter = NumberFormatter()
         percentageFormatter.numberStyle = .percent
         percentageFormatter.maximumFractionDigits = 0
-        return percentageFormatter.string(from: NSNumber(value: progress)) ?? "0%"
+        return percentageFormatter.string(from: NSNumber(value: completenesLevel)) ?? "0%"
     }
     
     init(id: Int, name: String) {

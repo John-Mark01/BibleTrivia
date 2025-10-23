@@ -10,9 +10,8 @@ import SwiftUI
 struct PlayView: View {
     @Environment(Router.self) private var router
     @Environment(QuizStore.self) var quizStore
+    @Environment(TopicStore.self) var topicStore
     @Environment(UserStore.self) var userStore
-    
-    let topics: [Topic]? = nil
     
     //Tasks
     @State private var refreshTask: Task<(), Error>?
@@ -30,19 +29,21 @@ struct PlayView: View {
                         startQuiz: {
                             router.navigateTo(.quizView)
                         }, cancel: {
-                            onCloseQuizModal()
+                            onCloseModal(.quiz)
                         }
                     )
                 }
                 
                 if openTopicModal {
-                    if let topic = topics?.first {
-                        ChooseTopicModal(isPresented: $openTopicModal, topic: topic, goToQuizez: {
-                            showAllTopics = true
-                        }, close: {
-                            openTopicModal = false
-                        })
-                    }
+                    ChooseTopicModal(
+                        topic: topicStore.currentTopic,
+                        goToQuizez: {
+//                            showAllTopics = true
+                            //TODO: Navigate to all topics screen
+                        }, cancel: {
+                            onCloseModal(.topic)
+                        }
+                    )
                 }
             }
             .zIndex(999)
@@ -50,41 +51,25 @@ struct PlayView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 16) {
                     
-                    //MARK: Quiz Update
+                    //Quiz Update
                     QuizUpdateView()
                     
-                    //MARK: Choose a topic
-                    HStack {
-                        Text("Choose a Topic")
-                            .applyFont(.medium, size: 20)
-                        
-                        Spacer()
-                        
-                        Button("See all") {
-                            self.showAllTopics = true
-                        }
-                        .tint(.btBlack)
+                    //Choose a topic
+                    SectionTitle(title: "Choose a Topic")
+                        .setTextButton("See all", action: {})
+                    
+                    TopicsCaurosel(topics: topicStore.allTopics) { topic in
+                        topicStore.selectTopic(topic)
+                        onOpenModal(.topic)
                     }
                     
-                    TopicsCaurosel(topics: topics ?? [], onSelect: { topic in
-                        //TODO: Add logic for choosing a topic
-                    })
-                    
-                    //MARK: Quick Quiz
-                    HStack {
-                        Text("Quick Quiz")
-                            .applyFont(.medium, size: 20)
-                        
-                        Spacer()
-                        
-                        Button("See all") {
-                            
-                        }.tint(.btBlack)
-                    }
+                    //Quick Quiz
+                    SectionTitle(title: "Quick Quiz")
+                        .setTextButton("See all", action: {})
                     
                     QuizzezCarousel(quizez: quizStore.allQuizez) { quiz in
                         quizStore.chooseQuiz(quiz: quiz)
-                        onOpenQuizModal()
+                        onOpenModal(.quiz)
                     }
                 }
             }
@@ -114,7 +99,7 @@ struct PlayView: View {
                 }
             }
             .navigationDestination(isPresented: $showAllTopics) {
-                AllTopicsView(topics: topics ?? [])
+                AllTopicsView(topics: topicStore.allTopics)
             }
         }
         .onDisappear { refreshTask?.cancel() }
@@ -123,25 +108,40 @@ struct PlayView: View {
     private func onRefresh() {
         refreshTask = Task {
             await quizStore.refreshQuizzes(amount: 50)
+            await topicStore.refreshTopics(amount: 50)
         }
     }
     
-    private func onOpenQuizModal() {
+    private func onOpenModal(_ type: ModalType) {
         withAnimation(.snappy) {
-            self.openQuizModal = true
+            switch type {
+            case .quiz:
+                self.openQuizModal = true
+            case .topic:
+                self.openQuizModal = true
+            }
         }
     }
     
-    private func onCloseQuizModal() {
+    private func onCloseModal(_ type: ModalType) {
         withAnimation(.snappy) {
-            self.openQuizModal = false
+            switch type {
+            case .quiz:
+                self.openQuizModal = false
+            case .topic:
+                self.openTopicModal = false
+            }
         }
+    }
+    
+    private enum ModalType {
+        case quiz
+        case topic
     }
 }
 
 #Preview {
     PreviewEnvironmentView {
         PlayView()
-            .tint(.btPrimary)
     }
 }

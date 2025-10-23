@@ -328,7 +328,7 @@ import SwiftUI
 extension QuizStore {
     
     /// Loads initial data (quizzes)
-    func loadInitialData(limit: Int? = nil) async {
+    func loadQuizzes(limit: Int? = nil) async {
         guard let userId = requireAuthentication() else { return }
         
         LoadingManager.shared.show()
