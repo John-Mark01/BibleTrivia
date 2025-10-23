@@ -118,7 +118,7 @@ struct PlayView: View {
             case .quiz:
                 self.openQuizModal = true
             case .topic:
-                self.openQuizModal = true
+                self.openTopicModal = true
             }
         }
     }
