@@ -13,40 +13,28 @@ struct QuizCard: View {
     let quiz: Quiz
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .top) {
-                Text(quiz.name)
-                    .applyFont(.semiBold, size: 16)
-                    .multilineTextAlignment(.leading)
+        BTContentBox {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(alignment: .top) {
+                    Text(quiz.name)
+                        .applyFont(.semiBold, size: 16)
+                        .multilineTextAlignment(.leading)
+                    
+                    Spacer()
+                    
+                    Text(quiz.status.stringValue)
+                        .applyFont(.medium, size: 14, textColor: .btPrimary)
+                }
                 
-                Spacer()
-                
-                Text(quiz.status.stringValue)
-                    .applyFont(.medium, size: 14, textColor: .btPrimary)
-            }
-            HStack {
                 Text("\(quiz.numberOfQuestions) questions")
                     .applyFont(.regular, size: 14, textColor: .btLightGray)
-            }
-            HStack {
+                
                 Text("\(quiz.totalPoints) points")
                     .applyFont(.regular, size: 16, textColor: .btPrimary)
                     .padding(.top, 8)
-                
-                Spacer()
-                
             }
-            
-           
         }
-        .padding()
-        .background(.btBackground)
-        .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(.btStroke, lineWidth: 2)
-                .frame(height: 130)
-        )
+        .frame(maxWidth: 200, maxHeight: 130)
     }
 }
 

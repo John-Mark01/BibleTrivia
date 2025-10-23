@@ -39,7 +39,7 @@ struct LinearProgressView: View {
     var goal: Int
     var showPercentage: Bool = true
     var fillColor: Color = .btPrimary
-    var backgroundColor: Color = .btLightGray
+    var backgroundColor: Color = .btProgressBG
     var backgroundOpacity: Double = 1.0
     var strokeColor: Color = .clear
     var strokeSize: CGFloat = 1
@@ -59,7 +59,7 @@ struct LinearProgressView: View {
                 // Background
                 RoundedRectangle(cornerRadius: 60)
                     .stroke(strokeColor, lineWidth: strokeSize)
-                    .foregroundStyle(backgroundColor.opacity(backgroundOpacity))
+                    .fill(backgroundColor.opacity(backgroundOpacity))
                     .frame(width: geometry.size.width, height: height)
                 
                 // Progress fill - only the filled portion
@@ -106,58 +106,4 @@ struct LinearProgressView: View {
     LinearProgressView(progress: 5, goal: 30)
         .setStroke(color: .btDarkGray, size: 1)
         .applyViewPaddings()
-}
-
-struct SimpleLinearProgressView: View {
-    @State private var containerWidth: CGFloat = 0
-    
-    var progress: Int = 0
-    var goal: Int = 0
-    var progressString: String = ""
-    var progressColor: Color = .btPrimary
-    var backgroundColor: Color = .btProgressBG
-    
-    var maxWidth: Double {
-        return min((containerWidth / CGFloat(goal) * CGFloat(progress)), containerWidth)
-    }
-    
-    var body: some View {
-        
-        VStack {
-            //            HStack {
-            //                Spacer()
-            //
-            //                Text(progressString)
-            //                    .applyFont(.regular, size: 10)
-            //            }
-            //
-            ZStack(alignment: .leading) {
-                GeometryReader { geometry in
-                    RoundedRectangle(cornerRadius: 60)
-                        .stroke(.black, lineWidth: 0.5)
-                        .foregroundStyle(backgroundColor)
-                        .onAppear {
-                            containerWidth = geometry.size.width
-                        }
-                }
-                
-                ZStack(alignment: .trailing) {
-                    RoundedRectangle(cornerRadius: 60)
-                        .fill(progressColor)
-                }
-                .padding(4)
-                .frame(minWidth: maxWidth)
-                .fixedSize()
-            }
-            .fixedSize(horizontal: false, vertical: true)
-        }
-    }
-}
-
-#Preview("SimpleLinearProgressView") {
-    VStack {
-        SimpleLinearProgressView(progress: 100, goal: 100)
-            .frame(height: 20)
-    }
-    .applyViewPaddings()
 }
