@@ -84,6 +84,6 @@ struct QuestionPayload: Decodable {
         case id
         case text
         case explaination
-        case quizId /*= "quiz_id"*/
+        case quizId = "quiz_id"
     }
 }

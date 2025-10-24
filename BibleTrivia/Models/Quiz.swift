@@ -88,11 +88,11 @@ struct QuizPayload: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case name
-        case timeToComplete /*= "time_to_complete"*/
+        case timeToComplete = "time_to_complete"
         case status
         case difficulty
-        case totalPoints    /*= "total_points"*/
-        case topicId    /*= "total_points"*/
+        case totalPoints    = "total_points"
+        case topicId        = "topic_id"
     }
     
     func toQuiz() -> Quiz {

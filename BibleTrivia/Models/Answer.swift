@@ -32,8 +32,8 @@ struct AnswerPayload: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case text = "name"
-        case questionId
-        case isCorrect
+        case questionId = "question_id"
+        case isCorrect = "is_correct"
     }
 }
 

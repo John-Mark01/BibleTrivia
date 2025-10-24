@@ -58,7 +58,6 @@ extension Supabase {
     func parseTopics(_ data: Data) throws -> [Topic] {
         
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         do {
             let topicsPayload = try decoder.decode([TopicPayload].self, from: data)
             var topics: [Topic] = []
@@ -160,7 +159,6 @@ extension Supabase {
     func parseQuizzes(_ data: Data) throws -> [Quiz] {
         
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         do {
             let quizPayload = try decoder.decode([QuizPayload].self, from: data)
             var quizzes: [Quiz] = []
@@ -213,7 +211,6 @@ extension Supabase {
     func parseQuestions(_ data: Data) throws -> [Question] {
         
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         do {
             let questionPayload = try decoder.decode([QuestionPayload].self, from: data)
             var questions: [Question] = []
@@ -254,7 +251,6 @@ extension Supabase {
     func parseAnswers(_ data: Data) throws -> [Answer] {
         
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         do {
             let answerPayload = try decoder.decode([AnswerPayload].self, from: data)
             var answers: [Answer] = []
