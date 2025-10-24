@@ -11,7 +11,7 @@ struct TopicCard: View {
     var topicType: TopicCardType = .play
     
     var body: some View {
-        BTContentBox {
+        BTContentBox(background: setBackgroundColor()) {
             VStack(alignment: .leading, spacing: 8) {
                 if topicType == .all {
                     Text(topic.status.stringValue)
@@ -38,6 +38,7 @@ struct TopicCard: View {
             }
         }
         .frame(maxWidth: 200, maxHeight: 130)
+        .frame(minWidth: 180)
     }
     func setBackgroundColor() -> Color {
         let colors: [Color] = [
@@ -60,8 +61,9 @@ struct TopicCard: View {
 }
 
 #Preview {
-    VStack {
-        TopicCard(topic: .init(id: 1, name: "Topic Name"), topicType: .play)
+    HStack {
+        TopicCard(topic: .init(id: 1, name: "Topic Name"), topicType: .all)
+        Spacer()
     }
     .applyViewPaddings()
     .applyBackground()

@@ -16,10 +16,10 @@ struct QuizzezCarousel: View {
             LazyHStack(spacing: 12) {
                 ForEach(quizez, id: \.id) { quiz in
                     QuizCard(quiz: quiz)
-                        .frame(width: 180, height: 130)
                         .makeButton(action: { onChooseQuiz(quiz) }, addHapticFeedback: true, feedbackStyle: .start)
                 }
             }
+            .padding(1)
         }
     }
 }

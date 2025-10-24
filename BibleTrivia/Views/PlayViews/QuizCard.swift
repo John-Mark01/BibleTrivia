@@ -5,11 +5,9 @@
 //  Created by John-Mark Iliev on 23.10.24.
 //
 
-
 import SwiftUI
 
 struct QuizCard: View {
-    
     let quiz: Quiz
     
     var body: some View {
@@ -35,6 +33,7 @@ struct QuizCard: View {
             }
         }
         .frame(maxWidth: 200, maxHeight: 130)
+        .frame(minWidth: 180)
     }
 }
 

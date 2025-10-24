@@ -92,8 +92,8 @@ struct RouterView: View {
                 do {
                     let _ = try await supabaseClient.auth.session
                     await userStore.fetchUserAndDownloadInitialData()
-                    await quizStore.loadQuizzes()
-                    await topicStore.loadTopics()
+                    await quizStore.loadQuizzes(limit: 10)
+                    await topicStore.loadTopicsWithUserProgress(limit: 10)
                     await setSignedInStatus()
                     
                 } catch {
@@ -108,8 +108,8 @@ struct RouterView: View {
                 }
             } else if case .signedIn = event {
                 await userStore.fetchUserAndDownloadInitialData()
-                await quizStore.loadQuizzes()
-                await topicStore.loadTopics()
+                await quizStore.loadQuizzes(limit: 10)
+                await topicStore.loadTopicsWithUserProgress(limit: 10)
                 await setSignedInStatus()
                 
             } else if case .signedOut = event {

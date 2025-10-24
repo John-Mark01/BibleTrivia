@@ -9,8 +9,8 @@ import Foundation
 
 /// Repository protocol for topic data operations
 protocol TopicRepositoryProtocol {
-    func getTopics(limit: Int?) async throws -> [Topic]
-    func getQuizzesForTopic(topicId: Int) async throws -> [Quiz]
+    func getTopicsWithUserProgress(userId: UUID, limit: Int?, offset: Int) async throws -> [Topic]
+    func getQuizzesForTopic(topicId: Int, limit: Int?, offset: Int) async throws -> [Quiz]
 }
 
 /// Concrete implementation of TopicRepository using Supabase
@@ -25,14 +25,23 @@ class TopicRepository: TopicRepositoryProtocol {
 // MARK: - Topics
     
     /// Fetch all topics without user progress
-    func getTopics(limit: Int? = nil) async throws -> [Topic] {
-        return try await supabase.getTopics(limit: limit)
+    func getTopicsWithUserProgress(userId: UUID, limit: Int? = nil, offset: Int = 0) async throws -> [Topic] {
+        let topics = try await supabase.getTopics(limit: limit, offset: offset)
+        for topic in topics {
+            async let allQuizzesForTopic = try await getQuizzesForTopic(topicId: topic.id)
+            async let playedQuizzes = try await supabase.getPlayedQuizzezIds(for: userId)
+            let result = (try await playedQuizzes, try await allQuizzesForTopic)
+            
+            topic.playedQuizzes = result.0
+            topic.quizes = result.1
+        }
+        return topics
     }
     
 // MARK: - Quizzes for Topic
     
     /// Fetch all quizzes for a specific topic (without questions/answers)
-    func getQuizzesForTopic(topicId: Int) async throws -> [Quiz] {
-        return try await supabase.getQuizzesWithTopicID(topicId)
+    func getQuizzesForTopic(topicId: Int, limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
+        return try await supabase.getQuizzesWithTopicID(topicId, limit: limit, offset: offset)
     }
 }

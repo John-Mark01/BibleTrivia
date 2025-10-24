@@ -7,11 +7,17 @@
 
 import Foundation
 
-struct Topic {
+@Observable class Topic {
     var id: Int = 0
     var name: String
-    var quizes: [Quiz] = []
-    var status: TopicStatus = .new
+    var quizes: [Quiz] = [.init(), .init(), .init(), .init()]
+    var playedQuizzes: [Int] = [1]
+    var status: TopicStatus {
+        if playedQuizzes.isEmpty {
+            return .new
+        }
+        return .new
+    }
     
     var numberOfQuizes: Int {
         return quizes.count
@@ -21,12 +27,8 @@ struct Topic {
         return quizes.reduce(0) { $0 + $1.totalPoints }
     }
     
-    var completenesLevel: Double {
-        let completedQuizes: [Quiz] = quizes.filter({$0.status == .completed })
-        guard completedQuizes.count != 0 else {return 0.0}
-        
-        
-        return Double(numberOfQuizes / completedQuizes.count)
+    private var completenesLevel: Double {
+        return Double(playedQuizzes.count) / Double(numberOfQuizes)
     }
     
     var progressString: String {
@@ -44,16 +46,12 @@ struct Topic {
 }
 
 enum TopicStatus: Int, CaseIterable {
-    
-    case neverPlayed
     case new
     case highScore
     case mostPlayed
     
     var stringValue: String {
         switch self {
-        case .neverPlayed:
-            return "Never Played"
         case .new:
             return "New"
         case .highScore:

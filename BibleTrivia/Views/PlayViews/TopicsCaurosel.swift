@@ -16,10 +16,10 @@ struct TopicsCaurosel: View {
             LazyHStack(spacing: 12) {
                 ForEach(topics, id: \.id) { topic in
                     TopicCard(topic: topic, topicType: .play)
-                        .frame(width: 180)
                         .makeButton(action: { onSelect(topic)}, addHapticFeedback: true, feedbackStyle: .start)
                 }
             }
+            .padding(1)
         }
     }
 }

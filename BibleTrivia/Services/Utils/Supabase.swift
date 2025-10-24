@@ -35,7 +35,7 @@ enum ParseType: String {
 extension Supabase {
     
     //Topics
-    func getTopics(limit: Int? = nil, offset: Int = 0) async throws -> [Topic] {
+    func getTopics(limit: Int? = nil, offset: Int) async throws -> [Topic] {
         let query = supabaseClient
             .from(Table.topics)
             .select()
@@ -78,7 +78,7 @@ extension Supabase {
     
     //Quizzes
     func getAllAvailableQuizzez(userId: UUID, limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
-        let completedQuizzez: [Int] = try await getUnavailableQuizzezIds(for: userId)
+        let completedQuizzez: [Int] = try await getPlayedQuizzezIds(for: userId)
         
         var query = supabaseClient
             .from(Table.quizez)
@@ -105,19 +105,22 @@ extension Supabase {
         }
     }
     
-    func getQuizzesWithTopicID(_ id: Int) async throws -> [Quiz] {
-        do {
-            let response = try await supabaseClient
-                .from(Table.quizez)
-                .select()
-                .eq("topic_id", value: id)
+    func getQuizzesWithTopicID(_ id: Int, limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
+        let query = supabaseClient
+            .from(Table.quizez)
+            .select()
+            .eq("topic_id", value: id)
+        
+        if let limit = limit {
+            let response = try await query
+                .range(from: offset, to: offset + limit - 1)
                 .execute()
             let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
-            
             return quizzez ?? []
-        } catch {
-            print("Error decoding quizzes: \(error)")
-            throw Errors.BTError.parseError("Error getting quiz. Please try again later.")
+        } else {
+            let response = try await query.execute()
+            let quizzez = try parseVoidResponse(response, for: .quiz) as? [Quiz]
+            return quizzez ?? []
         }
     }
     
@@ -134,7 +137,7 @@ extension Supabase {
         return quizzez ?? []
     }
     
-    private func getUnavailableQuizzezIds(for userId: UUID) async throws -> [Int] {
+    func getPlayedQuizzezIds(for userId: UUID) async throws -> [Int] {
         
         // Get all completed quiz IDs for this user
         struct CompletedQuiz: Codable {

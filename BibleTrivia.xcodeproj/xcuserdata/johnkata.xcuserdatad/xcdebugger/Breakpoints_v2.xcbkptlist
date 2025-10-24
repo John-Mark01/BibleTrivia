@@ -34,6 +34,36 @@
             endingLineNumber = "152"
             landmarkName = "completeQuiz(onComplete:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FCB8996E-7079-4962-A171-868BAEDE2169 - 85a34cdbb1a82a52"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for BibleTrivia.QuizStore.completeQuiz(onComplete: (BibleTrivia.CompletedQuiz) async -&gt; ()) async -&gt; ()"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/QuizStore/QuizStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152">
+               </Location>
+               <Location
+                  uuid = "FCB8996E-7079-4962-A171-868BAEDE2169 - d7b63c6de8757a74"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in BibleTrivia.QuizStore.completeQuiz(onComplete: (BibleTrivia.CompletedQuiz) async -&gt; ()) async -&gt; ()"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/QuizStore/QuizStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -82,6 +112,36 @@
             endingLineNumber = "137"
             landmarkName = "handleAuthDeepLink(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2E08C1EE-9094-4F96-8787-BA7C45081014 - 5b1a473ed627a9ce"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in BibleTrivia.RouterView.handleAuthDeepLink(Foundation.URL) -&gt; ()"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/RouterView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138">
+               </Location>
+               <Location
+                  uuid = "2E08C1EE-9094-4F96-8787-BA7C45081014 - e8228165d1b555e8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 () async -&gt; () in BibleTrivia.RouterView.handleAuthDeepLink(Foundation.URL) -&gt; ()"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/RouterView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -338,6 +398,64 @@
             endingLineNumber = "40"
             landmarkName = "startQuiz(_:userId:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F85BAB9D-E9E2-4AE3-A54B-27259D6707F3 - 581fbfc3b3782801"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for BibleTrivia.QuizSessionService.startQuiz(_: BibleTrivia.Quiz, userId: Foundation.UUID) async throws -&gt; Swift.Int"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/QuizStore/QuizSessionService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40">
+               </Location>
+               <Location
+                  uuid = "F85BAB9D-E9E2-4AE3-A54B-27259D6707F3 - e68c86c03545ca09"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for BibleTrivia.QuizSessionService.startQuiz(_: BibleTrivia.Quiz, userId: Foundation.UUID) async throws -&gt; Swift.Int"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/QuizStore/QuizSessionService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40">
+               </Location>
+               <Location
+                  uuid = "F85BAB9D-E9E2-4AE3-A54B-27259D6707F3 - 84609ae21f215403"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for BibleTrivia.QuizSessionService.startQuiz(_: BibleTrivia.Quiz, userId: Foundation.UUID) async throws -&gt; Swift.Int"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/QuizStore/QuizSessionService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40">
+               </Location>
+               <Location
+                  uuid = "F85BAB9D-E9E2-4AE3-A54B-27259D6707F3 - ae926412493e3202"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for BibleTrivia.QuizSessionService.startQuiz(_: BibleTrivia.Quiz, userId: Foundation.UUID) async throws -&gt; Swift.Int"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/BibleTrivia/Services/QuizStore/QuizSessionService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -370,6 +488,36 @@
             endingLineNumber = "106"
             landmarkName = "listenAuthEvents()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A9C80AF2-CF41-4B7D-B8C4-9482EDFB9E67 - 1d160675ab0b8907"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(27) suspend resume partial function for BibleTrivia.RouterView.listenAuthEvents() async -&gt; ()"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/RouterView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106">
+               </Location>
+               <Location
+                  uuid = "A9C80AF2-CF41-4B7D-B8C4-9482EDFB9E67 - 33086c7dd0a12e12"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(28) await resume partial function for BibleTrivia.RouterView.listenAuthEvents() async -&gt; ()"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/RouterView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -386,6 +534,36 @@
             endingLineNumber = "111"
             landmarkName = "listenAuthEvents()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A15C95F7-E7AE-4A02-96A3-52CC24B97FE8 - 8db10218ecad42ee"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(16) suspend resume partial function for BibleTrivia.RouterView.listenAuthEvents() async -&gt; ()"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/RouterView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "111"
+                  endingLineNumber = "111">
+               </Location>
+               <Location
+                  uuid = "A15C95F7-E7AE-4A02-96A3-52CC24B97FE8 - 183926d713b0e3fb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(17) await resume partial function for BibleTrivia.RouterView.listenAuthEvents() async -&gt; ()"
+                  moduleName = "BibleTrivia.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/johnkata/BibleTrivia/RouterView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "111"
+                  endingLineNumber = "111">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -400,8 +578,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "120"
             endingLineNumber = "120"
-            landmarkName = "handleAuthDeepLink(_:)"
-            landmarkType = "7">
+            landmarkName = "RouterView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -434,6 +612,22 @@
             endingLineNumber = "90"
             landmarkName = "listenAuthEvents()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E51E1C8D-14A3-4510-8282-8B3926832C3D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BibleTrivia/Views/TopicViews/AllTopicsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

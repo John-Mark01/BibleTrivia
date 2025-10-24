@@ -17,7 +17,7 @@ import SwiftUI
     private(set) var userId: UUID?
     
 // MARK: - State Properties
-    var allTopics: [Topic] = []
+    var allTopics: [Topic] = [.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),]
     private(set) var chosenTopic: Topic?
     var quizzesForSelectedTopic: [Quiz] = []
     
@@ -36,7 +36,7 @@ import SwiftUI
     }
 //MARK: - Computed Properties
         
-        /// Safe access to current quiz
+    /// Safe access to current quiz
     var currentTopic: Topic {
         guard let topic = self.chosenTopic else {
             alertManager.showAlert(
@@ -56,17 +56,32 @@ import SwiftUI
         self.userId = id
     }
     
+// MARK: - Topic Selection
+    
+    /// Select a topic and prepare to load its quizzes
+    func selectTopic(_ topic: Topic) {
+        log(with: "📌 User selected topic: \(topic.name)")
+        self.chosenTopic = topic
+    }
+    
+    /// Clear selected topic
+    func unselectTopic() {
+        log(with: "🔄 Clearing selected topic")
+        self.chosenTopic = nil
+        self.quizzesForSelectedTopic.removeAll()
+    }
+    
 // MARK: - Topic Loading
     
     /// Load topics with user progress
-    func loadTopics(limit: Int? = nil) async {
+    func loadTopicsWithUserProgress(limit: Int? = nil) async {
         guard let userId = requireAuthentication() else { return }
         
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
         
         do {
-            let topics = try await topicRepository.getTopics(limit: limit)
+            let topics = try await topicRepository.getTopicsWithUserProgress(userId: userId, limit: limit, offset: 0)
             
             await MainActor.run {
                 withAnimation {
@@ -84,25 +99,37 @@ import SwiftUI
         }
     }
     
+    func getTopicsForPagination(limit: Int?, offset: Int) async {
+        guard let userId = requireAuthentication() else { return }
+        
+//        LoadingManager.shared.show()
+        
+        do {
+            let topics = try await topicRepository.getTopicsWithUserProgress(userId: userId, limit: limit, offset: offset)
+            
+            await MainActor.run {
+                withAnimation {
+//                    LoadingManager.shared.hide()
+                    self.allTopics.append(contentsOf: topics)
+                }
+            }
+            
+            log(with: "✅ Paginated \(topics.count) more topics with offset: \(offset), total: \(allTopics.count)")
+            
+        } catch {
+            await MainActor.run {
+                self.unexpectedError()
+            }
+            log(with: "❌ Unexpected error paginating topics: \(error.localizedDescription)")
+        }
+        
+    }
+    
     /// Refresh topics (reload with updated progress)
     func refreshTopics(amount: Int?) async {
-        await loadTopics(limit: amount)
+        await loadTopicsWithUserProgress(limit: amount)
     }
     
-// MARK: - Topic Selection
-    
-    /// Select a topic and prepare to load its quizzes
-    func selectTopic(_ topic: Topic) {
-        log(with: "📌 User selected topic: \(topic.name)")
-        self.chosenTopic = topic
-    }
-    
-    /// Clear selected topic
-    func unselectTopic() {
-        log(with: "🔄 Clearing selected topic")
-        self.chosenTopic = nil
-        self.quizzesForSelectedTopic.removeAll()
-    }
     
 // MARK: - Quiz Loading for Topic
     
@@ -117,14 +144,14 @@ import SwiftUI
     }
     
     /// Load quizzes for a specific topic ID
-    func loadQuizzes(forTopicId topicId: Int) async {
+    func loadQuizzes(forTopicId topicId: Int, limit: Int? = nil, offset: Int = 0) async {
         guard let userId = requireAuthentication() else { return }
         
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
         
         do {
-            let quizzes = try await topicRepository.getQuizzesForTopic(topicId: topicId)
+            let quizzes = try await topicRepository.getQuizzesForTopic(topicId: topicId, limit: limit, offset: offset)
             
             
             await MainActor.run {

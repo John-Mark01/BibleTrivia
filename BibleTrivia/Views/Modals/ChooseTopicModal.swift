@@ -5,12 +5,10 @@
 //  Created by John-Mark Iliev on 9.11.24.
 //
 
-
 import SwiftUI
 
 struct ChooseTopicModal: View {
-    
-    var topic: Topic
+    let topic: Topic
     let goToQuizez: () -> Void
     let cancel: () -> Void
     
@@ -32,7 +30,7 @@ struct ChooseTopicModal: View {
                 VStack(spacing: 22) {
                     // Level
                     HStack {
-                        Image("medal-star")                        
+                        Image("medal-star")
                         Text("Status:")
                             .applyFont(.medium, size: 18)
                         
@@ -47,13 +45,13 @@ struct ChooseTopicModal: View {
                     // Questions
                     HStack {
                         Image("task-square")
-                        Text("Quizez:")
+                        Text("Completed Quizez:")
                             .applyFont(.medium, size: 18)
                         
                         Spacer()
                         
                         VStack(alignment: .leading) {
-                            Text("\(topic.numberOfQuizes)")
+                            Text("\(topic.playedQuizzes.count)/\(topic.numberOfQuizes)")
                                 .applyFont(.regular, size: 18)
                         }
                     }
@@ -73,20 +71,15 @@ struct ChooseTopicModal: View {
                     }
                     
                     // Time
-                    HStack {
-                        LinearProgressView(progress: Int(topic.completenesLevel), goal: topic.numberOfQuizes)
-                    }
+                    LinearProgressView(progress: topic.playedQuizzes.count, goal: topic.numberOfQuizes)
                 }
 
-                
                 Spacer()
                 
                 //MARK: Buttons
                 VStack {
                     Button("View Quizez") {
-                        withAnimation {
-                            goToQuizez()
-                        }
+                        withAnimation { goToQuizez() }
                     }
                     .buttonStyle(.primary)
                     

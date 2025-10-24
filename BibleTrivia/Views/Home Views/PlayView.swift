@@ -18,7 +18,6 @@ struct PlayView: View {
     
     @State private var openQuizModal: Bool = false
     @State private var openTopicModal: Bool = false
-    @State private var showAllTopics: Bool = false
     
     var body: some View {
         ZStack {
@@ -27,9 +26,16 @@ struct PlayView: View {
                     ChooseQuizModal(
                         quiz: quizStore.currentQuiz,
                         startQuiz: {
-                            router.navigateTo(.quizView)
+                            Task {
+                                await quizStore.startQuiz {
+                                    router.navigateTo(.quizView)
+                                    onCloseModal(.quiz)
+                                }
+                            }
                         }, cancel: {
-                            onCloseModal(.quiz)
+                            quizStore.cancelChoosingQuiz {
+                                onCloseModal(.quiz)
+                            }
                         }
                     )
                 }
@@ -41,6 +47,7 @@ struct PlayView: View {
 //                            showAllTopics = true
                             //TODO: Navigate to all topics screen
                         }, cancel: {
+                            topicStore.unselectTopic()
                             onCloseModal(.topic)
                         }
                     )
@@ -56,7 +63,9 @@ struct PlayView: View {
                     
                     //Choose a topic
                     SectionTitle(title: "Choose a Topic")
-                        .setTextButton("See all", action: {})
+                        .setTextButton("See all", action: {
+                            router.navigateTo(.allTopics)
+                        })
                     
                     TopicsCaurosel(topics: topicStore.allTopics) { topic in
                         topicStore.selectTopic(topic)
@@ -98,17 +107,14 @@ struct PlayView: View {
                     }
                 }
             }
-            .navigationDestination(isPresented: $showAllTopics) {
-                AllTopicsView(topics: topicStore.allTopics)
-            }
         }
         .onDisappear { refreshTask?.cancel() }
     }
     
     private func onRefresh() {
         refreshTask = Task {
-            await quizStore.refreshQuizzes(amount: 50)
-            await topicStore.refreshTopics(amount: 50)
+            await quizStore.refreshQuizzes(amount: 10)
+            await topicStore.refreshTopics(amount: 10)
         }
     }
     

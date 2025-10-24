@@ -22,6 +22,7 @@ final class Router {
         case play
         case quizView
         case topics
+        case allTopics
         
         case account
         case myProgress
@@ -102,6 +103,8 @@ final class Router {
             BTTabBar()
         case .play:
             PlayView()
+        case .allTopics:
+            AllTopicsScreen()
         case .topics:
             TopicsView()
             

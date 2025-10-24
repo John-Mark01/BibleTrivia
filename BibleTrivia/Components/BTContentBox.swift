@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct BTContentBox<Content: View>: View {
+    var background: Color = .white
+    
     @ViewBuilder let content: () -> Content
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(.boxStroke, lineWidth: 2)
+                .fill(background)
                 .foregroundStyle(.white)
             
             content()
