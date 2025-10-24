@@ -23,6 +23,7 @@ final class Router {
         case quizView
         case topics
         case allTopics
+        case allQuizzes
         
         case account
         case myProgress
@@ -105,6 +106,9 @@ final class Router {
             PlayView()
         case .allTopics:
             AllTopicsScreen()
+        case .allQuizzes:
+            AllQuizzezView()
+            
         case .topics:
             TopicsView()
             

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AllTopicsScreen: View {
+    @Environment(Router.self) private var router
     @Environment(TopicStore.self) private var topicStore
     
     @State private var isPaginating: Bool = true
@@ -49,15 +50,15 @@ struct AllTopicsScreen: View {
                         .padding(.vertical)
                     }
                 }
-                .applyViewPaddings(.vertical)
                 .padding(.horizontal, 3)
+                .applyViewPaddings(.vertical)
             }
-            .applyViewPaddings(.horizontal)
-            .applyBackground()
             .navigationTitle("Topics")
             .navigationBarTitleDisplayMode(.inline)
             .blur(radius: openTopicModal ? 3 : 0)
             .disabled(openTopicModal)
+            .applyViewPaddings(.horizontal)
+            .applyBackground()
             
             // Modal
             Group {
@@ -65,8 +66,7 @@ struct AllTopicsScreen: View {
                     ChooseTopicModal(
                         topic: topicStore.currentTopic,
                         goToQuizez: {
-                            //                            showAllTopics = true
-                            //TODO: Navigate to all topics screen
+                            router.navigateTo(.allQuizzes)
                         }, cancel: {
                             topicStore.unselectTopic()
                             openTopicModal = false

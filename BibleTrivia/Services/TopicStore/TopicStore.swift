@@ -102,14 +102,11 @@ import SwiftUI
     func getTopicsForPagination(limit: Int?, offset: Int) async {
         guard let userId = requireAuthentication() else { return }
         
-//        LoadingManager.shared.show()
-        
         do {
             let topics = try await topicRepository.getTopicsWithUserProgress(userId: userId, limit: limit, offset: offset)
             
             await MainActor.run {
                 withAnimation {
-//                    LoadingManager.shared.hide()
                     self.allTopics.append(contentsOf: topics)
                 }
             }

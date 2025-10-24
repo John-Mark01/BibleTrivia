@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable class Quiz: Identifiable {
-    var id: Int = 0
+    var id: Int = Int.random(in: 0...999999999)
     var topicId: Int = 0
     var name: String = ""
     var questions: [Question] = [.init(text: "N/A", explanation: "N/A", answers: [])]
