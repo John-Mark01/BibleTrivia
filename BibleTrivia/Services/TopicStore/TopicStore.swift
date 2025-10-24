@@ -17,9 +17,10 @@ import SwiftUI
     private(set) var userId: UUID?
     
 // MARK: - State Properties
-    var allTopics: [Topic] = [.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),.init(id: Int.random(in: 0...999999999), name: "fdjklajdkljfa"),]
+    var allTopics: [Topic] = []
     private(set) var chosenTopic: Topic?
     var quizzesForSelectedTopic: [Quiz] = []
+    var completedQuizzesForSelectedTopic: [CompletedQuiz] = []
     
 // MARK: - Initialization
     
@@ -130,26 +131,21 @@ import SwiftUI
     
 // MARK: - Quiz Loading for Topic
     
-    /// Load all quizzes for the currently selected topic
-    func loadQuizzesForSelectedTopic() async {
-        guard let topic = chosenTopic else {
-            log(with: "⚠️ No topic selected to load quizzes")
-            return
-        }
-        
-        await loadQuizzes(forTopicId: topic.id)
-    }
-    
     /// Load quizzes for a specific topic ID
-    func loadQuizzes(forTopicId topicId: Int, limit: Int? = nil, offset: Int = 0) async {
+    func loadNeverPlayedQuizzesForTopic(limit: Int? = nil, offset: Int = 0) async {
         guard let userId = requireAuthentication() else { return }
+        guard let topicId = self.chosenTopic?.id else { return }
         
         LoadingManager.shared.show()
         defer { LoadingManager.shared.hide() }
         
         do {
-            let quizzes = try await topicRepository.getQuizzesForTopic(topicId: topicId, limit: limit, offset: offset)
-            
+            let quizzes = try await topicRepository.getNeverPlayedQuizzesForTopic(
+                userId: userId,
+                topicId: topicId,
+                limit: limit,
+                offset: offset
+            )
             
             await MainActor.run {
                 withAnimation {
@@ -166,11 +162,39 @@ import SwiftUI
             log(with: "❌ Unexpected error loading quizzes: \(error.localizedDescription)")
         }
     }
+    /// Load quizzes for a specific topic ID
+    func loadCompletedQuizzesForTopic(limit: Int? = nil, offset: Int = 0) async {
+        guard let userId = requireAuthentication() else { return }
+        guard let topicId = self.chosenTopic?.id else { return }
+        
+        LoadingManager.shared.show()
+        defer { LoadingManager.shared.hide() }
+        
+        do {
+            let quizzes = try await topicRepository.getUserCompletedQuizzezForTopic(
+                userId: userId,
+                topicId: topicId,
+                limit: limit,
+                offset: offset
+            )
+            
+            await MainActor.run {
+                withAnimation {
+                    self.completedQuizzesForSelectedTopic = quizzes
+                }
+            }
+            
+            log(with: "✅ Loaded \(quizzes.count) completed quizzes for topic \(topicId)")
+            
+        } catch {
+            await MainActor.run {
+                self.unexpectedError()
+            }
+            log(with: "❌ Unexpected error loading completed quizzes: \(error.localizedDescription)")
+        }
+    }
     
-    // MARK: - Progress Queries //TODO:
-    
-    // MARK: - Private Helpers
-    
+// MARK: - Helpers
     private func unexpectedError() {
         alertManager.showAlert(
             type: .error,

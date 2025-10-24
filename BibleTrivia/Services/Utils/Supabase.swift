@@ -331,3 +331,59 @@ extension Supabase {
     }
     
 }
+
+//MARK: - NEW / Get User Completed Quizzes
+extension Supabase {
+    
+    /// Fetch all quizzes that a user has never played before for a specific topic
+    func getQuizzesForTopic(userId: UUID, topicId: Int, limit: Int?, offset: Int) async throws -> [Quiz] {
+        let quizzes: [CompleteQuizPayload] = try await supabaseClient
+            .rpc("get_available_quizzes_for_user_for_topic", params: [
+                "user_id_param": userId.uuidString,
+                "topic_id_param": String(topicId),
+                "limit_param": String(limit ?? 0),
+                "offset_param": String(offset)
+            ])
+            .execute()
+            .value
+        
+        return quizzes.map { $0.convertToQuiz() }
+    }
+    
+    func getCompletedQuizzesForTopic(userId: UUID, topicId: Int, limit: Int?, offset: Int) async throws -> [CompletedQuiz] {
+        let response: [CompletedQuizWithSession] = try await supabaseClient
+            .rpc("get_user_completed_quizzes_by_topic", params: [
+                "user_id_param": userId.uuidString,
+                "topic_id_param": String(topicId),
+                "limit_param": String(limit ?? 0),
+                "offset_param": String(offset)
+            ])
+            .execute()
+            .value
+        let result = response
+        return parseCompletedQuizzes(result)
+    }
+    
+    func parseCompletedQuizzes(_ payloads: [CompletedQuizWithSession]) -> [CompletedQuiz] {
+        var results: [CompletedQuiz] = []
+        
+        for payload in payloads {
+            //Parse Quiz from QuizPayload
+            let quiz = payload.quiz.toQuiz()
+            
+            //Parse Questions and Answers
+            var questions: [Question] = []
+            for questionPayload in payload.questions {
+                var question = questionPayload.question.toQuestion()
+                question.answers = questionPayload.answers.map { $0.toAnswer() }
+                
+                questions.append(question)
+            }
+            
+            quiz.questions = questions
+            results.append(.init(quiz: quiz, sessionId: payload.session.id, session: payload.session))
+        }
+        
+        return results
+    }
+}

@@ -9,11 +9,11 @@ import SwiftUI
 
 struct AllQuizzezView: View {
     @Environment(Router.self) private var router
-    @Environment(UserStore.self) private var userStore
     @Environment(QuizStore.self) private var quizStore
     @Environment(TopicStore.self) private var topicStore
     
     @State private var openQuizModal: Bool = false
+    @State private var isPaginating: Bool = false
     
     var body: some View {
         ZStack {
@@ -23,17 +23,47 @@ struct AllQuizzezView: View {
                     
                     //Completed Quizzes
                     SectionTitle(title: "Completed")
-                    ForEach(userStore.completedQuizzes.filter {$0.quiz.topicId == topicStore.currentTopic.id}) { completedQuiz in
+                    ForEach(topicStore.completedQuizzesForSelectedTopic) { completedQuiz in
                         CompletedQuizzezViewRow(completedQuiz: completedQuiz)
                             .padding(1)
                     }
                     
                     //New Quizzes
                     SectionTitle(title: "New")
-                    FindQuizViewRow(quizes: quizStore.allQuizez.filter {$0.topicId == topicStore.currentTopic.id}) { quiz in
+                    
+                    FindQuizViewRow(quizes: topicStore.quizzesForSelectedTopic) { quiz in
                         quizStore.chooseQuiz(quiz: quiz)
                         onQuizModal(open: true)
                     }
+                    ForEach(Array(topicStore.quizzesForSelectedTopic.enumerated()), id: \.element.id) { index, quiz in
+                        QuizRectangleView(quiz: quiz)
+                            .makeButton(action: { quizStore.chooseQuiz(quiz: quiz) }, addHapticFeedback: true, feedbackStyle: .start)
+                            .task {
+                                guard topicStore.quizzesForSelectedTopic.count > 10 else { return }
+                                if index == topicStore.quizzesForSelectedTopic.count - 1 {
+                                    isPaginating = true
+                                    await topicStore.loadNeverPlayedQuizzesForTopic(
+                                        limit: 5,
+                                        offset: topicStore.quizzesForSelectedTopic.count
+                                    )
+                                    isPaginating = false
+                                }
+                            }
+                            .padding(1)
+                    }
+                }
+                
+                //Loading indicator
+                if isPaginating {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                            .tint(.btPrimary)
+                            .controlSize(.large)
+                        
+                        Spacer()
+                    }
+                    .padding(.vertical)
                 }
             }
             .navigationTitle("Quizzes")
@@ -64,6 +94,10 @@ struct AllQuizzezView: View {
                 }
             }
             .zIndex(999)
+        }
+        .task {
+            await topicStore.loadNeverPlayedQuizzesForTopic(limit: 10)
+            await topicStore.loadCompletedQuizzesForTopic(limit: 10)
         }
 //        .onAppear {
 //            for _ in 0..<3 {

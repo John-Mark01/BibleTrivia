@@ -44,8 +44,7 @@ struct PlayView: View {
                     ChooseTopicModal(
                         topic: topicStore.currentTopic,
                         goToQuizez: {
-//                            showAllTopics = true
-                            //TODO: Navigate to all topics screen
+                           router.navigateTo(.allQuizzes)
                         }, cancel: {
                             topicStore.unselectTopic()
                             onCloseModal(.topic)

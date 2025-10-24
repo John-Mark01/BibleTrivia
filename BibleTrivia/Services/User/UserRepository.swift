@@ -12,7 +12,6 @@ protocol UserRepositoryProtocol {
     func getUserStartedQuizzez(for userId: UUID) async throws -> [StartedQuiz]
     func getUserCompletedQuizzez(for userId: UUID) async throws -> [CompletedQuiz]
     func getUserCompletedQuizzezCount(for userId: UUID) async throws -> Int
-    func getUserCompletedQuizzezForTopic(withId topicId: Int, for userId: UUID) async throws -> [Quiz]
 }
 
 final class UserRepository: UserRepositoryProtocol {
@@ -64,11 +63,5 @@ final class UserRepository: UserRepositoryProtocol {
     func getUserCompletedQuizzezCount(for userId: UUID) async throws -> Int {
         let sessions = try await quizSessionManager.getCompletedQuizzes(for: userId)
         return sessions.count
-    }
-    
-    func getUserCompletedQuizzezForTopic(withId topicId: Int, for userId: UUID) async throws -> [Quiz] {
-        let sessions = try await quizSessionManager.getCompletedQuizzes(for: userId)
-        
-        return []
     }
 }

@@ -10,7 +10,8 @@ import Foundation
 /// Repository protocol for topic data operations
 protocol TopicRepositoryProtocol {
     func getTopicsWithUserProgress(userId: UUID, limit: Int?, offset: Int) async throws -> [Topic]
-    func getQuizzesForTopic(topicId: Int, limit: Int?, offset: Int) async throws -> [Quiz]
+    func getNeverPlayedQuizzesForTopic(userId: UUID, topicId: Int, limit: Int?, offset: Int) async throws -> [Quiz]
+    func getUserCompletedQuizzezForTopic(userId: UUID, topicId: Int, limit: Int?, offset: Int) async throws -> [CompletedQuiz]
 }
 
 /// Concrete implementation of TopicRepository using Supabase
@@ -28,7 +29,7 @@ class TopicRepository: TopicRepositoryProtocol {
     func getTopicsWithUserProgress(userId: UUID, limit: Int? = nil, offset: Int = 0) async throws -> [Topic] {
         let topics = try await supabase.getTopics(limit: limit, offset: offset)
         for topic in topics {
-            async let allQuizzesForTopic = try await getQuizzesForTopic(topicId: topic.id)
+            async let allQuizzesForTopic = try await supabase.getQuizzesWithTopicID(topic.id, limit: limit, offset: offset)
             async let playedQuizzes = try await supabase.getPlayedQuizzezIds(for: userId)
             let result = (try await playedQuizzes, try await allQuizzesForTopic)
             
@@ -40,8 +41,13 @@ class TopicRepository: TopicRepositoryProtocol {
     
 // MARK: - Quizzes for Topic
     
-    /// Fetch all quizzes for a specific topic (without questions/answers)
-    func getQuizzesForTopic(topicId: Int, limit: Int? = nil, offset: Int = 0) async throws -> [Quiz] {
-        return try await supabase.getQuizzesWithTopicID(topicId, limit: limit, offset: offset)
+    /// Fetch all quizzes that a user has NEVER played before based on a specific topic
+    func getNeverPlayedQuizzesForTopic(userId: UUID, topicId: Int, limit: Int?, offset: Int) async throws -> [Quiz] {
+        return try await supabase.getQuizzesForTopic(userId: userId, topicId: topicId, limit: limit, offset: offset)
+    }
+    
+    /// Fetch all quizzes that a user has played & COMPLETED before, based on a specific topic
+    func getUserCompletedQuizzezForTopic(userId: UUID, topicId: Int, limit: Int?, offset: Int) async throws -> [CompletedQuiz] {
+        return try await supabase.getCompletedQuizzesForTopic(userId: userId, topicId: topicId, limit: limit, offset: offset)
     }
 }

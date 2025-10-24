@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		360EF5DF2EAC00F2002B63D8 /* QuizSessionWithQuiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360EF5DE2EAC00F2002B63D8 /* QuizSessionWithQuiz.swift */; };
+		360EF5E22EAC1FFD002B63D8 /* CompleteQuizPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360EF5E12EAC1FFD002B63D8 /* CompleteQuizPayload.swift */; };
 		364B80002E89687800C9EFD9 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364B7FFF2E89686D00C9EFD9 /* UserRepository.swift */; };
 		3651BB762EA94E3A00ECAEC0 /* TopicStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3651BB752EA94E3A00ECAEC0 /* TopicStore.swift */; };
 		3651BB782EA94E5400ECAEC0 /* TopicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3651BB772EA94E5400ECAEC0 /* TopicRepository.swift */; };
@@ -117,6 +119,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		360EF5DE2EAC00F2002B63D8 /* QuizSessionWithQuiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSessionWithQuiz.swift; sourceTree = "<group>"; };
+		360EF5E12EAC1FFD002B63D8 /* CompleteQuizPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteQuizPayload.swift; sourceTree = "<group>"; };
 		364B7FFF2E89686D00C9EFD9 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		3651BB752EA94E3A00ECAEC0 /* TopicStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicStore.swift; sourceTree = "<group>"; };
 		3651BB772EA94E5400ECAEC0 /* TopicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicRepository.swift; sourceTree = "<group>"; };
@@ -240,6 +244,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		360EF5E02EAC1FEC002B63D8 /* QuizDTO's */ = {
+			isa = PBXGroup;
+			children = (
+				360EF5E12EAC1FFD002B63D8 /* CompleteQuizPayload.swift */,
+			);
+			path = "QuizDTO's";
+			sourceTree = "<group>";
+		};
 		364B7FFC2E8967EC00C9EFD9 /* QuizStore */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,6 +320,7 @@
 			children = (
 				367F0C182E8D974E00B06A24 /* SavedAnswer.swift */,
 				367F0C162E8D974700B06A24 /* QuizSessionResponse.swift */,
+				360EF5DE2EAC00F2002B63D8 /* QuizSessionWithQuiz.swift */,
 			);
 			path = "SessionService_DTO's";
 			sourceTree = "<group>";
@@ -423,6 +436,7 @@
 		36E0A5AC2D1C47C5006AEC4F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				360EF5E02EAC1FEC002B63D8 /* QuizDTO's */,
 				367F0C152E8D973B00B06A24 /* SessionService_DTO's */,
 				36E0A5A52D1C47C5006AEC4F /* Answer.swift */,
 				36E0A5A62D1C47C5006AEC4F /* DifficultyLevel.swift */,
@@ -692,6 +706,7 @@
 				365B03FA2EA815B80050E6E8 /* AuthenticatedStore.swift in Sources */,
 				36E0A5EF2D1C47C5006AEC4F /* UserModel.swift in Sources */,
 				36B6B17C2E90661C004137CA /* LetsStartAQuizScreen.swift in Sources */,
+				360EF5DF2EAC00F2002B63D8 /* QuizSessionWithQuiz.swift in Sources */,
 				36B6B17D2E90661C004137CA /* LoginViewAdvanced.swift in Sources */,
 				36B6B17E2E90661C004137CA /* LetsCreateYourProfileScreen.swift in Sources */,
 				36B6B17F2E90661C004137CA /* GetEmailView.swift in Sources */,
@@ -753,6 +768,7 @@
 				36B5A74E2D2984F10021F21C /* Errors.swift in Sources */,
 				367F0C282E9064F900B06A24 /* ForgotPasswordView.swift in Sources */,
 				36E0A60E2D1C47C5006AEC4F /* AnswerViewRow.swift in Sources */,
+				360EF5E22EAC1FFD002B63D8 /* CompleteQuizPayload.swift in Sources */,
 				3663E6572E36A097004CB9BC /* BTTabBar.swift in Sources */,
 				3663E6592E36AED6004CB9BC /* TabBarManager.swift in Sources */,
 				36B5D6022D3C327000D5E732 /* ProgressTimerButton.swift in Sources */,
