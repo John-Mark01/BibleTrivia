@@ -31,9 +31,18 @@ struct AnswerPayload: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case id
-        case text = "name"
+        case text
         case questionId = "question_id"
         case isCorrect = "is_correct"
+    }
+    
+    func toAnswer() -> Answer {
+        return .init(
+            id: id,
+            text: text,
+            questionId: questionId,
+            isCorrect: isCorrect
+        )
     }
 }
 

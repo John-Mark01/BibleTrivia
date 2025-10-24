@@ -86,4 +86,13 @@ struct QuestionPayload: Decodable {
         case explaination
         case quizId = "quiz_id"
     }
+    
+    func toQuestion() -> Question {
+        return .init(
+            id: self.id,
+            text: self.text,
+            explaination: self.explaination ?? "n/a",
+            quizId: self.quizId
+        )
+    }
 }
