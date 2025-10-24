@@ -66,7 +66,7 @@ struct AllQuizzezView: View {
                     .padding(.vertical)
                 }
             }
-            .navigationTitle("Quizzes")
+            .navigationTitle(topicStore.currentTopic.name)
             .navigationBarTitleDisplayMode(.inline)
             .blur(radius: openQuizModal ? 3 : 0)
             .disabled(openQuizModal)
@@ -99,13 +99,6 @@ struct AllQuizzezView: View {
             await topicStore.loadNeverPlayedQuizzesForTopic(limit: 10)
             await topicStore.loadCompletedQuizzesForTopic(limit: 10)
         }
-//        .onAppear {
-//            for _ in 0..<3 {
-//                userStore.addStartedQuiz(.init(sessionId: 0, quiz: .init()))
-//                userStore.completedQuizzes.append(.init(quiz: .init(), sessionId: 0))
-//                quizStore.allQuizez.append(.init())
-//            }
-//        }
     }
     
     private func onQuizModal(open shouldOpen: Bool) {

@@ -40,11 +40,12 @@ import SwiftUI
     /// Safe access to current quiz
     var currentTopic: Topic {
         guard let topic = self.chosenTopic else {
-            alertManager.showAlert(
-                type: .error,
-                message: "Unexpected Error, no topic is selected!",
-                buttonText: "Go Back", action: { self.router.popBackStack() }
-            )
+            //TODO: Removed because of annoying bug alert on screen on modal close.
+//            alertManager.showAlert(
+//                type: .error,
+//                message: "Unexpected Error, no topic is selected!",
+//                buttonText: "Go Back", action: { self.router.popBackStack() }
+//            )
             return Topic(id: 0, name: "N/A")
         }
         
