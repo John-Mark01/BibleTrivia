@@ -2,13 +2,12 @@
 //  SectionModel.swift
 //  BibleTrivia
 //
-//  Created by John-Mark Iliev on 30.11.24.
-//
 
-import Foundation
+import SwiftUI
 
+/// A row in a settings-style form (`BTForm`).
 struct SectionModel {
-    var name: String
-    var image: String
-    var action: () -> Void
+    let name: LocalizedStringKey
+    let image: String
+    let action: () -> Void
 }

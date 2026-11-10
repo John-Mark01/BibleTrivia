@@ -178,21 +178,23 @@ struct BTKeyboardRemover: ViewModifier {
 
 //MARK: Alert Handling
 struct BTAlertHandler: ViewModifier {
-    @State private var alertManager = AlertManager.shared
-    
+    @Environment(AlertManager.self) private var alertManager
+
     func body(content: Content) -> some View {
+        @Bindable var alertManager = alertManager
         content
-            .blur(radius: alertManager.show ? 3 : 0)
-            .disabled(alertManager.show)
+            .blur(radius: alertManager.isPresented ? 3 : 0)
+            .disabled(alertManager.isPresented)
             .overlay {
-                if alertManager.show {
+                if let alert = alertManager.current {
                     AlertDialog(
-                        isPresented: $alertManager.show,
-                        title: alertManager.alertTitle,
-                        message: alertManager.alertMessage,
-                        buttonTitle: alertManager.buttonText,
-                        primaryAction: alertManager.action
+                        isPresented: $alertManager.isPresented,
+                        title: alert.title,
+                        message: alert.message,
+                        buttonTitle: alert.buttonTitle,
+                        primaryAction: alert.action
                     )
+                    .id(alert.id)
                 }
             }
     }

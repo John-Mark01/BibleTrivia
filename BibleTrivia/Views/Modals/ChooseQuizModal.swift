@@ -2,102 +2,41 @@
 //  ChooseQuizModal.swift
 //  BibleTrivia
 //
-//  Created by John-Mark Iliev on 13.10.24.
-//
 
 import SwiftUI
 
 struct ChooseQuizModal: View {
-    var quiz: Quiz
-    let startQuiz: () -> ()
-    let cancel: () -> ()
-    
+    let quiz: Quiz
+    let startQuiz: () -> Void
+    let cancel: () -> Void
+
     var body: some View {
-        
         ZStack {
             Color.black
                 .opacity(0.1)
-                .onTapGesture { cancel() }
-            
+                .onTapGesture(perform: cancel)
+
             VStack(alignment: .center, spacing: 10) {
                 Text(quiz.name)
                     .applyFont(.medium, size: 20, textColor: .btPrimary)
+                    .multilineTextAlignment(.center)
                     .padding(.top, 8)
-                
-                //MARK: Middle Info
+
                 VStack(spacing: 22) {
-                    // Level
-                    HStack {
-                        Image("medal-star")
-                        Text("Level:")
-                            .applyFont(.medium, size: 18)
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .leading) {
-                            Text(quiz.difficulty.getAsString())
-                                .applyFont(.regular, size: 18)
-                        }
-                    }
-                    
-                    // Questions
-                    HStack {
-                        Image("task-square")
-                        Text("Questions:")
-                            .applyFont(.medium, size: 18)
-                        
-                        Spacer()
-                        VStack(alignment: .leading) {
-                            Text("\(quiz.numberOfQuestions)")
-                                .applyFont(.regular, size: 18)
-                        }
-                    }
-                    
-                    // Points
-                    HStack {
-                        Image("cup")
-                        Text("Points:")
-                            .applyFont(.medium, size: 18)
-                        
-                        Spacer()
-                        VStack(alignment: .leading) {
-                            Text("\(quiz.totalPoints)")
-                                .applyFont(.regular, size: 18)
-                        }
-                    }
-                    
-                    // Time
-                    HStack {
-                        Image("timer")
-                        Text("Time:")
-                            .applyFont(.medium, size: 18)
-                        
-                        Spacer()
-                        VStack(alignment: .leading) {
-                            Text("\(Int(quiz.time.rounded())) minutes")
-                                .applyFont(.regular, size: 18)
-                        }
-                    }
+                    InfoRow(image: "medal-star", title: "Level:", value: quiz.difficulty.title)
+                    InfoRow(image: "task-square", title: "Questions:", value: "\(quiz.numberOfQuestions)")
+                    InfoRow(image: "cup", title: "Points:", value: "\(quiz.totalPoints)")
+                    InfoRow(image: "timer", title: "Time:", value: "\(Int(quiz.timeToComplete.rounded())) min")
                 }
-//                .padding()
-                
+
                 Spacer()
-                
-                //MARK: Buttons
+
                 VStack {
-                    Button("Start Quiz") {
-                        withAnimation {
-                            startQuiz()
-                        }
-                    }
-                    .buttonStyle(.primary)
-                    
-                    Button("Cancel") {
-                        withAnimation {
-                            cancel()
-                        }
-                    }
-                    .buttonStyle(.secondary)
+                    Button("Start Quiz", action: startQuiz)
+                        .buttonStyle(.primary)
+
+                    Button("Cancel", action: cancel)
+                        .buttonStyle(.secondary)
                 }
             }
             .padding(25)
@@ -107,12 +46,69 @@ struct ChooseQuizModal: View {
             .padding(30)
         }
         .ignoresSafeArea()
-        
-        
+    }
+}
+
+struct InfoRow: View {
+    let image: String
+    let title: LocalizedStringKey
+    let value: String
+
+    var body: some View {
+        HStack {
+            Image(image)
+            Text(title)
+                .applyFont(.medium, size: 18)
+            Spacer()
+            Text(value)
+                .applyFont(.regular, size: 18)
+        }
+    }
+}
+
+// MARK: - Presentation
+
+/// Shows `ChooseQuizModal` while `quiz` is non-nil, starts the quiz on
+/// confirmation and navigates to the quiz screen.
+private struct QuizStartModal: ViewModifier {
+    @Binding var quiz: Quiz?
+    @Environment(QuizStore.self) private var quizStore
+    @Environment(Router.self) private var router
+
+    func body(content: Content) -> some View {
+        content
+            .blur(radius: quiz != nil ? 3 : 0)
+            .disabled(quiz != nil)
+            .blurTabBar(quiz != nil)
+            .overlay {
+                if let quiz {
+                    ChooseQuizModal(
+                        quiz: quiz,
+                        startQuiz: { start(quiz) },
+                        cancel: { self.quiz = nil }
+                    )
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                }
+            }
+            .animation(.snappy, value: quiz?.id)
+    }
+
+    private func start(_ quiz: Quiz) {
+        Task {
+            if await quizStore.start(quiz) {
+                self.quiz = nil
+                router.navigate(to: .quiz)
+            }
+        }
+    }
+}
+
+extension View {
+    func quizStartModal(_ quiz: Binding<Quiz?>) -> some View {
+        modifier(QuizStartModal(quiz: quiz))
     }
 }
 
 #Preview {
-    ChooseQuizModal(quiz: .init(), startQuiz: {}, cancel: {})
-
+    ChooseQuizModal(quiz: SampleData.quizzes[0], startQuiz: {}, cancel: {})
 }

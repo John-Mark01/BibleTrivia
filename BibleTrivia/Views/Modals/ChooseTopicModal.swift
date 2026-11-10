@@ -1,92 +1,42 @@
 //
-//  ChooseQuizModal 2.swift
+//  ChooseTopicModal.swift
 //  BibleTrivia
-//
-//  Created by John-Mark Iliev on 9.11.24.
 //
 
 import SwiftUI
 
 struct ChooseTopicModal: View {
     let topic: Topic
-    let goToQuizez: () -> Void
+    let goToQuizzes: () -> Void
     let cancel: () -> Void
-    
+
     var body: some View {
-        
         ZStack {
             Color.black
                 .opacity(0.1)
-                .onTapGesture {
-                    withAnimation { cancel() }
-                }
-            
+                .onTapGesture(perform: cancel)
+
             VStack(alignment: .center, spacing: 10) {
                 Text(topic.name)
                     .applyFont(.medium, size: 20)
+                    .multilineTextAlignment(.center)
                     .padding(.top, 8)
-                
-                //MARK: Middle Info
+
                 VStack(spacing: 22) {
-                    // Level
-                    HStack {
-                        Image("medal-star")
-                        Text("Status:")
-                            .applyFont(.medium, size: 18)
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .leading) {
-                            Text(topic.status.stringValue)
-                                .applyFont(.regular, size: 18)
-                        }
-                    }
-                    
-                    // Questions
-                    HStack {
-                        Image("task-square")
-                        Text("Completed Quizez:")
-                            .applyFont(.medium, size: 18)
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .leading) {
-                            Text("\(topic.playedQuizzes.count)/\(topic.numberOfQuizes)")
-                                .applyFont(.regular, size: 18)
-                        }
-                    }
-                    
-                    // Points
-                    HStack {
-                        Image("cup")
-                        Text("Points:")
-                            .applyFont(.medium, size: 18)
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .leading) {
-                            Text("\(topic.totalPoints)")
-                                .applyFont(.regular, size: 18)
-                        }
-                    }
-                    
-                    // Time
-                    LinearProgressView(progress: topic.playedQuizzes.count, goal: topic.numberOfQuizes)
+                    InfoRow(image: "medal-star", title: "Status:", value: topic.status.title)
+                    InfoRow(image: "task-square", title: "Completed:", value: "\(topic.completedQuizCount)/\(topic.quizCount)")
+                    InfoRow(image: "cup", title: "Points:", value: "\(topic.earnedPoints)/\(topic.totalPoints)")
+                    LinearProgressView(progress: topic.progress)
                 }
 
                 Spacer()
-                
-                //MARK: Buttons
+
                 VStack {
-                    Button("View Quizez") {
-                        withAnimation { goToQuizez() }
-                    }
-                    .buttonStyle(.primary)
-                    
-                    Button("Close") {
-                        withAnimation { cancel() }
-                    }
-                    .buttonStyle(.secondary)
+                    Button("View Quizzes", action: goToQuizzes)
+                        .buttonStyle(.primary)
+
+                    Button("Close", action: cancel)
+                        .buttonStyle(.secondary)
                 }
             }
             .padding(25)
@@ -97,4 +47,46 @@ struct ChooseTopicModal: View {
         }
         .ignoresSafeArea()
     }
+}
+
+// MARK: - Presentation
+
+/// Shows `ChooseTopicModal` while `topic` is non-nil and opens the topic's
+/// quizzes on confirmation.
+private struct TopicModal: ViewModifier {
+    @Binding var topic: Topic?
+    @Environment(TopicStore.self) private var topicStore
+    @Environment(Router.self) private var router
+
+    func body(content: Content) -> some View {
+        content
+            .blur(radius: topic != nil ? 3 : 0)
+            .disabled(topic != nil)
+            .blurTabBar(topic != nil)
+            .overlay {
+                if let topic {
+                    ChooseTopicModal(
+                        topic: topic,
+                        goToQuizzes: {
+                            topicStore.select(topic)
+                            self.topic = nil
+                            router.navigate(to: .topicQuizzes)
+                        },
+                        cancel: { self.topic = nil }
+                    )
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                }
+            }
+            .animation(.snappy, value: topic?.id)
+    }
+}
+
+extension View {
+    func topicModal(_ topic: Binding<Topic?>) -> some View {
+        modifier(TopicModal(topic: topic))
+    }
+}
+
+#Preview {
+    ChooseTopicModal(topic: SampleData.topics[0], goToQuizzes: {}, cancel: {})
 }

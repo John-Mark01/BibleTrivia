@@ -2,131 +2,104 @@
 //  UserAccountCard.swift
 //  BibleTrivia
 //
-//  Created by John-Mark Iliev on 2.12.24.
-//
 
 import SwiftUI
 
 struct UserAccountCard: View {
-    var user: UserModel
-    var viewUse: UseCase = .account
-    var body: some View {
-        
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .foregroundStyle(.btPrimary)
-                .frame(maxWidth: .infinity)
+    let profile: UserProfile
+    var style: Style = .account
 
-            
-            VStack(alignment: .leading, spacing: 20) {
-                HStack(alignment: .top, spacing: 10) {
-                    
-                    Image("Avatars/jacob") //TODO: Get custom user image or avatar
-                        .resizable()
-                        .clipShape(Circle())
-                        .frame(width: 60, height: 60)
-                    
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(user.name)
-                            .applyFont(.semiBold, size: 20, textColor: .white)
-                        
-                        Text("\(user.totalPoints)pts | \(user.userLevel.stringValue)")
-                            .applyFont(.medium, size: 14, textColor: .white)
-                        
-                        if viewUse == .myProgress {
-                            HStack(alignment: .top, spacing: 10) {
-                                LinearProgressView(progress: user.totalPoints, goal: user.nextLevel.rawValue, showPercentage: false, fillColor: .white, backgroundOpacity: 0.4)
-                                
-                                Text((UserLevel(rawValue: user.userLevel.rawValue + 1)?.stringValue ?? ""))
+    enum Style {
+        /// Name, points/level and a stats strip.
+        case account
+        /// Name, points/level and a progress bar to the next level.
+        case progress
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack(alignment: .top, spacing: 10) {
+                Image("Avatars/jacob") // TODO: user-chosen avatar
+                    .resizable()
+                    .clipShape(Circle())
+                    .frame(width: 60, height: 60)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(profile.name)
+                        .applyFont(.semiBold, size: 20, textColor: .white)
+
+                    Text("\(profile.totalPoints) pts | \(profile.level.title)")
+                        .applyFont(.medium, size: 14, textColor: .white)
+
+                    if style == .progress {
+                        HStack(alignment: .center, spacing: 10) {
+                            LinearProgressView(
+                                progress: profile.levelProgress,
+                                height: 14,
+                                showPercentage: false,
+                                fillColor: .white,
+                                backgroundOpacity: 0.4
+                            )
+                            if let next = profile.level.next {
+                                Text(next.title)
                                     .applyFont(.semiBold, size: 13, textColor: .white)
-                                    .offset(y: -1)
+                                    .fixedSize()
                             }
                         }
-                        
                     }
-                    Spacer()
                 }
-                
-                if viewUse == .account {
-                    UserScoreCard(user: user)
-                }
+                Spacer()
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 16)
-    
+
+            if style == .account {
+                UserScoreCard(profile: profile)
+            }
         }
-    }
-    
-    enum UseCase {
-        case account
-        case myProgress
+        .padding(16)
+        .frame(maxWidth: .infinity)
+        .background(RoundedRectangle(cornerRadius: 20).fill(.btPrimary))
     }
 }
 
 struct UserScoreCard: View {
-    var user: UserModel
-    
+    let profile: UserProfile
+
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .frame(maxWidth: .infinity, maxHeight: 70)
-                .foregroundStyle(.white.opacity(0.4))
-            
-            HStack(alignment: .center) {
-                // Points
-                VStack(alignment: .center, spacing: 4) {
-                    Text("\(user.totalPoints)")
-                        .applyFont(.medium, size: 18, textColor: .white)
-                    
-                    Text("Points")
-                        .applyFont(.medium, size: 14, textColor: .white.opacity(0.7))
-                }
-                Spacer()
-                
-                Text("|")
-                    .foregroundStyle(.white.opacity(0.7))
-                
-                Spacer()
-                
-                // Streak
-                VStack(alignment: .center, spacing: 4) {
-                    Text("\(user.streak)")
-                        .applyFont(.medium, size: 18, textColor: .white)
-                    
-                    Text("Days Steek")
-                        .applyFont(.medium, size: 14, textColor: .white.opacity(0.7))
-                }
-                
-                Spacer()
-                Text("|")
-                    .foregroundStyle(.white.opacity(0.7))
-                Spacer()
-                
-                // Streak
-                VStack(alignment: .center, spacing: 4) {
-                    Text("\(user.completedQuizzes ?? 0)")
-                        .applyFont(.medium, size: 18, textColor: .white)
-                    
-                    Text("Quizzez")
-                        .applyFont(.medium, size: 14, textColor: .white.opacity(0.7))
-                }
-                
-            }
-            .padding()
-            
+        HStack(alignment: .center) {
+            stat(value: profile.totalPoints, label: "Points")
+            divider
+            stat(value: profile.currentStreak, label: "Day Streak")
+            divider
+            stat(value: profile.completedQuizzes, label: "Quizzes")
         }
-        .background(.btPrimary)
-        
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: 70)
+        .background(RoundedRectangle(cornerRadius: 20).fill(.white.opacity(0.4)))
+    }
+
+    private var divider: some View {
+        Text("|")
+            .foregroundStyle(.white.opacity(0.7))
+            .frame(maxWidth: .infinity)
+            .accessibilityHidden(true)
+    }
+
+    private func stat(value: Int, label: LocalizedStringKey) -> some View {
+        VStack(alignment: .center, spacing: 4) {
+            Text("\(value)")
+                .applyFont(.medium, size: 18, textColor: .white)
+            Text(label)
+                .applyFont(.medium, size: 14, textColor: .white.opacity(0.7))
+        }
+        .accessibilityElement(children: .combine)
     }
 }
-//#Preview("Score Card") {
-//    let userStreak = UserStreak()
-//    let user = UserModel(name: "John-Mark Iliev", age: 23, avatarString: "Avatars/jacob", userLevel: .youthPastor, completedQuizzes: [], points: 328, streek: UserStreak().currentStreak, userPlan: .free)
-//    UserScoreCard(user: user)
-//        .padding(30)
-//}
-//#Preview {
-//    let user = UserModel(name: "John-Mark Iliev", age: 23, avatarString: "Avatars/jacob", userLevel: .youthPastor, completedQuizzes: [], points: 328, streek: 34, userPlan: .free)
-//    UserAccountCard(user: user, viewUse: .myProgress)
-//        .frame(height: 50)
-//}
+
+#Preview {
+    VStack {
+        UserAccountCard(profile: SampleData.profile, style: .account)
+        UserAccountCard(profile: SampleData.profile, style: .progress)
+    }
+    .applyViewPaddings()
+}

@@ -2,108 +2,70 @@
 //  Quiz.swift
 //  BibleTrivia
 //
-//  Created by John-Mark Iliev on 12.10.24.
-//
 
 import Foundation
 
-@Observable class Quiz: Identifiable {
-    var id: Int = Int.random(in: 0...999999999)
-    var topicId: Int = 0
-    var name: String = ""
-    var questions: [Question] = [.init(text: "N/A", explanation: "N/A", answers: [])]
-    var time: TimeInterval = 0
-    var status: QuizStatus = .new
-    var difficulty: DifficultyLevel = .newBorn
-    
-    var currentQuestionIndex: Int = 0
-    var totalPoints: Int = 0
-    
-    var numberOfQuestions: Int {
-        return questions.count
-    }
-    
-    var currentQuestion: Question {
-        get {
-            return questions[currentQuestionIndex]
-        }
-        set {
-            return questions[currentQuestionIndex] = newValue
-        }
-    }
-    
-    var questionNumber: Int = 0
-    
-    var isInReview = false
-    var isFinished = false
-    
-    
-//    init(name: String, questions: [Question], time: TimeInterval, status: QuizStatus, difficulty: DifficultyLevel, totalPoints: Int) {
-//        self.name = name
-//        self.questions = questions
-//        self.time = time
-//        self.status = status
-//        self.difficulty = difficulty
-//        self.totalPoints = totalPoints
-//    }
-//    
-//    init(id: Int, name: String, topicId: Int, time: TimeInterval, status: Int, difficulty: Int, totalPoints: Int) {
-//        self.id = id
-//        self.name = name
-//        self.topicId = topicId
-//        self.time = time
-//        self.status = QuizStatus(rawValue: status) ?? .new
-//        self.difficulty = DifficultyLevel(rawValue: difficulty)!
-//        self.totalPoints = totalPoints
-//    }
-}
+// Quiz content is immutable and decoded straight from the `quiz_json` shape
+// returned by the backend (snake_case keys, converted by `JSONDecoder.api`).
+// Per-play state (selections, current question) lives in `QuizPlayer`.
 
-enum QuizStatus: Int, Codable {
-    case new = 0
-    case started
-    case completed
-    
-    var stringValue: String {
-        switch self {
-        case .new:
-            return "New"
-        case .started:
-            return "Started"
-        case .completed:
-            return "Completed"
-        }
-    }
-}
-
-//MARK: Server request parsing
-struct QuizPayload: Decodable {
+struct Quiz: Identifiable, Hashable, Sendable, Decodable {
     let id: Int
+    let topicId: Int
     let name: String
-    let timeToComplete: TimeInterval?
-    let status: Int
-    let difficulty: Int
-    let totalPoints: Int?
-    let topicId: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case timeToComplete = "time_to_complete"
-        case status
-        case difficulty
-        case totalPoints    = "total_points"
-        case topicId        = "topic_id"
+    let difficulty: Difficulty
+    let totalPoints: Int
+    /// Estimated minutes to complete.
+    let timeToComplete: Double
+    let questions: [Question]
+
+    var numberOfQuestions: Int { questions.count }
+}
+
+struct Question: Identifiable, Hashable, Sendable, Decodable {
+    let id: Int
+    let text: String
+    let explanation: String?
+    let answers: [Answer]
+
+    var correctAnswer: Answer? { answers.first(where: \.isCorrect) }
+
+    func answer(withId id: Int) -> Answer? {
+        answers.first { $0.id == id }
     }
-    
-    func toQuiz() -> Quiz {
-        let quiz = Quiz()
-        quiz.id = self.id
-        quiz.name = self.name
-        quiz.topicId = self.topicId ?? 0
-        quiz.time = self.timeToComplete ?? 0
-        quiz.status = .init(rawValue: self.status) ?? .new
-        quiz.difficulty = .init(rawValue: self.difficulty) ?? .newBorn
-        
-        return quiz
+
+    static func letter(forAnswerAt index: Int) -> String {
+        guard (0..<26).contains(index) else { return "" }
+        return String(UnicodeScalar(UInt8(65 + index)))
+    }
+}
+
+struct Answer: Identifiable, Hashable, Sendable, Decodable {
+    let id: Int
+    let text: String
+    /// Used only for local feedback and review. Scores are always computed by the server.
+    let isCorrect: Bool
+}
+
+enum Difficulty: Int, CaseIterable, Sendable, Decodable {
+    case newBorn = 0
+    case sundaySchool
+    case youthPastor
+    case deacon
+    case seniorPastor
+
+    init(from decoder: Decoder) throws {
+        let raw = try decoder.singleValueContainer().decode(Int.self)
+        self = Difficulty(rawValue: raw) ?? .newBorn
+    }
+
+    var title: String {
+        switch self {
+        case .newBorn: "New Born"
+        case .sundaySchool: "Sunday Schooler"
+        case .youthPastor: "Youth Pastor"
+        case .deacon: "Deacon"
+        case .seniorPastor: "Senior Pastor"
+        }
     }
 }
