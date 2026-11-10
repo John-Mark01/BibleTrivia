@@ -1,0 +1,9 @@
+// Copy to Config.xcconfig (gitignored) and fill in your project values.
+// The publishable/anon key is safe to ship in the app; security comes from RLS.
+
+SUPABASE_URL = https:/$()/<prod-ref>.supabase.co
+SUPABASE_API_KEY = <prod publishable key>
+
+// Debug builds talk to the dev project.
+SUPABASE_URL[config=Debug] = https:/$()/<dev-ref>.supabase.co
+SUPABASE_API_KEY[config=Debug] = <dev publishable key>
